@@ -23,10 +23,10 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     public void edit(OutputStream out) throws IOException {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("solution", "system");
-        params.put("path", "cdc/resources/editor/");
-        params.put("file", "cde_sample");
+        params.put("path", "cdc/presentation/");
+        params.put("file", "cdcExample.wcdf");
         params.put("absolute", "true");
-        params.put("root", "127.0.0.1:8080");
+        params.put("root", "localhost:8080");
         out.write(InterPluginComms.callPlugin("pentaho-cdf-dd", "Render", params).getBytes("utf-8"));
     }
 
