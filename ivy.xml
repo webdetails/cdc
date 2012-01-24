@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
 
-  <info organisation="pentaho" module="cgg" revision="${project.revision}"/>
+  <info organisation="pentaho" module="cdc" revision="${project.revision}"/>
 
   <configurations>
     <conf name="default"/>
@@ -33,6 +33,18 @@
                 rev="${dependency.bi-platform.revision}" changing="true"/>
     <dependency org="pentaho" name="pentaho-bi-platform-web-servlet"
                 rev="${dependency.bi-platform.revision}" transitive="false"  changing="true"/>
+
+		<dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin"
+			rev="${dependency.bi-platform.revision}" changing="true" />
+		<dependency org="pentaho" name="cda" rev="${dependency.cda.revision}" transitive="false" />
+		<!-- mondrian -->
+		<dependency org="pentaho" name="mondrian" rev="${dependency.mondrian.revision}" transitive="false" />
+		<dependency org="eigenbase" name="eigenbase-xom" rev="1.3.0.13768"/>
+		<!-- -->
+		<dependency org="com.hazelcast" name="hazelcast" rev="1.9.4.4"/>
+		<dependency org="javax.ws.rs" name="jsr311-api" rev="1.1.1"/>
+
+
   </dependencies>
 
 </ivy-module>

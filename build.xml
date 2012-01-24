@@ -48,6 +48,16 @@
   <property name="samples.stage.dir"
             value="${bin.dir}/stage-samples"
             description="Name of the resource directory" />
+						
+	<property name="cda.dist.dir"
+            value="${dist.dir}/cda"
+            description="where cda stuff is added" />
+	<property name="mondrian.dist.dir"
+            value="${dist.dir}/mondrian"
+            description="where cda stuff is added" />
+	<property name="hazelcast.config.file"
+	          value="${resource.dir}/hazelcast.xml"
+            description="Hazelcast config file"/>
 
 
   <tstamp/>
@@ -81,6 +91,37 @@
   <property name="plugin.solution.zipfile" value="${plugin.artifact.id}-solution-${distribution.version}.zip"/>
 
 
+  <!-- JARs -->
+  	
+  <!-- CDA -->
+  <!-- TODO: manifest -->
+  
+	<target name="jar-cda" depends="compile,set-build.id,generate.manifest" description="Jars up the bin directory after a compile">
+    <jar destfile="${cda.dist.dir}/${ivy.artifact.id}-cda-${project.revision}.jar" manifest="${dist.manifest.file}">
+      <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/cda/**" />
+    </jar>
+  </target>
+	
+	<target name="dist-cda" depends="jar-cda">
+		<copy file="${hazelcast.config.file}" todir="${cda.dist.dir}"/>
+	</target>
+	
+	
+  <!--mondrian-->
+  
+	<target name="jar-mondrian" depends="compile,set-build.id,generate.manifest" description="Jars up the bin directory after a compile">
+    <jar destfile="${mondrian.dist.dir}/${ivy.artifact.id}-mondrian-${project.revision}.jar" manifest="${dist.manifest.file}">
+      <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/mondrian/**" />
+    </jar>
+  </target>
+	
+	<target name="dist-mondrian" depends="jar-mondrian">
+		<copy file="${hazelcast.config.file}" todir="${mondrian.dist.dir}"/>
+	</target>
+	
+	
+
+
   <!--=======================================================================
               dist
 
@@ -88,8 +129,7 @@
               ====================================================================-->
   <target name="assemble" depends="assemble.init,install-antcontrib, dist-plugin"/>
 
-  <target name="dist-plugin" depends="jar" description="Creates a distribution">
-
+  <target name="dist-plugin" depends="jar,dist-cda,dist-mondrian" description="Creates a distribution">
     <!-- delete and re-create the plugin dist folder tree -->
     <mkdir dir="${stage.dir}"/>
     <mkdir dir="${stage.dir}/${plugin.name}"/>
@@ -100,7 +140,7 @@
       <fileset dir="${dist.dir}">
         <include name="${ivy.artifact.id}-${project.revision}.jar"/>
       </fileset>
-      <fileset dir="runtime-lib">
+      <fileset dir="${devlib.dir}">
         <include name="**/*.jar"/>
       </fileset>
     </copy>
@@ -190,7 +230,8 @@
           ====================================================================-->
   <target name="publish-nojar"
           depends="install-antcontrib,create-pom,ivy.deliver">
-    <ant antfile="build-res/subfloor.xml" target="publish-nojar"/>
+    <!--ant antfile="build-res/subfloor.xml" target="publish-nojar"/-->
+	<ant antfile="common_build.xml" target="publish-pentaho-nojar"/>
 
     <ivy:makepom ivyfile="package-ivy.xml" pomfile="plugin-pom.xml"/>
     <ivy:makepom ivyfile="package-ivy.xml" pomfile="samples-pom.xml"/>
