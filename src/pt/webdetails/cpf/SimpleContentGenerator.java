@@ -22,17 +22,19 @@ import pt.webdetails.cpf.annotations.Exposed;
  */
 public class SimpleContentGenerator extends BaseContentGenerator {
 
+
+  private static final long serialVersionUID = 1L;
     Log logger = LogFactory.getLog(this.getClass());
 
     @Override
     public void createContent() {
-        IParameterProvider pathParams = parameterProviders.get("path"),
-                requestParams = parameterProviders.get("request");
+        IParameterProvider pathParams = parameterProviders.get("path");
+                //requestParams = parameterProviders.get("request");
         final IContentItem contentItem = outputHandler.getOutputContentItem("response", "content", "", instanceId, "text/html");
 
         try {
             final OutputStream out = contentItem.getOutputStream(null);
-            final Class[] params = {OutputStream.class};
+            final Class<?>[] params = {OutputStream.class};
 
             final String method = pathParams.getStringParameter("path", null).split("/")[1].toLowerCase();
 

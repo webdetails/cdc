@@ -89,7 +89,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
                     @Override
                     public Boolean call() throws Exception {
-                        SegmentBody b = cache.put(header, body);
+                        cache.put(header, body);
                         return true;
                     }
                 });
