@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="clusterQuery" type="scripting.scripting">
+         <Initscript></Initscript>
+         <Language>beanshell</Language>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" cache="true" cacheDuration="3600" connection="clusterQuery"
+               id="clusterQuery"
+               type="scriptable">
+      <Columns/>
+      <Parameters/>
+      <Query>import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;
+
+String[] columnNames = new String[]{
+"UnityName",
+"Availability",
+"EmptySpace"
+};
+
+
+Class[] columnTypes = new Class[]{
+String.class
+,String.class
+,String.class
+};
+
+TypedTableModel model = new TypedTableModel(columnNames, columnTypes);
+model.addRow(new Object[]{ new String("Unity 1"),new String("On") ,new String("542mb")});
+
+model.addRow(new Object[]{ new String("Unity 2"),new String("On") ,new String("542mb")});
+
+model.addRow(new Object[]{ new String("Unity 3"),new String("On") ,new String("542mb")});
+
+model.addRow(new Object[]{ new String("Unity 4"),new String("On") ,new String("542mb")});
+
+model.addRow(new Object[]{ new String("Unity 5"),new String("On") ,new String("542mb")});
+
+model.addRow(new Object[]{ new String("Unity 6"),new String("On") ,new String("542mb")});
+
+return model;</Query>
+   </DataAccess>
+</CDADescriptor>
