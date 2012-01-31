@@ -48,7 +48,20 @@
   <property name="samples.stage.dir"
             value="${bin.dir}/stage-samples"
             description="Name of the resource directory" />
+						
+	<property name="cda.dist.dir"
+            value="${dist.dir}/cda"
+            description="where cda stuff is added" />
+	<property name="mondrian.dist.dir"
+            value="${dist.dir}/mondrian"
+            description="where cda stuff is added" />
+	<property name="hazelcast.config.file"
+	          value="${resource.dir}/hazelcast.xml"
+            description="Hazelcast config file"/>
 
+  <property name ="pentaho.lib.dir"
+            value = "${plugin.local.server.dir}/webapps/pentaho/WEB-INF/lib"
+            description = "WebAppClassLoader's lib folder"/>
 
   <tstamp/>
 
@@ -81,6 +94,44 @@
   <property name="plugin.solution.zipfile" value="${plugin.artifact.id}-solution-${distribution.version}.zip"/>
 
 
+  <!-- JARs -->
+  	
+  <!-- CDA -->
+  <!-- TODO: manifest, temp -->
+  
+	<target name="jar-cda" depends="compile,set-build.id,generate.manifest" description="Jars up the bin directory after a compile">
+    <jar destfile="${cda.dist.dir}/${ivy.artifact.id}-cda-${project.revision}.jar" manifest="${dist.manifest.file}">
+      <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/cda/**" />
+    </jar>
+  </target>
+	
+	<target name="dist-cda" depends="jar-cda">
+    <!--copy todir = "${cda.dist.dir}">
+      <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
+    </copy-->
+		<!--copy file="${hazelcast.config.file}" todir="${cda.dist.dir}"/-->
+	</target>
+	
+	
+  <!--mondrian-->
+  
+	<target name="jar-mondrian" depends="compile,set-build.id,generate.manifest" description="Jars up the bin directory after a compile">
+    <jar destfile="${mondrian.dist.dir}/${ivy.artifact.id}-mondrian-${project.revision}.jar" manifest="${dist.manifest.file}">
+      <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/mondrian/**" />
+    </jar>
+  </target>
+	
+	<target name="dist-mondrian" depends="jar-mondrian">
+    <copy todir = "${mondrian.dist.dir}">
+      <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
+      <!--fileset dir="${devlib.dir}" includes="hazelcast*.jar"/-->
+    </copy>
+		<!--copy file="${hazelcast.config.file}" todir="${mondrian.dist.dir}"/-->
+	</target>
+	
+	
+
+
   <!--=======================================================================
               dist
 
@@ -88,8 +139,7 @@
               ====================================================================-->
   <target name="assemble" depends="assemble.init,install-antcontrib, dist-plugin"/>
 
-  <target name="dist-plugin" depends="jar" description="Creates a distribution">
-
+  <target name="dist-plugin" depends="jar,dist-cda,dist-mondrian" description="Creates a distribution">
     <!-- delete and re-create the plugin dist folder tree -->
     <mkdir dir="${stage.dir}"/>
     <mkdir dir="${stage.dir}/${plugin.name}"/>
@@ -100,9 +150,12 @@
       <fileset dir="${dist.dir}">
         <include name="${ivy.artifact.id}-${project.revision}.jar"/>
       </fileset>
-      <fileset dir="runtime-lib">
+      <fileset dir="${devlib.dir}">
         <include name="**/*.jar"/>
       </fileset>
+      <!--fileset dir="${devlib.dir}" includes="hazelcast*.jar"/-->
+      <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
+      <fileset dir="${lib.dir}" includes="cda*.jar"/>
     </copy>
 
 
@@ -181,8 +234,35 @@
     <get src="http://127.0.0.1:8080/pentaho/Publish?publish=now&amp;class=org.pentaho.platform.plugin.services.pluginmgr.PluginAdapter&amp;userid=${plugin.local.install.user}&amp;password=${plugin.local.install.pass}"
          dest="${stage.dir}/blah.html"/>
 
+ </target>
+ 
+ <target name="install-hazelcast" depends="resolve">
+   <echo>Delete/Copy hazelcast to ${pentaho.lib.dir}</echo>
+   <delete>
+     <fileset dir="${pentaho.lib.dir}" includes="hazelcast*.jar"/>
+   </delete>
+    <copy toDir="${pentaho.lib.dir}">
+      <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
+    </copy>
+ </target>
+ 
+ <!-- temp, put jar in cda/lib -->
+  <target name="install-cda" depends="dist-cda">
+    <copy todir="${plugin.local.install.solutions.dir}/system/cda/lib">
+      <fileset dir="${cda.dist.dir}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </copy>
   </target>
-
+ 
+  <!-- temp, put jar in WEB-INF for mondrian -->
+  <target name="install-mondrian" depends="dist-mondrian">
+    <copy todir="${plugin.local.server.dir}/webapps/pentaho/WEB-INF/lib">
+      <fileset dir="${mondrian.dist.dir}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </copy>
+  </target>
   <!--=======================================================================
           publish-pentaho-nojar (override)
 
@@ -190,7 +270,8 @@
           ====================================================================-->
   <target name="publish-nojar"
           depends="install-antcontrib,create-pom,ivy.deliver">
-    <ant antfile="build-res/subfloor.xml" target="publish-nojar"/>
+    <!--ant antfile="build-res/subfloor.xml" target="publish-nojar"/-->
+	<ant antfile="common_build.xml" target="publish-pentaho-nojar"/>
 
     <ivy:makepom ivyfile="package-ivy.xml" pomfile="plugin-pom.xml"/>
     <ivy:makepom ivyfile="package-ivy.xml" pomfile="samples-pom.xml"/>
@@ -236,10 +317,16 @@
   <target name="resolve"
           depends="resolve-default, resolve-test, resolve-codegen, resolve-runtime, ivy.check-releasable"
           description="Retrieves all the dependent libraries" />
+	
 
   <target name="resolve-runtime" depends="resolve-init">
     <ivy:resolve file="${ivyfile}" conf="runtime" />
     <ivy:retrieve conf="runtime" pattern="runtime-lib/[module]-[revision](-[classifier]).[ext]" />
+  </target>
+	
+	 <target name="resolve-sources" depends="resolve-init" unless="ivy.default.sub-configs">
+    <ivy:resolve file="${ivyfile}" conf="default" />
+    <ivy:retrieve conf="default" pattern="${lib.dir}/[module]-[revision](-[classifier])-[type].[ext]" type="sources" />
   </target>
 
 </project>

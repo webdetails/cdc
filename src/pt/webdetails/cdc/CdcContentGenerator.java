@@ -19,6 +19,9 @@ import pt.webdetails.cpf.annotations.Exposed;
  */
 public class CdcContentGenerator extends SimpleContentGenerator {
 
+  public static final String PLUGIN_NAME = "cdc";
+  public static final String PLUGIN_PATH = "system/" + PLUGIN_NAME + "/";
+  
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void edit(OutputStream out) throws IOException {
         Map<String, Object> params = new HashMap<String, Object>();
