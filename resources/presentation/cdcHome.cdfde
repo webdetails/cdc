@@ -1271,6 +1271,60 @@
     ]
    },
    {
+    "id": "a241ed9d-06e9-a968-e9ba-82e06c624d7c",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "testParam",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "a5d11864-f298-012d-9017-565d7297dcec",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cube",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "SteelWheelsSales",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "6d2c65d3-341b-a52c-465b-7a5126688db0",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "catalog",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "SteelWheels",
+      "type": "String"
+     }
+    ]
+   },
+   {
     "id": "OTHERCOMPONENTS",
     "name": "Others",
     "type": "Label",
@@ -1825,6 +1879,103 @@
       "name": "tooltip",
       "value": "",
       "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "CUSTOMCOMPONENTS",
+    "name": "Custom",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Custom",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "a985c5e5-ca59-8a88-05f9-0dea57336472",
+    "type": "ComponentsAjaxRequestComponent",
+    "typeDesc": "AjaxRequestComponent",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "test",
+      "type": "Id"
+     },
+     {
+      "name": "url",
+      "value": "OlapUtils?operation=GetCubeStructure",
+      "type": "String"
+     },
+     {
+      "name": "ajaxRequestType",
+      "value": "text",
+      "type": "ajaxRequestTypeCustom"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "resultvar",
+      "value": "testParam",
+      "type": "Result"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[[\"cube\",\"cube\"],[\"catalog\",\"catalog\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
      }
     ]
    }

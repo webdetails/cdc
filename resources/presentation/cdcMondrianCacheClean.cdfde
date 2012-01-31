@@ -3,6 +3,29 @@
   "title": "CDF - Sample structure",
   "rows": [
    {
+    "id": "25437d24-e9a6-f4cc-122a-aea7f180d199",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdcfunctions",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "${res:files/cdc.js}",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
     "id": "379235e1-4026-4e32-3efe-d74c3514d8f1",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -381,17 +404,17 @@
      },
      {
       "name": "columnSpan",
-      "value": "6",
+      "value": "10",
       "type": "Integer"
      },
      {
       "name": "columnPrepend",
-      "value": "8",
+      "value": "7",
       "type": "Integer"
      },
      {
       "name": "columnAppend",
-      "value": "8",
+      "value": "7",
       "type": "Integer"
      },
      {
@@ -520,7 +543,7 @@
     "properties": [
      {
       "name": "name",
-      "value": "cdaCacheToogleObj",
+      "value": "mondrianLevel1",
       "type": "Id"
      },
      {
@@ -537,6 +560,298 @@
       "name": "roundCorners",
       "value": "",
       "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "5f746407-edfc-728e-e42c-2c500a93af5e",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "ee5ea197-a825-1752-57e5-c125f4644ed4",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel1SelectorObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "5",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "503bfd6f-97ad-75ec-c556-95694374f229",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "ee5ea197-a825-1752-57e5-c125f4644ed4",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel1AllObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "287966e7-03af-34e0-1e3a-aa91e374dc5c",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "ee5ea197-a825-1752-57e5-c125f4644ed4",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel1RefineObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "2",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "3b94d577-5d90-17b5-a812-ec0d336a7088",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "ee5ea197-a825-1752-57e5-c125f4644ed4",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel1LinkObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
      },
      {
       "name": "cssClass",
@@ -558,7 +873,7 @@
     "properties": [
      {
       "name": "name",
-      "value": "cdaCacheOption1Obj",
+      "value": "mondrianLevel2",
       "type": "Id"
      },
      {
@@ -589,6 +904,298 @@
     ]
    },
    {
+    "id": "75abfd58-f104-783d-35f2-c83d1927493a",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "17ef7e23-58c9-c96e-339c-b10cd442328e",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel2SelectorObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "5",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "50c07a2c-3180-0a58-19c5-22298196f5fb",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "17ef7e23-58c9-c96e-339c-b10cd442328e",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel2AllObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "cc919181-ef79-3781-b86c-88183a13dd66",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "17ef7e23-58c9-c96e-339c-b10cd442328e",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel2RefineObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "2",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "81a5308b-0a26-16b8-be92-e06da797ea43",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "17ef7e23-58c9-c96e-339c-b10cd442328e",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel2LinkObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
     "id": "b11c8550-c416-dd5a-f290-5c7402103455",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -596,7 +1203,7 @@
     "properties": [
      {
       "name": "name",
-      "value": "cdaCacheOption2Obj",
+      "value": "mondrianLevel3",
       "type": "Id"
      },
      {
@@ -613,6 +1220,298 @@
       "name": "roundCorners",
       "value": "",
       "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "1c77d1cc-5a3b-87dd-76ec-da8d99251efa",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "b11c8550-c416-dd5a-f290-5c7402103455",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel3SelectorObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "5",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "9d318e68-c6ca-78de-ea7c-da64d994c471",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "b11c8550-c416-dd5a-f290-5c7402103455",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel3AllObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "79a9c6c1-f0ac-2711-aa09-1e16c7c5201f",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "b11c8550-c416-dd5a-f290-5c7402103455",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel3RefineObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "2",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "f23abca7-6c1f-9733-6ce2-bc463b30dfd8",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "b11c8550-c416-dd5a-f290-5c7402103455",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel3LinkObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "30",
+      "type": "Integer"
      },
      {
       "name": "cssClass",
@@ -724,50 +1623,140 @@
     ]
    },
    {
-    "id": "89cf330a-550f-2014-2ab3-4d0387abdb85",
+    "id": "85bcd322-d32e-477c-6933-468096edcc03",
     "type": "ComponentsParameter",
     "typeDesc": "Parameter",
     "parent": "GENERIC",
     "properties": [
      {
       "name": "name",
-      "value": "cdaToogleParam",
+      "value": "operation",
       "type": "Id"
      },
      {
       "name": "propertyValue",
-      "value": "ON",
+      "value": "GetCubeStructure",
       "type": "String"
      }
     ]
    },
    {
-    "id": "cd7447d9-43ff-f770-4e42-c4778088ecca",
+    "id": "fea7bb00-ba06-6f57-44d7-e312ba6838b9",
     "type": "ComponentsParameter",
     "typeDesc": "Parameter",
     "parent": "GENERIC",
     "properties": [
      {
       "name": "name",
-      "value": "cdaCacheOption1Param",
+      "value": "catalog",
       "type": "Id"
      },
      {
       "name": "propertyValue",
-      "value": "Option2",
+      "value": "SteelWheels",
       "type": "String"
      }
     ]
    },
    {
-    "id": "9bf286a2-1ff3-93c4-f407-0c919d60e892",
+    "id": "199c2348-f25b-37a3-9382-939fed16ff47",
     "type": "ComponentsParameter",
     "typeDesc": "Parameter",
     "parent": "GENERIC",
     "properties": [
      {
       "name": "name",
-      "value": "cdaCacheOption2Param",
+      "value": "cube",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "SteelWheelsSales",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "101159f2-7a43-8bee-8596-3e4245f87bbc",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cubeStructureResult",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "160ec24f-998d-82b2-ff83-9043e81c0cfe",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "catalogsResult",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "1925155a-25f6-2543-f9b0-f1c864dd3ec6",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel1Param",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "3ffab279-43c8-5443-6d4d-9cab32bd653c",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel2Param",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "28bd0b17-7c64-35ed-52a9-a6dba50f44b1",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel3Param",
       "type": "Id"
      },
      {
@@ -792,104 +1781,6 @@
     ]
    },
    {
-    "id": "0d9f743f-b9eb-6950-1cfe-79c5fffb26ee",
-    "type": "ComponentsmultiButton",
-    "typeDesc": "Multiple button Component",
-    "parent": "SELECTORS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "cdaCacheToggleButton",
-      "type": "Id"
-     },
-     {
-      "name": "parameter",
-      "value": "cdaToogleParam",
-      "type": "Parameter"
-     },
-     {
-      "name": "htmlObject",
-      "value": "cdaCacheToogleObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "dataSource",
-      "type": "Datasource",
-      "value": ""
-     },
-     {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "valuesArray",
-      "value": "[[\"ON\",\"ON\"],[\"OFF\",\"OFF\"]]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "valueAsId",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "separator",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "isMultiple",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "function(){\n    if(Dashboards.storage.activeCache == \"CDA\"){\n        Dashboards.setParameter(this.parameter, \"ON\");\n    } else {\n        Dashboards.setParameter(this.parameter, \"OFF\");\n        Dashboards.setParameter('Dashboards.storage.activeCache','MONDRIAN');\n    }\n    \n    Dashboards.saveStorage();\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "function(){\n    if(Dashboards.getParameterValue(this.parameter) == \"ON\"){\n        Dashboards.setParameter('Dashboards.storage.activeCache','CDA');\n    } else if(Dashboards.getParameterValue(this.parameter) == \"OFF\"){\n        Dashboards.setParameter('Dashboards.storage.activeCache','MONDRIAN');\n    }\n    \n    Dashboards.saveStorage();\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
     "id": "20677700-2d98-dd55-1c52-162e0da44245",
     "type": "ComponentsSelect",
     "typeDesc": "Select Component",
@@ -897,17 +1788,17 @@
     "properties": [
      {
       "name": "name",
-      "value": "cdaOption1Selector",
+      "value": "mondrianLevel1Selector",
       "type": "Id"
      },
      {
       "name": "parameter",
-      "value": "cdaCacheOption1Param",
+      "value": "mondrianLevel1Param",
       "type": "Parameter"
      },
      {
       "name": "htmlObject",
-      "value": "cdaCacheOption1Obj",
+      "value": "mondrianLevel1SelectorObj",
       "type": "HtmlObject"
      },
      {
@@ -932,7 +1823,7 @@
      },
      {
       "name": "valuesArray",
-      "value": "[[\"Option1\",\"Option1\"],[\"Option2\",\"Option2\"],[\"Option3\",\"Option3\"],[\"Option4\",\"Option4\"],[\"Option5\",\"Option5\"]]",
+      "value": "[]",
       "type": "ValuesArray"
      },
      {
@@ -952,7 +1843,7 @@
      },
      {
       "name": "preExecution",
-      "value": "",
+      "value": "function(){\n    this.valuesArray = cdcFunctions.fillMondrianSelector1();\n}",
       "type": "JavaScript"
      },
      {
@@ -990,17 +1881,17 @@
     "properties": [
      {
       "name": "name",
-      "value": "cdaOption2Selector",
+      "value": "mondrianLevel2Selector",
       "type": "Id"
      },
      {
       "name": "parameter",
-      "value": "cdaCacheOption2Param",
+      "value": "mondrianLevel2Param",
       "type": "Parameter"
      },
      {
       "name": "htmlObject",
-      "value": "cdaCacheOption2Obj",
+      "value": "mondrianLevel2SelectorObj",
       "type": "HtmlObject"
      },
      {
@@ -1025,7 +1916,7 @@
      },
      {
       "name": "valuesArray",
-      "value": "[[\"Option1\",\"Option1\"],[\"Option2\",\"Option2\"],[\"Option3\",\"Option3\"]]",
+      "value": "[]",
       "type": "ValuesArray"
      },
      {
@@ -1040,12 +1931,105 @@
      },
      {
       "name": "executeAtStart",
-      "value": "true",
+      "value": "false",
       "type": "Boolean"
      },
      {
       "name": "preExecution",
+      "value": "function(){\n    this.valuesArray = cdcFunctions.fillMondrianSelector2();\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
       "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "3545812d-4975-08aa-f425-8a86edee8fce",
+    "type": "ComponentsSelect",
+    "typeDesc": "Select Component",
+    "parent": "SELECTORS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel3Selector",
+      "type": "Id"
+     },
+     {
+      "name": "parameter",
+      "value": "mondrianLevel3Param",
+      "type": "Parameter"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel3SelectorObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": ""
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "valuesArray",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "valueAsId",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "externalPlugin",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "function(){\n    this.valuesArray = cdcFunctions.fillMondrianSelector3();\n}",
       "type": "JavaScript"
      },
      {
@@ -1159,6 +2143,780 @@
       "name": "tooltip",
       "value": "",
       "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "cec168cb-7ea7-e41e-ef26-3bf20bb56bed",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel1AllButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "All",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel1AllObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    cdcFunctions.collapseLevel(2);\n    cdcFunctions.collapseLevel(3);\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "7c9ee50a-50ef-64a9-c7c1-9333261c1648",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel1RefineButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Refine",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel1RefineObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    cdcFunctions.expandLevel(2);\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "fac1adc0-2939-2124-ae29-452e0103cd82",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel1LinkButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Link",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel1LinkObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    cdcFunctions.generateLink(1);\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "75f56800-ba22-5c58-3591-7f2f44758282",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel2AllButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "All",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel2AllObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    cdcFunctions.collapseLevel(3);\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "55c40fc5-25ce-fc89-0b4c-254c38f2bc19",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel2RefineButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Refine",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel2RefineObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    cdcFunctions.expandLevel(3);\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "d29f6245-cb1f-032d-ca2b-b658085a2f43",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel2LinkButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Link",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel2LinkObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    cdcFunctions.generateLink(2);\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "d4f8d3ee-4da9-299e-0bec-75460e18910a",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel3AllButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "All",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel3AllObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "4fa7ebb0-d34c-16c3-07d4-173bc179b943",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mondrianLevel3LinkButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Link",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "mondrianLevel3LinkObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    cdcFunctions.generateLink(3);\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "CUSTOMCOMPONENTS",
+    "name": "Custom",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Custom",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "162a5957-b57b-b538-c122-7fab81738982",
+    "type": "ComponentsAjaxRequestComponent",
+    "typeDesc": "AjaxRequestComponent",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "getOlapCatalogs",
+      "type": "Id"
+     },
+     {
+      "name": "url",
+      "value": "OlapUtils?",
+      "type": "String"
+     },
+     {
+      "name": "ajaxRequestType",
+      "value": "json",
+      "type": "ajaxRequestTypeCustom"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "asyncCall",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "resultvar",
+      "value": "catalogsResult",
+      "type": "Result"
+     },
+     {
+      "name": "preExecution",
+      "value": "function(){\n    Dashboards.setParameter(\"operation\",\"GetOlapCubes\");\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[[\"operation\",\"operation\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     }
+    ]
+   },
+   {
+    "id": "abb0d2e8-b1c6-dd24-02ad-e2fe49ef0aa8",
+    "type": "ComponentsAjaxRequestComponent",
+    "typeDesc": "AjaxRequestComponent",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "getCubeStructure",
+      "type": "Id"
+     },
+     {
+      "name": "url",
+      "value": "OlapUtils?",
+      "type": "String"
+     },
+     {
+      "name": "ajaxRequestType",
+      "value": "json",
+      "type": "ajaxRequestTypeCustom"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "asyncCall",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "resultvar",
+      "value": "cubeStructureResult",
+      "type": "Result"
+     },
+     {
+      "name": "preExecution",
+      "value": "function(){\n    Dashboards.setParameter(\"operation\",\"GetCubeStructure\");\n    Dashboards.setParameter(\"catalog\",mondrianLevel1Param);\n    Dashboards.setParameter(\"cube\",mondrianLevel2Param);\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[[\"operation\",\"operation\"],[\"catalog\",\"catalog\"],[\"cube\",\"cube\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
      }
     ]
    }

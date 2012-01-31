@@ -3,11 +3,19 @@
   <static-paths>
     <static-path url="/cdc/static" localFolder="static"/>
   </static-paths>
+  
   <content-types />
-  <content-generator scope="local" id="cdc" type="graphicsGenerator" url="">
-    <classname>pt.webdetails.cdc.CdcContentGenerator</classname>
-    <title>CDC</title>
-  </content-generator>
+    <content-generator scope="local" id="cdc" type="graphicsGenerator" url="">
+      <classname>pt.webdetails.cdc.CdcContentGenerator</classname>
+      <title>CDC</title>
+    </content-generator>
   <!-- Menu entry -->
   <menu-items/>
+  
+  <webservice  
+    id="MondrianCacheCleanService" 
+    type="xml" 
+    class="pt.webdetails.cdc.MondrianCacheCleanService"/>
+
+  
 </plugin>
