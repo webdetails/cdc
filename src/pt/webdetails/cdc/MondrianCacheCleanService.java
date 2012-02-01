@@ -31,27 +31,30 @@ public class MondrianCacheCleanService {
      * @param catalog Catalog to be cleaned
      * @return Message describing the clear action result
      */
-    public StatusMessage clearSchema(String catalog) {
-      try {
-        Connection connection = getMdxConnection(catalog);
-  
-        if (connection == null) {
-          return new StatusMessage("Error", "Catalog " + catalog + " non available.");
-        }
-        CacheControl cacheControl = connection.getCacheControl(null);
-  
-        Cube[] cubes = connection.getSchema().getCubes();
-  
-        if (cubes.length == 0) {
-          return new StatusMessage("Error", "Catalog " + catalog + " contains no cubes.");
-        }
-  
-        logger.debug("Found " + cubes.length + " cubes.");
-  
-        for (int i = 0; i < cubes.length; i++) {
-          logger.debug("flushing cube " + cubes[i].getName());
-          CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
-          cacheControl.flush(cubeRegion);
+    public StatusMessage clearCatalog(String catalog){
+        try{
+            Connection connection = getMdxConnection(catalog);
+            
+            if(connection == null){
+                return new StatusMessage("Error","Catalog "+catalog+" non available.");
+            }
+            CacheControl cacheControl = connection.getCacheControl(null);
+
+            Cube[] cubes = connection.getSchema().getCubes();
+            
+            if(cubes.length == 0) {
+                return new StatusMessage("Error","Catalog "+catalog+" contains no cubes.");
+            }
+
+            for (int i = 0; i < cubes.length; i++) {
+                logger.debug("flushing cube " + cubes[i].getName());
+                cacheControl.flush(cacheControl.createMeasuresRegion(cubes[i]));
+            } 
+
+            return new StatusMessage("Success","Catalog "+catalog+" cache cleaned.");
+            
+        } catch(Exception e){
+            return new StatusMessage("Error",e.getMessage());
         }
         logger.debug("done with flushing");
   
