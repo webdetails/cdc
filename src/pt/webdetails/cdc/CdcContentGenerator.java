@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package pt.webdetails.cdc;
 
 import java.io.IOException;
@@ -19,8 +15,11 @@ import pt.webdetails.cpf.annotations.Exposed;
  */
 public class CdcContentGenerator extends SimpleContentGenerator {
 
+  public static final String ENCODING = "utf-8";
   public static final String PLUGIN_NAME = "cdc";
   public static final String PLUGIN_PATH = "system/" + PLUGIN_NAME + "/";
+  
+  private static final String CDE_PLUGIN = "petaho-cdf-dd";
   
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void edit(OutputStream out) throws IOException {
@@ -30,7 +29,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         params.put("file", "cdcHome.wcdf");
         params.put("absolute", "true");
         params.put("root", "localhost:8080");
-        out.write(InterPluginComms.callPlugin("pentaho-cdf-dd", "Render", params).getBytes("utf-8"));
+        out.write(InterPluginComms.callPlugin(CDE_PLUGIN, "Render", params).getBytes(ENCODING));
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
@@ -89,7 +88,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
 
 
     private void run(OutputStream out, Map<String, Object> params) throws IOException {
-        out.write(InterPluginComms.callPlugin("pentaho-cdf-dd", "Render", params).getBytes("utf-8"));
+        out.write(InterPluginComms.callPlugin(CDE_PLUGIN, "Render", params).getBytes(ENCODING));
     }
 
 

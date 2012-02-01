@@ -18,5 +18,8 @@
     type="xml" 
     class="pt.webdetails.cdc.MondrianCacheCleanService"/>
 
-  
+  <webservice  
+    id="ExtPluginConfigService" 
+    type="xml" 
+    class="pt.webdetails.cdc.ws.ExtPluginConfigService"/>
 </plugin>

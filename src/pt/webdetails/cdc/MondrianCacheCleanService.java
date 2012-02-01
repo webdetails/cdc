@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package pt.webdetails.cdc;
 
 import javax.sql.DataSource;
 import mondrian.olap.*;
+import mondrian.olap.CacheControl.CellRegion;
 import mondrian.rolap.RolapConnectionProperties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -16,7 +13,6 @@ import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 import org.pentaho.platform.plugin.action.mondrian.catalog.IMondrianCatalogService;
 import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalog;
-import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalogHelper;
 
 /**
  *
@@ -24,7 +20,7 @@ import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalogHelper
  */
 public class MondrianCacheCleanService {
     
-    private final IMondrianCatalogService mondrianCatalogService = MondrianCatalogHelper.getInstance();
+    private final IMondrianCatalogService mondrianCatalogService = PentahoSystem.get(IMondrianCatalogService.class, IMondrianCatalogService.class.getSimpleName(), null);
     private static Log logger = LogFactory.getLog(MondrianCacheCleanService.class);
     private IPentahoSession userSession;
     
@@ -35,10 +31,14 @@ public class MondrianCacheCleanService {
         
         Cube[] cubes = connection.getSchema().getCubes();
 
-        for (int i = 0; i < cubes.length; i++) {
-            cacheControl.flush(cacheControl.createMeasuresRegion(cubes[i]));
-        } 
+        logger.debug("Found " + cubes.length + " cubes.");
         
+        for (int i = 0; i < cubes.length; i++) {
+          logger.debug("flushing cube " + cubes[i].getName());
+          CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
+          cacheControl.flush(cubeRegion);
+        } 
+        logger.debug("done with flushing");
         return new StatusMessage("Text","Test");
     }
     
@@ -52,11 +52,13 @@ public class MondrianCacheCleanService {
         
         for (int i = 0; i < cubes.length; i++) {
             if(cubes[i].getName().equals(cube)){
-                cacheControl.flush(cacheControl.createMeasuresRegion(cubes[i]));
+                logger.debug("flushing cube " + cubes[i].getName());
+                CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
+                cacheControl.flush(cubeRegion);
                 break;
             }
         } 
-        
+        logger.debug("done with flushing");
         return new StatusMessage("Text","Test");
     }
         

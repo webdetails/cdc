@@ -81,21 +81,6 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
 
     try{
       
-//      //testing
-//      if(Hazelcast.getLifecycleService().isRunning()){
-//        logger.info("Hazelcast instance running.");
-//        Config runningConfig = Hazelcast.getConfig();
-//        if(runningConfig.isCompatible(runningConfig)){
-//          logger.info("Incompatible config " + runningConfig.getGroupConfig().getName());//TODO:act
-//        }
-//        else logger.info("compatible config running");
-//        if(runningConfig.equals(config)){
-//          logger.info("EQUALS " + runningConfig.getGroupConfig().getName());
-//        }
-//      }
-//      
-//      logger.info("Shutdown ALL Hazelcast instances!!");
-//       Hazelcast.shutdownAll();//TODO: this forces reload of init; move elsewhere
        logger.info("Launching Hazelcast with " + configFileName);
        Hazelcast.init(config);
     }
@@ -111,7 +96,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
           logger.info("Unknown configuration running, forcing reload.");
           //2nd attempt
           try{
-            //TODO: we should somehow detect whenthis is really needed
+            //TODO: we should somehow detect when this is really needed
             logger.info("Shutdown ALL Hazelcast instances!!");
             Hazelcast.shutdownAll();//TODO: this forces reload of init; move elsewhere
             logger.info("Launching Hazelcast with " + configFileName);
@@ -132,32 +117,12 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
 
     }
     
-    //debugging...
-    //cda needs its own PluginClassLoader
-//    logger.debug("adding cda listener");
-//    IMap<TableCacheKey, TableModel> cdaCache = Hazelcast.getMap("cdaCache");
-//    CdaVerboseEntryListener cdaShouter = new CdaVerboseEntryListener();
-//    cdaCache.removeEntryListener(cdaShouter);
-//    cdaCache.addEntryListener(cdaShouter, false);
-    
     logger.debug("adding mondrian listener");
     IMap<SegmentHeader, SegmentBody> monCache = Hazelcast.getMap("mondrian");
     MondrianVerboseEntryListener monShouter = new MondrianVerboseEntryListener();
     monCache.removeEntryListener(monShouter);
     monCache.addEntryListener(monShouter, false);
-    
-//    try {
-//      
-//      ConfigManager.testCdaConfigSwitch();
-//    } catch (DocumentException e) {
-//      // TODO Auto-generated catch block
-//      logger.error(e.getMessage());
-//      e.printStackTrace();
-//    } catch (IOException e) {
-//      // TODO Auto-generated catch block
-//      logger.error(e.getMessage());
-//      e.printStackTrace();
-//    }
+
     
   }
 
@@ -166,35 +131,6 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   {
     //teardown etc
   }
-  
-  
-//  private static final class CdaVerboseEntryListener implements EntryListener<TableCacheKey, TableModel>  {
-//    
-//    @Override
-//    public void entryAdded(EntryEvent<TableCacheKey, TableModel> event) 
-//    {
-//      logger.debug("CDA ENTRY ADDED");
-//    }//ignore
-//    @Override
-//    public void entryUpdated(EntryEvent<TableCacheKey, TableModel> event) {}//ignore
-//    
-//    @Override
-//    public void entryRemoved(EntryEvent<TableCacheKey, TableModel> event) 
-//    {
-//      logger.debug("CDA ENTRY REMOVED");
-//    }
-//
-//    @Override
-//    public void entryEvicted(EntryEvent<TableCacheKey, TableModel> event) {
-//      logger.debug("CDA ENTRY EVICTED");
-//    }
-//    
-//    @Override
-//    public boolean equals(Object other){
-//      return other instanceof CdaVerboseEntryListener;
-//    }
-//
-//  }
   
   //TODO:testing purposes only
   private static final class MondrianVerboseEntryListener implements EntryListener<SegmentHeader, SegmentBody>  {
