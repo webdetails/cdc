@@ -25,66 +25,146 @@ public class MondrianCacheCleanService {
     private IPentahoSession userSession;
     
     
-    public StatusMessage clearSchema(String catalog){
+    /**
+     * Clear cache from a given catalog
+     * 
+     * @param catalog Catalog to be cleaned
+     * @return Message describing the clear action result
+     */
+    public StatusMessage clearSchema(String catalog) {
+      try {
         Connection connection = getMdxConnection(catalog);
+  
+        if (connection == null) {
+          return new StatusMessage("Error", "Catalog " + catalog + " non available.");
+        }
         CacheControl cacheControl = connection.getCacheControl(null);
-        
+  
         Cube[] cubes = connection.getSchema().getCubes();
-
+  
+        if (cubes.length == 0) {
+          return new StatusMessage("Error", "Catalog " + catalog + " contains no cubes.");
+        }
+  
         logger.debug("Found " + cubes.length + " cubes.");
-        
+  
         for (int i = 0; i < cubes.length; i++) {
           logger.debug("flushing cube " + cubes[i].getName());
           CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
           cacheControl.flush(cubeRegion);
-        } 
+        }
         logger.debug("done with flushing");
-        return new StatusMessage("Text","Test");
+  
+        return new StatusMessage("Success", "Catalog " + catalog + " cache cleaned.");
+  
+      } catch (Exception e) {
+        return new StatusMessage("Error", e.getMessage());
+      }
     }
     
-    public StatusMessage clearCube(String catalog, String cube){
-
-        int j = 0;
+    /**
+     * Clear cache from a given cube in a certain catalog
+     * 
+     * @param catalog Catalog defining where cube is defined
+     * @param cube Cube to be cleaned
+     * @return Message describing the clear action result
+     */
+    public StatusMessage clearCube(String catalog, String cube) {
+      try {
         Connection connection = getMdxConnection(catalog);
+  
+        if (connection == null) {
+          return new StatusMessage("Error", "Catalog " + catalog + " non available.");
+        }
+  
         CacheControl cacheControl = connection.getCacheControl(null);
-        
+  
         Cube[] cubes = connection.getSchema().getCubes();
-        
-        for (int i = 0; i < cubes.length; i++) {
-            if(cubes[i].getName().equals(cube)){
-                logger.debug("flushing cube " + cubes[i].getName());
-                CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
-                cacheControl.flush(cubeRegion);
-                break;
-            }
-        } 
-        logger.debug("done with flushing");
-        return new StatusMessage("Text","Test");
+  
+        if (cubes.length == 0) {
+          return new StatusMessage("Error", "Catalog " + catalog + " contains no cubes.");
+        }
+  
+        int i = 0;
+        for (; i < cubes.length; i++) {
+          if (cubes[i].getName().equals(cube)) {
+            logger.debug("flushing cube " + cubes[i].getName());
+            CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
+            cacheControl.flush(cubeRegion);
+            break;
+          }
+        }
+  
+        if (i == cubes.length) {
+          return new StatusMessage("Error", "Cube " + cube + " not found.");
+        }
+  
+        return new StatusMessage("Success", "Cube " + cube + " cache cleaned.");
+      } catch (Exception e) {
+        return new StatusMessage("Error", e.getMessage());
+      }
     }
-        
+     
+    
+    /**
+     * Clear cache defined in a certain cube
+     * 
+     * @param catalog Catalog defining where cube is defined
+     * @param cube Cube defining where dimension is defined
+     * @param dimension Dimension to be cleaned
+     * @return Message describing the clear action result
+     */
     public StatusMessage clearDimension(String catalog, String cube, String dimension){
-        Connection connection = getMdxConnection(catalog);
-        CacheControl cacheControl = connection.getCacheControl(null);
-        
-        Cube[] cubes = connection.getSchema().getCubes();
-           
-        for (int i = 0; i < cubes.length; i++) {
-            if(cubes[i].getName().equals(cube)){
-                Dimension[] dimensions = cubes[i].getDimensions();
-                for(int j = 0; j < dimensions.length; j++){
-                    if(dimensions[j].getName().equals(dimension)){
-                        Hierarchy[] hierarchies = dimensions[j].getHierarchies();
-                        for(int k = 0; k < hierarchies.length; k++){
-                            cacheControl.flush(cacheControl.createMemberRegion(hierarchies[k].getAllMember(),true));
-                        }
-                        break;
-                    }
-                }
-                break;
+        try{
+            Connection connection = getMdxConnection(catalog);
+            
+            if(connection == null){
+                return new StatusMessage("Error","Catalog "+catalog+" non available.");
             }
-        } 
-        
-        return new StatusMessage("Text","Test");
+            
+            CacheControl cacheControl = connection.getCacheControl(null);
+
+            Cube[] cubes = connection.getSchema().getCubes();
+            
+            if(cubes.length == 0) {
+                return new StatusMessage("Error","Catalog "+catalog+" contains no cubes.");
+            }
+
+            for (int i = 0; i < cubes.length; i++) {
+                if(cubes[i].getName().equals(cube)){
+                    CacheControl.CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
+                    Dimension[] dimensions = cubes[i].getDimensions();
+                    
+                    if(dimensions.length == 0) {
+                        return new StatusMessage("Error","Cube "+cube+" contains no dimensions.");
+                    }
+                    
+                    for(int j = 0; j < dimensions.length; j++){
+                        if(dimensions[j].getName().equals(dimension)){
+                            Hierarchy[] hierarchies = dimensions[j].getHierarchies();
+                            
+                            if(hierarchies.length == 0) {
+                                return new StatusMessage("Error","Dimension "+dimension+" contains no hierarchy.");
+                            }
+                            
+                            for(int k = 0; k < hierarchies.length; k++){
+                                CacheControl.CellRegion hierarchyRegion = cacheControl.createMemberRegion(hierarchies[k].getAllMember(),true);
+                                CacheControl.CellRegion region = cacheControl.createCrossjoinRegion(cubeRegion, hierarchyRegion);
+                                
+                                cacheControl.flush(region);
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+            } 
+
+            return new StatusMessage("Success","Dimension "+dimension+" cache cleaned.");
+            
+        } catch(Exception e){
+            return new StatusMessage("Error",e.getMessage());
+        }
     }
     
     
