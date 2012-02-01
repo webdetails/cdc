@@ -35,7 +35,7 @@ public class MondrianCacheCleanService {
      * @param catalog Catalog to be cleaned
      * @return Message describing the clear action result
      */
-    public StatusMessage clearSchema(String catalog){
+    public StatusMessage clearCatalog(String catalog){
         try{
             Connection connection = getMdxConnection(catalog);
             
