@@ -137,34 +137,4 @@ public class ExternalConfigurationsManager {
     
   }
   
-  
-  //TODO:delete
-  private static void testCdaConfigSwitch() throws DocumentException, IOException
-  {
-    Document doc = XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
-    
-    //Node beanNode = doc.selectSingleNode("//plugin/bean[id=\"cda." + IQueryCache.class.getSimpleName() + "\"]");
-    Element root = doc.getRootElement();
-    Iterator<Element> it = ( Iterator<Element>) root.elementIterator("bean");
-    Element elem = it.next();
-    for(;it.hasNext(); elem = it.next()){
-      if(elem.attributeValue("id").equals("cda.IQueryCache")){
-        String oldName = elem.attributeValue("class");
-        elem.attribute("class").setValue("pt.webdetails.cdc.cda.HazelcastQueryCache");
-        break;
-      }
-    }
-    FileWriter fw = null;
-    try{
-      fw = new FileWriter(CDA_PLUGIN_XML_PATH);
-      XmlDom4JHelper.saveDomToWriter(doc, fw);
-      fw.flush();
-    }
-    finally{
-      if(fw != null) fw.close(); 
-    }
-    //bean[@id='cda.IQueryCache']
-    
-  }
-  
 }

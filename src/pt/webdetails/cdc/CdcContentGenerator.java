@@ -15,6 +15,8 @@ import pt.webdetails.cpf.annotations.Exposed;
  */
 public class CdcContentGenerator extends SimpleContentGenerator {
 
+  private static final long serialVersionUID = 1L;
+  
   public static final String ENCODING = "utf-8";
   public static final String PLUGIN_NAME = "cdc";
   public static final String PLUGIN_PATH = "system/" + PLUGIN_NAME + "/";
