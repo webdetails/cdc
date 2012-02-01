@@ -50,19 +50,12 @@ public class MondrianCacheCleanService {
                 logger.debug("flushing cube " + cubes[i].getName());
                 cacheControl.flush(cacheControl.createMeasuresRegion(cubes[i]));
             } 
-
+        
             return new StatusMessage("Success","Catalog "+catalog+" cache cleaned.");
             
         } catch(Exception e){
             return new StatusMessage("Error",e.getMessage());
         }
-        logger.debug("done with flushing");
-  
-        return new StatusMessage("Success", "Catalog " + catalog + " cache cleaned.");
-  
-      } catch (Exception e) {
-        return new StatusMessage("Error", e.getMessage());
-      }
     }
     
     /**
