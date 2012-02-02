@@ -24,7 +24,7 @@
     class="pt.webdetails.cdc.ws.ExtPluginConfigService"/>
     
   <webservice  
-    id="HazelcastMonitor" 
+    id="HazelcastMonitorService" 
     type="xml" 
     class="pt.webdetails.cdc.ws.HazelcastMonitorService"/>
     
