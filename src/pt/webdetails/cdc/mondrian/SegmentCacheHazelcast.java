@@ -37,7 +37,20 @@ import mondrian.olap.Util;
 public class SegmentCacheHazelcast implements SegmentCache {
 
     private static final String MAP = "mondrian";
-    private static final IMap<SegmentHeader, SegmentBody> cache = Hazelcast.getMap(MAP);
+    
+   private static IMap<SegmentHeader, SegmentBody> cache ;
+    
+    private static final synchronized IMap<SegmentHeader, SegmentBody> getCache(){
+      if(cache == null){
+        cache = Hazelcast.getMap(MAP);
+      }
+      return cache;
+    }
+    
+    public static synchronized void invalidateCache(){
+      cache = null;
+    }
+    
     /**
      * Executor for the tests. Thread-factory ensures that thread does not
      * prevent shutdown.
@@ -52,7 +65,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
                     @Override
                     public SegmentBody call() throws Exception {
-                        return cache.get(header);
+                        return getCache().get(header);
                     }
                 });
     }
@@ -64,7 +77,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
                     @Override
                     public Boolean call() throws Exception {
-                        return cache.containsKey(header);
+                        return getCache().containsKey(header);
                     }
                 });
     }
@@ -75,7 +88,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
                 new Callable<List<SegmentHeader>>() {
 
                     public List<SegmentHeader> call() throws Exception {
-                        return new ArrayList<SegmentHeader>(cache.keySet());
+                        return new ArrayList<SegmentHeader>(getCache().keySet());
                     }
                 });
 
@@ -89,7 +102,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
                     @Override
                     public Boolean call() throws Exception {
-                        cache.put(header, body);
+                      getCache().put(header, body);
                         return true;
                     }
                 });
@@ -103,7 +116,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
                     @Override
                     public Boolean call() throws Exception {
-                        cache.remove(header);
+                      getCache().remove(header);
                         return true;
                     }
                 });
@@ -119,7 +132,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
                     public Boolean call() throws Exception {
 
                         final Set<SegmentHeader> toEvict = new HashSet<SegmentHeader>();
-                        for (SegmentHeader sh : cache.keySet()) {
+                        for (SegmentHeader sh : getCache().keySet()) {
 
                             final List<ConstrainedColumn> cc2 = Arrays.asList(region);
                             for (ConstrainedColumn cc : region) {
@@ -130,7 +143,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
                             }
                         }
                         for (SegmentHeader sh : toEvict) {
-                            cache.remove(sh);
+                          getCache().remove(sh);
                         }
                         return true;
                     }
@@ -139,6 +152,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
     @Override
     public void tearDown() {
-        cache.clear();
+      getCache().clear();
+      invalidateCache();
     }
 }

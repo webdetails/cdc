@@ -20,7 +20,13 @@ import org.eigenbase.util.property.StringProperty;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 import org.pentaho.platform.util.xml.dom4j.XmlDom4JHelper;
 
+
 public class ExternalConfigurationsManager {
+  
+  public static final String CDA_HAZELCAST_ADAPTER = "pt.webdetails.cdc.cda.HazelcastQueryCache";
+  public static final String CDA_DEFAULT_CACHE_ADAPTER = "pt.webdetails.cda.cache.EHCacheQueryCache";
+  
+  public static final String MONDRIAN_HAZELCAST_ADAPTER = "pt.webdetails.cdc.mondrian.SegmentCacheHazelcast";
   
   private static final String CDA_PLUGIN_XML_PATH = PentahoSystem.getApplicationContext().getSolutionPath("system/cda/plugin.xml");
   private static final String CDA_BEAN_ID = "cda.IQueryCache";
@@ -28,11 +34,6 @@ public class ExternalConfigurationsManager {
   
   private static Log logger = LogFactory.getLog(ExternalConfigurationsManager.class);
   
-  public static final String CDA_HAZELCAST_ADAPTER = "pt.webdetails.cdc.cda.HazelcastQueryCache";
-  public static final String CDA_DEFAULT_CACHE_ADAPTER = "pt.webdetails.cda.cache.EHCacheQueryCache";
-  
-  public static final String MONDRIAN_HAZELCAST_ADAPTER = "pt.webdetails.cdc.mondrian.SegmentCacheHazelcast";
-
   
   public static boolean isCdaHazelcastEnabled() throws DocumentException, IOException{
     return StringUtils.equals(getCdaQueryCache(), CDA_HAZELCAST_ADAPTER);
@@ -121,7 +122,7 @@ public class ExternalConfigurationsManager {
 //  //        mondrian.rolap.SegmentCacheScanTimeout=50000
 //  //        mondrian.rolap.SegmentCacheWriteTimeout=50000
 //  }
-  
+    
   private static Element getCdaCacheBeanElement(Document doc) {
     
     Element root = doc.getRootElement();

@@ -79,18 +79,21 @@
     
     <map name="mondrian">
         <backup-count>1</backup-count>
-        <eviction-policy>NONE</eviction-policy>
-        <max-size policy="cluster_wide_map_size">10000</max-size>
+        <eviction-policy>LRU</eviction-policy>
+        <max-size policy="used_heap_percentage">30</max-size>
         <eviction-percentage>15</eviction-percentage>
         <merge-policy>hz.ADD_NEW_ENTRY</merge-policy>
+        <read-backup-data>true</read-backup-data>
     </map>
     
     <map name="cdaCacheStats">
         <backup-count>1</backup-count>
         <eviction-policy>NONE</eviction-policy>
-        <max-size policy="cluster_wide_map_size">10100</max-size>
+        <!-- 0-> no limit -->
+        <max-size policy="cluster_wide_map_size">0</max-size>
         <eviction-percentage>15</eviction-percentage>
         <merge-policy>hz.ADD_NEW_ENTRY</merge-policy>
+        <read-backup-data>false</read-backup-data>
     </map>
     
     <map name="cdaCache">
@@ -114,7 +117,31 @@
             Any integer between 0 and Integer.MAX_VALUE. 0 means
             Integer.MAX_VALUE. Default is 0.
         -->
-        <max-size policy="cluster_wide_map_size">10000</max-size>
+        
+<!--There are 5 defined policies can be used in max-size configuration.
+
+    cluster_wide_map_size: Cluster-wide total max map size (default policy)
+
+    map_size_per_jvm: Max map size per JVM
+
+    partitions_wide_map_size: Partitions (default 271) wide max map size
+
+    used_heap_size: Max used heap size in MB (mega-bytes) per JVM
+
+    used_heap_percentage: Max used heap size percentage per JVM
+
+  <max-size policy="cluster_wide_map_size">50000</max-size>
+
+  <max-size policy="map_size_per_jvm">5000</max-size>
+
+  <max-size policy="partitions_wide_map_size">27100</max-size>
+
+  <max-size policy="used_heap_size">4096</max-size>
+
+  <max-size policy="used_heap_percentage">75</max-size> -->
+
+        
+        <max-size policy="used_heap_percentage">10</max-size>
         <!--
             When max. size is reached, specified percentage of
             the map will be evicted. Any integer between 0 and 100.
@@ -140,6 +167,21 @@
             hz.LATEST_UPDATE ; entry with the latest update wins.
         -->
         <merge-policy>hz.ADD_NEW_ENTRY</merge-policy>
+        
+        <!--
+            Can we read the local backup entries? Default value is false for
+            strong consistency. Being able to read backup data will give you
+            greater performance.
+        -->
+        <read-backup-data>false</read-backup-data>
+        
+        <!--
+            Maximum number of seconds for each entry to stay in the map. Entries that are
+            older than <time-to-live-seconds> and not updated for <time-to-live-seconds>
+            will get automatically evicted from the map.
+            Any integer between 0 and Integer.MAX_VALUE. 0 means infinite. Default is 0.
+        -->
+       <!-- <time-to-live-seconds>0</time-to-live-seconds>-->
     </map>
     <!-- Add your own map merge policy implementations here:     
     	<merge-policies>

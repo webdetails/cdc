@@ -27,5 +27,9 @@
     id="HazelcastMonitorService" 
     type="xml" 
     class="pt.webdetails.cdc.ws.HazelcastMonitorService"/>
+  <webservice  
+    id="HazelcastConfigurationService" 
+    type="xml" 
+    class="pt.webdetails.cdc.ws.HazelcastConfigurationService"/>
     
 </plugin>

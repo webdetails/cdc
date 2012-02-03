@@ -23,9 +23,10 @@ public class HazelcastMonitorService {
   
   private static Log logger = LogFactory.getLog(HazelcastMonitorService.class);
   
-  private static final String MONDRIAN_MAP = "mondrian";
-  private static final String CDA_MAP = "cdaCache";
+  public static final String MONDRIAN_MAP = "mondrian";
+  public static final String CDA_MAP = "cdaCache";
   
+ 
   private static final Map<String, String> mapNameResolver = new HashMap<String,String>();
   
   static{
@@ -39,10 +40,11 @@ public class HazelcastMonitorService {
     mapNameResolver.put("mondriancache", MONDRIAN_MAP);
     mapNameResolver.put("MONDRIAN", MONDRIAN_MAP);
   }
+
   
-  public ClusterInfo getClusterInfo(String mapName){
+  public ClusterInfo getClusterInfo(String map){
     
-    mapName = mapNameResolver.get(mapName);
+    map = mapNameResolver.get(map);
     
     Cluster cluster = Hazelcast.getCluster();
     ClusterInfo clusterInfo = new ClusterInfo();
@@ -50,7 +52,7 @@ public class HazelcastMonitorService {
     List<MemberInfo> extMembers = new ArrayList<MemberInfo>();
     for(Member member : cluster.getMembers()){
       
-      MapInfo mapInfo = new MapInfo( getLocalMapStats(member, mapName));
+      MapInfo mapInfo = new MapInfo( getLocalMapStats(member, map));
       RuntimeInfo runtimeInfo = new RuntimeInfo( getMemberInfo(member));
       
       if (!member.localMember()) {
@@ -109,5 +111,6 @@ public class HazelcastMonitorService {
     
     return null;
   }
+  
   
 }

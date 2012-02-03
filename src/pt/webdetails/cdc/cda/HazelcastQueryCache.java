@@ -36,10 +36,10 @@ public class HazelcastQueryCache implements IQueryCache {
   public static final String MAP_NAME = "cdaCache";
   public static final String AUX_MAP_NAME = "cdaCacheStats";
   
-  //TODO: get plugin path
   private static final String PLUGIN_PATH = "system/" + CdaContentGenerator.PLUGIN_NAME + "/";
   private static final String CACHE_CFG_FILE_HAZELCAST = "hazelcast.xml";
   
+  //main cache (will hold actual values)
   private static IMap<TableCacheKey, TableModel> cache;
   //used for holding extra info 
   private static IMap<TableCacheKey, ExtraCacheInfo> cacheStats;
@@ -55,44 +55,6 @@ public class HazelcastQueryCache implements IQueryCache {
     
   private static void init(String configFile, boolean superClient)
   {  
-    //config now through cdc
-//    Config config = null;
-//    if(configFile != null){
-//      try {
-//        XmlConfigBuilder configBuilder = new XmlConfigBuilder(configFile);
-//        config = configBuilder.build();
-//      } catch (FileNotFoundException e) {
-//        logger.error("Config file not found, using defaults", e);
-//      }
-//    }
-//    
-//    if(config == null){
-//      config = new Config();
-//    }
-//
-//    //super client: doesn't hold data but has first class access
-//    //needs a running instance to work
-//    try{
-//      String isSuper = System.getProperty(PROPERTY_SUPER_CLIENT);
-//      if(Boolean.parseBoolean(isSuper) && !superClient){
-//        System.setProperty(PROPERTY_SUPER_CLIENT , "false");
-//      }
-//      else if(superClient){
-//        System.setProperty(PROPERTY_SUPER_CLIENT, "true");
-//      }
-//    } catch (SecurityException e){
-//      logger.error("Error accessing " + PROPERTY_SUPER_CLIENT, e);
-//    }
-//
-//    try{
-////      if(Hazelcast.getLifecycleService().isRunning()){
-////       Hazelcast.shutdownAll();
-////      }
-//      Hazelcast.init(config);
-//    }
-//    catch(IllegalStateException e){
-//      logger.warn("Hazelcast already started, could not load configuration.  all instances and restart if configuration needs changes.");
-//    }
     
     logger.info("CDA CDC Hazelcast INIT");
     
@@ -105,8 +67,9 @@ public class HazelcastQueryCache implements IQueryCache {
     
     SyncRemoveStatsEntryListener syncRemoveStats = new SyncRemoveStatsEntryListener( cdaPluginClassLoader );
     cache.removeEntryListener(syncRemoveStats);
-    //WARNING: as of hazelcast 2.0, setting includeValue to false will result in a premature key serialization
-    //this will make hazelcast fail if its classloader cannot resolve the key class
+    //WARNING: setting includeValue to false will result in a premature key serialization
+    // that will make hazelcast fail if its classloader cannot resolve the key class
+    //This is fixed in hazelcast 2.0
     cache.addEntryListener(syncRemoveStats, true);//false
     //logging/debug, includes value
     cache.addEntryListener(new LoggingEntryListener(cdaPluginClassLoader), true);

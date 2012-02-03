@@ -1,48 +1,43 @@
 package pt.webdetails.cdc.ws;
 
 import pt.webdetails.cdc.ExternalConfigurationsManager;
-import pt.webdetails.cdc.StatusMessage;
 
 public class ExtPluginConfigService {
 
-  public static final class ResponseStatus{
-    public static final String OK = "ok";
-    public static final String ERROR = "ok";
-  }
   
-  public StatusMessage isMondrianHazelcastEnabled(){
+  public Result isMondrianHazelcastEnabled(){
     boolean enabled = ExternalConfigurationsManager.isMondrianHazelcastEnabled();
-    return new StatusMessage(ResponseStatus.OK, "" + enabled); // enabled? "enabled" : "disabled");
+    return new Result(Result.Status.OK, enabled);
   }
   
-  public StatusMessage isCdaHazelcastEnabled(){
+  public Result isCdaHazelcastEnabled(){
     try 
     {
       boolean enabled = ExternalConfigurationsManager.isCdaHazelcastEnabled();
-      return new StatusMessage(ResponseStatus.OK, "" + enabled); //enabled? "enabled" : "disabled");
+      return new Result(Result.Status.OK, enabled);
     } 
     catch (Exception e) {
-      return new StatusMessage(ResponseStatus.ERROR, e.getLocalizedMessage());
+      return new Result(Result.Status.ERROR, e.getLocalizedMessage());
     }
   }
   
-  public StatusMessage setMondrianHazelcastEnabled(boolean enabled){
+  public Result setMondrianHazelcastEnabled(boolean enabled){
     try {
       ExternalConfigurationsManager.setMondrianHazelcastEnabled(enabled);
-      return new StatusMessage(ResponseStatus.OK, "Please restart Pentaho server.");
+      return new Result(Result.Status.OK, "Please restart Pentaho server.");//TODO: may not be needed
     } catch (Exception e) {
-      return new StatusMessage(ResponseStatus.ERROR, e.getLocalizedMessage());
+      return new Result(Result.Status.ERROR, e.getLocalizedMessage());
     }
   }
     
   
-  public StatusMessage setCdaHazelcastEnabled(boolean enabled){
+  public Result setCdaHazelcastEnabled(boolean enabled){
     try{
       ExternalConfigurationsManager.setCdaHazelcastEnabled(enabled);
-      return new StatusMessage(ResponseStatus.OK, "Please refresh plugins.");
+      return new Result(Result.Status.OK, "Please refresh plugins.");
     }
     catch(Exception e){
-      return new StatusMessage(ResponseStatus.ERROR, e.getLocalizedMessage());
+      return new Result(Result.Status.ERROR, e.getLocalizedMessage());
     }
   }
   
