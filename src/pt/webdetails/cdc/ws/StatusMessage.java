@@ -1,4 +1,4 @@
-package pt.webdetails.cdc;
+package pt.webdetails.cdc.ws;
 
 /**
  *
