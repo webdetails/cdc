@@ -31,19 +31,19 @@ public class MondrianCacheCleanService {
      * @param catalog Catalog to be cleaned
      * @return Message describing the clear action result
      */
-    public StatusMessage clearCatalog(String catalog){
+    public Result clearCatalog(String catalog){
         try{
             Connection connection = getMdxConnection(catalog);
             
             if(connection == null){
-                return new StatusMessage("Error","Catalog "+catalog+" non available.");
+                return new Result(Result.Status.ERROR, "Catalog "+catalog+" non available.");
             }
             CacheControl cacheControl = connection.getCacheControl(null);
 
             Cube[] cubes = connection.getSchema().getCubes();
             
             if(cubes.length == 0) {
-                return new StatusMessage("Error","Catalog "+catalog+" contains no cubes.");
+                return new Result(Result.Status.ERROR,"Catalog "+catalog+" contains no cubes.");
             }
 
             for (int i = 0; i < cubes.length; i++) {
@@ -51,10 +51,10 @@ public class MondrianCacheCleanService {
                 cacheControl.flush(cacheControl.createMeasuresRegion(cubes[i]));
             } 
         
-            return new StatusMessage("Success","Catalog "+catalog+" cache cleaned.");
+            return new Result(Result.Status.OK,"Catalog "+catalog+" cache cleaned.");
             
         } catch(Exception e){
-            return new StatusMessage("Error",e.getMessage());
+            return new Result(Result.Status.ERROR,e.getLocalizedMessage());
         }
     }
     
@@ -65,12 +65,12 @@ public class MondrianCacheCleanService {
      * @param cube Cube to be cleaned
      * @return Message describing the clear action result
      */
-    public StatusMessage clearCube(String catalog, String cube) {
+    public Result clearCube(String catalog, String cube) {
       try {
         Connection connection = getMdxConnection(catalog);
   
         if (connection == null) {
-          return new StatusMessage("Error", "Catalog " + catalog + " non available.");
+          return new Result(Result.Status.ERROR, "Catalog " + catalog + " non available.");
         }
   
         CacheControl cacheControl = connection.getCacheControl(null);
@@ -78,7 +78,7 @@ public class MondrianCacheCleanService {
         Cube[] cubes = connection.getSchema().getCubes();
   
         if (cubes.length == 0) {
-          return new StatusMessage("Error", "Catalog " + catalog + " contains no cubes.");
+          return new Result(Result.Status.ERROR, "Catalog " + catalog + " contains no cubes.");
         }
   
         int i = 0;
@@ -92,12 +92,12 @@ public class MondrianCacheCleanService {
         }
   
         if (i == cubes.length) {
-          return new StatusMessage("Error", "Cube " + cube + " not found.");
+          return new Result(Result.Status.ERROR, "Cube " + cube + " not found.");
         }
   
-        return new StatusMessage("Success", "Cube " + cube + " cache cleaned.");
+        return new Result(Result.Status.OK, "Cube " + cube + " cache cleaned.");
       } catch (Exception e) {
-        return new StatusMessage("Error", e.getMessage());
+        return new Result(Result.Status.ERROR, e.getLocalizedMessage());
       }
     }
      
@@ -110,12 +110,12 @@ public class MondrianCacheCleanService {
      * @param dimension Dimension to be cleaned
      * @return Message describing the clear action result
      */
-    public StatusMessage clearDimension(String catalog, String cube, String dimension){
+    public Result clearDimension(String catalog, String cube, String dimension){
         try{
             Connection connection = getMdxConnection(catalog);
             
             if(connection == null){
-                return new StatusMessage("Error","Catalog "+catalog+" non available.");
+                return new Result(Result.Status.ERROR,"Catalog "+catalog+" non available.");
             }
             
             CacheControl cacheControl = connection.getCacheControl(null);
@@ -123,7 +123,7 @@ public class MondrianCacheCleanService {
             Cube[] cubes = connection.getSchema().getCubes();
             
             if(cubes.length == 0) {
-                return new StatusMessage("Error","Catalog "+catalog+" contains no cubes.");
+                return new Result(Result.Status.ERROR,"Catalog "+catalog+" contains no cubes.");
             }
 
             for (int i = 0; i < cubes.length; i++) {
@@ -132,7 +132,7 @@ public class MondrianCacheCleanService {
                     Dimension[] dimensions = cubes[i].getDimensions();
                     
                     if(dimensions.length == 0) {
-                        return new StatusMessage("Error","Cube "+cube+" contains no dimensions.");
+                        return new Result(Result.Status.ERROR,"Cube "+cube+" contains no dimensions.");
                     }
                     
                     for(int j = 0; j < dimensions.length; j++){
@@ -140,7 +140,7 @@ public class MondrianCacheCleanService {
                             Hierarchy[] hierarchies = dimensions[j].getHierarchies();
                             
                             if(hierarchies.length == 0) {
-                                return new StatusMessage("Error","Dimension "+dimension+" contains no hierarchy.");
+                                return new Result(Result.Status.ERROR,"Dimension "+dimension+" contains no hierarchy.");
                             }
                             
                             for(int k = 0; k < hierarchies.length; k++){
@@ -156,10 +156,10 @@ public class MondrianCacheCleanService {
                 }
             } 
 
-            return new StatusMessage("Success","Dimension "+dimension+" cache cleaned.");
+            return new Result(Result.Status.OK,"Dimension "+dimension+" cache cleaned.");
             
         } catch(Exception e){
-            return new StatusMessage("Error",e.getMessage());
+            return new Result(Result.Status.ERROR,e.getLocalizedMessage());
         }
     }
     
