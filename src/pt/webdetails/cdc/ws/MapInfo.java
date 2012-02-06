@@ -1,15 +1,18 @@
 package pt.webdetails.cdc.ws;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.hazelcast.monitor.LocalMapStats;
 
-public class MapInfo {
+public class MapInfo implements JsonSerializable{
   private long entryCount;
   private long ownedCount;
   private long backupCount;
   
-  private long entryMemmory;
-  private long ownedMemmory;
-  private long backupMemmory;
+  private long entryMemory;
+  private long ownedMemory;
+  private long backupMemory;
   
   public MapInfo(){}
   
@@ -17,13 +20,13 @@ public class MapInfo {
     
     
     backupCount = mapStats.getBackupEntryCount();
-    backupMemmory = mapStats.getBackupEntryMemoryCost();
+    backupMemory = mapStats.getBackupEntryMemoryCost();
     
     ownedCount = mapStats.getOwnedEntryCount();
-    ownedMemmory = mapStats.getOwnedEntryMemoryCost();
+    ownedMemory = mapStats.getOwnedEntryMemoryCost();
     
     entryCount = backupCount + ownedCount;
-    entryMemmory = backupMemmory + ownedMemmory;
+    entryMemory = backupMemory + ownedMemory;
     
   }
 
@@ -59,34 +62,49 @@ public class MapInfo {
 
 
   public long getEntryMemmory() {
-    return entryMemmory;
+    return entryMemory;
   }
 
 
   public void setEntryMemmory(long entryMemmory) {
-    this.entryMemmory = entryMemmory;
+    this.entryMemory = entryMemmory;
   }
 
 
   public long getOwnedMemmory() {
-    return ownedMemmory;
+    return ownedMemory;
   }
 
 
   public void setOwnedMemmory(long ownedMemmory) {
-    this.ownedMemmory = ownedMemmory;
+    this.ownedMemory = ownedMemmory;
   }
 
 
   public long getBackupMemmory() {
-    return backupMemmory;
+    return backupMemory;
   }
 
 
   public void setBackupMemmory(long backupMemmory) {
-    this.backupMemmory = backupMemmory;
+    this.backupMemory = backupMemmory;
+  }
+
+  @Override
+  public JSONObject toJSON() throws JSONException {
+    JSONObject result = new JSONObject();
+    result.put("entryCount", entryCount);
+    result.put("ownedCount", ownedCount);
+    result.put("backupCount", backupCount);
+    
+    result.put("entryMemory", entryMemory);
+    result.put("ownedMemory", ownedMemory);
+    result.put("backupMemory", backupMemory);    
+
+    
+    return result;
   }
   
-  
+   
   
 }

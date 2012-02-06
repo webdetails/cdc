@@ -36,44 +36,44 @@ public class CdcContentGenerator extends SimpleContentGenerator {
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void home(OutputStream out) throws IOException {
-	Map<String, Object> params = getLink("cdcHome.wcdf");
-	run(out, params);
+    	Map<String, Object> params = getLink("cdcHome.wcdf");
+    	run(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void clusterinfo(OutputStream out) throws IOException {
-	Map<String, Object> params = getLink("cdcClusterInfo.wcdf");
-	run(out, params);
+    	Map<String, Object> params = getLink("cdcClusterInfo.wcdf");
+    	run(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void cacheinfo(OutputStream out) throws IOException {
-	Map<String, Object> params = getLink("cdcCacheInfo.wcdf");
-	run(out, params);
+    	Map<String, Object> params = getLink("cdcCacheInfo.wcdf");
+    	run(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void cdasettings(OutputStream out) throws IOException {
-	Map<String, Object> params = getLink("cdcCDASettings.wcdf");
-	run(out, params);
+    	Map<String, Object> params = getLink("cdcCDASettings.wcdf");
+    	run(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void mondriansettings(OutputStream out) throws IOException {
-	Map<String, Object> params = getLink("cdcMondrianSettings.wcdf");
-	run(out, params);
+    	Map<String, Object> params = getLink("cdcMondrianSettings.wcdf");
+    	run(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void cdacacheclean(OutputStream out) throws IOException {
-	Map<String, Object> params = getLink("cdcCDACacheClean.wcdf");
-	run(out, params);
+      	Map<String, Object> params = getLink("cdcCDACacheClean.wcdf");
+      	run(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void mondriancacheclean(OutputStream out) throws IOException {
-	Map<String, Object> params = getLink("cdcMondrianCacheClean.wcdf");
-	run(out, params);
+    	Map<String, Object> params = getLink("cdcMondrianCacheClean.wcdf");
+    	run(out, params);
     }
 
 

@@ -2,12 +2,14 @@ package pt.webdetails.cdc.ws;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import pt.webdetails.cdc.ws.MapInfo;
 
 import com.hazelcast.core.Member;
 
-public class MemberInfo {
+public class MemberInfo implements JsonSerializable{
 
   private static Log logger = LogFactory.getLog(MemberInfo.class);
   
@@ -71,5 +73,16 @@ public class MemberInfo {
     this.mapInfo = mapInfo;
   }
 
+  @Override
+  public JSONObject toJSON() throws JSONException {
+    JSONObject result = new JSONObject();
+    result.put("address", this.address);
+    result.put("isSuperClient", this.isSuperClient);
+    result.put("mapInfo", this.mapInfo != null ? this.mapInfo.toJSON() : null);
+    result.put("javaRuntimeInfo", this.javaRuntimeInfo != null ? this.javaRuntimeInfo.toJSON() : null);
+    return result;
+  }
+
+  
   
 }

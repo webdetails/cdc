@@ -2,6 +2,8 @@ package pt.webdetails.cdc.ws;
 
 import java.util.Arrays;
 
+import org.json.JSONArray;
+
 import pt.webdetails.cdc.CdcLifeCycleListener;
 
 import com.hazelcast.config.MapConfig;
@@ -51,13 +53,13 @@ public class HazelcastConfigurationService {
     }
   }
  
-  public Result setMapOption(String map, String name, String value){
+  public String setMapOption(String map, String name, String value){
     MapConfigOption option = MapConfigOption.valueOf(name);
     CacheMap cacheMap = CacheMap.valueOf(map);
     
-    if(option == null) return Result.getError("No such option " + name);
-    if(cacheMap == null) return Result.getError("No such map " + name);
-    if(value == null) return Result.getError("Must supply value");
+    if(option == null) return Result.getError("No such option " + name).toString();
+    if(cacheMap == null) return Result.getError("No such map " + name).toString();
+    if(value == null) return Result.getError("Must supply value").toString();
     
     Result result =  new Result(Result.Status.OK, "Option changed to '" + value + "'");
     for(String hMap : cacheMap.maps){
@@ -67,23 +69,23 @@ public class HazelcastConfigurationService {
           if(Arrays.binarySearch(MAX_SIZE_POLICIES, value) >= 0){
             mapConfig.getMaxSizeConfig().setMaxSizePolicy(value);
           }
-          else return Result.getError("Unrecognized size policy.");
+          else return Result.getError("Unrecognized size policy.").toString();
           
           break;
         case evictionPercentage:
           try{
             int evictionPercentage = Integer.parseInt(value);
-            if(evictionPercentage <= 0 || evictionPercentage > 100) return Result.getError("Invalid domain for percentage.");
+            if(evictionPercentage <= 0 || evictionPercentage > 100) return Result.getError("Invalid domain for percentage.").toString();
             mapConfig.setEvictionPercentage(evictionPercentage);
           } catch(NumberFormatException nfe){
-            return Result.getFromException(nfe);
+            return Result.getFromException(nfe).toString();
           }
           break;
         case evictionPolicy:
           if(Arrays.binarySearch(EVICTION_POLICIES, value) >= 0){
             mapConfig.setEvictionPolicy(value);
           }
-          else return Result.getError("Unrecognized eviction policy");
+          else return Result.getError("Unrecognized eviction policy").toString();
               
           mapConfig.setEvictionPolicy(value);
           break;
@@ -93,7 +95,7 @@ public class HazelcastConfigurationService {
             mapConfig.getMaxSizeConfig().setSize(maxSize);
           }
           catch (NumberFormatException nfe){
-            return Result.getFromException(nfe);
+            return Result.getFromException(nfe).toString();
           }
 
           break;
@@ -103,83 +105,90 @@ public class HazelcastConfigurationService {
             mapConfig.setTimeToLiveSeconds(timeToLiveSeconds);
           }
           catch (NumberFormatException nfe){
-            return Result.getFromException(nfe);
+            return Result.getFromException(nfe).toString();
           }
       }
 
     }
-    return result;
+    return result.toString();
   }
   
-  public Result getMapOption(String map, String name){
+  public String getMapOption(String map, String name){
     MapConfigOption option = MapConfigOption.valueOf(name);
     
-    if(option == null) return new Result(Result.Status.ERROR, "No such option " + name);
+    if(option == null) return new Result(Result.Status.ERROR, "No such option " + name).toString();
 
     MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(CacheMap.valueOf(map).maps[0]);
     
-    Result response = new Result();
-    response.setStatus(Result.Status.OK);
+//    Result response = new Result();
+//    response.setStatus(Result.Status.OK);
+    Object result = null;
     switch(option){
       case maxSizePolicy:
-        response.setResult(mapConfig.getMaxSizeConfig().getMaxSizePolicy());
+        result = mapConfig.getMaxSizeConfig().getMaxSizePolicy();
         break;
       case evictionPercentage:
-        response.setResult(mapConfig.getEvictionPercentage());
+        result = mapConfig.getEvictionPercentage();
         break;
       case evictionPolicy:
-        response.setResult(mapConfig.getEvictionPolicy());
+        result = mapConfig.getEvictionPolicy();
         break;
       case maxSize:
-        response.setResult(mapConfig.getMaxSizeConfig().getSize());
+        result = mapConfig.getMaxSizeConfig().getSize();
         break;
       case timeTolive:
-        response.setResult(mapConfig.getTimeToLiveSeconds());
+        result = mapConfig.getTimeToLiveSeconds();
     }
-    return response;
+    
+    return Result.getOK(result).toString();
+//    return response;
     
   }
 
-  public static Result getMaxSizePolicies(){
-    return Result.getOK(MAX_SIZE_POLICIES);
+  public static String getMaxSizePolicies(){
+    JSONArray results = new JSONArray();
+    for(String value : MAX_SIZE_POLICIES){
+      results.put(value);  
+    }
+    return Result.getOK(results).toString();
   }
   
-  public static Result getEvictionPolicies(){
-    return Result.getOK(EVICTION_POLICIES);
+  public static String getEvictionPolicies(){
+    JSONArray results = new JSONArray();
+    for(String value : EVICTION_POLICIES){
+      results.put(value);  
+    }
+    return Result.getOK(results).toString();
   }
-  
-//  public static String[] getMaxSizePolicies(){
-//    return MAX_SIZE_POLICIES;
-//  }
 
-  public Result saveConfig(){
+  public String saveConfig(){
     if( CdcLifeCycleListener.saveConfig(Hazelcast.getConfig())){
-    return new Result(Result.Status.OK, "Configuration saved.");
+      return new Result(Result.Status.OK, "Configuration saved.").toString();
     }
     else {
-      return new Result(Result.Status.ERROR, "Error saving file.");
+      return new Result(Result.Status.ERROR, "Error saving file.").toString();
     }
   }
   
-  public Result loadConfig(){
+  public String loadConfig(){
     try{
       CdcLifeCycleListener.reloadConfig(null);
-      return new Result(Result.Status.OK, "Configuration read from file.");
+      return new Result(Result.Status.OK, "Configuration read from file.").toString();
     }
     catch(Exception e){
-      return Result.getFromException(e);
+      return Result.getFromException(e).toString();
     }
   }
   
   //TODO: temporary, will be removed
   @Deprecated
-  public Result shutdownAll(){
+  public String shutdownAll(){
     try{
       Hazelcast.shutdownAll();
-      return new Result(Result.Status.OK, "shutdown all.");
+      return new Result(Result.Status.OK, "shutdown all.").toString();
     }
     catch(Exception e){
-      return Result.getFromException(e);
+      return Result.getFromException(e).toString();
     }
   }  
   
