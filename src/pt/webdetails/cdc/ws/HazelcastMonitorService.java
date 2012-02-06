@@ -42,7 +42,7 @@ public class HazelcastMonitorService {
   }
 
   
-  public ClusterInfo getClusterInfo(String map){
+  public String getClusterInfo(String map){
     
     map = mapNameResolver.get(map);
     
@@ -64,7 +64,7 @@ public class HazelcastMonitorService {
     }
     
     clusterInfo.setOtherMembers(extMembers.toArray(new MemberInfo[extMembers.size()]));
-    return clusterInfo;
+    return Result.getOK(clusterInfo).toString();
   }
   
   

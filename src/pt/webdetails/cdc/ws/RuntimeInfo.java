@@ -1,8 +1,11 @@
 package pt.webdetails.cdc.ws;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.hazelcast.monitor.DistributedMemberInfoCallable;
 
-public class RuntimeInfo {
+public class RuntimeInfo implements JsonSerializable{
 
   private long totalMemory;
   private long freeMemory;
@@ -33,6 +36,15 @@ public class RuntimeInfo {
   }
   public void setMaxMemory(long maxMemory) {
     this.maxMemory = maxMemory;
+  }
+
+  @Override
+  public JSONObject toJSON() throws JSONException {
+    JSONObject json = new JSONObject();
+    json.put("totalMemory", totalMemory);
+    json.put("freeMemory", freeMemory);
+    json.put("maxMemory", maxMemory);
+    return json;
   }
   
   

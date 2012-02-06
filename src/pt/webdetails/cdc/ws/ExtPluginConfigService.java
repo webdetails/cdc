@@ -5,39 +5,39 @@ import pt.webdetails.cdc.ExternalConfigurationsManager;
 public class ExtPluginConfigService {
 
   
-  public Result isMondrianHazelcastEnabled(){
+  public String isMondrianHazelcastEnabled(){
     boolean enabled = ExternalConfigurationsManager.isMondrianHazelcastEnabled();
-    return new Result(Result.Status.OK, enabled);
+    return new Result(Result.Status.OK, enabled).toString();
   }
   
-  public Result isCdaHazelcastEnabled(){
+  public String isCdaHazelcastEnabled(){
     try 
     {
       boolean enabled = ExternalConfigurationsManager.isCdaHazelcastEnabled();
-      return new Result(Result.Status.OK, enabled);
+      return new Result(Result.Status.OK, enabled).toString();
     } 
     catch (Exception e) {
-      return new Result(Result.Status.ERROR, e.getLocalizedMessage());
+      return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
     }
   }
   
-  public Result setMondrianHazelcastEnabled(boolean enabled){
+  public String setMondrianHazelcastEnabled(boolean enabled){
     try {
       ExternalConfigurationsManager.setMondrianHazelcastEnabled(enabled);
-      return new Result(Result.Status.OK, "Please restart Pentaho server.");//TODO: may not be needed
+      return new Result(Result.Status.OK, "Please restart Pentaho server.").toString();//TODO: may not be needed
     } catch (Exception e) {
-      return new Result(Result.Status.ERROR, e.getLocalizedMessage());
+      return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
     }
   }
     
   
-  public Result setCdaHazelcastEnabled(boolean enabled){
+  public String setCdaHazelcastEnabled(boolean enabled){
     try{
       ExternalConfigurationsManager.setCdaHazelcastEnabled(enabled);
-      return new Result(Result.Status.OK, "Please refresh plugins.");
+      return new Result(Result.Status.OK, "Please refresh plugins.").toString();
     }
     catch(Exception e){
-      return new Result(Result.Status.ERROR, e.getLocalizedMessage());
+      return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
     }
   }
   
