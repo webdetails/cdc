@@ -2,6 +2,7 @@ package pt.webdetails.cdc.cda;
 
 import java.io.IOException;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.swing.table.TableModel;
 
@@ -73,6 +74,7 @@ public class HazelcastQueryCache implements IQueryCache {
     cache.addEntryListener(syncRemoveStats, true);//false
     //logging/debug, includes value
     cache.addEntryListener(new LoggingEntryListener(cdaPluginClassLoader), true);
+    
     logger.debug("Added entry listener");
     
   }
@@ -348,7 +350,13 @@ public class HazelcastQueryCache implements IQueryCache {
   @Override
   public int removeAll(String cdaSettingsId, String dataAccessId) {
     int size = cache.size();
-    clearCache();
+    //TODO:testing
+//    Set<TableCacheKey> keySet = cache.keySet(new SqlPredicate("cdaSettingsId = " + cdaSettingsId + " AND dataAccessId = " + dataAccessId));
+    for(Entry<TableCacheKey, ExtraCacheInfo> entry: getCacheStatsEntries(cdaSettingsId, dataAccessId)){
+      cache.remove(entry.getKey());
+    }
+    
+    //clearCache();
     return size;
   }
 

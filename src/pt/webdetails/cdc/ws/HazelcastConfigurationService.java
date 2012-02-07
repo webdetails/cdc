@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.json.JSONArray;
 
 import pt.webdetails.cdc.CdcLifeCycleListener;
+import pt.webdetails.cdc.HazelcastProcessLauncher;
 
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.config.MaxSizeConfig;
@@ -178,6 +179,12 @@ public class HazelcastConfigurationService {
     catch(Exception e){
       return Result.getFromException(e).toString();
     }
+  }
+  
+  //TODO:temp
+  public String launchJvmInstance(){
+    HazelcastProcessLauncher.launchProcess(null);
+    return Result.getOK("Process launched.").toString();
   }
   
   //TODO: temporary, will be removed

@@ -1,30 +1,59 @@
 package pt.webdetails.cdc;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 
-public class HazelcastProcessLauncher {
 
+public class HazelcastProcessLauncher 
+{
+  private static String classToRun = com.hazelcast.examples.StartServer.class.getName();
+  private static Log logger = LogFactory.getLog(HazelcastProcessLauncher.class);
+  private static final String[] cachedPlugins = {
+    "cda"
+  };
   
-  private static String getHazelcastClasspaths(){
-    //TODO: this should get only needed jars, for now get everything
-//    PentahoSystem.getApplicationContext().
-    //TODO: 1) get server location (WEB-INF)
-    String webInfPath = "/home/tgf/pentaho/target-dist/server";
+  private static String[] getHazelcastClasspaths(){
+    ArrayList<String> paths = new ArrayList<String>();
     
-//    File webInf = new File("/home/tgf/pentaho/target-dist/server");
+    String webInfPath = PentahoSystem.getApplicationContext().getApplicationPath("WEB-INF");
+    File webInfDir = new File(webInfPath);
+    if(webInfDir.exists() && webInfDir.isDirectory()){
+      paths.add(webInfPath + "/classes");
+      paths.add(webInfPath + "/lib/*");
+    }
     
-    //TODO: 1.1) classes folder
-    
-    //TODO: 1.2) lib folder
-    
-    //TODO: 2) get CDA lib folder
-    
-    //TODO: 3) get CDC lib folder (?)
-    
-    return null;
+    for(String plugin: cachedPlugins){
+      paths.add( PentahoSystem.getApplicationContext().getSolutionPath("system/" + plugin + "/lib/*"));
+    }
+
+    return paths.toArray(new String[paths.size()]);
   }
   
+  public static void launchProcess(Long mem){
+    //TODO: jvm options
+    String[] paths = getHazelcastClasspaths();
+    String classPathArg = StringUtils.join(paths, File.pathSeparatorChar);
+    String java = System.getProperty("java.home") + "/bin/java";
+    
+    Runtime runtime = Runtime.getRuntime();
+    try {
+      //run with whole classpath
+      runtime.exec(new String[]{java,"-cp", classPathArg, classToRun}, null,
+          new File(PentahoSystem.getApplicationContext().getSolutionPath(CdcContentGenerator.PLUGIN_PATH)));
+
+      logger.debug("process launched");
+      
+    } catch (IOException e) {
+      logger.error(e);
+    }
+    
+  }
+ 
   
 }

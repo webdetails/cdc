@@ -18,10 +18,12 @@ import org.pentaho.platform.engine.core.system.PentahoSystem;
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ConfigXmlGenerator;
 import com.hazelcast.config.XmlConfigBuilder;
+import com.hazelcast.core.Cluster;
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.IMap;
+import com.hazelcast.core.Member;
 import com.hazelcast.core.MembershipEvent;
 import com.hazelcast.core.MembershipListener;
 
@@ -50,11 +52,13 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   public void loaded() throws PluginLifecycleException
   {
     logger.debug("CDC loaded.");
-    init(PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_PATH + CACHE_CFG_FILE_HAZELCAST),false,false);
+    init(PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_PATH + CACHE_CFG_FILE_HAZELCAST),true,false);//TODO:superClient
   }
   
   private static void init(String configFileName, boolean superClient, boolean forceConfig)
   {  
+//    HazelcastProcessLauncher.launchProcess(0);
+
     logger.debug("CDC init for config " + configFileName);
     Config config = null;
     if(configFileName != null){
@@ -78,16 +82,21 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
         System.setProperty(PROPERTY_SUPER_CLIENT , "false");
       }
       else if(superClient){
+        logger.info("Setting SuperClient flag");
         System.setProperty(PROPERTY_SUPER_CLIENT, "true");
+        
       }
     } catch (SecurityException e){
       logger.error("Error accessing " + PROPERTY_SUPER_CLIENT, e);
     }
 
     try{
-      
+       config.setSuperClient(superClient);      
        logger.info("Launching Hazelcast with " + configFileName);
        Hazelcast.init(config);
+       if(superClient){
+         launchIfNoMember();
+       }
     }
     catch(IllegalStateException e){
 
@@ -178,6 +187,25 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     Hazelcast.shutdownAll();
     logger.info("Launching Hazelcast...");
     Hazelcast.init(config);
+    if(config.isSuperClient()){
+      HazelcastProcessLauncher.launchProcess(0L);
+    }
+  }
+  
+  //for superClient mode
+  private static void launchIfNoMember()
+  {
+    Cluster cluster = Hazelcast.getCluster();
+    for(Member member : cluster.getMembers())
+    {
+      if(!member.isSuperClient()){
+        logger.debug("Member detected, no launch required.");
+        return;
+      }
+    }
+    //no non-superClient members
+    logger.info("SuperClient mode: no members found, launching a hazelcast server in a new JVM.");
+    HazelcastProcessLauncher.launchProcess(0L);
   }
   
   public static void reloadConfig(String configFileName){
