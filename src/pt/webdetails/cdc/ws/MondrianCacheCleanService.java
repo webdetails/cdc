@@ -31,7 +31,9 @@ public class MondrianCacheCleanService {
      * @param catalog Catalog to be cleaned
      * @return Message describing the clear action result
      */
+
     public String clearCatalog(String catalog){
+
         try{
             Connection connection = getMdxConnection(catalog);
             
@@ -65,7 +67,9 @@ public class MondrianCacheCleanService {
      * @param cube Cube to be cleaned
      * @return Message describing the clear action result
      */
+
     public String clearCube(String catalog, String cube) {
+
       try {
         Connection connection = getMdxConnection(catalog);
   
@@ -98,6 +102,7 @@ public class MondrianCacheCleanService {
         return Result.getOK("Cube " + cube + " cache cleaned.").toString();
       } catch (Exception e) {
         return Result.getError(e.getMessage()).toString();
+
       }
     }
      
@@ -110,7 +115,9 @@ public class MondrianCacheCleanService {
      * @param dimension Dimension to be cleaned
      * @return Message describing the clear action result
      */
+
     public String clearDimension(String catalog, String cube, String dimension){
+
         try{
             Connection connection = getMdxConnection(catalog);
             
@@ -157,9 +164,9 @@ public class MondrianCacheCleanService {
             } 
 
             return Result.getOK("Dimension "+dimension+" cache cleaned.").toString();
-            
         } catch(Exception e){
             return Result.getError(e.getMessage()).toString();
+
         }
     }
     
