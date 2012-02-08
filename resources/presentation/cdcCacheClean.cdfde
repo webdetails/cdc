@@ -20,7 +20,7 @@
      },
      {
       "name": "resourceFile",
-      "value": "${res:files/cdc.css}",
+      "value": "${res:../static/cdc.css}",
       "type": "ResourceFile"
      }
     ]
@@ -43,7 +43,7 @@
      },
      {
       "name": "resourceFile",
-      "value": "${res:files/cdc.js}",
+      "value": "static/cdc.js",
       "type": "ResourceFile"
      }
     ]

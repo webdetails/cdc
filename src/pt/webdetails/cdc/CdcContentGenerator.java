@@ -21,7 +21,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
   public static final String PLUGIN_NAME = "cdc";
   public static final String PLUGIN_PATH = "system/" + PLUGIN_NAME + "/";
   
-  private static final String CDE_PLUGIN = "petaho-cdf-dd";
+  private static final String CDE_PLUGIN = "pentaho-cdf-dd";
   
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void edit(OutputStream out) throws IOException {
@@ -30,7 +30,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         params.put("path", "cdc/presentation/");
         params.put("file", "cdcHome.wcdf");
         params.put("absolute", "true");
-        params.put("root", "localhost:8080");
+        params.put("root", "http://localhost:8080");
         out.write(InterPluginComms.callPlugin(CDE_PLUGIN, "Render", params).getBytes(ENCODING));
     }
 
@@ -53,35 +53,23 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
-    public void cdasettings(OutputStream out) throws IOException {
-    	Map<String, Object> params = getLink("cdcCDASettings.wcdf");
+    public void settings(OutputStream out) throws IOException {
+    	Map<String, Object> params = getLink("cdcSettings.wcdf");
     	run(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
-    public void mondriansettings(OutputStream out) throws IOException {
-    	Map<String, Object> params = getLink("cdcMondrianSettings.wcdf");
-    	run(out, params);
-    }
-
-    @Exposed(accessLevel = AccessLevel.PUBLIC)
-    public void cdacacheclean(OutputStream out) throws IOException {
-      	Map<String, Object> params = getLink("cdcCDACacheClean.wcdf");
+    public void cacheclean(OutputStream out) throws IOException {
+      	Map<String, Object> params = getLink("cdcCacheClean.wcdf");
       	run(out, params);
     }
-
-    @Exposed(accessLevel = AccessLevel.PUBLIC)
-    public void mondriancacheclean(OutputStream out) throws IOException {
-    	Map<String, Object> params = getLink("cdcMondrianCacheClean.wcdf");
-    	run(out, params);
-    }
-
 
     private Map<String, Object> getLink(String dashboardName) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("solution", "system");
         params.put("path", "cdc/presentation/");
         params.put("file", dashboardName);
+        params.put("bypassCache", "true");
         params.put("absolute", "true");
         params.put("root", "localhost:8080");
 	

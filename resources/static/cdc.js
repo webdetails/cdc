@@ -122,8 +122,13 @@ cdcFunctions.siteMap = function () {
 	  		{name: "Cluster Info",  id:"clusterInfo",  link: "Render?solution=" + solution + "&path=&file=cdcClusterInfo.wcdf" + debug, action:function() {Dashboards.log("Link5");}, sublinks: [] }
 	    	];
 	 } else {
-	 
-	 
+		 return [ 
+		 	{name: "Home",  id:"home",  link: "home", action:function() {Dashboards.log("Link1");}, sublinks: [] },         
+		 	{name: "Settings",  id:"settings",  link:  "settings", action:function() {Dashboards.log("Link2");}, sublinks: [] },
+		 	{name: "Cache Clean",  id:"cacheClean",  link: "cacheclean", action:function() {Dashboards.log("Link3");}, sublinks: [] },
+		 	{name: "Cache Info",  id:"cacheInfo",  link: "cacheinfo", action:function() {Dashboards.log("Link4");}, sublinks: [] },
+		 	{name: "Cluster Info",  id:"clusterInfo",  link: "clusterinfo", action:function() {Dashboards.log("Link5");}, sublinks: [] }
+		 	];
 	 }
 };
 
