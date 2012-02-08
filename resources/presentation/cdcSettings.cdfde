@@ -483,6 +483,140 @@
     ]
    },
    {
+    "id": "735eae0b-b75d-d83f-b850-ec7a4305058b",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "header3",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "b627ce1a-31e2-6309-566a-3b7fe2637b43",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "735eae0b-b75d-d83f-b850-ec7a4305058b",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdaMondrianObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "24",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "98d96031-1e0c-adad-4018-f98cefa14624",
+    "type": "LayoutSpace",
+    "typeDesc": "Space",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "height",
+      "value": "0",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
     "id": "364d6651-34b2-2a9a-24c3-4a785b8f40cd",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -521,7 +655,7 @@
     ]
    },
    {
-    "id": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
+    "id": "f0d1dd32-d7de-6fb9-6ac1-91e8c1c27d81",
     "type": "LayoutColumn",
     "typeDesc": "Column",
     "parent": "364d6651-34b2-2a9a-24c3-4a785b8f40cd",
@@ -594,19 +728,19 @@
     ]
    },
    {
-    "id": "7ba7ef71-e48a-e425-5e9c-7c20100f0811",
+    "id": "90e2a041-eb1c-3474-8939-cd77f9fad494",
     "type": "LayoutRow",
     "typeDesc": "Row",
-    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
+    "parent": "f0d1dd32-d7de-6fb9-6ac1-91e8c1c27d81",
     "properties": [
      {
       "name": "name",
-      "value": "cdaCache",
+      "value": "",
       "type": "Id"
      },
      {
       "name": "height",
-      "value": "88",
+      "value": "",
       "type": "Integer"
      },
      {
@@ -621,7 +755,7 @@
      },
      {
       "name": "cssClass",
-      "value": "WDdataCell",
+      "value": "",
       "type": "String"
      },
      {
@@ -632,10 +766,10 @@
     ]
    },
    {
-    "id": "fa1b3a39-dcf4-a2d8-003a-35b36f21117a",
+    "id": "c52e90c5-7055-c431-2935-9ecdb5dce630",
     "type": "LayoutColumn",
     "typeDesc": "Column",
-    "parent": "7ba7ef71-e48a-e425-5e9c-7c20100f0811",
+    "parent": "90e2a041-eb1c-3474-8939-cd77f9fad494",
     "properties": [
      {
       "name": "name",
@@ -689,12 +823,12 @@
      },
      {
       "name": "height",
-      "value": "",
+      "value": "28",
       "type": "Integer"
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "WDdataCell",
       "type": "String"
      },
      {
@@ -705,10 +839,10 @@
     ]
    },
    {
-    "id": "7f685a84-ae08-fdf9-972e-89df200c6976",
+    "id": "d5e681da-7d43-8487-bc51-887fbda9566e",
     "type": "LayoutRow",
     "typeDesc": "Row",
-    "parent": "fa1b3a39-dcf4-a2d8-003a-35b36f21117a",
+    "parent": "c52e90c5-7055-c431-2935-9ecdb5dce630",
     "properties": [
      {
       "name": "name",
@@ -743,10 +877,10 @@
     ]
    },
    {
-    "id": "3d7d8f68-0d1d-3127-e5af-07e2148cb742",
+    "id": "0768ded3-eda4-2f22-32ed-6180d4a16f80",
     "type": "LayoutHtml",
     "typeDesc": "Html",
-    "parent": "7f685a84-ae08-fdf9-972e-89df200c6976",
+    "parent": "d5e681da-7d43-8487-bc51-887fbda9566e",
     "properties": [
      {
       "name": "name",
@@ -776,14 +910,14 @@
     ]
    },
    {
-    "id": "b0918e4f-e592-1db4-5b61-5538f9402fc8",
+    "id": "5046e2a1-b8b4-bf69-3598-6497621a4412",
     "type": "LayoutRow",
     "typeDesc": "Row",
-    "parent": "fa1b3a39-dcf4-a2d8-003a-35b36f21117a",
+    "parent": "c52e90c5-7055-c431-2935-9ecdb5dce630",
     "properties": [
      {
       "name": "name",
-      "value": "cdaButtonObj",
+      "value": "applyObj",
       "type": "Id"
      },
      {
@@ -803,7 +937,7 @@
      },
      {
       "name": "cssClass",
-      "value": "activateButton",
+      "value": "WDbutton applyButton",
       "type": "String"
      },
      {
@@ -814,42 +948,19 @@
     ]
    },
    {
-    "id": "a4933a87-a85c-090b-61be-83b12d43b0c0",
-    "type": "LayoutSpace",
-    "typeDesc": "Space",
-    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
-    "properties": [
-     {
-      "name": "height",
-      "value": "0",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
-    "id": "49e43fc1-46d1-7a49-b5f6-7514db508646",
+    "id": "83b60285-a2e8-86f2-28d4-c95956f419b0",
     "type": "LayoutRow",
     "typeDesc": "Row",
-    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
+    "parent": "c52e90c5-7055-c431-2935-9ecdb5dce630",
     "properties": [
      {
       "name": "name",
-      "value": "mondrianCache",
+      "value": "resetObj",
       "type": "Id"
      },
      {
       "name": "height",
-      "value": "88",
+      "value": "",
       "type": "Integer"
      },
      {
@@ -864,7 +975,7 @@
      },
      {
       "name": "cssClass",
-      "value": "WDdataCell",
+      "value": "WDbutton resetButton",
       "type": "String"
      },
      {
@@ -875,50 +986,20 @@
     ]
    },
    {
-    "id": "eaf54122-b254-f313-ad3d-7cc06335f756",
-    "type": "LayoutColumn",
-    "typeDesc": "Column",
-    "parent": "49e43fc1-46d1-7a49-b5f6-7514db508646",
+    "id": "eaaf4dc9-8725-1f8d-116b-4f57f5d4b8b4",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "c52e90c5-7055-c431-2935-9ecdb5dce630",
     "properties": [
      {
       "name": "name",
-      "value": "",
+      "value": "saveObj",
       "type": "Id"
      },
      {
-      "name": "columnSpan",
-      "value": "24",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrepend",
+      "name": "height",
       "value": "",
       "type": "Integer"
-     },
-     {
-      "name": "columnAppend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrependTop",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnAppendBottom",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBigBorder",
-      "value": "false",
-      "type": "Boolean"
      },
      {
       "name": "backgroundColor",
@@ -931,9 +1012,42 @@
       "type": "RoundCorners"
      },
      {
+      "name": "cssClass",
+      "value": "WDbutton saveButton",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "71f3f141-acb8-5501-48d9-598c60d6ea3d",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "f0d1dd32-d7de-6fb9-6ac1-91e8c1c27d81",
+    "properties": [
+     {
+      "name": "name",
+      "value": "maxSize",
+      "type": "Id"
+     },
+     {
       "name": "height",
       "value": "",
       "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
      },
      {
       "name": "cssClass",
@@ -948,14 +1062,14 @@
     ]
    },
    {
-    "id": "c4ace4e9-a2c5-15a5-a6fd-e50dc1a42579",
+    "id": "c671a0ce-4a7a-6c51-5ca3-8c5e054fdd89",
     "type": "LayoutRow",
     "typeDesc": "Row",
-    "parent": "eaf54122-b254-f313-ad3d-7cc06335f756",
+    "parent": "f0d1dd32-d7de-6fb9-6ac1-91e8c1c27d81",
     "properties": [
      {
       "name": "name",
-      "value": "",
+      "value": "evictionPolicy",
       "type": "Id"
      },
      {
@@ -975,7 +1089,7 @@
      },
      {
       "name": "cssClass",
-      "value": "WDdataCellHeader",
+      "value": "",
       "type": "String"
      },
      {
@@ -986,47 +1100,14 @@
     ]
    },
    {
-    "id": "fe71b250-57e7-9ecd-106f-6b0b4eeac288",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "c4ace4e9-a2c5-15a5-a6fd-e50dc1a42579",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "Mondrian ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
-    "id": "c41ce6ef-c356-4076-c3f4-d25b5647aa1e",
+    "id": "e0521894-6518-7591-9f22-ddc08e70f022",
     "type": "LayoutRow",
     "typeDesc": "Row",
-    "parent": "eaf54122-b254-f313-ad3d-7cc06335f756",
+    "parent": "f0d1dd32-d7de-6fb9-6ac1-91e8c1c27d81",
     "properties": [
      {
       "name": "name",
-      "value": "mondrianButtonObj",
+      "value": "evictionPercentage",
       "type": "Id"
      },
      {
@@ -1046,7 +1127,45 @@
      },
      {
       "name": "cssClass",
-      "value": "activateButton",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "dc7bd7c5-b2c3-21fb-320a-6c0a71e6770f",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "f0d1dd32-d7de-6fb9-6ac1-91e8c1c27d81",
+    "properties": [
+     {
+      "name": "name",
+      "value": "timeToLeave",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
       "type": "String"
      },
      {
@@ -1060,6 +1179,402 @@
  },
  "components": {
   "rows": [
+   {
+    "id": "SELECTORS",
+    "name": "Selects",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Selects",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "0d9f743f-b9eb-6950-1cfe-79c5fffb26ee",
+    "type": "ComponentsmultiButton",
+    "typeDesc": "Multiple button Component",
+    "parent": "SELECTORS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdaCacheToggleButton",
+      "type": "Id"
+     },
+     {
+      "name": "parameter",
+      "value": "cdaToogleParam",
+      "type": "Parameter"
+     },
+     {
+      "name": "htmlObject",
+      "value": "cdaCacheToogleObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": ""
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "valuesArray",
+      "value": "[[\"ON\",\"ON\"],[\"OFF\",\"OFF\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "valueAsId",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "separator",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "isMultiple",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "function(){\n    if(Dashboards.storage.activeCache == \"MONDRIAN\"){\n        Dashboards.setParameter(this.parameter, \"ON\");\n    } else {\n        Dashboards.setParameter(this.parameter, \"OFF\");\n        Dashboards.setParameter('Dashboards.storage.activeCache','CDA');\n    }\n    \n    Dashboards.saveStorage();\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "function(){\n    if(Dashboards.getParameterValue(this.parameter) == \"ON\"){\n        Dashboards.setParameter('Dashboards.storage.activeCache','MONDRIAN');\n    } else if(Dashboards.getParameterValue(this.parameter) == \"OFF\"){\n        Dashboards.setParameter('Dashboards.storage.activeCache','CDA');\n    }\n    \n    Dashboards.saveStorage();\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "20677700-2d98-dd55-1c52-162e0da44245",
+    "type": "ComponentsSelect",
+    "typeDesc": "Select Component",
+    "parent": "SELECTORS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdaOption1Selector",
+      "type": "Id"
+     },
+     {
+      "name": "parameter",
+      "value": "cdaCacheOption1Param",
+      "type": "Parameter"
+     },
+     {
+      "name": "htmlObject",
+      "value": "cdaCacheOption1Obj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": ""
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "valuesArray",
+      "value": "[[\"Option1\",\"Option1\"],[\"Option2\",\"Option2\"],[\"Option3\",\"Option3\"],[\"Option4\",\"Option4\"],[\"Option5\",\"Option5\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "valueAsId",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "externalPlugin",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "cea16fcb-259f-eaa8-ddfd-93c2410924a0",
+    "type": "ComponentsSelect",
+    "typeDesc": "Select Component",
+    "parent": "SELECTORS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdaOption2Selector",
+      "type": "Id"
+     },
+     {
+      "name": "parameter",
+      "value": "cdaCacheOption2Param",
+      "type": "Parameter"
+     },
+     {
+      "name": "htmlObject",
+      "value": "cdaCacheOption2Obj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": ""
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "valuesArray",
+      "value": "[[\"Option1\",\"Option1\"],[\"Option2\",\"Option2\"],[\"Option3\",\"Option3\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "valueAsId",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "externalPlugin",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "6a613853-fd31-f9f7-0bbf-edc9454d10b8",
+    "type": "ComponentsmultiButton",
+    "typeDesc": "Multiple button Component",
+    "parent": "SELECTORS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdaMondrianCacheSwitch",
+      "type": "Id"
+     },
+     {
+      "name": "parameter",
+      "value": "map",
+      "type": "Parameter"
+     },
+     {
+      "name": "htmlObject",
+      "value": "cdaMondrianObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": ""
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "valuesArray",
+      "value": "[[\"cda\",\"CDA\"],[\"mondrian\",\"Mondrian\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "valueAsId",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "separator",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "isMultiple",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
    {
     "id": "GENERIC",
     "name": "Generic",
@@ -1075,7 +1590,7 @@
     ]
    },
    {
-    "id": "3ea2dadf-8a36-f7f9-11aa-5843cb4f4a8b",
+    "id": "e914c584-0c08-0448-1dba-5dc1e74359fe",
     "type": "ComponentsJavascriptParameter",
     "typeDesc": "Custom Parameter",
     "parent": "GENERIC",
@@ -1093,7 +1608,7 @@
     ]
    },
    {
-    "id": "23d32e78-c9c4-f88b-381a-403fca60a04a",
+    "id": "e99e8912-c6fc-fd41-2cbc-bd4096aaf75e",
     "type": "ComponentsJavascriptParameter",
     "typeDesc": "Custom Parameter",
     "parent": "GENERIC",
@@ -1111,7 +1626,7 @@
     ]
    },
    {
-    "id": "a8ab7b21-5276-db0b-2da2-c302d056354a",
+    "id": "05899774-c920-a938-f33c-78a2bf387a2d",
     "type": "ComponentsJavascriptParameter",
     "typeDesc": "Custom Parameter",
     "parent": "GENERIC",
@@ -1129,7 +1644,7 @@
     ]
    },
    {
-    "id": "8248acc2-6aed-8e60-6be8-28c97b1dff71",
+    "id": "1102ed5d-4d8b-f706-635c-c3abb6f92017",
     "type": "ComponentsParameter",
     "typeDesc": "Parameter",
     "parent": "GENERIC",
@@ -1141,204 +1656,8 @@
      },
      {
       "name": "propertyValue",
-      "value": "home",
+      "value": "settings",
       "type": "String"
-     }
-    ]
-   },
-   {
-    "id": "2c812147-ca8e-23b7-644d-144cf8c80172",
-    "type": "ComponentsParameter",
-    "typeDesc": "Parameter",
-    "parent": "GENERIC",
-    "properties": [
-     {
-      "name": "name",
-      "value": "resultVar",
-      "type": "Id"
-     },
-     {
-      "name": "propertyValue",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
-    "id": "a9d68ccb-5b74-e415-9ea3-2860ad8a4b2d",
-    "type": "ComponentsParameter",
-    "typeDesc": "Parameter",
-    "parent": "GENERIC",
-    "properties": [
-     {
-      "name": "name",
-      "value": "enabled",
-      "type": "Id"
-     },
-     {
-      "name": "propertyValue",
-      "value": "true",
-      "type": "String"
-     }
-    ]
-   },
-   {
-    "id": "OTHERCOMPONENTS",
-    "name": "Others",
-    "type": "Label",
-    "typeDesc": "<i>Group</i>",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "Group",
-      "value": "Others",
-      "type": "Label"
-     }
-    ]
-   },
-   {
-    "id": "52c71ddf-536d-3491-ce22-c5b266b41ae1",
-    "type": "ComponentsbuttonComponent",
-    "typeDesc": "Button Component",
-    "parent": "OTHERCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "cdaButton",
-      "type": "Id"
-     },
-     {
-      "name": "label",
-      "value": "Enabled",
-      "type": "String"
-     },
-     {
-      "name": "htmlObject",
-      "value": "cdaButtonObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tableStyle",
-      "value": "classic",
-      "type": "TableStyle"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "expression",
-      "value": "function(){\n    var htmlObject = $(this.parentElement);\n    \n    if(Dashboards.storage.cdaActive == false){\n        Dashboards.setParameter('Dashboards.storage.cdaActive',true);\n        Dashboards.saveStorage();\n        \n        htmlObject.removeClass('inactive');\n        htmlObject.addClass('active');\n        $(this).text(\"Enabled\");\n        \n        cdcFunctions.enableCDACache();\n    } else if(Dashboards.storage.cdaActive == true){\n        Dashboards.setParameter('Dashboards.storage.cdaActive',false);\n        Dashboards.saveStorage();\n      \n        htmlObject.removeClass('active');\n        htmlObject.addClass('inactive');\n        $(this).text(\"Disabled\");\n        \n        cdcFunctions.disableCDACache();\n    }\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject);\n    \n    var isCDAActive = cdcFunctions.isCDAActive();\n    Dashboards.setParameter('Dashboards.storage.cdaActive',isCDAActive);\n    \n    if(Dashboards.storage.cdaActive == false){\n        htmlObject.addClass('inactive');\n    } else if(Dashboards.storage.cdaActive == true){\n        htmlObject.addClass('active');\n    }\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject).find('button');\n    \n    if(Dashboards.storage.cdaActive == false){\n        htmlObject.text('Disabled');\n    } else if(Dashboards.storage.cdaActive == true){\n        htmlObject.text('Enabled');\n    }\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "fb6ef713-c8b6-1209-80b6-edd9b21e97de",
-    "type": "ComponentsbuttonComponent",
-    "typeDesc": "Button Component",
-    "parent": "OTHERCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "mondrianButton",
-      "type": "Id"
-     },
-     {
-      "name": "label",
-      "value": "Enabled",
-      "type": "String"
-     },
-     {
-      "name": "htmlObject",
-      "value": "mondrianButtonObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tableStyle",
-      "value": "classic",
-      "type": "TableStyle"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "expression",
-      "value": "function(){\n    var htmlObject = $(this.parentElement);\n    \n    if(Dashboards.storage.mondrianActive == false){\n        Dashboards.setParameter('Dashboards.storage.mondrianActive',true);\n        Dashboards.saveStorage();\n        \n        htmlObject.removeClass('inactive');\n        htmlObject.addClass('active');\n        $(this).text(\"Enabled\");\n        \n        cdcFunctions.enableMondrianCache();\n        \n    } else if(Dashboards.storage.mondrianActive == true){\n        Dashboards.setParameter('Dashboards.storage.mondrianActive',false);\n        Dashboards.saveStorage();\n      \n        htmlObject.removeClass('active');\n        htmlObject.addClass('inactive');\n        $(this).text(\"Disabled\");\n        \n        cdcFunctions.disableMondrianCache();\n    }\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject);\n    \n        \n    var isMondrianActive = cdcFunctions.isMondrianActive();\n    Dashboards.setParameter('Dashboards.storage.mondrianActive',isMondrianActive);\n    \n    if(Dashboards.storage.mondrianActive == false){\n        htmlObject.addClass('inactive');\n        htmlObject.find('input')\n    } else if(Dashboards.storage.mondrianActive == true){\n        htmlObject.addClass('active');\n    }\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject).find('button');\n    \n    if(Dashboards.storage.mondrianActive == false){\n        htmlObject.text('Disabled');\n    } else if(Dashboards.storage.mondrianActive == true){\n        htmlObject.text('Enabled');\n    }\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
      }
     ]
    },
@@ -1357,7 +1676,7 @@
     ]
    },
    {
-    "id": "8fff892e-8e72-d260-76b6-4bef72bf24dd",
+    "id": "22702265-8620-6595-2718-70bb058bde21",
     "type": "ComponentssiteMap",
     "typeDesc": "Site Map links",
     "parent": "CUSTOMCOMPONENTS",
@@ -1410,128 +1729,59 @@
     ]
    },
    {
-    "id": "a43b6b9f-1b96-2bd8-5703-d513dc8b7565",
-    "type": "ComponentsAjaxRequestComponent",
-    "typeDesc": "AjaxRequestComponent",
-    "parent": "CUSTOMCOMPONENTS",
+    "id": "OTHERCOMPONENTS",
+    "name": "Others",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
     "properties": [
      {
-      "name": "name",
-      "value": "isCDAActive",
-      "type": "Id"
-     },
-     {
-      "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/ExtPluginConfigService/isCdaHazelcastEnabled",
-      "type": "String"
-     },
-     {
-      "name": "ajaxRequestType",
-      "value": "xml",
-      "type": "ajaxRequestTypeCustom"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "asyncCall",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "resultvar",
-      "value": "resultVar",
-      "type": "Result"
-     },
-     {
-      "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "htmlObject",
-      "value": "",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
+      "name": "Group",
+      "value": "Others",
+      "type": "Label"
      }
     ]
    },
    {
-    "id": "f4b43b09-b692-0641-d43f-cd65b0da7f6c",
-    "type": "ComponentsAjaxRequestComponent",
-    "typeDesc": "AjaxRequestComponent",
-    "parent": "CUSTOMCOMPONENTS",
+    "id": "1c303153-c37d-a00d-43fe-5d96fad0cb87",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
     "properties": [
      {
       "name": "name",
-      "value": "isMondrianActive",
+      "value": "applyButton",
       "type": "Id"
      },
      {
-      "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/ExtPluginConfigService/isMondrianHazelcastEnabled",
+      "name": "label",
+      "value": "Apply",
       "type": "String"
      },
      {
-      "name": "ajaxRequestType",
-      "value": "xml",
-      "type": "ajaxRequestTypeCustom"
+      "name": "htmlObject",
+      "value": "applyObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "",
+      "type": "JavaScript"
      },
      {
       "name": "executeAtStart",
-      "value": "false",
+      "value": "true",
       "type": "Boolean"
-     },
-     {
-      "name": "asyncCall",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "resultvar",
-      "value": "resultVar",
-      "type": "Result"
      },
      {
       "name": "preExecution",
@@ -1554,72 +1804,57 @@
       "type": "JavaScript"
      },
      {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
       "name": "refreshPeriod",
       "value": "",
       "type": "Integer"
      },
      {
-      "name": "htmlObject",
-      "value": "",
-      "type": "HtmlObject"
-     },
-     {
       "name": "tooltip",
       "value": "",
       "type": "Html"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
      }
     ]
    },
    {
-    "id": "71f445d1-aa5f-a455-c26d-6c256eef2fb8",
-    "type": "ComponentsAjaxRequestComponent",
-    "typeDesc": "AjaxRequestComponent",
-    "parent": "CUSTOMCOMPONENTS",
+    "id": "e23bd04d-c743-a77c-6ddb-cec4010ef334",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
     "properties": [
      {
       "name": "name",
-      "value": "setCDACache",
+      "value": "resetButton",
       "type": "Id"
      },
      {
-      "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/ExtPluginConfigService/setCdaHazelcastEnabled?",
+      "name": "label",
+      "value": "Reset",
       "type": "String"
      },
      {
-      "name": "ajaxRequestType",
-      "value": "xml",
-      "type": "ajaxRequestTypeCustom"
+      "name": "htmlObject",
+      "value": "resetObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "",
+      "type": "JavaScript"
      },
      {
       "name": "executeAtStart",
-      "value": "false",
+      "value": "true",
       "type": "Boolean"
-     },
-     {
-      "name": "asyncCall",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "resultvar",
-      "value": "resultVar",
-      "type": "Result"
      },
      {
       "name": "preExecution",
@@ -1642,72 +1877,57 @@
       "type": "JavaScript"
      },
      {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
       "name": "refreshPeriod",
       "value": "",
       "type": "Integer"
      },
      {
-      "name": "htmlObject",
-      "value": "",
-      "type": "HtmlObject"
-     },
-     {
       "name": "tooltip",
       "value": "",
       "type": "Html"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[[\"enabled\",\"enabled\"]]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
      }
     ]
    },
    {
-    "id": "fe2fd41b-08e3-dbb5-7f86-4380afaf3038",
-    "type": "ComponentsAjaxRequestComponent",
-    "typeDesc": "AjaxRequestComponent",
-    "parent": "CUSTOMCOMPONENTS",
+    "id": "8ae33c20-9f7f-7497-c529-8c11f1a9367c",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
     "properties": [
      {
       "name": "name",
-      "value": "setMondrianCache",
+      "value": "saveButton",
       "type": "Id"
      },
      {
-      "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/ExtPluginConfigService/setMondrianHazelcastEnabled?",
+      "name": "label",
+      "value": "Save",
       "type": "String"
      },
      {
-      "name": "ajaxRequestType",
-      "value": "xml",
-      "type": "ajaxRequestTypeCustom"
+      "name": "htmlObject",
+      "value": "saveObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "",
+      "type": "JavaScript"
      },
      {
       "name": "executeAtStart",
-      "value": "false",
+      "value": "true",
       "type": "Boolean"
-     },
-     {
-      "name": "asyncCall",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "resultvar",
-      "value": "resultVar",
-      "type": "Result"
      },
      {
       "name": "preExecution",
@@ -1730,34 +1950,14 @@
       "type": "JavaScript"
      },
      {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
       "name": "refreshPeriod",
       "value": "",
       "type": "Integer"
      },
      {
-      "name": "htmlObject",
-      "value": "",
-      "type": "HtmlObject"
-     },
-     {
       "name": "tooltip",
       "value": "",
       "type": "Html"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[[\"enabled\",\"enabled\"]]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
      }
     ]
    }
@@ -1852,5 +2052,5 @@
    }
   ]
  },
- "filename": "/CDC/cdcHome.cdfde"
+ "filename": "/CDC/cdcSettings.cdfde"
 }
