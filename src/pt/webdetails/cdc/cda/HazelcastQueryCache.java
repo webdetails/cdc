@@ -1,8 +1,11 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdc.cda;
 
 import java.io.IOException;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.swing.table.TableModel;
 
@@ -349,11 +352,15 @@ public class HazelcastQueryCache implements IQueryCache {
 
   @Override
   public int removeAll(String cdaSettingsId, String dataAccessId) {
-    int size = cache.size();
-    //TODO:testing
-//    Set<TableCacheKey> keySet = cache.keySet(new SqlPredicate("cdaSettingsId = " + cdaSettingsId + " AND dataAccessId = " + dataAccessId));
+    if(cdaSettingsId == null){
+      int size = cache.size();
+      cache.clear();
+      return size;
+    }
+    int size=0;
     for(Entry<TableCacheKey, ExtraCacheInfo> entry: getCacheStatsEntries(cdaSettingsId, dataAccessId)){
       cache.remove(entry.getKey());
+      size++;
     }
     
     //clearCache();
@@ -380,12 +387,12 @@ public class HazelcastQueryCache implements IQueryCache {
   
   public Iterable<ExtraCacheInfo> getCacheEntryInfo(String cdaSettingsId, String dataAccessId)
   {
-    return cacheStats.values(new SqlPredicate("cdaSettingsId = " + cdaSettingsId + " AND dataAccessId = " + dataAccessId));
+    return cacheStats.values(new SqlPredicate("cdaSettingsId = " + cdaSettingsId + ((dataAccessId != null)? " AND dataAccessId = " + dataAccessId : "")));
   }
-  
+  //TODO:
   public Iterable<Entry<TableCacheKey, ExtraCacheInfo>> getCacheStatsEntries(String cdaSettingsId, String dataAccessId)
   {
-    return cacheStats.entrySet(new SqlPredicate("cdaSettingsId = " + cdaSettingsId + " AND dataAccessId = " + dataAccessId));
+    return cacheStats.entrySet(new SqlPredicate("cdaSettingsId = " + cdaSettingsId + ((dataAccessId != null)? " AND dataAccessId = " + dataAccessId : "")));
   }
   
 

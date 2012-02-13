@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdc;
 
 import java.io.File;
@@ -13,7 +17,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.engine.IPluginLifecycleListener;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
-import org.pentaho.platform.engine.core.system.PentahoSystem;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ConfigXmlGenerator;
@@ -34,10 +37,8 @@ import com.hazelcast.core.MembershipListener;
 public class CdcLifeCycleListener implements IPluginLifecycleListener
 {
   
-  public static final String PLUGIN_NAME = "cdc";
-  public static final String PLUGIN_PATH = "system/" + PLUGIN_NAME + "/";
-  public static final String CACHE_CFG_FILE_HAZELCAST = "hazelcast.xml";
   public static final String PROPERTY_SUPER_CLIENT = "hazelcast.super.client";
+  
   
   static Log logger = LogFactory.getLog(CdcLifeCycleListener.class);
 
@@ -46,18 +47,18 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   public void init() throws PluginLifecycleException
   {
     logger.debug("init");
+    
   }
 
   @Override
   public void loaded() throws PluginLifecycleException
   {
     logger.debug("CDC loaded.");
-    init(PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_PATH + CACHE_CFG_FILE_HAZELCAST),true,false);//TODO:superClient
+    init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isSuperClient() ,CdcConfig.getConfig().isForceConfig());
   }
   
   private static void init(String configFileName, boolean superClient, boolean forceConfig)
   {  
-//    HazelcastProcessLauncher.launchProcess(0);
 
     logger.debug("CDC init for config " + configFileName);
     Config config = null;
@@ -111,19 +112,21 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
       }
     }
     
-    logger.debug("adding mondrian listener");
-    IMap<SegmentHeader, SegmentBody> monCache = Hazelcast.getMap("mondrian");
-    MondrianVerboseEntryListener monShouter = new MondrianVerboseEntryListener();
-    monCache.removeEntryListener(monShouter);
-    monCache.addEntryListener(monShouter, false);
-    Hazelcast.getCluster().addMembershipListener(new MemberLogListener());
-    
+    if(CdcConfig.getConfig().isDebugMode()){    
+      logger.debug("adding mondrian listener");
+      IMap<SegmentHeader, SegmentBody> monCache = Hazelcast.getMap(CdcConfig.CacheMaps.MONDRIAN_MAP);
+      MondrianVerboseEntryListener monShouter = new MondrianVerboseEntryListener();
+      monCache.removeEntryListener(monShouter);
+      monCache.addEntryListener(monShouter, false);
+      Hazelcast.getCluster().addMembershipListener(new MemberLogListener());
+    }
   }
 
   @Override
   public void unLoaded() throws PluginLifecycleException
   {
     //teardown etc
+    Hazelcast.getLifecycleService().shutdown();
   }
 
   public static Config getHazelcastConfig(){
@@ -188,7 +191,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     logger.info("Launching Hazelcast...");
     Hazelcast.init(config);
     if(config.isSuperClient()){
-      HazelcastProcessLauncher.launchProcess(0L);
+      launchIfNoMember();
     }
   }
   
@@ -209,13 +212,12 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   }
   
   public static void reloadConfig(String configFileName){
-    if(configFileName == null) configFileName = PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_PATH + CACHE_CFG_FILE_HAZELCAST);
-    init(configFileName, false, true);
+    if(configFileName == null) configFileName = CdcConfig.getHazelcastConfigFile();
+    init(configFileName, CdcConfig.getConfig().isSuperClient(), true);
   }
   
   public static boolean saveConfig(Config config){
-    File configFile = new File(PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_PATH + CACHE_CFG_FILE_HAZELCAST));
-    
+    File configFile = new File(CdcConfig.getHazelcastConfigFile());
     FileWriter fileWriter = null;
     try
     {
@@ -264,7 +266,6 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     
   }
   
-  //TODO:testing purposes only
   private static final class MondrianVerboseEntryListener implements EntryListener<SegmentHeader, SegmentBody>  {
     
     @Override

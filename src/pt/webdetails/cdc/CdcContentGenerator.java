@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdc;
 
 import java.io.IOException;
@@ -18,8 +22,6 @@ public class CdcContentGenerator extends SimpleContentGenerator {
   private static final long serialVersionUID = 1L;
   
   public static final String ENCODING = "utf-8";
-  public static final String PLUGIN_NAME = "cdc";
-  public static final String PLUGIN_PATH = "system/" + PLUGIN_NAME + "/";
   
   private static final String CDE_PLUGIN = "petaho-cdf-dd";
   

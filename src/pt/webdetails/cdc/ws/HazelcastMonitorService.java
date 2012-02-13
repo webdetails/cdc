@@ -1,19 +1,29 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdc.ws;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import pt.webdetails.cdc.CdcConfig;
+import pt.webdetails.cdc.hazelcast.DistributedRestart;
+import pt.webdetails.cdc.hazelcast.DistributedShutdown;
+
 import com.hazelcast.core.Cluster;
 import com.hazelcast.core.DistributedTask;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.Member;
+import com.hazelcast.core.MemberLeftException;
 import com.hazelcast.monitor.DistributedMapStatsCallable;
 import com.hazelcast.monitor.DistributedMemberInfoCallable;
 import com.hazelcast.monitor.LocalMapStats;
@@ -23,28 +33,21 @@ public class HazelcastMonitorService {
   
   private static Log logger = LogFactory.getLog(HazelcastMonitorService.class);
   
-  public static final String MONDRIAN_MAP = "mondrian";
-  public static final String CDA_MAP = "cdaCache";
-  
- 
-  private static final Map<String, String> mapNameResolver = new HashMap<String,String>();
-  
-  static{
-    mapNameResolver.put("cdaCache", CDA_MAP);
-    mapNameResolver.put("cda", CDA_MAP);
-    mapNameResolver.put("cdacache", CDA_MAP);
-    mapNameResolver.put("CDA", CDA_MAP);
-    
-    mapNameResolver.put("mondrian", MONDRIAN_MAP);
-    mapNameResolver.put("mondrianCache", MONDRIAN_MAP);
-    mapNameResolver.put("mondriancache", MONDRIAN_MAP);
-    mapNameResolver.put("MONDRIAN", MONDRIAN_MAP);
-  }
-
-  
   public String getClusterInfo(String map){
     
-    map = mapNameResolver.get(map);
+    CacheMap cacheMap = CacheMap.parse(map);
+    if(cacheMap == null){
+      return Result.getError("Map not found: " + map).toString();
+    }
+    
+    switch(cacheMap){
+      case Cda:
+        map = CdcConfig.CacheMaps.CDA_MAP;
+        break;
+      case Mondrian:
+        map = CdcConfig.CacheMaps.MONDRIAN_MAP;
+        break;
+    }
     
     Cluster cluster = Hazelcast.getCluster();
     ClusterInfo clusterInfo = new ClusterInfo();
@@ -65,6 +68,73 @@ public class HazelcastMonitorService {
     
     clusterInfo.setOtherMembers(extMembers.toArray(new MemberInfo[extMembers.size()]));
     return Result.getOK(clusterInfo).toString();
+  }
+  
+  public String shutdownMember(String ip, int port){
+    
+    Member targetMember = getClusterMember(ip, port);
+
+    if(targetMember == null) Result.getError("Member " + ip + ":" + port + " not found in cluster.");
+    
+    DistributedTask<Boolean> distributedShutdown =
+        new DistributedTask<Boolean>(new DistributedShutdown(), targetMember);
+    
+    ExecutorService execService = Hazelcast.getExecutorService();
+    execService.execute(distributedShutdown);
+    
+    try 
+    {
+      Boolean result = distributedShutdown.get();
+      return Result.getOK(result).toString();
+    } 
+    catch(MemberLeftException e){
+      //member will leave before being able to respond
+      return Result.getOK(e.getMessage()).toString();
+    }
+    catch (Exception e) 
+    {
+      return Result.getFromException(e).toString();
+    }
+    
+  }
+  
+  private Member getClusterMember(String ip, int port){
+    Cluster cluster = Hazelcast.getCluster();
+    InetSocketAddress addr;
+    try {
+      addr = new InetSocketAddress(InetAddress.getByName(ip), port);
+    } catch (UnknownHostException e) {
+      return null;
+    }
+    for(Member member : cluster.getMembers()){
+      if(member.getInetSocketAddress().equals( addr )){
+        return member;
+      }
+    }
+    return null;
+  }
+  
+  public String restartMember(String ip, int port){
+    Member targetMember = getClusterMember(ip, port);
+
+    if(targetMember == null) Result.getError("Member " + ip + ":" + port + " not found in cluster.");
+    
+    DistributedTask<Boolean> distributedShutdown =
+        new DistributedTask<Boolean>(new DistributedRestart(), targetMember);
+    
+    ExecutorService execService = Hazelcast.getExecutorService();
+    execService.execute(distributedShutdown);
+    
+    try 
+    {
+      Boolean result = distributedShutdown.get();
+      return Result.getOK(result).toString();
+    } 
+
+    catch (Exception e) 
+    {
+      return Result.getFromException(e).toString();
+    }
   }
   
   

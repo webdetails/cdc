@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdc.ws;
 
 import java.util.Arrays;
@@ -5,6 +9,7 @@ import java.util.Arrays;
 import org.json.JSONArray;
 
 import pt.webdetails.cdc.CdcLifeCycleListener;
+import pt.webdetails.cdc.ExternalConfigurationsManager;
 import pt.webdetails.cdc.HazelcastProcessLauncher;
 
 import com.hazelcast.config.MapConfig;
@@ -20,7 +25,18 @@ public class HazelcastConfigurationService {
     maxSize,
     evictionPercentage,
     evictionPolicy,
-    timeTolive
+    timeTolive,
+    
+    enabled;
+    
+    public static MapConfigOption parse(String value){
+      try{
+        return valueOf(value);
+      }
+      catch(IllegalArgumentException e){
+        return null;
+      }
+    }
     
   }
  
@@ -41,90 +57,114 @@ public class HazelcastConfigurationService {
   static{
     Arrays.sort(EVICTION_POLICIES);
   }
-  
-  public enum CacheMap {
-    
-    cda(new String[]{"cdaCache", "cdaCacheStats" }),
-    mondrian(new String[]{"mondrian"});
-    
-    private String[] maps;
-    
-    CacheMap(final String[] maps){
-      this.maps = maps;
-    }
-  }
  
   public String setMapOption(String map, String name, String value){
-    MapConfigOption option = MapConfigOption.valueOf(name);
-    CacheMap cacheMap = CacheMap.valueOf(map);
+    MapConfigOption option = MapConfigOption.parse(name);
+    CacheMap cacheMap = CacheMap.parse(map);
     
-    if(option == null) return Result.getError("No such option " + name).toString();
-    if(cacheMap == null) return Result.getError("No such map " + name).toString();
+    if(option == null) return Result.getError("No such option: " + name).toString();
+    if(cacheMap == null) return Result.getError("No such map: " + name).toString();
     if(value == null) return Result.getError("Must supply value").toString();
     
     Result result =  new Result(Result.Status.OK, "Option changed to '" + value + "'");
-    for(String hMap : cacheMap.maps){
-      MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(hMap);
-      switch(option){
-        case maxSizePolicy:
-          if(Arrays.binarySearch(MAX_SIZE_POLICIES, value) >= 0){
-            mapConfig.getMaxSizeConfig().setMaxSizePolicy(value);
-          }
-          else return Result.getError("Unrecognized size policy.").toString();
-          
-          break;
-        case evictionPercentage:
-          try{
-            int evictionPercentage = Integer.parseInt(value);
-            if(evictionPercentage <= 0 || evictionPercentage > 100) return Result.getError("Invalid domain for percentage.").toString();
-            mapConfig.setEvictionPercentage(evictionPercentage);
-          } catch(NumberFormatException nfe){
-            return Result.getFromException(nfe).toString();
-          }
-          break;
-        case evictionPolicy:
-          if(Arrays.binarySearch(EVICTION_POLICIES, value) >= 0){
-            mapConfig.setEvictionPolicy(value);
-          }
-          else return Result.getError("Unrecognized eviction policy").toString();
-              
+    
+    MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(cacheMap.getName());
+    switch(option){
+      case enabled:
+        boolean enabled = Boolean.parseBoolean(value);
+        switch(cacheMap){
+          case Cda:
+            try{
+              ExternalConfigurationsManager.setCdaHazelcastEnabled(enabled);
+              return new Result(Result.Status.OK, "Please refresh plugins.").toString();
+            }
+            catch(Exception e){
+              return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
+            }
+          case Mondrian:
+            try {
+              ExternalConfigurationsManager.setMondrianHazelcastEnabled(enabled);
+              return new Result(Result.Status.OK, "Please restart Pentaho server.").toString();//TODO: may not be needed
+            } catch (Exception e) {
+              return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
+            }
+        }
+        break;
+      case maxSizePolicy:
+        if(Arrays.binarySearch(MAX_SIZE_POLICIES, value) >= 0){
+          mapConfig.getMaxSizeConfig().setMaxSizePolicy(value);
+        }
+        else return Result.getError("Unrecognized size policy.").toString();
+        
+        break;
+      case evictionPercentage:
+        try{
+          int evictionPercentage = Integer.parseInt(value);
+          if(evictionPercentage <= 0 || evictionPercentage > 100) return Result.getError("Invalid domain for percentage.").toString();
+          mapConfig.setEvictionPercentage(evictionPercentage);
+        } catch(NumberFormatException nfe){
+          return Result.getFromException(nfe).toString();
+        }
+        break;
+      case evictionPolicy:
+        if(Arrays.binarySearch(EVICTION_POLICIES, value) >= 0){
           mapConfig.setEvictionPolicy(value);
-          break;
-        case maxSize:
-          try{
-            int maxSize = Integer.parseInt(value);
-            mapConfig.getMaxSizeConfig().setSize(maxSize);
-          }
-          catch (NumberFormatException nfe){
-            return Result.getFromException(nfe).toString();
-          }
+        }
+        else return Result.getError("Unrecognized eviction policy").toString();
+            
+        mapConfig.setEvictionPolicy(value);
+        break;
+      case maxSize:
+        try{
+          int maxSize = Integer.parseInt(value);
+          mapConfig.getMaxSizeConfig().setSize(maxSize);
+        }
+        catch (NumberFormatException nfe){
+          return Result.getFromException(nfe).toString();
+        }
 
-          break;
-        case timeTolive:
-          try{
-            int timeToLiveSeconds = Integer.parseInt(value);
-            mapConfig.setTimeToLiveSeconds(timeToLiveSeconds);
-          }
-          catch (NumberFormatException nfe){
-            return Result.getFromException(nfe).toString();
-          }
-      }
-
+        break;
+      case timeTolive:
+        try{
+          int timeToLiveSeconds = Integer.parseInt(value);
+          mapConfig.setTimeToLiveSeconds(timeToLiveSeconds);
+        }
+        catch (NumberFormatException nfe){
+          return Result.getFromException(nfe).toString();
+        }
     }
     return result.toString();
   }
   
   public String getMapOption(String map, String name){
-    MapConfigOption option = MapConfigOption.valueOf(name);
     
-    if(option == null) return new Result(Result.Status.ERROR, "No such option " + name).toString();
+    MapConfigOption option = MapConfigOption.parse(name);
+    
+    if(option == null) return new Result(Result.Status.ERROR, "No such option: " + name).toString();
 
-    MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(CacheMap.valueOf(map).maps[0]);
+    CacheMap cacheMap = CacheMap.parse(map);
+    if(cacheMap == null) return Result.getError("No such map: " + map).toString();
     
-//    Result response = new Result();
-//    response.setStatus(Result.Status.OK);
+    MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(cacheMap.getName());
+    
     Object result = null;
     switch(option){
+      case enabled:
+        switch(cacheMap){
+          case Cda:
+            try 
+            {
+              result = ExternalConfigurationsManager.isCdaHazelcastEnabled();
+            } 
+            catch (Exception e) {
+              return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
+            }
+            break;
+          case Mondrian:
+            result = ExternalConfigurationsManager.isMondrianHazelcastEnabled();
+            break;
+        }
+        break;
       case maxSizePolicy:
         result = mapConfig.getMaxSizeConfig().getMaxSizePolicy();
         break;
@@ -142,7 +182,6 @@ public class HazelcastConfigurationService {
     }
     
     return Result.getOK(result).toString();
-//    return response;
     
   }
 
@@ -185,6 +224,16 @@ public class HazelcastConfigurationService {
   public String launchJvmInstance(){
     HazelcastProcessLauncher.launchProcess(null);
     return Result.getOK("Process launched.").toString();
+  }
+  
+  //TODO:temp
+  public String createLauncher(){
+    String serverLauncher = HazelcastProcessLauncher.createLauncherFile(false);
+    String debugLauncher = HazelcastProcessLauncher.createLauncherFile(true);
+    String msg = serverLauncher + "\n" + debugLauncher;
+    return (serverLauncher == null || debugLauncher == null)?
+        Result.getError(msg).toString() :
+        Result.getOK(msg).toString();
   }
   
   //TODO: temporary, will be removed

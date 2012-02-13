@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdc;
 
 import java.io.File;
@@ -23,14 +27,15 @@ import org.pentaho.platform.util.xml.dom4j.XmlDom4JHelper;
 
 public class ExternalConfigurationsManager {
   
-  public static final String CDA_HAZELCAST_ADAPTER = "pt.webdetails.cdc.cda.HazelcastQueryCache";
-  public static final String CDA_DEFAULT_CACHE_ADAPTER = "pt.webdetails.cda.cache.EHCacheQueryCache";
+  //TODO:settings.xml
+  public static final String CDA_HAZELCAST_ADAPTER = CdcConfig.getConfig().getCdaHazelcastAdapterClass();
+  public static final String CDA_DEFAULT_CACHE_ADAPTER = CdcConfig.getConfig().getCdaDefaultAdapterClass();
   
-  public static final String MONDRIAN_HAZELCAST_ADAPTER = "pt.webdetails.cdc.mondrian.SegmentCacheHazelcast";
+  private static final String MONDRIAN_HAZELCAST_ADAPTER = CdcConfig.getConfig().getMondrianHazelcastAdapterClass();
   
-  private static final String CDA_PLUGIN_XML_PATH = PentahoSystem.getApplicationContext().getSolutionPath("system/cda/plugin.xml");
-  private static final String CDA_BEAN_ID = "cda.IQueryCache";
-  private static final String MONDRIAN_PROPERTIES_LOCATION = PentahoSystem.getApplicationContext().getSolutionPath("system/mondrian/mondrian.properties");
+  private static final String CDA_PLUGIN_XML_PATH = PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.getConfig().getCdaConfigLocation());
+  private static final String CDA_BEAN_ID =  CdcConfig.getConfig().getCdaCacheBeanId();
+  private static final String MONDRIAN_PROPERTIES_LOCATION = PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.getConfig().getMondrianConfigLocation());
   
   private static Log logger = LogFactory.getLog(ExternalConfigurationsManager.class);
   
@@ -71,7 +76,7 @@ public class ExternalConfigurationsManager {
       
       try{
         mondrianPropertiesOutStream =new FileOutputStream( new File(MONDRIAN_PROPERTIES_LOCATION));
-        MondrianProperties.instance().store( mondrianPropertiesOutStream, "Changed via CDC!");
+        MondrianProperties.instance().store( mondrianPropertiesOutStream, "Changed by CDC!");
         mondrianPropertiesOutStream.flush();
         mondrianPropertiesOutStream.close();
         //sync

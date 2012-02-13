@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-basic.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <group>
+        <name>cdc</name>
+        <password>passw</password>
+    </group>
+    <network>
+        <port auto-increment="true">5701</port>
+        <join>
+            <multicast enabled="true">
+                <multicast-group>224.2.2.3</multicast-group>
+                <multicast-port>54327</multicast-port>
+            </multicast>
+            <tcp-ip enabled="false">
+                <interface>127.0.0.1</interface>
+            </tcp-ip>
+        </join>
+        <interfaces enabled="false">
+            <interface>10.10.1.*</interface>
+        </interfaces>
+        <symmetric-encryption enabled="false">
+            <!--
+               encryption algorithm such as
+               DES/ECB/PKCS5Padding,
+               PBEWithMD5AndDES,
+               AES/CBC/PKCS5Padding,
+               Blowfish,
+               DESede
+            -->
+            <algorithm>PBEWithMD5AndDES</algorithm>
+            <!-- salt value to use when generating the secret key -->
+            <salt>thesalt</salt>
+            <!-- pass phrase to use when generating the secret key -->
+            <password>thepass</password>
+            <!-- iteration count to use when generating the secret key -->
+            <iteration-count>19</iteration-count>
+        </symmetric-encryption>
+        <asymmetric-encryption enabled="false">
+            <!-- encryption algorithm -->
+            <algorithm>RSA/NONE/PKCS1PADDING</algorithm>
+            <!-- private key password -->
+            <keyPassword>thekeypass</keyPassword>
+            <!-- private key alias -->
+            <keyAlias>local</keyAlias>
+            <!-- key store type -->
+            <storeType>JKS</storeType>
+            <!-- key store password -->
+            <storePassword>thestorepass</storePassword>
+            <!-- path to the key store -->
+            <storePath>keystore</storePath>
+        </asymmetric-encryption>
+    </network>
+    <executor-service>
+        <core-pool-size>16</core-pool-size>
+        <max-pool-size>64</max-pool-size>
+        <keep-alive-seconds>60</keep-alive-seconds>
+    </executor-service>
+
+</hazelcast>

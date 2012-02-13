@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <!--(true|false) if true, pentaho's hazelcast instance will not store cache items-->
+  <superClientMode>true</superClientMode>
+  <!--(true|false) add verbose listeners -->
+  <debugMode>true</debugMode>
+  <!--(true|false) override configuration at startup -->
+  <forceConfig>true</forceConfig>
+  
+  <!--TODO-->
+ 
+  <!-- external configurations -->
+  <cdaConfig>
+    <location>system/cda/plugin.xml</location>
+    <beanID>cda.IQueryCache</beanID>
+    <adapterClasses>
+      <hazelcast>pt.webdetails.cdc.cda.HazelcastQueryCache</hazelcast>
+      <default>pt.webdetails.cda.cache.EHCacheQueryCache</default>        
+    </adapterClasses>
+  </cdaConfig>
+  <mondrianConfig>
+    <location>system/mondrian/mondrian.properties</location>
+    <adapterClasses>
+      <hazelcast>pt.webdetails.cdc.mondrian.SegmentCacheHazelcast</hazelcast>
+      <default></default><!-- empty will fallback to default -->        
+    </adapterClasses>
+  </mondrianConfig>
+ 
+  
+</settings>

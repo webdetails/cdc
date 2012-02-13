@@ -87,11 +87,13 @@
     </map>
     
     <map name="cdaCacheStats">
+      <!-- CDA auxiliary map; should be left as is -->
         <backup-count>1</backup-count>
         <eviction-policy>NONE</eviction-policy>
         <!-- 0-> no limit -->
         <max-size policy="cluster_wide_map_size">0</max-size>
-        <eviction-percentage>15</eviction-percentage>
+        <!--stats will be evicted in sync with CDA-->
+        <eviction-percentage>0</eviction-percentage>
         <merge-policy>hz.ADD_NEW_ENTRY</merge-policy>
         <read-backup-data>false</read-backup-data>
     </map>

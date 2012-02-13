@@ -1,12 +1,14 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdc.ws;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
-
 
 public class Result {
   
@@ -16,10 +18,6 @@ public class Result {
     OK,
     ERROR
   }
-
-  
-//  private Status status;
-//  private String result;
   
   private JSONObject json;
   
@@ -40,10 +38,18 @@ public class Result {
     
   }
 
-  
-  public static Result getFromException(Exception e){
-    return getError(e.getLocalizedMessage());
+  public static Result getFromException(Exception e)
+  {  
+    String msg = e.getLocalizedMessage();
+    if(StringUtils.isEmpty(msg)){
+      msg = e.getMessage();
+      if(StringUtils.isEmpty(msg)){
+        msg = e.getClass().getName();
+      }
+    }
+    return getError(msg);
   }
+  
   public static Result getOK(Object result){
     
     return new Result(Status.OK, result);
