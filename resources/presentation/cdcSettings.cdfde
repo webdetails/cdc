@@ -2719,7 +2719,7 @@
      },
      {
       "name": "html",
-      "value": "Value (Seconds) ",
+      "value": "Value (Seconds) - Use 0 to unlimit ",
       "type": "Html"
      },
      {
@@ -3009,12 +3009,12 @@
      },
      {
       "name": "valuesArray",
-      "value": "[[\"Enabled\",\"Enabled\"]]",
+      "value": "[[\"enabled\",\"Enabled\"]]",
       "type": "ValuesArray"
      },
      {
       "name": "valueAsId",
-      "value": "true",
+      "value": "false",
       "type": "Boolean"
      },
      {
@@ -3029,7 +3029,7 @@
      },
      {
       "name": "preExecution",
-      "value": "",
+      "value": "function(){\n    cdcFunctions.getEnabledValue();\n    if(Dashboards.getParameterValue('activeCacheOn') == true){\n        Dashboards.setParameter(this.parameter,[\"enabled\"]);\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -3044,7 +3044,7 @@
      },
      {
       "name": "postChange",
-      "value": "function () {\n   \n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n\n    \n    labels.each( function () {\n        $(this).toggleClass( 'checked' , $(this).find('input').is(':checked') );       \n    });\n}",
+      "value": "function () {\n   \n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n\n    \n    labels.each( function () {\n        $(this).toggleClass( 'checked' , $(this).find('input').is(':checked') );       \n    });\n\n    if(contentChanged == false){\n        contentChanged = true;\n        $(\"#\"+render_saveButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_resetButton.htmlObject + \" button\").removeAttr('disabled');\n    }\n    \n    if(Dashboards.getParameterValue(this.parameter)[0] == \"enabled\")\n        Dashboards.setParameter('activeCacheOn',true);\n    else \n        Dashboards.setParameter('activeCacheOn',false);\n\n}",
       "type": "JavaScript"
      },
      {
@@ -3127,7 +3127,7 @@
      },
      {
       "name": "postExecution",
-      "value": "function(){\n    var currentParamVal = Dashboards.getParameterValue(this.parameter);\n\n    if(currentParamVal.search('Percentage') > -1){\n        $(\"#maxSizeValue .settingsLabel\").text(\"Value (Percentage)\");\n    } else {\n        $(\"#maxSizeValue .settingsLabel\").text(\"Value (Mb)\");\n    }\n}",
+      "value": "function(){\n    var currentParamVal = Dashboards.getParameterValue(this.parameter);\n\n    if(currentParamVal.search('percentage') > -1){\n        $(\"#maxSizeValue .settingsLabel\").text(\"Value (Percentage)\");\n    } else {\n        $(\"#maxSizeValue .settingsLabel\").text(\"Value (Mb)\");\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -3137,7 +3137,7 @@
      },
      {
       "name": "postChange",
-      "value": "function(){\n    var labels = $(\"#\"+this.htmlObject).find('li.active-result');\n    var currentParamVal = Dashboards.getParameterValue(this.parameter);\n    for(var i = 0; i < this.valuesArray.length; i++){\n        if(this.valuesArray[i][0] == currentParamVal)\n            currentParamVal = this.valuesArray[i][1];\n    }\n    \n\n    \n    for(var i = 0; i < labels.length; i++){\n        if($(labels[i]).text() != currentParamVal) $(labels[i]).removeClass('result-selected');\n    }\n    \n    if(currentParamVal.search('Percentage') > -1){\n        $(\"#maxSizeValue .settingsLabel\").text(\"Value (Percentage)\");\n    } else {\n        $(\"#maxSizeValue .settingsLabel\").text(\"Value (Mb)\");\n    }\n}",
+      "value": "function(){\n    var labels = $(\"#\"+this.htmlObject).find('li.active-result');\n    var currentParamVal = Dashboards.getParameterValue(this.parameter);\n    \n    for(var i = 0; i < labels.length; i++){\n        if($(labels[i]).text() != currentParamVal) $(labels[i]).removeClass('result-selected');\n    }\n    \n    if(currentParamVal.search('percentage') > -1){\n        $(\"#maxSizeValue .settingsLabel\").text(\"Value (Percentage)\");\n    } else {\n        $(\"#maxSizeValue .settingsLabel\").text(\"Value (Mb)\");\n    }\n    \n    if(contentChanged == false){\n        contentChanged = true;\n        $(\"#\"+render_saveButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_resetButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_applyButton.htmlObject + \" button\").attr('disabled','disabled');\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -3190,7 +3190,7 @@
      },
      {
       "name": "postChange",
-      "value": "",
+      "value": "function(){\n    if(contentChanged == false){\n        contentChanged = true;\n        $(\"#\"+render_saveButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_resetButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_applyButton.htmlObject + \" button\").attr('disabled','disabled');\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -3293,7 +3293,7 @@
      },
      {
       "name": "postChange",
-      "value": "function(){\n    var labels = $(\"#\"+this.htmlObject).find('li.active-result');\n    var currentParamVal = Dashboards.getParameterValue(this.parameter);\n    for(var i = 0; i < this.valuesArray.length; i++){\n        if(this.valuesArray[i][0] == currentParamVal)\n            currentParamVal = this.valuesArray[i][1];\n    }\n    \n\n    \n    for(var i = 0; i < labels.length; i++){\n        if($(labels[i]).text() != currentParamVal) $(labels[i]).removeClass('result-selected');\n    }\n}",
+      "value": "function(){\n    var labels = $(\"#\"+this.htmlObject).find('li.active-result');\n    var currentParamVal = Dashboards.getParameterValue(this.parameter);\n    for(var i = 0; i < this.valuesArray.length; i++){\n        if(this.valuesArray[i][0] == currentParamVal)\n            currentParamVal = this.valuesArray[i][1];\n    }\n    \n\n    \n    for(var i = 0; i < labels.length; i++){\n        if($(labels[i]).text() != currentParamVal) $(labels[i]).removeClass('result-selected');\n    }\n    \n\n    if(contentChanged == false){\n        contentChanged = true;\n        $(\"#\"+render_saveButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_resetButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_applyButton.htmlObject + \" button\").attr('disabled','disabled');\n    }\n\n}",
       "type": "JavaScript"
      },
      {
@@ -3346,7 +3346,7 @@
      },
      {
       "name": "postChange",
-      "value": "",
+      "value": "function(){\n    if(contentChanged == false){\n        contentChanged = true;\n        $(\"#\"+render_saveButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_resetButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_applyButton.htmlObject + \" button\").attr('disabled','disabled');\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -3409,7 +3409,7 @@
      },
      {
       "name": "postChange",
-      "value": "",
+      "value": "function(){\n    if(contentChanged == false){\n        contentChanged = true;\n        $(\"#\"+render_saveButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_resetButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_applyButton.htmlObject + \" button\").attr('disabled','disabled');\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -3533,7 +3533,25 @@
      },
      {
       "name": "propertyValue",
-      "value": "Enabled",
+      "value": "enabled",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "20177e5c-d496-30d9-5dbd-ab65edce6579",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "activeCacheOn",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "",
       "type": "String"
      }
     ]
@@ -3697,6 +3715,24 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "e749115c-28ff-9404-51e2-eb75b9cb68e7",
+    "type": "ComponentsJavascriptParameter",
+    "typeDesc": "Custom Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "contentChanged",
+      "type": "Id"
+     },
+     {
+      "name": "javaScript",
+      "value": "false",
+      "type": "JavaScript"
      }
     ]
    },
@@ -3883,7 +3919,7 @@
      },
      {
       "name": "asyncCall",
-      "value": "true",
+      "value": "false",
       "type": "Boolean"
      },
      {
@@ -4342,7 +4378,7 @@
      },
      {
       "name": "expression",
-      "value": "function(){\n    cdcFunctions.applyDefinitions();\n}",
+      "value": "function(){\n    cdcFunctions.applyDefinitions();\n    $(\"#\" + render_applyButton.htmlObject + \" button\").attr('disabled','disabled');\n}",
       "type": "JavaScript"
      },
      {
@@ -4415,7 +4451,7 @@
      },
      {
       "name": "expression",
-      "value": "function(){\n    cdcFunctions.resetDefinitions();\n}",
+      "value": "function(){\n    cdcFunctions.resetDefinitions();\n    $(\"#\"+render_saveButton.htmlObject + \" button\").attr('disabled','disabled');\n    $(\"#\"+render_resetButton.htmlObject + \" button\").attr('disabled','disabled');\n    contentChanged = false;\n}",
       "type": "JavaScript"
      },
      {
@@ -4430,7 +4466,7 @@
      },
      {
       "name": "postExecution",
-      "value": "",
+      "value": "function(){\n    $(\"#\"+this.htmlObject+\" button\").attr('disabled','disabled');\n}",
       "type": "JavaScript"
      },
      {
@@ -4488,7 +4524,7 @@
      },
      {
       "name": "expression",
-      "value": "function(){\n    cdcFunctions.saveDefinitions();\n}",
+      "value": "function(){\n    cdcFunctions.saveDefinitions();\n    $(\"#\"+render_applyButton.htmlObject + \" button\").removeAttr('disabled');\n    $(\"#\"+render_resetButton.htmlObject + \" button\").attr('disabled','disabled');\n    $(\"#\"+render_saveButton.htmlObject + \" button\").attr('disabled','disabled');\n    contentChanged = false;\n}",
       "type": "JavaScript"
      },
      {
@@ -4503,7 +4539,7 @@
      },
      {
       "name": "postExecution",
-      "value": "",
+      "value": "function(){\n    $(\"#\"+this.htmlObject+\" button\").attr('disabled','disabled');\n}",
       "type": "JavaScript"
      },
      {

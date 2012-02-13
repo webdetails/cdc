@@ -136,21 +136,24 @@ cdcFunctions.siteMap = function () {
 /******** home functions *********/
 
 cdcFunctions.isCDAActive = function(){
-	Dashboards.update(render_isCDAActive);
+	Dashboards.setParameter('map','cda');
+	Dashboards.update(render_getDefinitionRequest);
 	if(resultVar == undefined) return false;
 	return resultVar.result;
 };
 
 cdcFunctions.isMondrianActive = function(){
-	Dashboards.update(render_isMondrianActive);
+	Dashboards.setParameter('map','mondrian');
+	Dashboards.update(render_getDefinitionRequest);
 	if(resultVar == undefined) return false;
 	return resultVar.result;
 }
 
 
 cdcFunctions.enableCDACache = function(){
-	Dashboards.setParameter('enabled',true);
-	Dashboards.update(render_setCDACache);
+	Dashboards.setParameter('map','cda');
+	Dashboards.setParameter('value',true);
+	Dashboards.update(render_setDefinitionRequest);
 	if(resultVar != undefined) {
 		alert(resultVar.result);
 	}
@@ -158,35 +161,31 @@ cdcFunctions.enableCDACache = function(){
 };
 
 cdcFunctions.disableCDACache = function(){
-	Dashboards.setParameter('enabled',false);
-	Dashboards.update(render_setCDACache);
+	Dashboards.setParameter('map','cda');
+	Dashboards.setParameter('value',false);
+	Dashboards.update(render_setDefinitionRequest);
 	if(resultVar != undefined) {
 		alert(resultVar.result);
 	}
 };
 
 cdcFunctions.enableMondrianCache = function(){
-	Dashboards.setParameter('enabled',true);
-	Dashboards.update(render_setMondrianCache);
+	Dashboards.setParameter('map','mondrian');
+	Dashboards.setParameter('value',true);
+	Dashboards.update(render_setDefinitionRequest);
 	if(resultVar != undefined) {
 		alert(resultVar.result);
 	}
 };
 
 cdcFunctions.disableMondrianCache = function(){
-	Dashboards.setParameter('enabled',false);
-	Dashboards.update(render_setMondrianCache);
+	Dashboards.setParameter('map','mondrian');
+	Dashboards.setParameter('value',false);
+	Dashboards.update(render_setDefinitionRequest);
 	if(resultVar != undefined) {
 		alert(resultVar.result);
 	}
 };
-
-
-cdcFunctions.getBarColor = function(index){
-	
-
-};
-
 
 
 /******** cluster info render *********/
@@ -451,7 +450,7 @@ cdcFunctions.setDefinition = function(name,param){
 };
 
 cdcFunctions.getEnabledValue = function(){
-	this.getDefinition('enabled','cacheOnParam');
+	this.getDefinition('enabled','activeCacheOn');
 };
 
 cdcFunctions.getMaxSizePolicy = function(){

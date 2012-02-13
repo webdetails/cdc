@@ -1165,6 +1165,24 @@
     ]
    },
    {
+    "id": "4168f14e-9e82-e6b7-1b9e-775ad31d4696",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "map",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "cda",
+      "type": "String"
+     }
+    ]
+   },
+   {
     "id": "a9d68ccb-5b74-e415-9ea3-2860ad8a4b2d",
     "type": "ComponentsParameter",
     "typeDesc": "Parameter",
@@ -1172,7 +1190,25 @@
     "properties": [
      {
       "name": "name",
+      "value": "name",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
       "value": "enabled",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "625a081d-3f98-5adf-0763-ba408cefd4be",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "value",
       "type": "Id"
      },
      {
@@ -1417,12 +1453,12 @@
     "properties": [
      {
       "name": "name",
-      "value": "isCDAActive",
+      "value": "setDefinitionRequest",
       "type": "Id"
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/ExtPluginConfigService/isCdaHazelcastEnabled",
+      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/setMapOption?",
       "type": "String"
      },
      {
@@ -1487,7 +1523,7 @@
      },
      {
       "name": "xActionArrayParameter",
-      "value": "[]",
+      "value": "[[\"map\",\"map\"],[\"name\",\"name\"],[\"value\",\"value\"]]",
       "type": "ValuesArray"
      },
      {
@@ -1505,12 +1541,12 @@
     "properties": [
      {
       "name": "name",
-      "value": "isMondrianActive",
+      "value": "getDefinitionRequest",
       "type": "Id"
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/ExtPluginConfigService/isMondrianHazelcastEnabled",
+      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/getMapOption?",
       "type": "String"
      },
      {
@@ -1575,183 +1611,7 @@
      },
      {
       "name": "xActionArrayParameter",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     }
-    ]
-   },
-   {
-    "id": "71f445d1-aa5f-a455-c26d-6c256eef2fb8",
-    "type": "ComponentsAjaxRequestComponent",
-    "typeDesc": "AjaxRequestComponent",
-    "parent": "CUSTOMCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "setCDACache",
-      "type": "Id"
-     },
-     {
-      "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/ExtPluginConfigService/setCdaHazelcastEnabled?",
-      "type": "String"
-     },
-     {
-      "name": "ajaxRequestType",
-      "value": "xml",
-      "type": "ajaxRequestTypeCustom"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "asyncCall",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "resultvar",
-      "value": "resultVar",
-      "type": "Result"
-     },
-     {
-      "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "htmlObject",
-      "value": "",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[[\"enabled\",\"enabled\"]]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     }
-    ]
-   },
-   {
-    "id": "fe2fd41b-08e3-dbb5-7f86-4380afaf3038",
-    "type": "ComponentsAjaxRequestComponent",
-    "typeDesc": "AjaxRequestComponent",
-    "parent": "CUSTOMCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "setMondrianCache",
-      "type": "Id"
-     },
-     {
-      "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/ExtPluginConfigService/setMondrianHazelcastEnabled?",
-      "type": "String"
-     },
-     {
-      "name": "ajaxRequestType",
-      "value": "xml",
-      "type": "ajaxRequestTypeCustom"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "asyncCall",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "resultvar",
-      "value": "resultVar",
-      "type": "Result"
-     },
-     {
-      "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "htmlObject",
-      "value": "",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[[\"enabled\",\"enabled\"]]",
+      "value": "[[\"map\",\"map\"],[\"name\",\"name\"]]",
       "type": "ValuesArray"
      },
      {
