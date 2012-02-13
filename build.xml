@@ -235,7 +235,7 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
               ====================================================================-->
   <target name="assemble" depends="assemble.init,install-antcontrib, dist-plugin"/>
   
-  <target name="dist-plugin" depends="jar,jar-cda,jar-mondrian" description="Creates a distribution">
+  <target name="dist-plugin" depends="jar,jar-cda,jar-mondrian,dist-standalone" description="Creates a distribution">
 
     <!-- delete and re-create the plugin dist folder tree -->
     <mkdir dir="${stage.dir}"/>
@@ -251,10 +251,13 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
         <include name="**/*.jar"/>
       </fileset>
       <!--fileset dir="${devlib.dir}" includes="hazelcast*.jar"/-->
-      <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
+      <!--<fileset dir="${lib.dir}" includes="hazelcast*.jar"/>-->
       <fileset dir="${lib.dir}" includes="cda*.jar"/>
     </copy>
 
+    <!-- zip standalone -->
+    <zip basedir="${hazelcast.standalone.dir}"
+         zipfile="${dist.dir}/${ivy.artifact.id}-redist-${distribution.version}.zip"/>
 
     <!-- Copy the plugin.xml and any other files from the resource dir -->
     <copy todir="${stage.dir}/${plugin.name}" overwrite="true">
@@ -274,10 +277,18 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
 
 
     <!-- create a zip file -->
-    <zip zipfile="${dist.dir}/${plugin.zipfile}"
+    <!--<zip destfile="${dist.dir}/${plugin.zipfile}"
          basedir="${stage.dir}"
          includes="${plugin.name}/**/*"
-         excludes="**/Thumbs.db"/>
+         excludes="**/Thumbs.db"/>-->
+         
+    <zip destfile="${dist.dir}/${plugin.zipfile}">
+      <zipfileset dir="${stage.dir}" includes="${plugin.name}/**/*" excludes="**/Thumbs.db"/>
+      <!--<zipfileset dir="${hazelcast.standalone.dir}" prefix="${plugin.name}/cdc-redist"/>-->
+      <zipfileset dir="${cda.dist.dir}" prefix="${plugin.name}/cda-lib"/>
+      <zipfileset dir="${mondrian.dist.dir}" prefix="${plugin.name}/mondrian-lib"/>
+      <zipfileset dir="${hazelcast.dist.dir}" prefix="${plugin.name}/pentaho-lib"/>
+    </zip>
 
     <copy tofile="${dist.dir}/${ivy.artifact.id}-${project.revision}.zip" file="${dist.dir}/${plugin.zipfile}"/>
   </target>
@@ -296,7 +307,7 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
       <fileset dir="solution/bi-developers"></fileset>
     </copy>
 
-    <zip zipfile="${dist.dir}/${plugin.samples.zipfile}"
+    <zip destfile="${dist.dir}/${plugin.samples.zipfile}"
          basedir="${samples.stage.dir}"
          includes="**/*"
          excludes="**/Thumbs.db"
