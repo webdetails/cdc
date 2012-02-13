@@ -40,9 +40,9 @@ public class SimpleContentGenerator extends BaseContentGenerator {
 
             String[] pathSections = StringUtils.split(pathParams.getStringParameter("path", null),"/");
             
-            if(pathSections != null && pathSections.length > 1){
+            if(pathSections != null && pathSections.length > 0){
               
-              final String method = StringUtils.lowerCase(pathSections[1]);
+              final String method = StringUtils.lowerCase(pathSections[0]);
   
               try {
                   final Method mthd = this.getClass().getMethod(method, params);
