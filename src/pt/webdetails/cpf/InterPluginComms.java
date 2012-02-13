@@ -51,6 +51,10 @@ public class InterPluginComms
       logger.error("Failed to acquire " + pluginName + " plugin: " + e.toString());
       return null;
     }
+    if(contentGenerator == null){
+      logger.error("Failed to acquire " + pluginName + " plugin.");
+      return null;
+    }
     return callPlugin(userSession, contentGenerator, method, params);
   }
 
