@@ -375,3 +375,154 @@ cdcFunctions.renderClusterInfo = function(){
 
 		
 };
+
+/*********** settings *********/
+cdcFunctions.getMaxSizePolicies = function(){
+	Dashboards.update(render_getMaxSizePolicies);
+	if(resultVar != undefined){
+		if(resultVar.status != "OK"){
+			return [];
+		} else {
+			var result = [];
+			for(var i = 0; i < resultVar.result.length; i++){
+				var splitted = resultVar.result[i].split('_');
+				var string = "";
+				for(var j = 0; j < splitted.length; j++){
+					string+=splitted[j].charAt(0).toUpperCase() + splitted[j].slice(1);
+					if(j < splitted.length-1) string +=" ";
+				}
+				result.push([resultVar.result[i],string]);
+			}
+			return result;
+		}
+	}
+	return [];
+};
+
+cdcFunctions.getEvictionPolicies = function(){
+	Dashboards.update(render_getEvictionPolicies);
+	if(resultVar != undefined){
+		if(resultVar.status != "OK"){
+			return [];
+		} else {
+			var result = [];
+			for(var i = 0; i < resultVar.result.length; i++){
+				var splitted = resultVar.result[i].split('_');
+				var string = "";
+				for(var j = 0; j < splitted.length; j++){
+					string+=splitted[j].charAt(0).toUpperCase() + splitted[j].slice(1);
+					if(j < splitted.length-1) string +=" ";
+				}
+				result.push([resultVar.result[i],string]);
+			}
+			return result;
+		}
+	}
+	return [];
+};
+
+cdcFunctions.getDefinition = function(name,param){
+	Dashboards.setParameter('name',name);
+	Dashboards.update(render_getDefinitionRequest);
+	
+	if(resultVar != undefined){
+		if(resultVar.status != "OK"){
+			return;
+		}
+		else {
+			Dashboards.setParameter(param, resultVar.result);
+			return;
+		}
+	}
+	return;
+};
+
+cdcFunctions.setDefinition = function(name,param){
+	Dashboards.setParameter('name',name);
+	Dashboards.setParameter('value',Dashboards.getParameterValue(param));
+	Dashboards.update(render_setDefinitionRequest);
+	
+	if(resultVar != undefined){
+		if(resultVar.status != "OK"){
+			return;
+		}
+	}
+	return;
+};
+
+cdcFunctions.getEnabledValue = function(){
+	this.getDefinition('enabled','cacheOnParam');
+};
+
+cdcFunctions.getMaxSizePolicy = function(){
+	this.getDefinition('maxSizePolicy','maxSizePolicyParam');
+};
+
+cdcFunctions.getMaxSizeValue = function(){
+	this.getDefinition('maxSize','maxSizeValueParam');
+};
+
+cdcFunctions.getEvictionPolicy = function(){
+	this.getDefinition('evictionPolicy','evictionPolicyParam');
+};
+
+cdcFunctions.getEvictionValue = function(){
+	this.getDefinition('evictionPercentage','evictionValueParam');
+};
+
+cdcFunctions.getTimeToLiveValue = function(){
+	this.getDefinition('timeTolive','timeToLiveParam');
+};
+
+
+cdcFunctions.setEnabledValue = function(){
+	this.setDefinition('enabled','cacheOnParam');
+};
+
+cdcFunctions.setMaxSizePolicy = function(){
+	this.setDefinition('maxSizePolicy','maxSizePolicyParam');
+};
+
+cdcFunctions.setMaxSizeValue = function(){
+	this.setDefinition('maxSize','maxSizeValueParam');
+};
+
+cdcFunctions.setEvictionPolicy = function(){
+	this.setDefinition('evictionPolicy','evictionPolicyParam');
+};
+
+cdcFunctions.setEvictionValue = function(){
+	this.setDefinition('evictionPercentage','evictionValueParam');
+};
+
+cdcFunctions.setTimeToLiveValue = function(){
+	this.setDefinition('timeToLive','timeToLiveParam');
+};
+
+
+cdcFunctions.resetDefinitions = function(){
+	Dashboards.update(render_cacheCheck);
+	Dashboards.update(render_maxSizePolicy);
+	Dashboards.update(render_maxSizeValue);	
+	Dashboards.update(render_evictionPolicy);	
+	Dashboards.update(render_evictionValue);		
+	Dashboards.update(render_timeToLiveValue);	
+};
+
+cdcFunctions.saveDefinitions = function(){
+	this.setEnabledValue();
+	this.setMaxSizePolicy();
+	this.setMaxSizeValue();
+	this.setEvictionPolicy();
+	this.setEvictionValue()
+	this.setTimeToLiveValue()
+	Dashboards.update(render_saveRequest);
+};
+
+
+cdcFunctions.applyDefinitions = function(){
+	Dashboards.update(render_applyRequest);
+};
+
+
+

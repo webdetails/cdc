@@ -383,6 +383,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cad3d6', end
 	font-size: 20px;
 	padding-left: 20px;
 	font-weight: 300;
+	margin-bottom: 15px;
 }
 
 
@@ -661,7 +662,7 @@ div.activateButton.inactive button:active {
 /**** Chosen Select *****/
 /* All Chosen elements */
 .chzn-container{
-	width: 450px !important;
+	width: 445px !important;
 	font-size: 17px;
 	color: #05282C;
 	height: 28px;
@@ -678,12 +679,12 @@ div.activateButton.inactive button:active {
 	background: white;
 	box-shadow: none;
 	-webkit-box-shadow: none;
-	border: 1px solid #829299;
-	top: 30px !important;
+	border: 1px solid #0f1414;
+	top: 31px !important;
 	border-image: initial;
 }
 .chzn-drop{
-	width: 449px !important;
+	width: 443px !important;
 }
 .chzn-drop  .chzn-search{
 	display: none;
@@ -691,19 +692,22 @@ div.activateButton.inactive button:active {
 .chzn-drop .chzn-search input{
 }
 .chzn-drop  .chzn-results{
+	margin: 2px 4px 2px 0px;
 }
 .chzn-drop  .chzn-results li{
-
+	margin: 2px 0px;
 }
 .chzn-drop .chzn-results em{
 }
 .chzn-drop  .chzn-results .active-result{
+
 }
 .chzn-drop  .chzn-results .highlighted{
 	background: #CAD3D6;
 	color:  #05282C;
 }
 .chzn-drop  .chzn-results .result-selected{
+	background: #DEE8EC;
 }
 .chzn-drop  .chzn-results .no-results {
 }
@@ -719,15 +723,11 @@ div.activateButton.inactive button:active {
 	-webkit-background-clip: initial;
 	color: #05282C;
 	border-image: initial;
-	height: 28px;
-}
-.no-svg    .chzn-container-single .chzn-single{
-}
-
-.svg    .chzn-container-single .chzn-single{
-
+	height: 27px;
 }
 .chzn-container-single:hover .chzn-single{
+	border: 1px solid #CAD3D6;
+	background: #CAD3D6;
 }
 
 .chzn-container-single .chzn-single span{
@@ -739,65 +739,31 @@ div.activateButton.inactive button:active {
 	width: 23px;
 	border: none;
 	border-image: initial;
-	top: 3px;
+	top: 2px;
 	height: 23px;
 	right: 3px;
 }
+
+
 .chzn-container-single .chzn-single div b,
   .chzn-container-single .chzn-single-with-drop div b{ /* Arrow */
   	background: url('img/selector.png') 70px 0;
-  	width: 23px;
-  	height: 23px;
   }
-.chzn-container-single:hover .chzn-single div b,
-  .chzn-container-single:hover .chzn-single-with-drop div b{ /* Arrow */
-  background: url('img/selector.png') 46px 0;
+.chzn-container-single:hover .chzn-single div b{ /* Arrow */
+  background: url('img/selector.png') 47px 0;
   }
 .chzn-container-single .chzn-single.chzn-single-with-drop{
+	border: 1px solid #0f1414;
+	background:  #CAD3D6;
 }
 
-.chzn-container-single .chzn-single-with-drop span{
-}
-.chzn-container-single .chzn-single-with-drop div{ /* Arrow container */
-}
-.chzn-container-single .chzn-single-with-drop div b{
+.chzn-container-single .chzn-single.chzn-single-with-drop div b{
+	background: url('img/selector.png') 24px 0;
 }
 
 .chzn-container-single -chzn-drop{
 	
 } 
-
-
-/* Multi Select */
-.chzn-container-multi.chzn-container{
-}
-.chzn-container-multi .chzn-drop{
-}
-.chzn-container-multi .chzn-drop .selectTooltipTriangle{
-}
-.chzn-container-multi .chzn-drop  .chzn-results{
-}
-
-.chzn-container-multi .chzn-choices {
-}
-.chzn-container-multi:hover .chzn-choices,
-  .chzn-container-multi.chzn-container-active .chzn-choices{
-  }
-.chzn-container-multi .chzn-choices  .search-choice {
-
-}
-.no-svg    .chzn-container-multi .chzn-choices  .search-choice {
-}
-.svg    .chzn-container-multi .chzn-choices  .search-choice {
-}
-.chzn-container-multi .chzn-choices .search-choice span{
-}
-.chzn-container-multi .chzn-choices .search-choice .search-choice-close{
-}
-.chzn-container-multi .chzn-choices .search-choice .search-choice-close:hover {
-}
-.chzn-container-multi .chzn-choices .search-field input{
-}
 
 /* =============================================================================
    Sitemap
@@ -958,41 +924,51 @@ div.cdcSmall {
 
 
 /************** Settings Rules *********/
-.saveButton {
-	
-} 
-
-.resetButton {
-	
+.saveButton button, .resetButton button, .applyButton button {
+	background:  none;	
+	margin-right: 3px;
 }
 
-.applyButton {
-	
+.saveButton button:disabled, 
+.saveButton button:disabled:hover, 
+.resetButton button:disabled,
+.resetButton button:disabled:hover,
+.applyButton button:disabled,
+.applyButton button:disabled:hover {
+	border: 1px solid #829299;
+	color: #829299;
+}  
+
+.settingsOption {
+	margin-left: 20px;
+	margin-right: 0px;
+	width: 445px;
 }
 
-
-#maxSizePolicy, #maxSizeValue {
-	padding-left: 20px;
-	width: 450px;
-	margin: 0;
+.settingsOption.last {
+	margin-right: 20px;
 }
 
-#maxSizeConfigs {
-	padding-top: 15px;
-}
 
 .settingsLabel{
-	margin: 0px 0px 5px 10px;
+	margin: 0px 0px 5px 0px;
 	color: #2C393E;
 	font-size: 13px;
 }
 
-.WDinput {
-	height: 28px;
-	font-size: 17px;
-	line-height: 28px;
+.WDinput input{
+	width: 435px;
+	height: 25px;
+	font-size: 14px;
 	color: #05282C;
-	border-image: initial;
-	border: none;
-	background: url('img/write.png') white;
+	border: solid 1px #829299;
+	background: url('img/writeUnfocus.png') no-repeat;
+	background-position: 14px 1px;
+	padding-left: 5px;
+}
+
+.WDinput input:focus {
+	background: url('img/writeFocus.png') no-repeat;
+	background-position: 14px 1px;
+	border: 1px solid #0f1414;
 }
