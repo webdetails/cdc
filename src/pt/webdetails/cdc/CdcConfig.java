@@ -19,7 +19,7 @@ public class CdcConfig
   private static final String SETTINGS_FILE = "settings.xml";
   
   public static final String PLUGIN_ID = "cdc";
-  public static final String PLUGIN_TITLE = "Community Distributed Cache";
+  public static final String PLUGIN_TITLE = "cdc";
   public static final String PLUGIN_SYSTEM_PATH = PLUGIN_ID + "/" ;
   public static final String PLUGIN_SOLUTION_PATH = "system/" + PLUGIN_SYSTEM_PATH;
 

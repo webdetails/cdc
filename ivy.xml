@@ -37,8 +37,9 @@
     <dependency org="pentaho" name="pentaho-bi-platform-web-servlet"
                 rev="${dependency.bi-platform.revision}" transitive="false"  changing="true"/>
 
-		<dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin"
-			rev="${dependency.bi-platform.revision}" changing="true" />
+				<dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin" rev="${dependency.pentaho-reporting-engine-classic-core-platform-plugin.revision}" changing="true" transitive="false"/>
+
+
 		<dependency org="pentaho" name="cda" rev="${dependency.cda.revision}" transitive="false" />
 		<!-- mondrian -->
 		<dependency org="pentaho" name="mondrian" rev="${dependency.mondrian.revision}" transitive="false"/>

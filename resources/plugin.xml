@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin title="Community Distributed Cache" loader="DEFAULT">
+<plugin title="cdc" loader="DEFAULT">
   <lifecycle-listener class="pt.webdetails.cdc.CdcLifeCycleListener"/>
   <static-paths>
     <static-path url="/cdc/static" localFolder="static"/>

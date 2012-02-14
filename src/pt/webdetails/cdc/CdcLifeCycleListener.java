@@ -118,7 +118,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
 //      MondrianVerboseEntryListener monShouter = new MondrianVerboseEntryListener();
 //      monCache.removeEntryListener(monShouter);
 //      monCache.addEntryListener(monShouter, false);
-//      Hazelcast.getCluster().addMembershipListener(new MemberLogListener());
+        Hazelcast.getCluster().addMembershipListener(new MemberLogListener());
     }
   }
 
