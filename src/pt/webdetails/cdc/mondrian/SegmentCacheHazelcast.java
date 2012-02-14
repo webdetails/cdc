@@ -5,148 +5,157 @@
 package pt.webdetails.cdc.mondrian;
 
 import java.util.List;
-import java.util.concurrent.Future;
 
-import mondrian.rolap.agg.SegmentBody;
-import mondrian.rolap.agg.SegmentHeader;
-import mondrian.rolap.agg.SegmentHeader.ConstrainedColumn;
+import mondrian.spi.SegmentBody;
+import mondrian.spi.SegmentHeader;
 import mondrian.spi.SegmentCache;
+
+import com.hazelcast.core.EntryEvent;
+import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.IMap;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.LogFactory;
 
-import mondrian.olap.Util;
 
 /**
- * Implementation
- * 
- * 
- * @author pedro
+ * SegmentCache implementation for mondrian-3.1.1 based on a hazelcast distributed map.
  */
 public class SegmentCacheHazelcast implements SegmentCache {
 
   private static final String MAP = "mondrian";
-  private static final int MAX_NBR_THREADS = 1;
 
-  private static IMap<SegmentHeader, SegmentBody> cache;
-  private static Log log = LogFactory.getLog(SegmentCacheHazelcast.class);
+//  private static Log log = LogFactory.getLog(SegmentCacheHazelcast.class);
 
-  private static final synchronized IMap<SegmentHeader, SegmentBody> getCache() {
-    if (cache == null) {
-      cache = Hazelcast.getMap(MAP);
-    }
-    return cache;
-  }
-
-  public static synchronized void invalidateCache() {
-    cache = null;
-  }
-
-  /**
-   * Executor for the tests. Thread-factory ensures that thread does not prevent
-   * shutdown.
-   */
-  private static final ExecutorService executor = Util.getExecutorService(MAX_NBR_THREADS, SegmentCacheHazelcast.class.getName() + "$ExecutorThread");
-
-  @Override
-  public Future<SegmentBody> get(final SegmentHeader header) {
-    return executor.submit(new Callable<SegmentBody>() {
-
-      @Override
-      public SegmentBody call() throws Exception {
-        return getCache().get(header);
-      }
-    });
+  private static final IMap<SegmentHeader, SegmentBody> getCache() {
+    return Hazelcast.getMap(MAP);
   }
 
   @Override
-  public Future<Boolean> contains(final SegmentHeader header) {
-    return executor.submit(new Callable<Boolean>() {
-
-      @Override
-      public Boolean call() throws Exception {
-        return getCache().containsKey(header);
-      }
-    });
+  public SegmentBody get(SegmentHeader key) {
+    return getCache().get(key);
   }
 
   @Override
-  public Future<List<SegmentHeader>> getSegmentHeaders() {
-    return executor.submit(new Callable<List<SegmentHeader>>() {
-
-      public List<SegmentHeader> call() throws Exception {
-        return new ArrayList<SegmentHeader>(getCache().keySet());
-      }
-    });
-
+  public boolean put(SegmentHeader key, SegmentBody value) {
+    getCache().put(key, value);
+    return true;
   }
 
   @Override
-  public Future<Boolean> put(final SegmentHeader header, final SegmentBody body) {
-
-    return executor.submit(new Callable<Boolean>() {
-
-      @Override
-      public Boolean call() throws Exception {
-        getCache().put(header, body);
-        return true;
-      }
-    });
+  public boolean contains(SegmentHeader key) {
+    return getCache().containsKey(key);
   }
-
+  
   @Override
-  public Future<Boolean> remove(final SegmentHeader header) {
-
-    return executor.submit(new Callable<Boolean>() {
-
-      @Override
-      public Boolean call() throws Exception {
-        getCache().remove(header);
-        return true;
-      }
-    });
-
+  public boolean remove(SegmentHeader key) {
+    return getCache().remove(key) != null;
   }
-
+  
   @Override
-  public Future<Boolean> flush(final ConstrainedColumn[] region) {
-    log.warn(region.length + " regions to be flushed!!");
-    return executor.submit(new Callable<Boolean>() {
-
-      @Override
-      public Boolean call() throws Exception {
-
-        final Set<SegmentHeader> toEvict = new HashSet<SegmentHeader>();
-        for (SegmentHeader sh : getCache().keySet()) {
-
-          final List<ConstrainedColumn> cc2 = Arrays.asList(region);
-          for (ConstrainedColumn cc : region) {
-            if (cc2.contains(cc.getColumnExpression())) {
-              // Must flush.
-              toEvict.add(sh);
-            }
-          }
-        }
-        for (SegmentHeader sh : toEvict) {
-          getCache().remove(sh);
-        }
-        return true;
-      }
-    });
+  public List<SegmentHeader> getSegmentHeaders() {
+    return new ArrayList<SegmentHeader>(getCache().keySet());
   }
 
   @Override
   public void tearDown() {
     getCache().clear();
-    invalidateCache();
+//    invalidateCache();
   }
+  
+  @Override
+  public void addListener(SegmentCacheListener listener) {
+    getCache().addEntryListener(new SegmentCacheListenerWrapper(listener), false);
+  }
+  
+  @Override
+  public void removeListener(SegmentCacheListener listener) {
+    getCache().removeEntryListener(new SegmentCacheListenerWrapper(listener));
+  }
+  
+
+  @Override
+  public boolean supportsRichIndex() {
+    //Stores full key, not just ID
+    return true;
+  }
+  
+  /**
+   * Wraps a mondrian SegmentCacheListener in a hazelcast EntryListener
+   */
+  static class SegmentCacheListenerWrapper implements EntryListener<SegmentHeader, SegmentBody> {
+
+    private SegmentCacheListener listener;
+    
+    public boolean isLocal(){
+      //TODO: implications?
+      //false only if there is a server Locus
+      return true;
+    }
+    
+    public SegmentCacheListenerWrapper(SegmentCacheListener segmentCacheListener){
+      this.listener = segmentCacheListener;
+    }
+    
+    @Override
+    public void entryAdded(final EntryEvent<SegmentHeader, SegmentBody> event) {
+      listener.handle(getSegmentCacheEvent(event));
+    }
+
+    @Override
+    public void entryRemoved(final EntryEvent<SegmentHeader, SegmentBody> event) {
+      listener.handle(getSegmentCacheEvent(event));
+    }
+
+    @Override
+    public void entryUpdated(final EntryEvent<SegmentHeader, SegmentBody> event) {
+      listener.handle(getSegmentCacheEvent(event));
+    }
+
+    @Override
+    public void entryEvicted(final EntryEvent<SegmentHeader, SegmentBody> event) {
+      listener.handle(getSegmentCacheEvent(event));
+    }
+    
+    private SegmentCacheListener.SegmentCacheEvent getSegmentCacheEvent(final EntryEvent<SegmentHeader, SegmentBody> event)
+    { 
+      return new SegmentCacheListener.SegmentCacheEvent(){
+        
+        public boolean isLocal() {
+          return SegmentCacheListenerWrapper.this.isLocal();
+        }
+        
+        public SegmentHeader getSource() {
+            return event.getKey();
+        }
+        
+        public EventType getEventType() {
+          switch( event.getEventType()){
+            case ADDED:
+            case UPDATED:
+              return SegmentCacheListener.SegmentCacheEvent.EventType.ENTRY_CREATED;  
+            case REMOVED:
+            case EVICTED:
+              return SegmentCacheListener.SegmentCacheEvent.EventType.ENTRY_DELETED;
+          }
+          //we shouldn't even get here
+          return null;
+        }
+      };
+    }
+    
+    @Override
+    public boolean equals(Object other){
+      if(other == null) return false;
+      if( other instanceof SegmentCacheListenerWrapper){
+        return this.listener.equals(((SegmentCacheListenerWrapper)other).listener);
+      }
+      else return false;
+    }
+    
+  }
+  
 }

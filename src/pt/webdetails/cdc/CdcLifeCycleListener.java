@@ -9,8 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import mondrian.rolap.agg.SegmentBody;
-import mondrian.rolap.agg.SegmentHeader;
+//import mondrian.spi.SegmentBody;
+//import mondrian.spi.SegmentHeader;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -22,10 +22,10 @@ import com.hazelcast.config.Config;
 import com.hazelcast.config.ConfigXmlGenerator;
 import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.Cluster;
-import com.hazelcast.core.EntryEvent;
-import com.hazelcast.core.EntryListener;
+//import com.hazelcast.core.EntryEvent;
+//import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.IMap;
+//import com.hazelcast.core.IMap;
 import com.hazelcast.core.Member;
 import com.hazelcast.core.MembershipEvent;
 import com.hazelcast.core.MembershipListener;
@@ -113,12 +113,12 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     }
     
     if(CdcConfig.getConfig().isDebugMode()){    
-      logger.debug("adding mondrian listener");
-      IMap<SegmentHeader, SegmentBody> monCache = Hazelcast.getMap(CdcConfig.CacheMaps.MONDRIAN_MAP);
-      MondrianVerboseEntryListener monShouter = new MondrianVerboseEntryListener();
-      monCache.removeEntryListener(monShouter);
-      monCache.addEntryListener(monShouter, false);
-      Hazelcast.getCluster().addMembershipListener(new MemberLogListener());
+//      logger.debug("adding mondrian listener");
+//      IMap<SegmentHeader, SegmentBody> monCache = Hazelcast.getMap(CdcConfig.CacheMaps.MONDRIAN_MAP);
+//      MondrianVerboseEntryListener monShouter = new MondrianVerboseEntryListener();
+//      monCache.removeEntryListener(monShouter);
+//      monCache.addEntryListener(monShouter, false);
+//      Hazelcast.getCluster().addMembershipListener(new MemberLogListener());
     }
   }
 
@@ -266,39 +266,39 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     
   }
   
-  private static final class MondrianVerboseEntryListener implements EntryListener<SegmentHeader, SegmentBody>  {
-    
-    @Override
-    public void entryAdded(EntryEvent<SegmentHeader, SegmentBody> event) 
-    {
-      SegmentHeader key = event.getKey();
-      logger.debug("Mondrian ENTRY ADDED:" + key);
-    }
-    
-    @Override
-    public void entryUpdated(EntryEvent<SegmentHeader, SegmentBody> event) {
-      SegmentHeader key = event.getKey();
-      logger.debug("Mondrian ENTRY UPDATED:" + key);
-    }
-    
-    @Override
-    public void entryRemoved(EntryEvent<SegmentHeader, SegmentBody> event) 
-    {
-      SegmentHeader key = event.getKey();
-      logger.debug("Mondrian ENTRY REMOVED:" + key);
-    }
-
-    @Override
-    public void entryEvicted(EntryEvent<SegmentHeader, SegmentBody> event) {
-      SegmentHeader key = event.getKey();
-      logger.debug("Mondrian ENTRY EVICTED:" + key);
-    }
-    
-    @Override
-    public boolean equals(Object other){
-      return other instanceof MondrianVerboseEntryListener;
-    }
-
-  }
+//  private static final class MondrianVerboseEntryListener implements EntryListener<SegmentHeader, SegmentBody>  {
+//    
+//    @Override
+//    public void entryAdded(EntryEvent<SegmentHeader, SegmentBody> event) 
+//    {
+//      SegmentHeader key = event.getKey();
+//      logger.debug("Mondrian ENTRY ADDED:" + key);
+//    }
+//    
+//    @Override
+//    public void entryUpdated(EntryEvent<SegmentHeader, SegmentBody> event) {
+//      SegmentHeader key = event.getKey();
+//      logger.debug("Mondrian ENTRY UPDATED:" + key);
+//    }
+//    
+//    @Override
+//    public void entryRemoved(EntryEvent<SegmentHeader, SegmentBody> event) 
+//    {
+//      SegmentHeader key = event.getKey();
+//      logger.debug("Mondrian ENTRY REMOVED:" + key);
+//    }
+//
+//    @Override
+//    public void entryEvicted(EntryEvent<SegmentHeader, SegmentBody> event) {
+//      SegmentHeader key = event.getKey();
+//      logger.debug("Mondrian ENTRY EVICTED:" + key);
+//    }
+//    
+//    @Override
+//    public boolean equals(Object other){
+//      return other instanceof MondrianVerboseEntryListener;
+//    }
+//
+//  }
 }
 
