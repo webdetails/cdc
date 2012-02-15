@@ -86,13 +86,17 @@ public class CdcConfig
   }
   
   public static String getHazelcastConfigFile(){
-    return PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_FILE);
+    String cfg = getStringSetting("hazelcastConfigFile", StringUtils.EMPTY);
+    if(StringUtils.isEmpty(cfg)){
+      return PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_FILE);
+    }
+    else return cfg;
   }
   public static String getHazelcastStandaloneConfigFile(){
     return PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_STANDALONE_FILE);
   }
   
-  private boolean getBooleanSetting(String section, boolean nullValue){
+  private static boolean getBooleanSetting(String section, boolean nullValue){
     String setting = getStringSetting(section, null);
     if(setting != null){
       return Boolean.parseBoolean(setting);
@@ -100,7 +104,7 @@ public class CdcConfig
     return nullValue;
   }
   
-  private String getStringSetting(String section, String defaultValue){
+  private static String getStringSetting(String section, String defaultValue){
     return (String) getPluginManager().getPluginSetting(PLUGIN_TITLE, section, defaultValue);
   }
   
