@@ -6,6 +6,7 @@ package pt.webdetails.cdc.cda;
 
 import java.io.IOException;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 
 import javax.swing.table.TableModel;
 
@@ -32,7 +33,7 @@ import com.hazelcast.query.SqlPredicate;
  * Hazelcast implementation of CDA query cache
  * 
  */
-public class HazelcastQueryCache implements IQueryCache {
+public class HazelcastQueryCache extends ClassLoaderAwareCaller implements IQueryCache {
 
   private static final Log logger = LogFactory.getLog(HazelcastQueryCache.class);
   
@@ -48,12 +49,14 @@ public class HazelcastQueryCache implements IQueryCache {
   //used for holding extra info 
   private static IMap<TableCacheKey, ExtraCacheInfo> cacheStats;
   
+  
   public HazelcastQueryCache(){
-    this(PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_PATH + CACHE_CFG_FILE_HAZELCAST),false);
+    this(PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_PATH + CACHE_CFG_FILE_HAZELCAST),true);
   }
   
   private HazelcastQueryCache(String cfgFile, boolean superClient){
-    init(cfgFile, false);
+    super(Thread.currentThread().getContextClassLoader());
+    init(cfgFile, true);
   }
   
     
@@ -216,35 +219,35 @@ public class HazelcastQueryCache implements IQueryCache {
     return cacheStats.get(key);
   }
 
-  /**
-   * Boilerplate to run a method in a different ClassLoader.
-   */
-  private static class ClassLoaderAwareRunner {
-    private ClassLoader classLoader;
-    
-    public ClassLoaderAwareRunner(ClassLoader classLoader){
-     this.classLoader = classLoader; 
-    }
-        
-    protected void runInClassLoader(Runnable runnable)
-    {
-      ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-      try
-      {
-        if(this.classLoader != null)
-        {
-          Thread.currentThread().setContextClassLoader(this.classLoader);
-        }
-        
-        runnable.run();
-        
-      }
-      finally{
-        Thread.currentThread().setContextClassLoader(contextClassLoader);
-      }
-    }
-    
-  }
+//  /**
+//   * Boilerplate to run a method in a different ClassLoader.
+//   */
+//  private static class ClassLoaderAwareRunner {
+//    private ClassLoader classLoader;
+//    
+//    public ClassLoaderAwareRunner(ClassLoader classLoader){
+//     this.classLoader = classLoader; 
+//    }
+//        
+//    protected void runInClassLoader(Runnable runnable)
+//    {
+//      ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+//      try
+//      {
+//        if(this.classLoader != null)
+//        {
+//          Thread.currentThread().setContextClassLoader(this.classLoader);
+//        }
+//        
+//        runnable.run();
+//        
+//      }
+//      finally{
+//        Thread.currentThread().setContextClassLoader(contextClassLoader);
+//      }
+//    }
+//    
+//  }
 
   
   /**
@@ -253,7 +256,7 @@ public class HazelcastQueryCache implements IQueryCache {
    *  
    *
    */
-  private static final class SyncRemoveStatsEntryListener extends ClassLoaderAwareRunner implements EntryListener<TableCacheKey, TableModel>  {
+  private static final class SyncRemoveStatsEntryListener extends ClassLoaderAwareCaller implements EntryListener<TableCacheKey, TableModel>  {
     
     public SyncRemoveStatsEntryListener(ClassLoader classLoader){
       super(classLoader); 
@@ -302,7 +305,7 @@ public class HazelcastQueryCache implements IQueryCache {
 
   }
   
-  static class LoggingEntryListener extends ClassLoaderAwareRunner implements EntryListener<TableCacheKey, TableModel> {
+  static class LoggingEntryListener extends ClassLoaderAwareCaller implements EntryListener<TableCacheKey, TableModel> {
     
     private static final Log logger = LogFactory.getLog(HazelcastQueryCache.class);
     
@@ -351,20 +354,30 @@ public class HazelcastQueryCache implements IQueryCache {
   }
 
   @Override
-  public int removeAll(String cdaSettingsId, String dataAccessId) {
+  public int removeAll(final String cdaSettingsId, final String dataAccessId) {
     if(cdaSettingsId == null){
       int size = cache.size();
       cache.clear();
       return size;
     }
-    int size=0;
-    for(Entry<TableCacheKey, ExtraCacheInfo> entry: getCacheStatsEntries(cdaSettingsId, dataAccessId)){
-      cache.remove(entry.getKey());
-      size++;
-    }
     
-    //clearCache();
-    return size;
+    try {
+      return callInClassLoader(new Callable<Integer>(){
+      
+        public Integer call(){
+          int size=0;
+          Iterable<Entry<TableCacheKey, ExtraCacheInfo>> entries = getCacheStatsEntries(cdaSettingsId, dataAccessId);
+          if(entries != null) for(Entry<TableCacheKey, ExtraCacheInfo> entry: entries){
+            cache.remove(entry.getKey());
+            size++;
+          }
+          return size;
+        }
+      });
+    } catch (Exception e) {
+      logger.error("Error calling removeAll", e);
+      return -1;
+    }
   }
 
   @Override
@@ -385,12 +398,24 @@ public class HazelcastQueryCache implements IQueryCache {
     return ceInfo;
   }
   
+  /**
+   * (Make sure right class loader is set when accessing the iterator) 
+   * @param cdaSettingsId
+   * @param dataAccessId
+   * @return
+   */
   public Iterable<ExtraCacheInfo> getCacheEntryInfo(String cdaSettingsId, String dataAccessId)
   {
     return cacheStats.values(new SqlPredicate("cdaSettingsId = " + cdaSettingsId + ((dataAccessId != null)? " AND dataAccessId = " + dataAccessId : "")));
   }
-  //TODO:
-  public Iterable<Entry<TableCacheKey, ExtraCacheInfo>> getCacheStatsEntries(String cdaSettingsId, String dataAccessId)
+
+  /**
+   * (Make sure right class loader is set when accessing the iterator)
+   * @param cdaSettingsId
+   * @param dataAccessId
+   * @return
+   */
+  public Iterable<Entry<TableCacheKey, ExtraCacheInfo>> getCacheStatsEntries(final String cdaSettingsId,final String dataAccessId)
   {
     return cacheStats.entrySet(new SqlPredicate("cdaSettingsId = " + cdaSettingsId + ((dataAccessId != null)? " AND dataAccessId = " + dataAccessId : "")));
   }
