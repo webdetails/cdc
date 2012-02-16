@@ -26,17 +26,47 @@ import org.pentaho.platform.engine.core.system.PentahoSystem;
  */
 public class InterPluginComms
 {
+  
+  
+  public static class Plugin {
+    
+    public final static Plugin CDA = new Plugin("cda", "Pentaho Community Data Access");
+    public final static Plugin CDE = new Plugin("pentaho-cdf-dd", "pentaho-cdf-dd");
+    public final static Plugin CDC = new Plugin("cdc", "cdc");
+    public final static Plugin CDF = new Plugin("pentaho-cdf", "Pentaho Community Dashboard Framework");
+    
+    private String name;
+    private String title;
+    
+    public String getName() {
+      return name;
+    }
+
+    public String getTitle() {
+      return title;
+    }
+    
+    public Plugin(String name, String title){
+      this.name = name;
+      this.title = title;
+    }
+    
+  }
 
   private static final Log logger = LogFactory.getLog(InterPluginComms.class);
+  
+  public static String callPlugin(Plugin plugin, String method, Map<String, Object> params){
+    return callPlugin(plugin, method, params, false);
+  }
 
-  public static String callPlugin(String pluginName, String method, Map<String, Object> params)
+  public static String callPlugin(Plugin plugin, String method, Map<String, Object> params, boolean switchClassLoader)
   {
     IParameterProvider requestParams = new SimpleParameterProvider(params);
-    return callPlugin(pluginName, method, requestParams);
+    return callPlugin(plugin, method, requestParams, switchClassLoader);
 
   }
 
-  public static String callPlugin(String pluginName, String method, IParameterProvider params)
+  public static String callPlugin(Plugin plugin, String method, IParameterProvider params, boolean switchClassLoader)
   {
 
     IPentahoSession userSession = PentahoSessionHolder.getSession();
@@ -44,18 +74,36 @@ public class InterPluginComms
     IContentGenerator contentGenerator;
     try
     {
-      contentGenerator = pluginManager.getContentGenerator(pluginName, userSession);
+      contentGenerator = pluginManager.getContentGenerator(plugin.getName(), userSession);
     }
     catch (Exception e)
     {
-      logger.error("Failed to acquire " + pluginName + " plugin: " + e.toString());
+      logger.error("Failed to acquire " + plugin.getName() + " plugin: " + e.toString());
       return null;
     }
     if(contentGenerator == null){
-      logger.error("Failed to acquire " + pluginName + " plugin.");
+      logger.error("Failed to acquire " + plugin.getName() + " plugin.");
       return null;
     }
-    return callPlugin(userSession, contentGenerator, method, params);
+    
+    if(switchClassLoader){
+      ClassLoader currentClassLoader = Thread.currentThread().getContextClassLoader();
+      try{
+        ClassLoader pluginClassLoader = pluginManager.getClassLoader(plugin.getTitle());
+        
+        if(pluginClassLoader != null) Thread.currentThread().setContextClassLoader(pluginClassLoader);
+        else logger.error("Couldn't fetch PluginClassLoader for " + plugin.getTitle());
+        
+        return callPlugin(userSession, contentGenerator, method, params);
+      } 
+      finally{
+        Thread.currentThread().setContextClassLoader(currentClassLoader);
+      }
+    }
+    else {
+      return callPlugin(userSession, contentGenerator, method, params);
+    }
+    
   }
 
 
@@ -79,15 +127,15 @@ public class InterPluginComms
 
     return callPlugin(userSession, contentGenerator, outputStream, paramProvider);
   }
-  public static String callPlugin(IPentahoSession userSession, IContentGenerator cda, OutputStream outputStream, Map<String, IParameterProvider> paramProvider)
+  public static String callPlugin(IPentahoSession userSession, IContentGenerator contentGenerator, OutputStream outputStream, Map<String, IParameterProvider> paramProvider)
   {
     IOutputHandler outputHandler = new SimpleOutputHandler(outputStream, false);
     try
     {
-      cda.setSession(userSession);
-      cda.setOutputHandler(outputHandler);
-      cda.setParameterProviders(paramProvider);
-      cda.createContent();
+      contentGenerator.setSession(userSession);
+      contentGenerator.setOutputHandler(outputHandler);
+      contentGenerator.setParameterProviders(paramProvider);
+      contentGenerator.createContent();
       return outputStream.toString();
     }
     catch (Exception e)
