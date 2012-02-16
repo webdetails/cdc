@@ -30,7 +30,7 @@ public class InterPluginComms
   
   public static class Plugin {
     
-    public final static Plugin CDA = new Plugin("cda", "Pentaho Community Data Access");
+    public final static Plugin CDA = new Plugin("cda", "cda");
     public final static Plugin CDE = new Plugin("pentaho-cdf-dd", "pentaho-cdf-dd");
     public final static Plugin CDC = new Plugin("cdc", "cdc");
     public final static Plugin CDF = new Plugin("pentaho-cdf", "Pentaho Community Dashboard Framework");

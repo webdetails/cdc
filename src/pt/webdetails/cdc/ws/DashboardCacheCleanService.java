@@ -27,6 +27,9 @@ public class DashboardCacheCleanService {
         if(dataSource.has("dataAccessId")){
           cdaParams.put("dataAccessId", dataSource.getString("dataAccessId"));
         }
+        else {
+          cdaParams.put("dataAccessId", null);
+        }
         String removeResult = InterPluginComms.callPlugin(InterPluginComms.Plugin.CDA , "cacheMonitor", cdaParams, true);
         JSONObject itemsCleared = new JSONObject(removeResult);
         if(StringUtils.equalsIgnoreCase(itemsCleared.getString("status"), "ok")){
