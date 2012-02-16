@@ -14,7 +14,7 @@
     <location>system/cda/plugin.xml</location>
     <beanID>cda.IQueryCache</beanID>
     <adapterClasses>
-      <hazelcast>pt.webdetails.cdc.cda.HazelcastQueryCache</hazelcast>
+      <hazelcast>pt.webdetails.cda.cache.HazelcastQueryCache</hazelcast>
       <default>pt.webdetails.cda.cache.EHCacheQueryCache</default>        
     </adapterClasses>
   </cdaConfig>

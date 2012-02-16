@@ -25,5 +25,9 @@
     id="HazelcastConfigurationService" 
     type="xml" 
     class="pt.webdetails.cdc.ws.HazelcastConfigurationService"/>
+  <webservice  
+    id="DashboardCacheCleanService" 
+    type="xml" 
+    class="pt.webdetails.cdc.ws.DashboardCacheCleanService"/>
     
 </plugin>

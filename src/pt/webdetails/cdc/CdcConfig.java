@@ -79,7 +79,7 @@ public class CdcConfig
   }
   
   public String getCdaHazelcastAdapterClass(){
-    return getStringSetting("cdaConfig/adapterClasses/hazelcast","pt.webdetails.cdc.mondrian.SegmentCacheHazelcast");
+    return getStringSetting("cdaConfig/adapterClasses/hazelcast","pt.webdetails.cda.cache.HazelcastQueryCache");
   }
   public String getCdaDefaultAdapterClass(){
     return getStringSetting("cdaConfig/adapterClasses/default",StringUtils.EMPTY);
