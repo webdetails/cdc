@@ -277,7 +277,7 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
 <!--      <zipfileset dir="${cda.dist.dir}" prefix="${plugin.name}/cda-lib"/>-->
       <zipfileset dir="${mondrian.dist.dir}" prefix="${plugin.name}/mondrian-lib"/>
       <!-- temporary -->
-      <zipfileset dir="${static.dist.dir}" prefix="${plugin.name}/mondrian3.3-lib" />
+      <zipfileset dir="${static.dist.dir}" prefix="${plugin.name}/mondrian-lib" />
       <zipfileset dir="${hazelcast.dist.dir}" prefix="${plugin.name}/pentaho-lib"/>
     </zip>
 

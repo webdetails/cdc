@@ -70,6 +70,9 @@ public class CdcConfig
   public String getMondrianHazelcastAdapterClass(){
     return getStringSetting("mondrianConfig/adapterClasses/hazelcast","pt.webdetails.cdc.mondrian.SegmentCacheHazelcast");
   }
+  public String getMondrianHazelcastLegacyAdapterClass(){
+    return getStringSetting("mondrianConfig/adapterClasses/hazelcastMondrian33","pt.webdetails.cdc.mondrian.SegmentCacheHazelcastLegacy");
+  }
   public String getMondrianDefaultAdapterClass(){
     return getStringSetting("mondrianConfig/adapterClasses/default",StringUtils.EMPTY);
   }

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 
 /**
- * SegmentCache implementation for mondrian-3.1.1 based on a hazelcast distributed map.
+ * SegmentCache implementation for mondrian-3.4+ based on a hazelcast distributed map.
  */
 public class SegmentCacheHazelcast implements SegmentCache {
 
