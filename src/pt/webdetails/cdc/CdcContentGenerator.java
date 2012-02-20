@@ -23,7 +23,6 @@ public class CdcContentGenerator extends SimpleContentGenerator {
 
     private static final long serialVersionUID = 1L;
     public static final String ENCODING = "utf-8";
-    private static final String CDE_PLUGIN = "pentaho-cdf-dd";
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void edit(OutputStream out) throws IOException {
@@ -36,7 +35,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         params.put("file", "cdcHome.wcdf");
         params.put("absolute", "true");
         params.put("root", getRoot());
-        out.write(InterPluginComms.callPlugin(CDE_PLUGIN, "Render", params).getBytes(ENCODING));
+        out.write(InterPluginComms.callPlugin(InterPluginComms.Plugin.CDE, "Render", params).getBytes(ENCODING));
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
@@ -63,7 +62,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         run(out, params);
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    @Exposed(accessLevel = AccessLevel.PUBLIC) 
     public void cacheclean(OutputStream out) throws IOException {
         Map<String, Object> params = getLink("cdcCacheClean.wcdf");
         run(out, params);
@@ -83,7 +82,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     }
 
     private void run(OutputStream out, Map<String, Object> params) throws IOException {
-        out.write(InterPluginComms.callPlugin(CDE_PLUGIN, "Render", params).getBytes(ENCODING));
+        out.write(InterPluginComms.callPlugin(InterPluginComms.Plugin.CDE, "Render", params).getBytes(ENCODING));
     }
 
     private String getRoot() {

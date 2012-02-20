@@ -14,7 +14,7 @@
     <location>system/cda/plugin.xml</location>
     <beanID>cda.IQueryCache</beanID>
     <adapterClasses>
-      <hazelcast>pt.webdetails.cdc.cda.HazelcastQueryCache</hazelcast>
+      <hazelcast>pt.webdetails.cda.cache.HazelcastQueryCache</hazelcast>
       <default>pt.webdetails.cda.cache.EHCacheQueryCache</default>        
     </adapterClasses>
   </cdaConfig>
@@ -22,6 +22,7 @@
     <location>system/mondrian/mondrian.properties</location>
     <adapterClasses>
       <hazelcast>pt.webdetails.cdc.mondrian.SegmentCacheHazelcast</hazelcast>
+      <hazelcastMondrian33>pt.webdetails.cdc.mondrian.SegmentCacheHazelcastLegacy</hazelcastMondrian33>
       <default></default><!-- empty will fallback to default -->        
     </adapterClasses>
   </mondrianConfig>

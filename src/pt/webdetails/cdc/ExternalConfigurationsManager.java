@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import mondrian.olap.MondrianProperties;
+import mondrian.olap.MondrianServer;
+import mondrian.olap.MondrianServer.MondrianVersion;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,17 +29,28 @@ import org.pentaho.platform.util.xml.dom4j.XmlDom4JHelper;
 
 public class ExternalConfigurationsManager {
   
-  //TODO:settings.xml
   public static final String CDA_HAZELCAST_ADAPTER = CdcConfig.getConfig().getCdaHazelcastAdapterClass();
   public static final String CDA_DEFAULT_CACHE_ADAPTER = CdcConfig.getConfig().getCdaDefaultAdapterClass();
-  
-  private static final String MONDRIAN_HAZELCAST_ADAPTER = CdcConfig.getConfig().getMondrianHazelcastAdapterClass();
-  
+    
   private static final String CDA_PLUGIN_XML_PATH = PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.getConfig().getCdaConfigLocation());
   private static final String CDA_BEAN_ID =  CdcConfig.getConfig().getCdaCacheBeanId();
   private static final String MONDRIAN_PROPERTIES_LOCATION = PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.getConfig().getMondrianConfigLocation());
   
   private static Log logger = LogFactory.getLog(ExternalConfigurationsManager.class);
+  
+  private static String getMondrianHazelcastAdapter(){
+    MondrianVersion version = MondrianServer.forId(null).getVersion();
+    if(version.getMajorVersion() == 3 && 
+       version.getMinorVersion() == 3 && 
+       !StringUtils.equals(version.getVersionString(), "3.3.1-SNAPSHOT")){
+      //3.3 legacy
+      return CdcConfig.getConfig().getMondrianHazelcastLegacyAdapterClass();
+    }
+    else {
+      return CdcConfig.getConfig().getMondrianHazelcastAdapterClass();
+    }
+    
+  }
   
   
   public static boolean isCdaHazelcastEnabled() throws DocumentException, IOException{
@@ -53,19 +66,20 @@ public class ExternalConfigurationsManager {
   }
   
   public static boolean isMondrianHazelcastEnabled(){
-    return StringUtils.equals(MondrianProperties.instance().SegmentCache.get(), MONDRIAN_HAZELCAST_ADAPTER);
+    return StringUtils.equals(MondrianProperties.instance().SegmentCache.get(), getMondrianHazelcastAdapter());
   }
   
   public static void setMondrianHazelcastEnabled(boolean enabled) throws FileNotFoundException, IOException
   {
+    String adapterClass = getMondrianHazelcastAdapter();
     StringProperty mondrianCache = MondrianProperties.instance().SegmentCache;
     String mondrianCacheClassName = mondrianCache.get(); 
     
     String toChange = null;
-    if(enabled && !StringUtils.equals(mondrianCacheClassName, MONDRIAN_HAZELCAST_ADAPTER)){
-      toChange = MONDRIAN_HAZELCAST_ADAPTER;
+    if(enabled && !StringUtils.equals(mondrianCacheClassName, adapterClass)){
+      toChange = adapterClass;
     }
-    else if(!enabled && StringUtils.equals(mondrianCacheClassName, MONDRIAN_HAZELCAST_ADAPTER)){
+    else if(!enabled && StringUtils.equals(mondrianCacheClassName, adapterClass)){
      toChange = StringUtils.EMPTY;//will make mondrian fallback to default
     }
     if(toChange != null){
@@ -83,7 +97,6 @@ public class ExternalConfigurationsManager {
         MondrianProperties.instance().populate();
       } finally{
         IOUtils.closeQuietly(mondrianPropertiesOutStream);
-        
       }
     }
   }
