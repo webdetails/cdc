@@ -20,7 +20,7 @@
      },
      {
       "name": "resourceFile",
-      "value": "${res:../static/cdc.css}",
+      "value": "static/cdc.css",
       "type": "ResourceFile"
      }
     ]
@@ -1584,6 +1584,44 @@
       "type": "TextAlign"
      }
     ]
+   },
+   {
+    "id": "b1772360-50df-5934-d9b8-bbe6a7026679",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cubeselector",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
    }
   ]
  },
@@ -1887,7 +1925,7 @@
      },
      {
       "name": "htmlObject",
-      "value": "cacheTypeObj",
+      "value": "cdaMondrianObj",
       "type": "HtmlObject"
      },
      {
@@ -1953,285 +1991,6 @@
      {
       "name": "postChange",
       "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "e77c5f7b-0ead-4b07-bb25-a35b3c6ae586",
-    "type": "Componentsradio",
-    "typeDesc": "Radio button Component",
-    "parent": "SELECTORS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level1Selector",
-      "type": "Id"
-     },
-     {
-      "name": "parameter",
-      "value": "level1Param",
-      "type": "Parameter"
-     },
-     {
-      "name": "htmlObject",
-      "value": "level1SelectorObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "dataSource",
-      "type": "Datasource",
-      "value": ""
-     },
-     {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "valuesArray",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "valueAsId",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "separator",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "function(){\n    this.valuesArray = cdcFunctions.fillMondrianSelector1();\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "function () {\n    var myself=this;\n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n    \n    labels.each( function () {\n        var wrapper = $('<div></div>').addClass('buttonWrapper');\n        $(this).find('input').wrap(wrapper); \n    });\n\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "function () {\n    var myself = this;\n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n    var changed = false;\n    \n    labels.each( function () {\n        if($(this).find('input').is(':checked')){\n            $(this).addClass('checked');\n        } else {\n            $(this).removeClass('checked');\n        }\n    });\n    \n    /*\n    labels.each( function () {\n        if($(this).find('input').val() == myself.lastChecked){\n            $(this).removeClass('checked');\n        }\n        \n        if($(this).find('input').is(':checked')){\n            if($(this).find('input').val() != myself.lastChecked){\n                $(this).addClass('checked');\n                changed = true;\n            } \n        }\n    });\n    \n    if(changed){\n        labels.each( function () {\n            if($(this).find('input').is(':checked')){\n                myself.lastChecked = $(this).find('input').val();\n            }\n        });\n    }\n*/\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "0bd36d62-9b54-e0e9-302e-e44725d389df",
-    "type": "Componentsradio",
-    "typeDesc": "Radio button Component",
-    "parent": "SELECTORS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level2Selector",
-      "type": "Id"
-     },
-     {
-      "name": "parameter",
-      "value": "level2Param",
-      "type": "Parameter"
-     },
-     {
-      "name": "htmlObject",
-      "value": "level2SelectorObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "dataSource",
-      "type": "Datasource",
-      "value": ""
-     },
-     {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "valuesArray",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "valueAsId",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "separator",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "function(){\n    this.valuesArray = cdcFunctions.fillMondrianSelector2();\n    this.lastChecked = \"All\";\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "function () {\n    var myself=this;\n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n    \n    labels.each( function () {\n        var wrapper = $('<div></div>').addClass('buttonWrapper');\n        $(this).find('input').wrap(wrapper); \n    });\n    \n    labels.each( function () {\n         if(myself.lastChecked == \"All\"){\n            $(this).addClass('all-checked');\n        }\n    });\n    \n    Dashboards.setParameter(this.parameter, 'All');\n    \n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "function () {\n    var myself = this;\n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n    var changed = false;\n    \n    labels.each( function () {\n        $(this).removeClass('all-checked');\n    }); \n    \n    labels.each( function () {\n        if($(this).find('input').val() == myself.lastChecked){\n            $(this).removeClass('checked');\n        }\n        \n        if($(this).find('input').is(':checked')){\n            if($(this).find('input').val() != myself.lastChecked || myself.lastChecked == 'All'){\n                $(this).addClass('checked');\n                changed = true;\n            } \n        }\n    });\n    \n    if(changed){\n        labels.each( function () {\n            if($(this).find('input').is(':checked')){\n                myself.lastChecked = $(this).find('input').val();\n            }\n        });\n    }\n    \n    if(!changed){ \n        Dashboards.setParameter(this.parameter, 'All');\n        myself.lastChecked = 'All';\n        labels.each( function () {\n            $(this).addClass('all-checked');\n        }); \n    }\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "ff43ba98-967e-a94e-2152-174cd6df5828",
-    "type": "Componentsradio",
-    "typeDesc": "Radio button Component",
-    "parent": "SELECTORS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level3Selector",
-      "type": "Id"
-     },
-     {
-      "name": "parameter",
-      "value": "level3Param",
-      "type": "Parameter"
-     },
-     {
-      "name": "htmlObject",
-      "value": "level3SelectorObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "dataSource",
-      "type": "Datasource",
-      "value": ""
-     },
-     {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "valuesArray",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "valueAsId",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "separator",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "function(){\n    this.valuesArray = cdcFunctions.fillMondrianSelector3();\n    this.lastChecked = \"All\";\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "function () {\n    var myself=this;\n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n    \n    labels.each( function () {\n        var wrapper = $('<div></div>').addClass('buttonWrapper');\n        $(this).find('input').wrap(wrapper); \n    });\n    \n    labels.each( function () {\n         if(myself.lastChecked == \"All\"){\n            $(this).addClass('all-checked');\n        }\n    });\n    \n    Dashboards.setParameter(this.parameter, 'All');\n    \n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "function () {\n    var myself = this;\n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n    var changed = false;\n    \n    labels.each( function () {\n        $(this).removeClass('all-checked');\n    }); \n    \n    labels.each( function () {\n        if($(this).find('input').val() == myself.lastChecked){\n            $(this).removeClass('checked');\n        }\n        \n        if($(this).find('input').is(':checked')){\n            if($(this).find('input').val() != myself.lastChecked || myself.lastChecked == 'All'){\n                $(this).addClass('checked');\n                changed = true;\n            } \n        }\n    });\n    \n    if(changed){\n        labels.each( function () {\n            if($(this).find('input').is(':checked')){\n                myself.lastChecked = $(this).find('input').val();\n            }\n        });\n    }\n    \n    if(!changed){ \n        Dashboards.setParameter(this.parameter, 'All');\n        myself.lastChecked = 'All';\n        labels.each( function () {\n            $(this).addClass('all-checked');\n        }); \n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -2432,79 +2191,6 @@
     ]
    },
    {
-    "id": "cec168cb-7ea7-e41e-ef26-3bf20bb56bed",
-    "type": "ComponentsbuttonComponent",
-    "typeDesc": "Button Component",
-    "parent": "OTHERCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level1AllButton",
-      "type": "Id"
-     },
-     {
-      "name": "label",
-      "value": "All",
-      "type": "String"
-     },
-     {
-      "name": "htmlObject",
-      "value": "level1AllObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tableStyle",
-      "value": "classic",
-      "type": "TableStyle"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "expression",
-      "value": "function(){\n    cdcFunctions.collapseLevel(2);\n    cdcFunctions.collapseLevel(3);\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
     "id": "7c9ee50a-50ef-64a9-c7c1-9333261c1648",
     "type": "ComponentsbuttonComponent",
     "typeDesc": "Button Component",
@@ -2538,298 +2224,6 @@
      {
       "name": "expression",
       "value": "function(){\n    cdcFunctions.clearDrillDowns();\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "75f56800-ba22-5c58-3591-7f2f44758282",
-    "type": "ComponentsbuttonComponent",
-    "typeDesc": "Button Component",
-    "parent": "OTHERCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level2AllButton",
-      "type": "Id"
-     },
-     {
-      "name": "label",
-      "value": "All",
-      "type": "String"
-     },
-     {
-      "name": "htmlObject",
-      "value": "level2AllObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tableStyle",
-      "value": "classic",
-      "type": "TableStyle"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "expression",
-      "value": "function(){\n    cdcFunctions.collapseLevel(3);\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "55c40fc5-25ce-fc89-0b4c-254c38f2bc19",
-    "type": "ComponentsbuttonComponent",
-    "typeDesc": "Button Component",
-    "parent": "OTHERCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level2RefineButton",
-      "type": "Id"
-     },
-     {
-      "name": "label",
-      "value": "Refine",
-      "type": "String"
-     },
-     {
-      "name": "htmlObject",
-      "value": "level2RefineObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tableStyle",
-      "value": "classic",
-      "type": "TableStyle"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "expression",
-      "value": "function(){\n    cdcFunctions.expandLevel(3);\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "d4f8d3ee-4da9-299e-0bec-75460e18910a",
-    "type": "ComponentsbuttonComponent",
-    "typeDesc": "Button Component",
-    "parent": "OTHERCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level3AllButton",
-      "type": "Id"
-     },
-     {
-      "name": "label",
-      "value": "All",
-      "type": "String"
-     },
-     {
-      "name": "htmlObject",
-      "value": "level3AllObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tableStyle",
-      "value": "classic",
-      "type": "TableStyle"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "expression",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "d3577fc6-d413-d0a1-44f1-d9da031c4b32",
-    "type": "ComponentsbuttonComponent",
-    "typeDesc": "Button Component",
-    "parent": "OTHERCOMPONENTS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "generateUrlButton",
-      "type": "Id"
-     },
-     {
-      "name": "label",
-      "value": "Generate",
-      "type": "String"
-     },
-     {
-      "name": "htmlObject",
-      "value": "generateObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "tableStyle",
-      "value": "classic",
-      "type": "TableStyle"
-     },
-     {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
-     },
-     {
-      "name": "expression",
-      "value": "function(){\n    cdcFunctions.generateLink();\n}",
       "type": "JavaScript"
      },
      {
@@ -3196,6 +2590,63 @@
       "type": "JavaScript"
      }
     ]
+   },
+   {
+    "id": "CDCCOMPONENTS",
+    "name": "CDC Components",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "CDC Components",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "573895d4-f41d-88b3-a622-adc63ad2d00b",
+    "type": "ComponentscacheCleaner",
+    "typeDesc": "Cache Cleaner",
+    "parent": "CDCCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "foo",
+      "type": "Id"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "htmlObject",
+      "value": "cubeselector",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     }
+    ]
    }
   ]
  },
@@ -3288,5 +2739,5 @@
    }
   ]
  },
- "filename": "/CDC/cdcCacheClean.cdfde"
+ "filename": "/system/cdc/presentation/cdcCacheClean.cdfde"
 }
