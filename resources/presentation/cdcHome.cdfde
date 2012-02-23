@@ -1458,7 +1458,7 @@
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/setMapOption?",
+      "value": "/pentaho/content/ws-run/HazelcastConfigurationService/setMapOption?",
       "type": "String"
      },
      {
@@ -1546,7 +1546,7 @@
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/getMapOption?",
+      "value": "/pentaho/content/ws-run/HazelcastConfigurationService/getMapOption?",
       "type": "String"
      },
      {
