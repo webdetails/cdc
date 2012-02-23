@@ -3,6 +3,52 @@
   "title": "CDF - Sample structure",
   "rows": [
    {
+    "id": "a99a0699-59fa-8ef8-ec76-e472b54f4ff5",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "CAF.css",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Css",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "static/lib/caf.css",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
+    "id": "4662c96c-0acb-d7c9-c52d-d7156fb85edd",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "CAF.js",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "static/lib/caf.js",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
     "id": "ec2a3a0f-b941-defd-7b82-48f5c8c24d25",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
@@ -691,448 +737,6 @@
       "name": "height",
       "value": "",
       "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "17980a90-568a-c164-01cc-30d9111f1184",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
-    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level1",
-      "type": "Id"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "a18a8804-94fd-4497-1361-7e0c82ab91e9",
-    "type": "LayoutColumn",
-    "typeDesc": "Column",
-    "parent": "17980a90-568a-c164-01cc-30d9111f1184",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "columnSpan",
-      "value": "24",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrepend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnAppend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrependTop",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnAppendBottom",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBigBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "994f4be1-386e-5493-64d8-ca0bde65cffc",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
-    "parent": "a18a8804-94fd-4497-1361-7e0c82ab91e9",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "height",
-      "value": "26",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "cssClass",
-      "value": "WDdataCell",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "a39d5d3a-dfa1-548e-db1a-49207e233214",
-    "type": "LayoutColumn",
-    "typeDesc": "Column",
-    "parent": "994f4be1-386e-5493-64d8-ca0bde65cffc",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "columnSpan",
-      "value": "24",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrepend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnAppend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrependTop",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnAppendBottom",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBigBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "height",
-      "value": "26",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "WDdataCellHeader",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "center",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "d6ae8284-6a47-2551-e84e-7861482fab90",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "a39d5d3a-dfa1-548e-db1a-49207e233214",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "Schemas ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
-    "id": "97b4d34b-10ae-ad9b-38cb-a27cce222e3f",
-    "type": "LayoutColumn",
-    "typeDesc": "Column",
-    "parent": "994f4be1-386e-5493-64d8-ca0bde65cffc",
-    "properties": [
-     {
-      "name": "name",
-      "value": "clearObj",
-      "type": "Id"
-     },
-     {
-      "name": "columnSpan",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrepend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnAppend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrependTop",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnAppendBottom",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBigBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "clearButton",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "b10ed17c-4904-785f-dbc9-49f46dcc1531",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
-    "parent": "a18a8804-94fd-4497-1361-7e0c82ab91e9",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level1SelectorObj",
-      "type": "Id"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "d54f1637-46b7-e77a-e51e-49b009203424",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
-    "parent": "a18a8804-94fd-4497-1361-7e0c82ab91e9",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level2SelectorObj",
-      "type": "Id"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "d4aecf55-6e27-d523-a072-722d7540fb40",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
-    "parent": "a18a8804-94fd-4497-1361-7e0c82ab91e9",
-    "properties": [
-     {
-      "name": "name",
-      "value": "level3SelectedObj",
-      "type": "Id"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
      },
      {
       "name": "cssClass",
@@ -2587,6 +2191,24 @@
      {
       "name": "javaScript",
       "value": "Dashboards.preInit = function(){\n    $(\"#level2\").hide();\n    $(\"#level3\").hide();\n}",
+      "type": "JavaScript"
+     }
+    ]
+   },
+   {
+    "id": "af1bb5a8-0ba5-5380-d4e6-ba98c0d46860",
+    "type": "ComponentsFunction",
+    "typeDesc": "Function",
+    "parent": "SCRIPT",
+    "properties": [
+     {
+      "name": "name",
+      "value": "CAF.init",
+      "type": "Id"
+     },
+     {
+      "name": "javaScript",
+      "value": "var application = wd.caf.application({\n    name: 'Community Distributed Cache', \n    container:\"\", \n    template:'empty', \n    transition: \"basic\"\n});\n            \n// Launch the app on page ready\n$(function(){\n    application.init();\n                \n});",
       "type": "JavaScript"
      }
     ]
