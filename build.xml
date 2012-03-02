@@ -328,7 +328,7 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
 
  </target>
  
- <target name="install-all" depends="clean, resolve, dist-standalone, dist-plugin, install-hazelcast, install-mondrian, install-plugin"/>
+ <target name="install-all" depends="clean, resolve, dist-standalone, dist-plugin, install-hazelcast, install-mondrian-adapter, install-plugin"/>
  
  <target name="install-hazelcast" depends="resolve,jar-hazelcast">
    
@@ -363,7 +363,7 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
   </target>-->
  
   <!-- put jar in WEB-INF for mondrian -->
-  <target name="install-mondrian" depends="jar-mondrian">
+  <target name="install-mondrian-adapter" depends="jar-mondrian">
     <fail message="plugin.local.server.dir not set - cannot copy"
       unless="plugin.local.server.dir"/>
     <copy todir="${pentaho.lib.dir}">
