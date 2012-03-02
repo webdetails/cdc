@@ -1020,3 +1020,9 @@ table.composition thead th {
   padding-right:25px;
 }
 
+.javaRuntimeMemory {
+    position: relative;
+    left: 50%;
+    margin-left: -135px;
+}
+
