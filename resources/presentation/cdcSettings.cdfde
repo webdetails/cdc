@@ -3816,7 +3816,7 @@
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/saveConfig",
+      "value": "/pentaho/content/ws-run/HazelcastConfigurationService/saveConfig",
       "type": "String"
      },
      {
@@ -3904,7 +3904,7 @@
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/loadConfig",
+      "value": "/pentaho/content/ws-run/HazelcastConfigurationService/loadConfig",
       "type": "String"
      },
      {
@@ -3992,7 +3992,7 @@
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/getMapOption?",
+      "value": "/pentaho/content/ws-run/HazelcastConfigurationService/getMapOption?",
       "type": "String"
      },
      {
@@ -4080,7 +4080,7 @@
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/setMapOption?",
+      "value": "/pentaho/content/ws-run/HazelcastConfigurationService/setMapOption?",
       "type": "String"
      },
      {
@@ -4168,7 +4168,7 @@
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/getMaxSizePolicies",
+      "value": "/pentaho/content/ws-run/HazelcastConfigurationService/getMaxSizePolicies",
       "type": "String"
      },
      {
@@ -4256,7 +4256,7 @@
      },
      {
       "name": "url",
-      "value": "http://localhost:8080/pentaho/content/ws-run/HazelcastConfigurationService/getEvictionPolicies",
+      "value": "/pentaho/content/ws-run/HazelcastConfigurationService/getEvictionPolicies",
       "type": "String"
      },
      {

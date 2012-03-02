@@ -885,7 +885,7 @@ div.cdcSmall {
 	color: #03272A;
 }
 
-.clusterInfoColumn1 {
+.clusterInfoColumn0 {
 	border-left: 1px dashed #A6B0B5;
 	border-right: 1px dashed #A6B0B5;
 	padding: 0px;
@@ -972,3 +972,51 @@ div.cdcSmall {
 	background-position: 14px 1px;
 	border: 1px solid #0f1414;
 }
+
+.summarylabel {
+	display: inline-block;
+	height: 20px;
+	position: relative;
+	top: 66px;
+	margin-left: 24px;
+	font-size: 14px;
+}
+
+#summaryData {
+        font-size: 14px;
+        margin-top: 15px;
+        padding-left: 15px;
+}
+#countSummary, #memorySummary {
+	margin-top: 15px;
+	padding-right:15px;
+	width:735px;
+}
+
+.nodeDetail {
+        margin-top: 10px;
+}
+.nodeDetail .WDdataCellHeader {
+        height: 28px;
+}
+
+table.composition {
+	font-size: 13px;
+	width: 330px;
+	margin-left: 25px;
+	margin-top: 37px;
+}
+
+table.composition thead th {
+        background: none;
+}
+
+#header3 button {
+        cursor: pointer;
+}
+
+.count {
+  text-align: right;
+  padding-right:25px;
+}
+

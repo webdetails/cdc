@@ -118,7 +118,6 @@ cdcFunctions.siteMap = function () {
 	  		{name: "Home",  id:"home",  link: "Render?solution=" + solution + "&path=&file=cdcHome.wcdf", action:function() {Dashboards.log("Link1");}, sublinks: [] },         
 	  		{name: "Settings",  id:"settings",  link:  "Render?solution=" + solution + "&path=&file=cdcSettings.wcdf" + debug, action:function() {Dashboards.log("Link2");}, sublinks: [] },
 	  		{name: "Cache Clean",  id:"cacheClean",  link: "Render?solution=" + solution + "&path=&file=cdcCacheClean.wcdf", action:function() {Dashboards.log("Link3");}, sublinks: [] },
-	  		{name: "Cache Info",  id:"cacheInfo",  link: "Render?solution=" + solution + "&path=&file=cdcCacheInfo.wcdf" + debug, action:function() {Dashboards.log("Link4");}, sublinks: [] },
 	  		{name: "Cluster Info",  id:"clusterInfo",  link: "Render?solution=" + solution + "&path=&file=cdcClusterInfo.wcdf" + debug, action:function() {Dashboards.log("Link5");}, sublinks: [] }
 	    	];
 	 } else {
@@ -126,7 +125,6 @@ cdcFunctions.siteMap = function () {
 		 	{name: "Home",  id:"home",  link: "home", action:function() {Dashboards.log("Link1");}, sublinks: [] },         
 		 	{name: "Settings",  id:"settings",  link:  "settings", action:function() {Dashboards.log("Link2");}, sublinks: [] },
 		 	{name: "Cache Clean",  id:"cacheClean",  link: "cacheclean", action:function() {Dashboards.log("Link3");}, sublinks: [] },
-		 	{name: "Cache Info",  id:"cacheInfo",  link: "cacheinfo", action:function() {Dashboards.log("Link4");}, sublinks: [] },
 		 	{name: "Cluster Info",  id:"clusterInfo",  link: "clusterinfo", action:function() {Dashboards.log("Link5");}, sublinks: [] }
 		 	];
 	 }
@@ -224,7 +222,7 @@ cdcFunctions.cloneCacheCompositionChart = function(member, memberResults) {
 cdcFunctions.cloneCacheMemoryText = function(member, memberResults){
 	var placeHolder = member.find('.cacheMemory'); 
 	
-	var percentage = (memberResults.mapInfo.entryMemory*100/memberResults.javaRuntimeInfo.totalMemory)*100;
+	var percentage = cdc.clusterInfo.memoryPercent(memberResults.mapInfo.entryMemory,memberResults.javaRuntimeInfo);
 	
 	placeHolder.text(percentage.toFixed(1));
 };
@@ -251,7 +249,7 @@ cdcFunctions.cloneJavaRuntimeMemoryChart = function(member, memberResults){
 	valuesArray.metadata = [];
 	
 	valuesArray.metadata[0] = { 'colIndex':0, 'colType':"String", 'colName':"Memory"};
-	valuesArray.metadata[1] = { 'colIndex':1, 'colType':"Numeric", 'colName':"Bites"};
+	valuesArray.metadata[1] = { 'colIndex':1, 'colType':"Numeric", 'colName':"Bytes"};
 
 	
 	clone.valuesArray = valuesArray;
@@ -261,118 +259,21 @@ cdcFunctions.cloneJavaRuntimeMemoryChart = function(member, memberResults){
 
 
 cdcFunctions.renderClusterInfo = function(){
-	var clone1, clone2, clone3;
-	var dummyElement = $("#dummyElement");
-	var dummyElementSuperClient = $("#dummyElementSuperClient");
-	
-	var holder = $("#"+this.htmlObject).empty();
+//	var clone1, clone2, clone3;
+//	var dummyElement = $("#dummyElement");
+//	var dummyElementSuperClient = $("#dummyElementSuperClient");
+//	
+//	var holder = $("#"+this.htmlObject).empty();
+//        var summaryContainer = $("<div><div>Cluster Summary</div></div>");
+//        var summary = $("<div></div>");
 	var results = Dashboards.getParameterValue(this.resultvar);
 	
 	if(results == "") return;
 	if(results.status != "OK") return;
 	
 	results = results.result;	
+        cdc.clusterInfo.draw(results);
 			
-	var localMemberResults = results.localMember;
-	var localMember;
-	if(localMemberResults.isSuperClient){
-		localMember = dummyElementSuperClient.clone();
-		localMember.find('.superClient').text("Super Client");
-
-		
-		//set header
-		localMember.find('.memberName').text('IP' +localMemberResults.address.substr(1,localMemberResults.address.length));
-			
-		//java runtime memory
-		clone1 = cdcFunctions.cloneJavaRuntimeMemoryChart(localMember, localMemberResults);
-		clone1.chartDefinition.width = 700;
-		clone1.chartDefinition.barSizeRatio = 1.5;
-		clone1.chartDefinition.maxBarSize = 150;
-		
-		//append member
-		localMember.show();
-		holder.append(localMember);
-		
-		Dashboards.update(clone1);
-		
-		
-	} else {
-		localMember = dummyElement.clone();
-		localMember.find('.superClient').text("");
-
-		
-		//set header
-		localMember.find('.memberName').text("IP "+localMemberResults.address.substr(1,localMemberResults.address.length));
-		
-		//cache composition chart
-		clone1 = cdcFunctions.cloneCacheCompositionChart(localMember, localMemberResults);
-		//cache memory
-		cdcFunctions.cloneCacheMemoryText(localMember, localMemberResults);
-		//java runtime memory
-		clone3 = cdcFunctions.cloneJavaRuntimeMemoryChart(localMember, localMemberResults);
-		
-		//append member
-		localMember.show();
-		holder.append(localMember);
-		
-		$("#"+clone1.htmlObject).css('padding', '0px 30px');
-		$("#"+clone3.htmlObject).css('padding', '0px 30px');
-		
-		Dashboards.update(clone1);
-		Dashboards.update(clone3);
-	}
-		
-	for(var i = 0; i < results.otherMembers.length; i++){
-		var memberResults = results.otherMembers[i];
-		var member; 
-			
-		if(memberResults.isSuperClient){
-			member = dummyElementSuperClient.clone();
-			member.find('.superClient').text("Super Client");
-
-			//set header
-			member.find('.memberName').append('<span> IP '+memberResults.address.substr(1,memberResults.address.length)+'</span>');
-				
-			//java runtime memory
-			clone1 = cdcFunctions.cloneJavaRuntimeMemoryChart(member, memberResults);
-			clone1.chartDefinition.width = 600;
-			clone1.chartDefinition.barSizeRatio = 1.5;
-			//append member
-			member.show();
-			holder.append(member);
-			
-			Dashboards.update(clone1);
-
-			
-		} else {
-			member = dummyElement.clone();
-			member.find('.superClient').text("");
-
-			
-			//set header
-			member.find('.memberName').text("IP "+memberResults.address.substr(1,memberResults.address.length));
-			
-			//cache composition chart
-			clone1 = cdcFunctions.cloneCacheCompositionChart(member, memberResults);
-			//cache memory
-			cdcFunctions.cloneCacheMemoryText(member, memberResults);
-			//java runtime memory
-			clone3 = cdcFunctions.cloneJavaRuntimeMemoryChart(member, memberResults);
-			
-			//append member
-			member.show();
-			holder.append(member);
-			
-			
-			$("#"+clone1.htmlObject).css('padding', '0px 30px');
-			$("#"+clone3.htmlObject).css('padding', '0px 30px');
-			
-			Dashboards.update(clone1);
-			Dashboards.update(clone3);
-		}	
-	}
-
-		
 };
 
 /*********** settings *********/
@@ -522,6 +423,141 @@ cdcFunctions.saveDefinitions = function(){
 cdcFunctions.applyDefinitions = function(){
 	Dashboards.update(render_applyRequest);
 };
+
+cdc = typeof cdc != "undefined"  ? cdc : {};
+cdc.clusterInfo = {
+  draw: function(cinfo){
+    var meminfo = [],
+        countinfo = [],
+        nodes = cinfo.otherMembers.slice(),
+        ph = $('#clusterMembersHolder');
+  
+    nodes.unshift(cinfo.localMember);
+    nodes[0].local = true;
+    ph.empty();
+    $.each(nodes,function(i,e){
+      var info = e.mapInfo;
+      /* collate the memory and count information */
+      meminfo.push(["Node " + i,
+          cdc.clusterInfo.memoryPercent(info.ownedMemory,e.javaRuntimeInfo),
+          cdc.clusterInfo.memoryPercent(info.backupMemory,e.javaRuntimeInfo)
+      ]);
+      countinfo.push(["Node " + i, info.ownedCount, info.backupCount]);
+      /* draw the detail item for this cache node */
+      cdc.clusterInfo.drawNode(i,e,ph);
+    });
+    cdc.clusterInfo.drawSummary(nodes,meminfo,countinfo,$("#summaryData"));
+  },
+
+  drawNode: function(i,node,ph) {
+    var $elem = $("<div id='node" + i + "' class='nodeDetail span-24 last'></div>"),
+        $header = $("<div class='WDdataCell'><div class='WDdataCellHeader'>" + 
+        "<div class='memberName'>Node " + i + ": IP " + node.address.substr(1) + "</div>" +
+        "</div></div>"),
+        $body,
+        clone;
+    $header.appendTo($elem);
+    if(node.isSuperClient) {
+      $header.find('.WDdataCellHeader').append("<div class='superClient'>Super Client</div>");
+    } else {
+      $body = $("#dummyElementBody").clone();
+      $body.find("[id]").add($body).removeAttr("id");
+      //cache composition chart
+      cdc.clusterInfo.drawMemoryTable(node,$body.find('.cacheComposition'));       
+      //clone1 = cdcFunctions.cloneCacheCompositionChart($body, node);
+      //cache memory
+      cdcFunctions.cloneCacheMemoryText($body, node);
+      //java runtime memory
+      clone = cdcFunctions.cloneJavaRuntimeMemoryChart($body, node);
+      
+      //append member
+      $body.appendTo($elem);
+      //$("#"+clone1.htmlObject).css('padding', '0px 30px');
+      $("#"+clone.htmlObject).css('padding', '0px 30px');
+      
+      //updateQueue.push(clone1);
+    }
+    $elem.appendTo(ph);
+    
+    if (clone) {
+      Dashboards.update(clone);
+    }
+    console.log($elem);
+  },
+
+  drawSummary: function(nodes,mem,count,ph) {
+    var metadata = [
+      {index: 0, colType: "String", colName: "Node"},
+      {index: 1, colType: "Numeric", colName: "Owned"},
+      {index: 2, colType: "Numeric", colName: "Backup"},
+    ];
+    render_memorySummaryChart.valuesArray = {resultset: mem, metadata: metadata}
+    render_memorySummaryChart.update()
+    render_itemSummaryChart.valuesArray = {resultset: count, metadata: metadata}
+    render_itemSummaryChart.update()
+
+    var count = nodes.filter(function(e){return e.isSuperClient}).length;
+    ph.html("<div>CDC is using " + nodes.length + " cache node" + (nodes.length > 0 ? "s" : "") +
+    ", of which " + count + (count == 1 ? " is a super client" : " are super clients") +
+    " (super clients don't hold cache data).</div>");
+  },
+
+  drawMemoryTable: function(node, ph) {
+
+    var $table = $("<table class='composition'>");
+    $table.append("<thead><tr><th>Items</th><th class='count'>Count</th><th>Memory</th></tr></thead>");
+    var body = $("<tbody>").appendTo($table),
+        backupMemory = cdc.clusterInfo.byteMagnitude(node.mapInfo.backupMemory),
+        backupPercent = cdc.clusterInfo.memoryPercent(node.mapInfo.backupMemory, node.javaRuntimeInfo); 
+        ownedMemory = cdc.clusterInfo.byteMagnitude(node.mapInfo.ownedMemory),
+        ownedPercent = cdc.clusterInfo.memoryPercent(node.mapInfo.ownedMemory, node.javaRuntimeInfo); 
+    $("<tr>" +
+      "<td>Owned</td>" +
+      "<td class='count'>" + node.mapInfo.ownedCount + "</td>" +
+      "<td>" + ownedMemory + " (" +ownedPercent.toFixed(2) + "%)</td>" +
+      "<td></td>" +
+      "</tr>").appendTo(body);
+    $("<tr>" +
+      "<td>Backup</td>" +
+      "<td class='count'>" + node.mapInfo.backupCount + "</td>" +
+      "<td>" + backupMemory + " (" +backupPercent.toFixed(2) + "%)</td>" +
+      "<td></td>" +
+      "</tr>").appendTo(body);
+    ph.append($table);
+  },
+
+  byteMagnitude: function(n) {
+    if (n == 0) {
+      return "0 B";
+    }
+    var units = ['B','KiB', 'MiB', 'GiB', 'TiB'];
+    var magnitude = Math.min(units.length, Math.floor(Math.log(n)/Math.log(1024)));
+    return (n/Math.pow(1024,magnitude)).toFixed(2) + " " + units[magnitude];
+  },
+
+  memoryPercent: function(cacheSize, runtime) {
+    /*
+     * When calculating the used memory percentage, we have to
+     * decide what value we're using as reference. The java runtime
+     * gives us several important pieces of information in this
+     * regard: We're told how much memory java has allocated, how
+     * much of that is free, and how much total it CAN allocate.
+     *
+     * Using the allocated and free memory, we can calculate the
+     * amount of memory in actual usage. From that and the cache
+     * size, we can determine how much of the used memory is overhead,
+     * and the difference between that overhead and the maximum
+     * allowed memory is the amount of memory that we actually have
+     * available to cache data in. This is the final number we'll
+     * use as reference for the used memory. 
+     */
+    var used = runtime.totalMemory - runtime.freeMemory,
+        overhead = used - cacheSize,
+        maxSize = runtime.maxMemory - overhead;
+        
+    return cacheSize / maxSize * 100;
+  }
+}
 
 
 
