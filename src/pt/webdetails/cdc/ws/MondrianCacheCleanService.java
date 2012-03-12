@@ -95,7 +95,7 @@ public class MondrianCacheCleanService {
         if(cube != null) break;
       }
     }
-    if (i == cubes.length) {
+    if (cube != null && i == cubes.length) {
       throw new InvalidArgumentException("Cube " + cube + " not found.");
     }
 
