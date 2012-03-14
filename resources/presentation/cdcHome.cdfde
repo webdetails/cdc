@@ -3,6 +3,52 @@
   "title": "cToolsTemplate",
   "rows": [
    {
+    "id": "f5bea850-e443-a59b-775d-a1eb98d420b2",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "jAlertJavascript",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "static/jquery.alerts.js",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
+    "id": "47dd2942-cee6-7fe8-706f-e27ffeb07a4d",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "jAlertStyle",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Css",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "static/jquery.alerts.css",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
     "id": "ec2a3a0f-b941-defd-7b82-48f5c8c24d25",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
@@ -156,6 +202,112 @@
       "name": "textAlign",
       "value": "",
       "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "dacb2d97-1ce5-ca02-ed19-92bc3479dbde",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "379235e1-4026-4e32-3efe-d74c3514d8f1",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdcVersion",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "cdcVersion",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "876869ae-9fa7-2fac-9993-c90ba4694213",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "dacb2d97-1ce5-ca02-ed19-92bc3479dbde",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "v.12.1.a ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
      }
     ]
    },
@@ -335,39 +487,6 @@
       "name": "textAlign",
       "value": "",
       "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "3a02f7de-8e5b-05e4-344f-a0e1d09e555d",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "9dda27cc-ec54-ed66-b3df-7b513adc8595",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "CDC ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
      }
     ]
    },
@@ -1245,7 +1364,7 @@
      },
      {
       "name": "label",
-      "value": "Enabled",
+      "value": "ENABLED",
       "type": "String"
      },
      {
@@ -1265,7 +1384,7 @@
      },
      {
       "name": "expression",
-      "value": "function(){\n    var htmlObject = $(this.parentElement);\n    \n    if(Dashboards.storage.cdaActive == false){\n        Dashboards.setParameter('Dashboards.storage.cdaActive',true);\n        Dashboards.saveStorage();\n        \n        htmlObject.removeClass('inactive');\n        htmlObject.addClass('active');\n        $(this).text(\"Enabled\");\n        \n        cdcFunctions.enableCDACache();\n    } else if(Dashboards.storage.cdaActive == true){\n        Dashboards.setParameter('Dashboards.storage.cdaActive',false);\n        Dashboards.saveStorage();\n      \n        htmlObject.removeClass('active');\n        htmlObject.addClass('inactive');\n        $(this).text(\"Disabled\");\n        \n        cdcFunctions.disableCDACache();\n    }\n}",
+      "value": "function(){\n    var htmlObject = $('#'+this.htmlObject);\n    \n    if(Dashboards.storage.cdaActive == false){\n        Dashboards.setParameter('Dashboards.storage.cdaActive',true);\n        Dashboards.saveStorage();\n        \n        htmlObject.removeClass('inactive');\n        htmlObject.addClass('active');\n        htmlObject.find('.buttonLabel').text(\"Enabled\");\n        \n        cdcFunctions.enableCDACache();\n    } else if(Dashboards.storage.cdaActive == true){\n        Dashboards.setParameter('Dashboards.storage.cdaActive',false);\n        Dashboards.saveStorage();\n      \n        htmlObject.removeClass('active');\n        htmlObject.addClass('inactive');\n        htmlObject.find('.buttonLabel').text(\"Disabled\");\n        \n        cdcFunctions.disableCDACache();\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -1275,12 +1394,12 @@
      },
      {
       "name": "preExecution",
-      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject);\n    \n    var isCDAActive = cdcFunctions.isCDAActive();\n    Dashboards.setParameter('Dashboards.storage.cdaActive',isCDAActive);\n    \n    if(Dashboards.storage.cdaActive == false){\n        htmlObject.addClass('inactive');\n    } else if(Dashboards.storage.cdaActive == true){\n        htmlObject.addClass('active');\n    }\n}",
+      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject);\n    \n    var isCDAActive = cdcFunctions.isCDAActive();\n    Dashboards.setParameter('Dashboards.storage.cdaActive',isCDAActive);\n    \n    if(Dashboards.storage.cdaActive == false){\n        htmlObject.addClass('inactive');\n    } else if(Dashboards.storage.cdaActive == true){\n        htmlObject.addClass('active');\n    }\n\n}",
       "type": "JavaScript"
      },
      {
       "name": "postExecution",
-      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject).find('button');\n    \n    if(Dashboards.storage.cdaActive == false){\n        htmlObject.text('Disabled');\n    } else if(Dashboards.storage.cdaActive == true){\n        htmlObject.text('Enabled');\n    }\n}",
+      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject).find('button');\n        \n    var div1 = '<span class=buttonLabel> </span>';\n    var div2 = '<span class=toggleLabel>(click to toggle)</span>';\n    \n    htmlObject.html(div1+''+div2);\n    \n    if(Dashboards.storage.cdaActive == false){\n        htmlObject.find('.buttonLabel').text('Disabled');\n    } else if(Dashboards.storage.cdaActive == true){\n        htmlObject.find('.buttonLabel').text('Enabled');\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -1318,7 +1437,7 @@
      },
      {
       "name": "label",
-      "value": "Enabled",
+      "value": "ENABLED",
       "type": "String"
      },
      {
@@ -1338,7 +1457,7 @@
      },
      {
       "name": "expression",
-      "value": "function(){\n    var htmlObject = $(this.parentElement);\n    \n    if(Dashboards.storage.mondrianActive == false){\n        Dashboards.setParameter('Dashboards.storage.mondrianActive',true);\n        Dashboards.saveStorage();\n        \n        htmlObject.removeClass('inactive');\n        htmlObject.addClass('active');\n        $(this).text(\"Enabled\");\n        \n        cdcFunctions.enableMondrianCache();\n        \n    } else if(Dashboards.storage.mondrianActive == true){\n        Dashboards.setParameter('Dashboards.storage.mondrianActive',false);\n        Dashboards.saveStorage();\n      \n        htmlObject.removeClass('active');\n        htmlObject.addClass('inactive');\n        $(this).text(\"Disabled\");\n        \n        cdcFunctions.disableMondrianCache();\n    }\n}",
+      "value": "function(){\n    var htmlObject = $('#'+this.htmlObject);\n    \n    if(Dashboards.storage.mondrianActive == false){\n        Dashboards.setParameter('Dashboards.storage.mondrianActive',true);\n        Dashboards.saveStorage();\n        \n        htmlObject.removeClass('inactive');\n        htmlObject.addClass('active');\n        htmlObject.find('.buttonLabel').text(\"Enabled\");\n        \n        cdcFunctions.enableMondrianCache();\n        \n    } else if(Dashboards.storage.mondrianActive == true){\n        Dashboards.setParameter('Dashboards.storage.mondrianActive',false);\n        Dashboards.saveStorage();\n      \n        htmlObject.removeClass('active');\n        htmlObject.addClass('inactive');\n        htmlObject.find('.buttonLabel').text(\"Disabled\");\n        \n        cdcFunctions.disableMondrianCache();\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -1353,7 +1472,7 @@
      },
      {
       "name": "postExecution",
-      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject).find('button');\n    \n    if(Dashboards.storage.mondrianActive == false){\n        htmlObject.text('Disabled');\n    } else if(Dashboards.storage.mondrianActive == true){\n        htmlObject.text('Enabled');\n    }\n}",
+      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject).find('button');\n    \n    var div1 = '<span class=buttonLabel> </span>';\n    var div2 = '<span class=toggleLabel>(click to toggle)</span>';\n    \n    htmlObject.html(div1+''+div2);\n    \n    if(Dashboards.storage.mondrianActive == false){\n        htmlObject.find('.buttonLabel').text('Disabled');\n    } else if(Dashboards.storage.mondrianActive == true){\n        htmlObject.find('.buttonLabel').text('Enabled');\n    }\n}",
       "type": "JavaScript"
      },
      {
@@ -1618,6 +1737,38 @@
       "name": "listeners",
       "value": "[]",
       "type": "Listeners"
+     }
+    ]
+   },
+   {
+    "id": "SCRIPT",
+    "name": "Scripts",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Scripts",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "aa84323a-69d3-6721-0553-555fd6c07c06",
+    "type": "ComponentsFunction",
+    "typeDesc": "Function",
+    "parent": "SCRIPT",
+    "properties": [
+     {
+      "name": "name",
+      "value": "Dashboards.postInit",
+      "type": "Id"
+     },
+     {
+      "name": "javaScript",
+      "value": "Dashboards.postInit = function(){\n    \n    //set jAlert definitions\n    $.alerts.overlayOpacity = 0.6;\n    $.alerts.draggable = false;\n    $.alerts.overlayColor = '#DEE8EC';\n}",
+      "type": "JavaScript"
      }
     ]
    }

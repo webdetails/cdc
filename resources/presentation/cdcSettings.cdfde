@@ -3,6 +3,75 @@
   "title": "cToolsTemplate",
   "rows": [
    {
+    "id": "3d46f255-e044-db30-290a-0b85e33ccae2",
+    "type": "LayoutResourceCode",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "extraCss",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Css",
+      "type": "Label"
+     },
+     {
+      "name": "resourceCode",
+      "value": "#enableObj {\n    margin: 10px 0px;   \n}\n\n#enableObj button {\n    width: 950px;\n    height: 30px\n} ",
+      "type": "Resource"
+     }
+    ]
+   },
+   {
+    "id": "23174a80-35c1-ab99-efc6-31e11e8ba8a4",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "jAlertJavascript",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "static/jquery.alerts.js",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
+    "id": "7ce2c5fa-5767-ac82-6b62-c5ce52442e73",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "jAlertStyle",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Css",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "static/jquery.alerts.css",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
     "id": "98ca7c2a-7f02-ddf0-235e-6f2024640445",
     "type": "LayoutResourceCode",
     "typeDesc": "Resource",
@@ -183,6 +252,112 @@
     ]
    },
    {
+    "id": "1f68fc20-c374-bd48-6515-f37430960106",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "379235e1-4026-4e32-3efe-d74c3514d8f1",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdcVersion",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "cdcVersion",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "8a2fb07a-e6a1-3802-c616-5704d7f6febe",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "1f68fc20-c374-bd48-6515-f37430960106",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "v.12.1 ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
     "id": "1a0b20e4-30ab-b679-50fb-ac3064b692bc",
     "type": "LayoutColumn",
     "typeDesc": "Column",
@@ -358,39 +533,6 @@
       "name": "textAlign",
       "value": "",
       "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "3a02f7de-8e5b-05e4-344f-a0e1d09e555d",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "9dda27cc-ec54-ed66-b3df-7b513adc8595",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "CDC ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
      }
     ]
    },
@@ -1051,7 +1193,7 @@
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "activateButton",
       "type": "String"
      },
      {
@@ -1157,7 +1299,7 @@
      },
      {
       "name": "height",
-      "value": "100",
+      "value": "108",
       "type": "Integer"
      },
      {
@@ -1223,7 +1365,7 @@
      },
      {
       "name": "html",
-      "value": "Max Size ",
+      "value": "<span>Max Size</span>\n ",
       "type": "Html"
      },
      {
@@ -1240,6 +1382,79 @@
       "name": "cssClass",
       "value": "",
       "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "8c034296-c20c-2d1c-dc2f-7c0540c7fe62",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "7d82c1da-f362-bead-166e-cbc96648235a",
+    "properties": [
+     {
+      "name": "name",
+      "value": "maxSizeHelpButton",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "helpButton",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
      }
     ]
    },
@@ -1405,7 +1620,7 @@
      },
      {
       "name": "html",
-      "value": "Policy ",
+      "value": "<span>Policy</span>\n ",
       "type": "Html"
      },
      {
@@ -1814,7 +2029,7 @@
      },
      {
       "name": "height",
-      "value": "100",
+      "value": "108",
       "type": "Integer"
      },
      {
@@ -1880,7 +2095,7 @@
      },
      {
       "name": "html",
-      "value": "Eviction ",
+      "value": "<span>Eviction</span> ",
       "type": "Html"
      },
      {
@@ -1897,6 +2112,79 @@
       "name": "cssClass",
       "value": "",
       "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "ff1bff93-2901-9ab9-7a89-c94e50e6c8ae",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "d47bf01d-5d8c-84b6-ce4a-98212bcc3307",
+    "properties": [
+     {
+      "name": "name",
+      "value": "evictionHelpButton",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "helpButton",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
      }
     ]
    },
@@ -2471,7 +2759,7 @@
      },
      {
       "name": "height",
-      "value": "100",
+      "value": "108",
       "type": "Integer"
      },
      {
@@ -2537,7 +2825,7 @@
      },
      {
       "name": "html",
-      "value": "Time to Live ",
+      "value": "<span>Time to Live </span> ",
       "type": "Html"
      },
      {
@@ -2554,6 +2842,79 @@
       "name": "cssClass",
       "value": "",
       "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "8e8e4b42-1928-383a-474d-0b2ad11ee981",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "0783ebf7-558b-f878-dd57-3cdf3f3c3fa4",
+    "properties": [
+     {
+      "name": "name",
+      "value": "timeToLiveHelpButton",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "helpButton",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
      }
     ]
    },
@@ -2849,6 +3210,438 @@
       "type": "TextAlign"
      }
     ]
+   },
+   {
+    "id": "3fa4ee48-e096-3b75-2d49-e97a99dd3b55",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "maxSizeHelpPopup",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "hidePopup",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "40411914-0ca9-dbe4-d0ee-8bfcc0c3d37a",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "3fa4ee48-e096-3b75-2d49-e97a99dd3b55",
+    "properties": [
+     {
+      "name": "name",
+      "value": "maxSizePopupContainer",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "14",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "200",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "popupContainer",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "87ac0cb0-dc88-9cea-9b3e-68e0ce581e75",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "40411914-0ca9-dbe4-d0ee-8bfcc0c3d37a",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "<span>\n   <h4><b>Max Size</b></h4> <h5>Describes how big will this cache be allowed to be. It has two definitions: Policy and Value.</h5>\n    \n    <b>Policy </b>- How the max size is assessed. Can be one of:\n        <ul type='square'>\n            <li> Cluster-wide map size (#) - Number of cache entries across all cache nodes.\n            <li> Partition-wide map size (#) - Number of cache entries in each partition.\n            <li> Map size per JVM (#) - Number of entries in each JVM.\n            <li> Used heap percentage (%) - Percentage of JVM heap memory used for this cache.\n            <li> Used heap size (MB) - Amount of memory (in MB) of JVM heap memory that can be used by this cache.\n        </ul>\n    <b>Value </b>- The actual value for the maximum size. Meaning depends on selected policy.\n</span> ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "f313d5d4-fbe1-2f31-fa84-ff0c5fe16927",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "evictionHelpPopup",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "hidePopup",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "d1d0293f-c59d-a525-33e7-3723d19ae1f8",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "f313d5d4-fbe1-2f31-fa84-ff0c5fe16927",
+    "properties": [
+     {
+      "name": "name",
+      "value": "evictionPopupContainer",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "14",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "170",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "popupContainer",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "09346565-a216-4a78-3721-c60d668bd022",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "d1d0293f-c59d-a525-33e7-3723d19ae1f8",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "<span>\n   <h4><b>Eviction</b></h4> <h5>Describes what to do when Max Size is reached. It has two definitions: Policy and Value.</h5>\n    \n    <b>Policy </b>- How the cache will be cleaned. Can be one of:\n        <ul type='square'>\n            <li> NONE - No eviction will be performed.\n            <li> LRU - Least Recently Used cache entries will be evicted.\n            <li> LFU - Least Frequently Used cache entries will be evicted.\n        </ul>\n    <b>Value </b>- he percentage of the number of entries to remove from cache using either LRU of LFU.\n</span> \n ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "6bde4fd1-965b-a80d-5141-fb3109622c0c",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "timeToLiveHelpPopup",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "hidePopup",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "e2a515e8-9cb9-ddff-12f5-2a3298dcec60",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "6bde4fd1-965b-a80d-5141-fb3109622c0c",
+    "properties": [
+     {
+      "name": "name",
+      "value": "timeToLivePopupContainer",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "14",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "80",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "popupContainer",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "c3f9d655-7b8e-e730-f26a-7940143d943e",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "e2a515e8-9cb9-ddff-12f5-2a3298dcec60",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "<span>\n   <h4><b>Time to Live</b></h4> \n   <h5>The maximum time entries in this map can exist (0 means no limit). This setting will not override TTL settings on Mondrian/CDA; it will just be an extra constraint.</h5>\n    \n </span> \n ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
    }
   ]
  },
@@ -2941,7 +3734,7 @@
      },
      {
       "name": "postExecution",
-      "value": "",
+      "value": "function(){\n    if(map == 'cda'){\n        $('.WDdataCellHeader').text(\"CDA Settings\");\n    }\n    else if(map == 'mondrian'){\n        $('.WDdataCellHeader').text(\"Mondrian Settings\");\n    }\n    \n}",
       "type": "JavaScript"
      },
      {
@@ -2951,100 +3744,7 @@
      },
      {
       "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "tooltip",
-      "value": "",
-      "type": "Html"
-     }
-    ]
-   },
-   {
-    "id": "c79d5241-059b-6f61-7141-1d3dc5791b3f",
-    "type": "Componentscheck",
-    "typeDesc": "Check Component",
-    "parent": "SELECTORS",
-    "properties": [
-     {
-      "name": "name",
-      "value": "cacheCheck",
-      "type": "Id"
-     },
-     {
-      "name": "parameter",
-      "value": "cacheOnParam",
-      "type": "Parameter"
-     },
-     {
-      "name": "htmlObject",
-      "value": "enableObj",
-      "type": "HtmlObject"
-     },
-     {
-      "name": "listeners",
-      "value": "['map']",
-      "type": "Listeners"
-     },
-     {
-      "name": "xActionArrayParameter",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "dataSource",
-      "type": "Datasource",
-      "value": ""
-     },
-     {
-      "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "valuesArray",
-      "value": "[[\"enabled\",\"Enabled\"]]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "valueAsId",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "separator",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "preExecution",
-      "value": "function(){\n    cdcFunctions.getEnabledValue();\n    if(Dashboards.getParameterValue('activeCacheOn') == true){\n        Dashboards.setParameter(this.parameter,[\"enabled\"]);\n    }\n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postExecution",
-      "value": "function () {\n    var myself=this;\n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n    \n    labels.each( function () {\n        var wrapper = $('<div></div>').addClass('buttonWrapper');\n        $(this).find('input').wrap(wrapper); \n    });\n    \n    labels.each( function () {\n        $(this).toggleClass( 'checked' , $(this).find('input').is(':checked') );       \n    });\n        \n}",
-      "type": "JavaScript"
-     },
-     {
-      "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "postChange",
-      "value": "function () {\n   \n    var obj = $('#' + this.htmlObject);\n    var labels  = obj.find('label');\n\n    \n    labels.each( function () {\n        $(this).toggleClass( 'checked' , $(this).find('input').is(':checked') );       \n    });\n\n    if(contentChanged == false){\n        contentChanged = true;\n        $(\"#\"+render_saveButton.htmlObject + \" button\").removeAttr('disabled');\n        $(\"#\"+render_resetButton.htmlObject + \" button\").removeAttr('disabled');\n    }\n    \n    if(Dashboards.getParameterValue(this.parameter)[0] == \"enabled\")\n        Dashboards.setParameter('activeCacheOn',true);\n    else \n        Dashboards.setParameter('activeCacheOn',false);\n\n}",
+      "value": "function(){\n    if(map == 'cda'){\n        $('.WDdataCellHeader').text(\"CDA Settings\");\n    }\n    else if(map == 'mondrian'){\n        $('.WDdataCellHeader').text(\"Mondrian Settings\");\n    }\n    \n}",
       "type": "JavaScript"
      },
      {
@@ -4561,6 +5261,457 @@
       "name": "tooltip",
       "value": "",
       "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "acc661c0-b664-9121-40d1-26206ee1c6e0",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "activateButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Enabled",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "enableObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "['map']",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    var htmlObject = $(this.parentElement);\n    \n    \n    if(map == \"cda\"){\n        if(Dashboards.storage.cdaActive == false){\n            Dashboards.setParameter('Dashboards.storage.cdaActive',true);\n            Dashboards.saveStorage();    \n            cdcFunctions.enableCDACache();\n        } else if(Dashboards.storage.cdaActive == true){\n            Dashboards.setParameter('Dashboards.storage.cdaActive',false);\n            Dashboards.saveStorage();\n            cdcFunctions.disableCDACache();\n        }\n    } else if(map == \"mondrian\"){\n        if(Dashboards.storage.mondrianActive == false){\n            Dashboards.setParameter('Dashboards.storage.mondrianActive',true);\n            Dashboards.saveStorage();\n            cdcFunctions.enableMondrianCache();\n        } else if(Dashboards.storage.mondrianActive == true){\n            Dashboards.setParameter('Dashboards.storage.mondrianActive',false);\n            Dashboards.saveStorage(); \n            cdcFunctions.disableMondrianCache();\n        }\n    }\n    \n    if(Dashboards.storage.mondrianActive == true || Dashboards.storage.cdaActive == true){\n        htmlObject.removeClass('inactive');\n        htmlObject.addClass('active');\n        $(this).find('.buttonLabel').text(\"Enabled\");\n    } else if(Dashboards.storage.mondrianActive == false || Dashboards.storage.cdaActive == false){\n        htmlObject.removeClass('active');\n        htmlObject.addClass('inactive');\n        $(this).find('.buttonLabel').text(\"Disabled\");       \n    }\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject);\n    \n    if(map == 'cda'){\n        Dashboards.setParameter('Dashboards.storage.cdaActive',cdcFunctions.isCDAActive());\n        if(Dashboards.storage.cdaActive == false){\n            htmlObject.addClass('inactive');\n            htmlObject.removeClass('active');\n        } else if(Dashboards.storage.cdaActive == true){\n            htmlObject.addClass('active');\n            htmlObject.removeClass('inactive');\n        }\n    }\n    else if(map == 'mondrian'){\n        Dashboards.setParameter('Dashboards.storage.mondrianActive',cdcFunctions.isMondrianActive());\n        if(Dashboards.storage.mondrianActive == false){\n            htmlObject.addClass('inactive');\n            htmlObject.removeClass('active');\n        } else if(Dashboards.storage.mondrianActive == true){\n            htmlObject.addClass('active');\n            htmlObject.removeClass('inactive');\n        }\n    }  \n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "function(){\n    var htmlObject = $(\"#\"+this.htmlObject).find('button');\n        \n    var div1 = '<span class=buttonLabel> </span>';\n    var div2 = '<span class=toggleLabel>(click to toggle)</span>';\n    \n    htmlObject.html(div1+''+div2);\n    if(map == 'cda'){\n        if(Dashboards.storage.cdaActive == false){\n            htmlObject.find('.buttonLabel').text('Disabled');\n        } else if(Dashboards.storage.cdaActive == true){\n            htmlObject.find('.buttonLabel').text('Enabled');\n        }\n    } else if(map == 'mondrian'){\n        if(Dashboards.storage.mondrianActive == false){\n            htmlObject.find('.buttonLabel').text('Disabled');\n        } else if(Dashboards.storage.mondrianActive == true){\n            htmlObject.find('.buttonLabel').text('Enabled');\n        }\n    }\n    \n    \n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "d3edf9e5-0d44-2ea0-4a08-dc80e43de9c5",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "maxSizeHelpButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Help & Info",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "maxSizeHelpButton",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(event){\n    render_maxSizeHelpPopup.popup($(event.target));\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "38067ba2-7251-3f19-9e20-1457baae1888",
+    "type": "Componentspopup",
+    "typeDesc": "Popup Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "maxSizeHelpPopup",
+      "type": "Id"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "htmlObject",
+      "value": "maxSizeHelpPopup",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "gravity",
+      "value": "W",
+      "type": "Gravity"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     }
+    ]
+   },
+   {
+    "id": "5c4ef639-50a7-fcf6-6fe0-e9cdad2fc865",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "evictionHelpButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Help & Info",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "evictionHelpButton",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(event){\n    render_evictionHelpPopup.popup($(event.target));\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "31f0196d-c78c-bd51-37e4-9282c79e847f",
+    "type": "Componentspopup",
+    "typeDesc": "Popup Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "evictionHelpPopup",
+      "type": "Id"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "htmlObject",
+      "value": "evictionHelpPopup",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "gravity",
+      "value": "W",
+      "type": "Gravity"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     }
+    ]
+   },
+   {
+    "id": "13ff8dd2-6e50-fbe3-b91a-6ca4d577a0c6",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "timeToLiveHelpButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Help & Info",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "timeToLiveHelpButton",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(event){\n    render_timeToLiveHelpPopup.popup($(event.target));\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "e3636872-b3b1-f40f-5081-1c92fcb35391",
+    "type": "Componentspopup",
+    "typeDesc": "Popup Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "timeToLiveHelpPopup",
+      "type": "Id"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "htmlObject",
+      "value": "timeToLiveHelpPopup",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "gravity",
+      "value": "W",
+      "type": "Gravity"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
      }
     ]
    }

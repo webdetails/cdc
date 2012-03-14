@@ -135,6 +135,7 @@ cdcFunctions.siteMap = function () {
 
 cdcFunctions.isCDAActive = function(){
 	Dashboards.setParameter('map','cda');
+	Dashboards.setParameter('name','enabled');
 	Dashboards.update(render_getDefinitionRequest);
 	if(resultVar == undefined) return false;
 	return resultVar.result;
@@ -142,6 +143,7 @@ cdcFunctions.isCDAActive = function(){
 
 cdcFunctions.isMondrianActive = function(){
 	Dashboards.setParameter('map','mondrian');
+	Dashboards.setParameter('name','enabled');
 	Dashboards.update(render_getDefinitionRequest);
 	if(resultVar == undefined) return false;
 	return resultVar.result;
@@ -150,38 +152,42 @@ cdcFunctions.isMondrianActive = function(){
 
 cdcFunctions.enableCDACache = function(){
 	Dashboards.setParameter('map','cda');
+	Dashboards.setParameter('name','enabled');
 	Dashboards.setParameter('value',true);
 	Dashboards.update(render_setDefinitionRequest);
 	if(resultVar != undefined) {
-		alert(resultVar.result);
+		jAlert(resultVar.result,'');
 	}
 	
 };
 
 cdcFunctions.disableCDACache = function(){
 	Dashboards.setParameter('map','cda');
+	Dashboards.setParameter('name','enabled');
 	Dashboards.setParameter('value',false);
 	Dashboards.update(render_setDefinitionRequest);
 	if(resultVar != undefined) {
-		alert(resultVar.result);
+		jAlert(resultVar.result,'');
 	}
 };
 
 cdcFunctions.enableMondrianCache = function(){
 	Dashboards.setParameter('map','mondrian');
+	Dashboards.setParameter('name','enabled');
 	Dashboards.setParameter('value',true);
 	Dashboards.update(render_setDefinitionRequest);
 	if(resultVar != undefined) {
-		alert(resultVar.result);
+		jAlert(resultVar.result,'');
 	}
 };
 
 cdcFunctions.disableMondrianCache = function(){
 	Dashboards.setParameter('map','mondrian');
+	Dashboards.setParameter('name','enabled');
 	Dashboards.setParameter('value',false);
 	Dashboards.update(render_setDefinitionRequest);
 	if(resultVar != undefined) {
-		alert(resultVar.result);
+		jAlert(resultVar.result,'');
 	}
 };
 
@@ -452,15 +458,18 @@ cdc.clusterInfo = {
   drawNode: function(i,node,ph) {
     var $elem = $("<div id='node" + i + "' class='nodeDetail span-24 last'></div>"),
         $header = $("<div class='WDdataCell'><div class='WDdataCellHeader'>" + 
-        "<div class='memberName'>Node " + i + ": IP " + node.address.substr(1) + "</div>" +
+        "<div class='memberName'>Node " + i + "</div>" +
         "</div></div>"),
         $body,
         clone;
     $header.appendTo($elem);
+    $("<div class='WDdataCell2 cacheIP'> Cache IP: " + node.address.substr(1) + "</div>").appendTo($elem);
     if(node.isSuperClient) {
       $header.find('.WDdataCellHeader').append("<div class='superClient'>Super Client</div>");
     } else {
       $body = $("#dummyElementBody").clone();
+      $body.css('margin-top','0px');
+      $body.css('border-top','0px solid');
       $body.find("[id]").add($body).removeAttr("id");
       //cache composition chart
       cdc.clusterInfo.drawMemoryTable(node,$body.find('.cacheComposition'));       
@@ -468,20 +477,16 @@ cdc.clusterInfo = {
       //cache memory
       cdcFunctions.cloneCacheMemoryText($body, node);
       //java runtime memory
-      clone = cdcFunctions.cloneJavaRuntimeMemoryChart($body, node);
+      cdc.clusterInfo.drawRuntimeTable(node,$body.find('.javaRuntimeMemory'));
+      //clone = cdcFunctions.cloneJavaRuntimeMemoryChart($body, node);
       
       //append member
       $body.appendTo($elem);
-      //$("#"+clone1.htmlObject).css('padding', '0px 30px');
-      $("#"+clone.htmlObject).css('padding', '0px 30px');
       
       //updateQueue.push(clone1);
     }
     $elem.appendTo(ph);
     
-    if (clone) {
-      Dashboards.update(clone);
-    }
     console.log($elem);
   },
 
@@ -505,26 +510,122 @@ cdc.clusterInfo = {
   drawMemoryTable: function(node, ph) {
 
     var $table = $("<table class='composition'>");
-    $table.append("<thead><tr><th>Items</th><th class='count'>Count</th><th>Memory</th></tr></thead>");
+    $table.append("<thead><tr><th class='column0'></th ><th class='column1 count'></th><th class='column2'></th></tr></thead>");
     var body = $("<tbody>").appendTo($table),
-        backupMemory = cdc.clusterInfo.byteMagnitude(node.mapInfo.backupMemory),
-        backupPercent = cdc.clusterInfo.memoryPercent(node.mapInfo.backupMemory, node.javaRuntimeInfo); 
-        ownedMemory = cdc.clusterInfo.byteMagnitude(node.mapInfo.ownedMemory),
-        ownedPercent = cdc.clusterInfo.memoryPercent(node.mapInfo.ownedMemory, node.javaRuntimeInfo); 
-    $("<tr>" +
-      "<td>Owned</td>" +
-      "<td class='count'>" + node.mapInfo.ownedCount + "</td>" +
-      "<td>" + ownedMemory + " (" +ownedPercent.toFixed(2) + "%)</td>" +
-      "<td></td>" +
-      "</tr>").appendTo(body);
-    $("<tr>" +
-      "<td>Backup</td>" +
-      "<td class='count'>" + node.mapInfo.backupCount + "</td>" +
-      "<td>" + backupMemory + " (" +backupPercent.toFixed(2) + "%)</td>" +
-      "<td></td>" +
-      "</tr>").appendTo(body);
+        backupMemory = cdc.clusterInfo.byteMagnitude(node.mapInfo.backupMemory.toFixed(0)),
+        backupPercent = cdc.clusterInfo.memoryPercent(node.mapInfo.backupMemory.toFixed(0), node.javaRuntimeInfo); 
+        ownedMemory = cdc.clusterInfo.byteMagnitude(node.mapInfo.ownedMemory.toFixed(0)),
+        ownedPercent = cdc.clusterInfo.memoryPercent(node.mapInfo.ownedMemory.toFixed(0), node.javaRuntimeInfo); 
+      
+    var $countLine1 = $("<tr></tr>"); 
+    var $countLine2 = $("<tr></tr>"); 
+    
+    var $memoryLine1 = $("<tr></tr>"); 
+    var $memoryLine2 = $("<tr></tr>");  
+       
+    $("<td class='column0' rowspan='2'><b>Count</b></td>").appendTo($countLine1);
+    var $countOwnedValue = $("<td class='column1 count'>"+ node.mapInfo.ownedCount +"</td>").appendTo($countLine1);
+    var $countOwnedValueBar = $("<td class='column2'></td>").appendTo($countLine1);
+    
+	var $countBackupValue = $("<td class='column1 count'>"+ node.mapInfo.backupCount +"</td>").appendTo($countLine2);
+	var $countBackupValueBar = $("<td class='column2'></td>").appendTo($countLine2);
+
+    
+
+
+    $("<td class='column0' rowspan='2'><b>Memory</b></td>").appendTo($memoryLine1);  
+    //   $("<td class='column0'><b>Backup</b></td>").appendTo($memoryLine2);
+ 
+	var $memoryOwnedPercentage= $("<td class='column1 count'>" + ownedMemory + " (" +ownedPercent.toFixed(1) + "%)</td>").appendTo($memoryLine1);
+	var $memoryOwnedPercentageBar = $("<td class='column2'></td>").appendTo($memoryLine1);
+	
+    var $memoryBackupPercentage= $("<td class='column1 count'>" + backupMemory + " (" +backupPercent.toFixed(1) + "%)</td>").appendTo($memoryLine2);
+    var $memoryBackupPercentageBar = $("<td class='column2'></td>").appendTo($memoryLine2);
+    
+    
+	$countLine1.appendTo(body);
+	$countLine2.appendTo(body);
+
+	$("<tr><td colspan=3 ></td></tr>").appendTo(body);
+	
+
+	$memoryLine1.appendTo(body);	
+    $memoryLine2.appendTo(body);
+    
+	var maxCount = Math.max.apply(Math,[node.mapInfo.ownedCount,node.mapInfo.backupCount]);
+      
     ph.append($table);
+    
+    cdc.clusterInfo.appendBar(node.mapInfo.ownedCount, maxCount, 0, $countOwnedValueBar,"rgb(3,39,42)");
+    cdc.clusterInfo.appendBar(node.mapInfo.backupCount, maxCount, 0, $countBackupValueBar,"rgb(130,146,153)");
+    
+    cdc.clusterInfo.appendBar(ownedPercent, 100, 0, $memoryOwnedPercentageBar,"rgb(3,39,42)");
+    cdc.clusterInfo.appendBar(backupPercent, 100, 0, $memoryBackupPercentageBar,"rgb(130,146,153)");
+    
   },
+  
+  
+  appendBar: function(val, max, min, container, color){
+	  var bar = $("<div>&nbsp;</div>").addClass('dataBarContainer').appendTo(container);
+	  var wtmp = 70;
+	  var htmp = 10;       
+	  
+	  var leftVal  = Math.min(val,0),
+	    rightVal = Math.max(val,0);
+	  
+	  var xx = pv.Scale.linear(min,max).range(0,wtmp); 
+	  
+	  var paperSize = xx(Math.min(rightVal,max)) - xx(min);
+	  paperSize = (paperSize>1)?paperSize:1;
+	  var paper = Raphael(bar.get(0), paperSize , htmp);
+	  var c = paper.rect(xx(leftVal), 0, xx(rightVal)-xx(leftVal), htmp);
+	  
+	  c.attr({
+	  	fill: color,
+	  	stroke: color,
+	  	title: "Value: "+ val
+	  });
+  
+  },
+  
+  drawRuntimeTable: function(node, ph) {
+  
+      var $table = $("<table class='runtime'>");
+      $table.append("<thead><tr class='column0'><th></th class='column1'><th></th></tr></thead>");
+      var body = $("<tbody>").appendTo($table);
+      
+      var $freeLine = $("<tr></tr>"); 
+      var $totalLine = $("<tr></tr>"); 
+      var $maxLine = $("<tr></tr>"); 
+         
+      $("<td class='column0'><b>Free</b></td>").appendTo($freeLine);
+      $("<td class='column1 count'>"+ node.javaRuntimeInfo.freeMemory +"</td>").appendTo($freeLine);
+      var $freeValueBar = $("<td class='column2'></td>").appendTo($freeLine);
+      
+      
+      $("<td class='column0'><b>Total</b></td>").appendTo($totalLine);
+      $("<td class='column1 count'>"+ node.javaRuntimeInfo.totalMemory +"</td>").appendTo($totalLine);
+      var $totalValueBar = $("<td class='column2'></td>").appendTo($totalLine);
+      
+      $("<td class='column0'><b>Max</b></td>").appendTo($maxLine);
+      $("<td class='column1 count'>"+ node.javaRuntimeInfo.maxMemory +"</td>").appendTo($maxLine);
+      var $maxValueBar = $("<td class='column2'></td>").appendTo($maxLine);
+      
+      $freeLine.appendTo(body);
+      $totalLine.appendTo(body);  
+      $maxLine.appendTo(body);
+
+          
+      cdc.clusterInfo.appendBar(node.javaRuntimeInfo.freeMemory, node.javaRuntimeInfo.maxMemory, 0, $freeValueBar,"rgb(3,39,42)");
+          
+      cdc.clusterInfo.appendBar(node.javaRuntimeInfo.maxMemory, node.javaRuntimeInfo.maxMemory, 0, $maxValueBar,"rgb(3,39,42)");
+          
+      cdc.clusterInfo.appendBar(node.javaRuntimeInfo.totalMemory, node.javaRuntimeInfo.maxMemory, 0, $totalValueBar,"rgb(3,39,42)");
+      
+           
+
+	ph.append($table);
+    },
 
   byteMagnitude: function(n) {
     if (n == 0) {
@@ -532,7 +633,7 @@ cdc.clusterInfo = {
     }
     var units = ['B','KiB', 'MiB', 'GiB', 'TiB'];
     var magnitude = Math.min(units.length, Math.floor(Math.log(n)/Math.log(1024)));
-    return (n/Math.pow(1024,magnitude)).toFixed(2) + " " + units[magnitude];
+    return (n/Math.pow(1024,magnitude)).toFixed(0) + " " + units[magnitude];
   },
 
   memoryPercent: function(cacheSize, runtime) {

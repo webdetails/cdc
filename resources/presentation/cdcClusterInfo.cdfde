@@ -3,6 +3,29 @@
   "title": "cToolsTemplate",
   "rows": [
    {
+    "id": "729557af-6cba-35dc-3173-b09a5802493e",
+    "type": "LayoutResourceCode",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "clusterInfoRules",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Css",
+      "type": "Label"
+     },
+     {
+      "name": "resourceCode",
+      "value": "#body {\n    padding-top: 10px;\n} ",
+      "type": "Resource"
+     }
+    ]
+   },
+   {
     "id": "ec2a3a0f-b941-defd-7b82-48f5c8c24d25",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
@@ -156,6 +179,112 @@
       "name": "textAlign",
       "value": "",
       "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "fbc5eb71-d1d1-348e-68cc-77586bb8729e",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "379235e1-4026-4e32-3efe-d74c3514d8f1",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdcVersion",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "cdcVersion",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "f347b3fe-6f41-5c85-be94-05c09737fc99",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "fbc5eb71-d1d1-348e-68cc-77586bb8729e",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "v.12.1 ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
      }
     ]
    },
@@ -335,39 +464,6 @@
       "name": "textAlign",
       "value": "",
       "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "3a02f7de-8e5b-05e4-344f-a0e1d09e555d",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "9dda27cc-ec54-ed66-b3df-7b513adc8595",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "CDC ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
      }
     ]
    },
@@ -594,29 +690,6 @@
     ]
    },
    {
-    "id": "b4e90d7f-2f57-df32-879f-2ed103e1f27c",
-    "type": "LayoutSpace",
-    "typeDesc": "Space",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "height",
-      "value": "10",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
     "id": "364d6651-34b2-2a9a-24c3-4a785b8f40cd",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -811,7 +884,7 @@
      },
      {
       "name": "height",
-      "value": "465",
+      "value": "510",
       "type": "Integer"
      },
      {
@@ -955,7 +1028,7 @@
     "properties": [
      {
       "name": "name",
-      "value": "",
+      "value": "nodeMemoryUsage",
       "type": "Id"
      },
      {
@@ -986,7 +1059,7 @@
     ]
    },
    {
-    "id": "e85ba932-f671-df9c-5f23-42b57df8676b",
+    "id": "4d712b19-82ef-f4a9-c204-3bc0f62a7849",
     "type": "LayoutColumn",
     "typeDesc": "Column",
     "parent": "961b10ad-a046-f6bc-1418-4282f504333a",
@@ -998,17 +1071,17 @@
      },
      {
       "name": "columnSpan",
-      "value": 5,
+      "value": "22",
       "type": "Integer"
      },
      {
       "name": "columnPrepend",
-      "value": "",
+      "value": "1",
       "type": "Integer"
      },
      {
       "name": "columnAppend",
-      "value": "",
+      "value": "1",
       "type": "Integer"
      },
      {
@@ -1059,10 +1132,48 @@
     ]
    },
    {
-    "id": "dd49993a-ad25-f9fc-e914-8c27c4c84b2b",
+    "id": "3adc8230-584a-baa8-5b84-07880b72f64e",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "4d712b19-82ef-f4a9-c204-3bc0f62a7849",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "c2884cd2-9d5d-cb20-d7ef-4bd3542d1183",
     "type": "LayoutHtml",
     "typeDesc": "Html",
-    "parent": "e85ba932-f671-df9c-5f23-42b57df8676b",
+    "parent": "3adc8230-584a-baa8-5b84-07880b72f64e",
     "properties": [
      {
       "name": "name",
@@ -1071,7 +1182,7 @@
      },
      {
       "name": "html",
-      "value": "<span class='summarylabel'>Node memory usage (%):</span> ",
+      "value": "<div class='chartTitle'>\n    <b> Node Memory Usage </b>\n    (%)\n</div> ",
       "type": "Html"
      },
      {
@@ -1092,10 +1203,10 @@
     ]
    },
    {
-    "id": "4d712b19-82ef-f4a9-c204-3bc0f62a7849",
-    "type": "LayoutColumn",
-    "typeDesc": "Column",
-    "parent": "961b10ad-a046-f6bc-1418-4282f504333a",
+    "id": "5162ade7-9267-d288-b0d1-57ac7267c278",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "4d712b19-82ef-f4a9-c204-3bc0f62a7849",
     "properties": [
      {
       "name": "name",
@@ -1103,39 +1214,9 @@
       "type": "Id"
      },
      {
-      "name": "columnSpan",
-      "value": "19",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrepend",
+      "name": "height",
       "value": "",
       "type": "Integer"
-     },
-     {
-      "name": "columnAppend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrependTop",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnAppendBottom",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBigBorder",
-      "value": "false",
-      "type": "Boolean"
      },
      {
       "name": "backgroundColor",
@@ -1146,11 +1227,6 @@
       "name": "roundCorners",
       "value": "",
       "type": "RoundCorners"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
      },
      {
       "name": "cssClass",
@@ -1172,7 +1248,7 @@
     "properties": [
      {
       "name": "name",
-      "value": "",
+      "value": "nodeCacheElementCount",
       "type": "Id"
      },
      {
@@ -1203,7 +1279,7 @@
     ]
    },
    {
-    "id": "695bee2d-176e-282f-ba96-90aa1baec395",
+    "id": "c2383331-6e70-e094-f41e-8bb481c3fedb",
     "type": "LayoutColumn",
     "typeDesc": "Column",
     "parent": "8ee8e1b2-97db-e864-2262-406732de13f0",
@@ -1215,17 +1291,17 @@
      },
      {
       "name": "columnSpan",
-      "value": 5,
+      "value": "22",
       "type": "Integer"
      },
      {
       "name": "columnPrepend",
-      "value": "",
+      "value": "1",
       "type": "Integer"
      },
      {
       "name": "columnAppend",
-      "value": "",
+      "value": "1",
       "type": "Integer"
      },
      {
@@ -1276,10 +1352,48 @@
     ]
    },
    {
-    "id": "d94a146c-0587-6b2a-5001-98f29629a7ce",
+    "id": "2e949478-f2c6-9dfc-66a9-57ddf5751a63",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "c2383331-6e70-e094-f41e-8bb481c3fedb",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "1b62ef40-9d0a-b047-bc9f-fb04896e3d28",
     "type": "LayoutHtml",
     "typeDesc": "Html",
-    "parent": "695bee2d-176e-282f-ba96-90aa1baec395",
+    "parent": "2e949478-f2c6-9dfc-66a9-57ddf5751a63",
     "properties": [
      {
       "name": "name",
@@ -1288,7 +1402,7 @@
      },
      {
       "name": "html",
-      "value": "<span class='summarylabel'>Node cache element count:</span> ",
+      "value": "<div class='chartTitle'>\n    <b> Node Cache Element Count </b>\n</div> ",
       "type": "Html"
      },
      {
@@ -1309,10 +1423,10 @@
     ]
    },
    {
-    "id": "c2383331-6e70-e094-f41e-8bb481c3fedb",
-    "type": "LayoutColumn",
-    "typeDesc": "Column",
-    "parent": "8ee8e1b2-97db-e864-2262-406732de13f0",
+    "id": "63f75994-4a32-5705-36c1-4c8c5cf154e8",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "c2383331-6e70-e094-f41e-8bb481c3fedb",
     "properties": [
      {
       "name": "name",
@@ -1320,39 +1434,9 @@
       "type": "Id"
      },
      {
-      "name": "columnSpan",
-      "value": "19",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrepend",
+      "name": "height",
       "value": "",
       "type": "Integer"
-     },
-     {
-      "name": "columnAppend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrependTop",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnAppendBottom",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBigBorder",
-      "value": "false",
-      "type": "Boolean"
      },
      {
       "name": "backgroundColor",
@@ -1363,11 +1447,6 @@
       "name": "roundCorners",
       "value": "",
       "type": "RoundCorners"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
      },
      {
       "name": "cssClass",
@@ -1972,7 +2051,7 @@
      },
      {
       "name": "columnSpan",
-      "value": "8",
+      "value": "7",
       "type": "Integer"
      },
      {
@@ -2083,7 +2162,7 @@
      },
      {
       "name": "html",
-      "value": "Cache Memory ",
+      "value": "<span> <b>Cache Memory </b></span>\n<span style='font-size: 12px'> Used Memory (%) </span> ",
       "type": "Html"
      },
      {
@@ -2321,77 +2400,6 @@
     ]
    },
    {
-    "id": "5a277391-03f3-4001-24cb-e4b23dde5ae6",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
-    "parent": "0bb2ac75-54c5-46a9-354b-dc985a053b34",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "cssClass",
-      "value": "cacheMemoryFooter",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "79f6430e-3e28-942a-4968-f11dcd503d57",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "5a277391-03f3-4001-24cb-e4b23dde5ae6",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "Used Memory ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
     "id": "3f79ee04-eac6-678f-b21f-961cd95cf080",
     "type": "LayoutColumn",
     "typeDesc": "Column",
@@ -2404,7 +2412,7 @@
      },
      {
       "name": "columnSpan",
-      "value": "8",
+      "value": "9",
       "type": "Integer"
      },
      {
@@ -2449,7 +2457,7 @@
      },
      {
       "name": "height",
-      "value": "200",
+      "value": "180",
       "type": "Integer"
      },
      {
@@ -2515,7 +2523,7 @@
      },
      {
       "name": "html",
-      "value": "Cache Composition ",
+      "value": "<span>\n    <b>Cache Composition </b> \n</span>\n<span style='font-size: 12px'>\n    <div class='memoryLegend'> </div>\n    <span>Owned</span>\n</span>\n<span style='font-size: 12px'>\n    <div class='countLegend'> </div>\n    <span>Backup</span>\n</span> ",
       "type": "Html"
      },
      {
@@ -2770,7 +2778,7 @@
      },
      {
       "name": "html",
-      "value": "Java Runtime Memory ",
+      "value": "<span>\n    <b>Java Runtime Memory </b> \n</span>\n<span style='font-size: 12px'>\n    <div class='memoryLegend'> </div>\n    <span>Memory</span>\n</span>\n ",
       "type": "Html"
      },
      {
@@ -4115,7 +4123,7 @@
      },
      {
       "name": "width",
-      "value": "735",
+      "value": "850",
       "type": "Integer"
      },
      {
@@ -4230,7 +4238,7 @@
      },
      {
       "name": "title",
-      "value": "",
+      "value": " ",
       "type": "String"
      },
      {
@@ -4240,7 +4248,7 @@
      },
      {
       "name": "cccTitleSize",
-      "value": 25,
+      "value": "10",
       "type": "Integer"
      },
      {
@@ -4250,7 +4258,7 @@
      },
      {
       "name": "cccLegendPosition",
-      "value": "bottom",
+      "value": "top",
       "type": "Anchor"
      },
      {
@@ -4260,7 +4268,7 @@
      },
      {
       "name": "cccLegendAlign",
-      "value": "center",
+      "value": "right",
       "type": "SquareAlign"
      },
      {
@@ -4275,7 +4283,7 @@
      },
      {
       "name": "cccXAxisSize",
-      "value": 30,
+      "value": "50",
       "type": "Integer"
      },
      {
@@ -4300,7 +4308,7 @@
      },
      {
       "name": "cccYAxisFullGrid",
-      "value": "false",
+      "value": "true",
       "type": "Boolean"
      },
      {
@@ -4435,7 +4443,7 @@
      },
      {
       "name": "preExecution",
-      "value": "",
+      "value": "function(){\n    this.chartDefinition.extensionPoints = [\n       ['xAxisLabel_font','normal 13px sans-serif'],\n       ['xAxisLabel_textStyle','#05282C'],\n       ['xAxisRule_strokeStyle','#cad2d6'],\n       ['yAxisGrid_strokeStyle','#cad2d6'],\n       ['yAxisRule_strokeStyle','rgba(255,255,255,1)'],\n       ['yAxisLabel_textStyle','#05282C'],\n       ['yAxisTicks_strokeStyle','rgba(255,255,255,1)'],\n       ['legendLabel_textStyle','#05282C']\n    ];\n}\n\n",
       "type": "JavaScript"
      },
      {
@@ -4469,7 +4477,7 @@
      },
      {
       "name": "width",
-      "value": "735",
+      "value": "850",
       "type": "Integer"
      },
      {
@@ -4584,7 +4592,7 @@
      },
      {
       "name": "title",
-      "value": "",
+      "value": " ",
       "type": "String"
      },
      {
@@ -4594,7 +4602,7 @@
      },
      {
       "name": "cccTitleSize",
-      "value": 25,
+      "value": "10",
       "type": "Integer"
      },
      {
@@ -4604,7 +4612,7 @@
      },
      {
       "name": "cccLegendPosition",
-      "value": "bottom",
+      "value": "top",
       "type": "Anchor"
      },
      {
@@ -4614,7 +4622,7 @@
      },
      {
       "name": "cccLegendAlign",
-      "value": "center",
+      "value": "right",
       "type": "SquareAlign"
      },
      {
@@ -4629,7 +4637,7 @@
      },
      {
       "name": "cccXAxisSize",
-      "value": 30,
+      "value": "50",
       "type": "Integer"
      },
      {
@@ -4654,7 +4662,7 @@
      },
      {
       "name": "cccYAxisFullGrid",
-      "value": "false",
+      "value": "true",
       "type": "Boolean"
      },
      {
@@ -4789,7 +4797,7 @@
      },
      {
       "name": "preExecution",
-      "value": "",
+      "value": "function(){\n    this.chartDefinition.extensionPoints = [\n       ['xAxisLabel_font','normal 13px sans-serif'],\n       ['xAxisLabel_textStyle','#05282C'],\n       ['xAxisRule_strokeStyle','#cad2d6'],\n       ['yAxisGrid_strokeStyle','#cad2d6'],\n       ['yAxisRule_strokeStyle','rgba(255,255,255,1)'],\n       ['yAxisLabel_textStyle','#05282C'],\n       ['yAxisTicks_strokeStyle','rgba(255,255,255,1)'],\n       ['legendLabel_textStyle','#05282C']\n    ];\n}\n\n",
       "type": "JavaScript"
      },
      {
