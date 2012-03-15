@@ -1,0 +1,92 @@
+#popup_container {
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	min-width: 300px; /* Dialog will be no smaller than this */
+	max-width: 600px; /* Dialog will wrap after this width */
+	background: #FFF;
+	color: #000;
+}
+
+#popup_title {
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 1.75em;
+	color: #666;
+	background: #04282c ;
+	border: solid 1px #848F95;
+	border-bottom: solid 1px #999;
+	cursor: default;
+	padding: 0em;
+	margin: 0em;
+	height: 28px;
+}
+
+#popup_content {
+	padding: 1em 1.75em;
+	margin: 0em;
+	height: 118px;
+	background: #ffffff;
+	border: 1px solid #848F95;
+}
+
+#popup_message {
+	color: #04282C;
+   	font-family: Gudea;
+   	font-size: 20px;
+   	margin-top: 20px;
+   	text-align: center;
+}
+
+#popup_panel {
+	text-align: center;
+	margin: 25px;
+}
+
+#popup_panel input {
+	color: #0f1414;
+	height: 23px;
+	width: 86px;
+	border: 1px solid #829299;
+	font-size: 12px;
+	background-color: #ffffff;
+}
+#popup_panel input:hover {
+	border: 1px solid transparent;
+	background-color: #cad3d6;
+	color:  #0f1414;
+}
+
+#popup_panel input:active {
+	border: 1px solid #0f1414;
+	background-color: #cad3d6;
+	color: #0f1414;
+}
+
+#popup_prompt {
+	margin: .5em 0em;
+}
+
+
+#popup_title .cdcBig {
+	padding-top: 8px;
+	float: left;
+	background-image: url('img/CDC_logo_popup.png');
+	margin-left: 5px;
+}
+
+#popup_title .cdcSmall {
+	padding-top: 2px;
+	color: white;
+	font-weight: normal;
+	float: left;
+	margin: 2px 0px;
+}
+
+#popup_title .cdcVersion {
+	padding-top: 0px;
+	color: white;
+	font-weight: normal;
+	height: auto;
+	margin: 2px 10px;
+}

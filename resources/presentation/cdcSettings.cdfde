@@ -3307,7 +3307,7 @@
      },
      {
       "name": "height",
-      "value": "200",
+      "value": "",
       "type": "Integer"
      },
      {
@@ -3451,7 +3451,7 @@
      },
      {
       "name": "height",
-      "value": "170",
+      "value": "",
       "type": "Integer"
      },
      {
@@ -3595,7 +3595,7 @@
      },
      {
       "name": "height",
-      "value": "80",
+      "value": "",
       "type": "Integer"
      },
      {

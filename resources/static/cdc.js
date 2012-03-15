@@ -524,10 +524,10 @@ cdc.clusterInfo = {
     var $memoryLine2 = $("<tr></tr>");  
        
     $("<td class='column0' rowspan='2'><b>Count</b></td>").appendTo($countLine1);
-    var $countOwnedValue = $("<td class='column1 count'>"+ node.mapInfo.ownedCount +"</td>").appendTo($countLine1);
+    var $countOwnedValue = $("<td class='column1 count'>"+ cdc.clusterInfo.addCommas(node.mapInfo.ownedCount) +"</td>").appendTo($countLine1);
     var $countOwnedValueBar = $("<td class='column2'></td>").appendTo($countLine1);
     
-	var $countBackupValue = $("<td class='column1 count'>"+ node.mapInfo.backupCount +"</td>").appendTo($countLine2);
+	var $countBackupValue = $("<td class='column1 count'>"+ cdc.clusterInfo.addCommas(node.mapInfo.backupCount) +"</td>").appendTo($countLine2);
 	var $countBackupValueBar = $("<td class='column2'></td>").appendTo($countLine2);
 
     
@@ -568,7 +568,7 @@ cdc.clusterInfo = {
   appendBar: function(val, max, min, container, color){
 	  var bar = $("<div>&nbsp;</div>").addClass('dataBarContainer').appendTo(container);
 	  var wtmp = 70;
-	  var htmp = 10;       
+	  var htmp = 15;       
 	  
 	  var leftVal  = Math.min(val,0),
 	    rightVal = Math.max(val,0);
@@ -599,16 +599,16 @@ cdc.clusterInfo = {
       var $maxLine = $("<tr></tr>"); 
          
       $("<td class='column0'><b>Free</b></td>").appendTo($freeLine);
-      $("<td class='column1 count'>"+ node.javaRuntimeInfo.freeMemory +"</td>").appendTo($freeLine);
+      $("<td class='column1 count'>"+ cdc.clusterInfo.addCommas(node.javaRuntimeInfo.freeMemory) +"</td>").appendTo($freeLine);
       var $freeValueBar = $("<td class='column2'></td>").appendTo($freeLine);
       
       
       $("<td class='column0'><b>Total</b></td>").appendTo($totalLine);
-      $("<td class='column1 count'>"+ node.javaRuntimeInfo.totalMemory +"</td>").appendTo($totalLine);
+      $("<td class='column1 count'>"+ cdc.clusterInfo.addCommas(node.javaRuntimeInfo.totalMemory) +"</td>").appendTo($totalLine);
       var $totalValueBar = $("<td class='column2'></td>").appendTo($totalLine);
       
       $("<td class='column0'><b>Max</b></td>").appendTo($maxLine);
-      $("<td class='column1 count'>"+ node.javaRuntimeInfo.maxMemory +"</td>").appendTo($maxLine);
+      $("<td class='column1 count'>"+ cdc.clusterInfo.addCommas(node.javaRuntimeInfo.maxMemory) +"</td>").appendTo($maxLine);
       var $maxValueBar = $("<td class='column2'></td>").appendTo($maxLine);
       
       $freeLine.appendTo(body);
@@ -657,6 +657,18 @@ cdc.clusterInfo = {
         maxSize = runtime.maxMemory - overhead;
         
     return cacheSize / maxSize * 100;
+  },
+  
+  addCommas: function(nStr){
+  	nStr += '';
+  	x = nStr.split('.');
+  	x1 = x[0];
+  	x2 = x.length > 1 ? '.' + x[1] : '';
+  	var rgx = /(\d+)(\d{3})/;
+  	while (rgx.test(x1)) {
+  		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+  	}
+  	return x1 + x2;
   }
 }
 

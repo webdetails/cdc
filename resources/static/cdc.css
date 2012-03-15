@@ -915,8 +915,8 @@ div.cdcVersion {
 }
 
 .cacheMemory {
-	font-size: 105px;
-	padding: 40px 0px 0px 30px;
+	font-size: 100px;
+	padding: 45px 0px 0px 30px;
 	text-align: right;
 	color: #05282C;
 	display: inline-block;
@@ -1066,7 +1066,7 @@ table.composition .column4 {
 
 table.composition .dataBarContainer svg,
 table.runtime .dataBarContainer svg {
-top: 3px;
+top: 1px;
 }
 
 
@@ -1143,6 +1143,8 @@ top: 3px;
 	border: 1px solid #829299;
 	-webkit-box-shadow: 0 0 1px 1px rgba(0,0,0,0.3);
 	box-shadow: 0 0 1px 1px rgba(0,0,0,0.3);
+	border-radius: 0px;
+	padding: 15px;
 }
 
 .popupComponent a.close {
@@ -1160,5 +1162,5 @@ top: 3px;
 }
 
 .popupComponent.west .arrow {
-	background: url("img/tooltipArrow.png") no-repeat left top;
+	background: none;
 }
