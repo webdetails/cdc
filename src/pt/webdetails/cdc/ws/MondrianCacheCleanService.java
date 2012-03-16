@@ -4,6 +4,8 @@
 
 package pt.webdetails.cdc.ws;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 import javax.sql.DataSource;
 import mondrian.olap.*;
 import mondrian.olap.CacheControl.CellRegion;
@@ -74,6 +76,10 @@ public class MondrianCacheCleanService {
   private void flushCubes(String catalog, String cube){
     Connection connection = getMdxConnection(catalog);
 
+    //Ensure escaped '+' are transformed back to spaces
+    catalog = catalog.replace('+', ' ');
+    cube = cube.replace('+', ' ');
+    
     if (connection == null) {
       throw new InvalidArgumentException("Catalog " + catalog + " non available.");
     }
@@ -86,12 +92,34 @@ public class MondrianCacheCleanService {
       throw new InvalidArgumentException("Catalog " + catalog + " contains no cubes.");
     }
 
+    
     int i = 0;
     for (; i < cubes.length; i++) {
       if (cube == null || cubes[i].getName().equals(cube)) {
         logger.debug("flushing cube " + cubes[i].getName());
         CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PrintWriter pw = new PrintWriter(baos, true);
+        
+        
+        cacheControl.printCacheState(pw, cubeRegion);
+        
+        try {
+        logger.debug(new String(baos.toByteArray(), "UTF-8"));
+        } catch (Exception e) {}
+        
+        baos = new ByteArrayOutputStream();
+        pw = new PrintWriter(baos, true);
         cacheControl.flush(cubeRegion);
+        cacheControl.printCacheState(pw, cubeRegion);        
+        
+        
+        try {
+        logger.debug(new String(baos.toByteArray(), "UTF-8"));
+        } catch (Exception e) {}
+        
+        
         if(cube != null) break;
       }
     }
@@ -118,6 +146,12 @@ public class MondrianCacheCleanService {
     if(StringUtils.isEmpty(cube)) return Result.getError("No cube given.").toString();
     if(StringUtils.isEmpty(dimension)) return Result.getError("No dimension given.").toString();
     
+    //Ensure escaped '+' are transformed back to spaces
+    catalog = catalog.replace('+', ' ');
+    cube = cube.replace('+', ' ');
+    dimension = dimension.replace('+', ' ');
+    
+    
     try{
       flushHierarchies(catalog, cube, dimension, null);
       return Result.getOK("Dimension " + dimension + " cleaned from cache.").toString();
@@ -141,6 +175,14 @@ public class MondrianCacheCleanService {
     if(StringUtils.isEmpty(cube)) return Result.getError("No cube given.").toString();
     if(StringUtils.isEmpty(dimension)) return Result.getError("No dimension given.").toString();
     if(StringUtils.isEmpty(hierarchy)) return Result.getError("No hierarchy given.").toString();
+    
+    
+    //Ensure escaped '+' are transformed back to spaces
+    catalog = catalog.replace('+', ' ');
+    cube = cube.replace('+', ' ');
+    dimension = dimension.replace('+', ' ');
+    hierarchy = hierarchy.replace('+', ' ').replace("[", "").replace("]", "");
+    
     try{
      flushHierarchies(catalog, cube, dimension, hierarchy);
      return Result.getOK("Hierarchy " + hierarchy + " cleaned").toString();

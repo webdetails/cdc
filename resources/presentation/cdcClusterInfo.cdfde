@@ -2778,7 +2778,7 @@
      },
      {
       "name": "html",
-      "value": "<span>\n    <b>Java Runtime Memory </b> \n</span>\n<span style='font-size: 12px'>\n    <div class='memoryLegend'> </div>\n    <span>Memory</span>\n</span>\n ",
+      "value": "<span>\n    <b>Java Runtime Memory </b> \n</span>\n<span style='font-size: 12px'>\n    <div class='memoryLegend'> </div>\n    <span>Memory (bytes)</span>\n</span>\n ",
       "type": "Html"
      },
      {
@@ -2942,6 +2942,11 @@
       "name": "javaScript",
       "value": "true",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -2960,6 +2965,11 @@
       "name": "javaScript",
       "value": "true",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -2978,6 +2988,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -2996,6 +3011,11 @@
       "name": "propertyValue",
       "value": "clusterInfo",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -3014,6 +3034,11 @@
       "name": "javaScript",
       "value": "cdcFunctions.siteMap()",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -3032,6 +3057,11 @@
       "name": "propertyValue",
       "value": "cda",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -3050,6 +3080,11 @@
       "name": "propertyValue",
       "value": "25%",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4443,7 +4478,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function(){\n    this.chartDefinition.extensionPoints = [\n       ['xAxisLabel_font','normal 13px sans-serif'],\n       ['xAxisLabel_textStyle','#05282C'],\n       ['xAxisRule_strokeStyle','#cad2d6'],\n       ['yAxisGrid_strokeStyle','#cad2d6'],\n       ['yAxisRule_strokeStyle','rgba(255,255,255,1)'],\n       ['yAxisLabel_textStyle','#05282C'],\n       ['yAxisTicks_strokeStyle','rgba(255,255,255,1)'],\n       ['legendLabel_textStyle','#05282C']\n    ];\n}\n\n",
+      "value": "function(){\n    this.chartDefinition.extensionPoints = [\n       ['xAxisLabel_font','normal 13px sans-serif'],\n       ['xAxisLabel_textStyle','#05282C'],\n       ['xAxisRule_strokeStyle','#cad2d6'],\n       ['yAxisGrid_strokeStyle','#cad2d6'],\n       ['yAxisRule_strokeStyle','rgba(255,255,255,1)'],\n       ['yAxisLabel_textStyle','#05282C'],\n       ['yAxisTicks_strokeStyle','rgba(255,255,255,1)'],\n       ['legendLabel_textStyle','#05282C'],\n       ['legendArea_height', 14]\n    ];\n}\n\n",
       "type": "JavaScript"
      },
      {
@@ -4617,7 +4652,7 @@
      },
      {
       "name": "cccLegendSize",
-      "value": "",
+      "value": "25",
       "type": "Integer"
      },
      {
@@ -4797,7 +4832,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function(){\n    this.chartDefinition.extensionPoints = [\n       ['xAxisLabel_font','normal 13px sans-serif'],\n       ['xAxisLabel_textStyle','#05282C'],\n       ['xAxisRule_strokeStyle','#cad2d6'],\n       ['yAxisGrid_strokeStyle','#cad2d6'],\n       ['yAxisRule_strokeStyle','rgba(255,255,255,1)'],\n       ['yAxisLabel_textStyle','#05282C'],\n       ['yAxisTicks_strokeStyle','rgba(255,255,255,1)'],\n       ['legendLabel_textStyle','#05282C']\n    ];\n}\n\n",
+      "value": "function(){\n    this.chartDefinition.extensionPoints = [\n       ['xAxisLabel_font','normal 13px sans-serif'],\n       ['xAxisLabel_textStyle','#05282C'],\n       ['xAxisRule_strokeStyle','#cad2d6'],\n       ['yAxisGrid_strokeStyle','#cad2d6'],\n       ['yAxisRule_strokeStyle','rgba(255,255,255,1)'],\n       ['yAxisLabel_textStyle','#05282C'],\n       ['yAxisTicks_strokeStyle','rgba(255,255,255,1)'],\n       ['legendLabel_textStyle','#05282C'],\n       ['legendArea_height', 14]\n    ];\n}\n\n",
       "type": "JavaScript"
      },
      {
