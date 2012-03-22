@@ -626,8 +626,8 @@ div.activateButton span.buttonLabel {
 
 
 .boxshadow .pentaho-toggle-button button {
-    background: none repeat scroll 0 0 #CAD3D5;
-    border: 1px solid #FFFFFF;
+    background: none repeat scroll 0 0 #CAD3D6;
+    border: 1px solid #8b9da5;
     box-shadow: none;
     color: #8B9DA5;
     font-size: 16px;
@@ -640,7 +640,7 @@ div.activateButton span.buttonLabel {
 .pentaho-toggle-button-horizontal-first button {
 }
 .boxshadow .pentaho-toggle-button-down button {
-	color: #ffffff;
+	color: #FFFFFF;
 	font-weight: normal;
 	font-size: 16px;
 	border: solid 1px #829299;
@@ -655,7 +655,7 @@ div.activateButton span.buttonLabel {
 }
 .boxshadow .pentaho-toggle-button:hover button{
 	background: none repeat scroll 0 0 #CAD3D6;
-   	color: #FFFFFF;
+   	color: #03272a;
    	border-color: transparent;
 }
 
@@ -984,6 +984,12 @@ div.cdcVersion {
     padding-left: 5px;
     width: 447px;
 }
+
+.WDinput input:hover{
+	background: url("img/writeHover.png") no-repeat scroll 25px 1px transparent;
+}
+
+
 
 .WDinput input:focus {
 	background: url("img/writeFocus.png") no-repeat scroll 25px 1px transparent;

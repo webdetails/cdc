@@ -1,25 +1,52 @@
 Community Distributed Cache
 
-1) Settings
+1) Dependencies And Requirements
+    1.1) CDC fully suppports Mondrian 3.4 or above. Mondrian 3.3 is partially supported (cache clean will not work) and other Mondrian versions are not supported.
+    1.2) CDC requires:
+        a) CDF TRUNK-SNAPSHOT
+        b) CDE TRUNK-SNAPSHOT
+        c) CDA TRUNK-SNAPSHOT
+
+
+
+2) Settings
 Tweak the configuration of the maps used to store the cache for CDA and Mondrian.
 
-1.1) Enabled - Whether CDC cache is enabled. After changing this setting you should clear settings cache and reload plugins.
+2.1) Enabled - Whether CDC cache is enabled. After changing this setting you should clear settings cache and reload plugins.
 
-1.2) Max Size - How big will this cache be allowed to be.
-  1.2.1) Policy - How the max size is assessed. Can be one of:
-       1.2.1a) Cluster-wide map size (#) - Cap size by number of cache entries across all cache nodes.
-       1.2.1b) Partition-wide map size (#) - Cap size by number of cache entries in each partition.
-       1.2.1c) Map size per JVM (#) - Cap size by number of entries in each JVM.
-       1.2.1d) Used heap percentage (%) - Cap by percentage of JVM heap memory used for this cache.
-       1.2.1e) Used heap size (MB) - Cap amount of memory (in MB) of JVM heap memory that can be used by this cache.
-  1.2.2) Value - The actual value for the maximum size. Meaning depends on selected policy.
+2.2) Max Size - How big will this cache be allowed to be.
+  2.2.1) Policy - How the max size is assessed. Can be one of:
+       2.2.1a) Cluster-wide map size (#) - Cap size by number of cache entries across all cache nodes.
+       2.2.1b) Partition-wide map size (#) - Cap size by number of cache entries in each partition.
+       2.2.1c) Map size per JVM (#) - Cap size by number of entries in each JVM.
+       2.2.1d) Used heap percentage (%) - Cap by percentage of JVM heap memory used for this cache.
+       2.2.1e) Used heap size (MB) - Cap amount of memory (in MB) of JVM heap memory that can be used by this cache.
+  2.2.2) Value - The actual value for the maximum size. Meaning depends on selected policy.
 WARNING: setting a heap size beyond maximum available memory for JVM may result in cache becoming unusable at startup.
 
-1.3) Eviction - What to do when Max Size is reached.
-  1.3.1) Policy - How the cache will be cleaned 
-    1.3.1a) NONE - No eviction will be performed.
-    1.3.1b) LRU - Least Recently Used cache entries will be evicted.
-    1.3.1c) LFU - Least Frequently Used cache entries will be evicted.
-  1.3.2) Value - The percentage of the number of entries to remove from cache using either LRU of LFU.
+2.3) Eviction - What to do when Max Size is reached.
+  2.3.1) Policy - How the cache will be cleaned 
+    2.3.1a) NONE - No eviction will be performed.
+    2.3.1b) LRU - Least Recently Used cache entries will be evicted.
+    2.3.1c) LFU - Least Frequently Used cache entries will be evicted.
+  2.3.2) Value - The percentage of the number of entries to remove from cache using either LRU of LFU.
 
-1.4) Time to Live (s) - Cap the maximum time entries in this map can exist (0 means no limit). This setting will not override TTL settings on Mondrian/CDA; it will just be an extra constraint. 
+2.4) Time to Live (s) - Cap the maximum time entries in this map can exist (0 means no limit). This setting will not override TTL settings on Mondrian/CDA; it will just be an extra constraint. 
+
+
+
+3) Installation Notes
+    When installing manually, please remember to:
+    a) Copy the jars on system/cdc/pentaho-lib to webapps/pentaho/WEB-INF/lib.
+    b) Copy the appropiate jar for your mondrian version on system/cdc/mondrian-lib to webapps/pentaho/WEB-INF/lib.
+
+
+4) Runnning additional Hazelcast nodes
+    Download the cdc-redist file from http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/.
+    Unzip it on the machines you want to use as Hazelcast nodes and run launch-hazelcast. The new node should join the cluster
+    automatically.
+
+5) Other Notes
+    Due to the way Mondrian handles its cache cleaning operations , flushing a cube from cache does not necessarily mean you'll see less 
+elements on the Cluster Info page. 
+    
