@@ -261,6 +261,13 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
       </fileset>
     </copy>
 
+
+    <replace file="${stage.dir}/${plugin.name}/presentation/cdcHome.cdfde" token="v.12.1.a" value="v ${project.revision}"/> 
+    <replace file="${stage.dir}/${plugin.name}/presentation/cdcClusterInfo.cdfde" token="v.12.1" value="v ${project.revision}"/> 
+    <replace file="${stage.dir}/${plugin.name}/presentation/cdcCacheClean.cdfde" token="v.12.1" value="v ${project.revision}"/> 
+    <replace file="${stage.dir}/${plugin.name}/presentation/cdcSettings.cdfde" token="v.12.1" value="v ${project.revision}"/> 
+    <replace file="${stage.dir}/${plugin.name}/static/jquery.alerts.js" token="v.12.2" value="v ${project.revision}"/> 
+
     <!-- create the version file -->
     <echo file="${stage.dir}/${plugin.name}/VERSION.txt">${distribution.version}</echo>
     <echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version>${distribution.version}&lt;/version>"/>

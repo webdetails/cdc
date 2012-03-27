@@ -3,9 +3,25 @@
   <lifecycle-listener class="pt.webdetails.cdc.CdcLifeCycleListener"/>
   <static-paths>
     <static-path url="/cdc/static" localFolder="static"/>
+    <static-path url="/cdc/lang" localFolder="lang"/>
   </static-paths>
   
   <content-types />
+  
+	<overlays>
+		<overlay id="startup.dashboardToolbar"  resourcebundle="../content/cdc/lang/messages">
+			<overlay id="startup.dashboardToolbar" resourcebundle="../content/cdc/lang/messages">
+				<toolbarbutton id="newAnalysisButton" removeelement="false"/>
+				<toolbar id="mainToolbar">
+					<toolbarbutton id="newCDC" image="../content/cdc/static/img/CDC_logo.png" 
+                                        onclick="mainToolbarHandler.openUrl('${tabName}','${tabName}','content/cdc/home')" tooltiptext="${openNewCDC}" insertafter="newCDCButton"/>
+				</toolbar>
+			</overlay>
+		</overlay>
+	</overlays>
+  
+  
+  
     <content-generator scope="local" id="cdc" type="graphicsGenerator" url="">
       <classname>pt.webdetails.cdc.CdcContentGenerator</classname>
       <title>CDC</title>
