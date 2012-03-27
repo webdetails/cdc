@@ -72,6 +72,8 @@
             description = "WebAppClassLoader's lib folder"/>
             
     <property name="static.dist.dir" value="static-dist"/>
+	<property name="hazelcast.standalone.src" value="hazelcast-standalone"/>
+
 
     <tstamp/>
 
@@ -189,6 +191,14 @@
             <fileset dir="${dist.dir}" includes="*.jar"/>
         </copy>
     
+    	<copy todir="${hazelcast.standalone.dir}">
+    		<fileset dir="${hazelcast.standalone.src}"/>
+    	</copy>
+    	
+        <copy file="${hazelcast.standalone.config.file}" tofile="${hazelcast.standalone.dir}/hazelcast.xml"/>    	
+    	
+    
+<!--    
         <property name="java.bin.win" value="java" />
         <property name="java.bin.nix" value="java" />
         <property name="java.launcher.opts" value="-Xmx1024m -Djava.net.preferIPv4Stack=true -Dsun.lang.ClassLoader.allowArraySyntax=true -Dhazelcast.serializer.shared=true " />
@@ -197,7 +207,6 @@
         <property name="java.launcher.classpath.win" value="lib\hazelcast-*.jar;lib\*"/>
         <property name="java.launcher.classpath.nix" value="lib/hazelcast-*.jar:lib/*"/>
     
-    <!-- create launchers -->
         <echo file="${hazelcast.standalone.dir}/launch-hazelcast.sh">#!/bin/sh
 ${java.bin.nix} ${java.launcher.opts} $JAVA_OPTS -cp ${java.launcher.classpath.nix} ${hazelcast.server.class}
         </echo>
@@ -212,7 +221,9 @@ ${java.bin.nix} ${java.launcher.opts} $JAVA_OPTS -cp ${java.launcher.classpath.n
         <echo file="${hazelcast.standalone.dir}/launch-hazelcast-debug.bat">@echo off
 ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.win} ${hazelcast.debug.class}
         </echo>
-        <copy file="${hazelcast.standalone.config.file}" tofile="${hazelcast.standalone.dir}/hazelcast.xml"/>
+        
+        -->
+
     </target>
 
 
