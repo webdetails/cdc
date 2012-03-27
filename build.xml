@@ -328,9 +328,9 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
 
  </target>
  
- <target name="install-all" depends="clean, resolve, dist-standalone, dist-plugin, install-hazelcast, install-mondrian-adapter, install-plugin"/>
+ <target name="install-all" depends="clean, resolve, dist-standalone, dist-plugin, install-hazelcast, install-mondrian-adapter, install-plugin" description="Installs the plugin in the local biserver and copies hazelcast and mondrian to the server lib dir"/>
  
- <target name="install-hazelcast" depends="resolve,jar-hazelcast">
+ <target name="install-hazelcast" depends="resolve,jar-hazelcast" description="Installs hazelcast to the biserver lib dir">
    
     <fail message="plugin.local.server.dir not set - cannot copy"
           unless="plugin.local.server.dir"/>
@@ -363,7 +363,7 @@ ${java.bin.win} ${java.launcher.opts} -cp ${java.launcher.classpath.win} ${hazel
   </target>-->
  
   <!-- put jar in WEB-INF for mondrian -->
-  <target name="install-mondrian-adapter" depends="jar-mondrian">
+  <target name="install-mondrian-adapter" depends="jar-mondrian" description="Installs mondrian adapter to the biserver lib dir">
     <fail message="plugin.local.server.dir not set - cannot copy"
       unless="plugin.local.server.dir"/>
     <copy todir="${pentaho.lib.dir}">
