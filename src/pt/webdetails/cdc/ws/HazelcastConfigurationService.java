@@ -76,7 +76,7 @@ public class HazelcastConfigurationService {
           case Cda:
             try{
               ExternalConfigurationsManager.setCdaHazelcastEnabled(enabled);
-              return new Result(Result.Status.OK, "Please refresh plugins.").toString();
+              return new Result(Result.Status.OK, "Please refresh plugins (Tools -> Refresh -> System Settings) or restart Pentaho server.").toString();
             }
             catch(Exception e){
               return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
