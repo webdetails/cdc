@@ -76,7 +76,7 @@ public class HazelcastConfigurationService {
           case Cda:
             try{
               ExternalConfigurationsManager.setCdaHazelcastEnabled(enabled);
-              return new Result(Result.Status.OK, "Please refresh plugins (Tools -> Refresh -> System Settings) or restart Pentaho server.").toString();
+              return new Result(Result.Status.OK, "Configuration changed, please restart Pentaho server after finishing changes").toString();
             }
             catch(Exception e){
               return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
@@ -84,7 +84,7 @@ public class HazelcastConfigurationService {
           case Mondrian:
             try {
               ExternalConfigurationsManager.setMondrianHazelcastEnabled(enabled);
-              return new Result(Result.Status.OK, "Please restart Pentaho server.").toString();//TODO: may not be needed
+              return new Result(Result.Status.OK, "Configuration changed, please restart Pentaho server after finishing changes").toString();//TODO: may not be needed
             } catch (Exception e) {
               return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
             }
