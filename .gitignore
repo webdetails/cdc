@@ -1,7 +1,8 @@
-bin/*
-dist/*
-override.properties
-lib/*
-nbproject/private/*
+/bin/
+/dist/
+/override.properties
+/lib
+/nbproject/private
+/build
 *~
 *swp

@@ -5,6 +5,7 @@ package pt.webdetails.cdc;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletRequestWrapper;
@@ -75,9 +76,17 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         params.put("file", dashboardName);
         params.put("bypassCache", "true");
         params.put("absolute", "true");
-        params.put("debug", "true");
         params.put("root", getRoot());
 
+        ServletRequestWrapper wrapper = (ServletRequestWrapper) parameterProviders.get("path").getParameter("httprequest");
+        Enumeration originalParams = wrapper.getParameterNames();
+        // Iterate and put the values there
+        while(originalParams.hasMoreElements()) {
+            String originalParam = (String) originalParams.nextElement();
+            params.put(originalParam,wrapper.getParameter(originalParam));
+        }
+        
+        
         return params;
     }
 

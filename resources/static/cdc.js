@@ -215,9 +215,9 @@ cdcFunctions.cloneCacheCompositionChart = function(member, memberResults) {
 	valuesArray.resultset = resultset;
 	valuesArray.metadata = [];
 	
-	valuesArray.metadata[0] = { 'colIndex':0, 'colType':"String", 'colName':"Series"};
-	valuesArray.metadata[1] = { 'colIndex':1, 'colType':"Numeric", 'colName':"Memory"};
-	valuesArray.metadata[2] = { 'colIndex':2, 'colType':"Numeric", 'colName':"Count"};
+	valuesArray.metadata[0] = { 'colIndex':0, 'colType':"String", 'colName':"Series"};
+	valuesArray.metadata[1] = { 'colIndex':1, 'colType':"Numeric", 'colName':"Memory"};
+	valuesArray.metadata[2] = { 'colIndex':2, 'colType':"Numeric", 'colName':"Count"};
 
 	
 	clone.valuesArray = valuesArray;
@@ -254,8 +254,8 @@ cdcFunctions.cloneJavaRuntimeMemoryChart = function(member, memberResults){
 	valuesArray.resultset = resultset;
 	valuesArray.metadata = [];
 	
-	valuesArray.metadata[0] = { 'colIndex':0, 'colType':"String", 'colName':"Memory"};
-	valuesArray.metadata[1] = { 'colIndex':1, 'colType':"Numeric", 'colName':"Bytes"};
+	valuesArray.metadata[0] = { 'colIndex':0, 'colType':"String", 'colName':"Memory"};
+	valuesArray.metadata[1] = { 'colIndex':1, 'colType':"Numeric", 'colName':"Bytes"};
 
 	
 	clone.valuesArray = valuesArray;
