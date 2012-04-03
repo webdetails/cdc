@@ -10,53 +10,14 @@ import org.json.JSONArray;
 
 import pt.webdetails.cdc.CdcLifeCycleListener;
 import pt.webdetails.cdc.ExternalConfigurationsManager;
+import pt.webdetails.cdc.HazelcastConfigHelper;
+import pt.webdetails.cdc.HazelcastConfigHelper.MapConfigOption;
 import pt.webdetails.cdc.HazelcastProcessLauncher;
 
 import com.hazelcast.config.MapConfig;
-import com.hazelcast.config.MaxSizeConfig;
 import com.hazelcast.core.Hazelcast;
 
 public class HazelcastConfigurationService {
-  
-
-  enum MapConfigOption {
-    
-    maxSizePolicy,
-    maxSize,
-    evictionPercentage,
-    evictionPolicy,
-    timeTolive,
-    
-    enabled;
-    
-    public static MapConfigOption parse(String value){
-      try{
-        return valueOf(value);
-      }
-      catch(IllegalArgumentException e){
-        return null;
-      }
-    }
-    
-  }
- 
-  private static final String[] MAX_SIZE_POLICIES = new String[]{
-    MaxSizeConfig.POLICY_CLUSTER_WIDE_MAP_SIZE,
-    MaxSizeConfig.POLICY_MAP_SIZE_PER_JVM,
-    MaxSizeConfig.POLICY_PARTITIONS_WIDE_MAP_SIZE,
-    MaxSizeConfig.POLICY_USED_HEAP_PERCENTAGE,
-    MaxSizeConfig.POLICY_USED_HEAP_SIZE
-  };
-  static{
-    Arrays.sort(MAX_SIZE_POLICIES);
-  }
-  
-  private static final String[] EVICTION_POLICIES = new String[]{
-    "LRU", "LFU", "NONE"
-  };
-  static{
-    Arrays.sort(EVICTION_POLICIES);
-  }
  
   public String setMapOption(String map, String name, String value){
     MapConfigOption option = MapConfigOption.parse(name);
@@ -91,7 +52,7 @@ public class HazelcastConfigurationService {
         }
         break;
       case maxSizePolicy:
-        if(Arrays.binarySearch(MAX_SIZE_POLICIES, value) >= 0){
+        if(Arrays.binarySearch(HazelcastConfigHelper.MAX_SIZE_POLICIES, value) >= 0){
           mapConfig.getMaxSizeConfig().setMaxSizePolicy(value);
         }
         else return Result.getError("Unrecognized size policy.").toString();
@@ -107,7 +68,7 @@ public class HazelcastConfigurationService {
         }
         break;
       case evictionPolicy:
-        if(Arrays.binarySearch(EVICTION_POLICIES, value) >= 0){
+        if(Arrays.binarySearch(HazelcastConfigHelper.EVICTION_POLICIES, value) >= 0){
           mapConfig.setEvictionPolicy(value);
         }
         else return Result.getError("Unrecognized eviction policy").toString();
@@ -187,7 +148,7 @@ public class HazelcastConfigurationService {
 
   public static String getMaxSizePolicies(){
     JSONArray results = new JSONArray();
-    for(String value : MAX_SIZE_POLICIES){
+    for(String value : HazelcastConfigHelper.MAX_SIZE_POLICIES){
       results.put(value);  
     }
     return Result.getOK(results).toString();
@@ -195,15 +156,16 @@ public class HazelcastConfigurationService {
   
   public static String getEvictionPolicies(){
     JSONArray results = new JSONArray();
-    for(String value : EVICTION_POLICIES){
+    for(String value : HazelcastConfigHelper.EVICTION_POLICIES){
       results.put(value);  
     }
     return Result.getOK(results).toString();
   }
 
-  public String saveConfig(){
-    if( CdcLifeCycleListener.saveConfig(Hazelcast.getConfig())){
-      return new Result(Result.Status.OK, "Configuration saved.").toString();
+  public String saveConfig()
+  {
+    if( HazelcastConfigHelper.saveConfig()){
+        return new Result(Result.Status.OK, "Configuration saved and propagated.").toString();
     }
     else {
       return new Result(Result.Status.ERROR, "Error saving file.").toString();
@@ -219,14 +181,7 @@ public class HazelcastConfigurationService {
       return Result.getFromException(e).toString();
     }
   }
-  
-  //TODO:temp
-  public String launchJvmInstance(){
-    HazelcastProcessLauncher.launchProcess(null);
-    return Result.getOK("Process launched.").toString();
-  }
-  
-  //TODO:temp
+
   public String createLauncher(){
     String serverLauncher = HazelcastProcessLauncher.createLauncherFile(false);
     String debugLauncher = HazelcastProcessLauncher.createLauncherFile(true);
@@ -235,18 +190,25 @@ public class HazelcastConfigurationService {
         Result.getError(msg).toString() :
         Result.getOK(msg).toString();
   }
-  
-  //TODO: temporary, will be removed
-  @Deprecated
-  public String shutdownAll(){
-    try{
-      Hazelcast.shutdownAll();
-      return new Result(Result.Status.OK, "shutdown all.").toString();
-    }
-    catch(Exception e){
-      return Result.getFromException(e).toString();
-    }
-  }  
+
+//  
+//  private Collection<Boolean> spreadMapConfig(MapConfig mapConfig) throws ExecutionException, InterruptedException {
+//    
+//    ArrayList<Boolean> boolist = new ArrayList<Boolean>();
+//    for(Member member: Hazelcast.getCluster().getMembers()){
+//      if(!member.localMember()){//skip this
+//        DistributedTask<Boolean> distribMapConfig =
+//            new DistributedTask<Boolean>(new DistributedMapConfig(mapConfig), member);
+//        
+//        ExecutorService execService = Hazelcast.getExecutorService();
+//        execService.execute(distribMapConfig);
+//        boolist.add(distribMapConfig.get());
+//      }
+//    }
+//    return boolist;
+//  }
+
+
   
   
 }

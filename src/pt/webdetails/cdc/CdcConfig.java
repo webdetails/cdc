@@ -47,8 +47,8 @@ public class CdcConfig
     return pluginManager;
   }
    
-  public boolean isSuperClient(){
-    return getBooleanSetting("superClientMode", true);
+  public boolean isLiteMode(){
+    return getBooleanSetting("liteMode", true);
   }
   
   public boolean isDebugMode(){
@@ -97,6 +97,10 @@ public class CdcConfig
   }
   public static String getHazelcastStandaloneConfigFile(){
     return PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_STANDALONE_FILE);
+  }
+  
+  public String getVmMemory(){
+    return getStringSetting("vmMemory", "512m");
   }
   
   private static boolean getBooleanSetting(String section, boolean nullValue){

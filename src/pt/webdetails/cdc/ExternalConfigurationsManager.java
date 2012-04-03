@@ -75,14 +75,14 @@ public class ExternalConfigurationsManager {
     StringProperty mondrianCache = MondrianProperties.instance().SegmentCache;
     String mondrianCacheClassName = mondrianCache.get(); 
     
-    String toChange = null;
+    String toChange = StringUtils.EMPTY;
     if(enabled && !StringUtils.equals(mondrianCacheClassName, adapterClass)){
       toChange = adapterClass;
     }
     else if(!enabled && StringUtils.equals(mondrianCacheClassName, adapterClass)){
-     toChange = StringUtils.EMPTY;//will make mondrian fallback to default
+     toChange = null;// ;//will make mondrian fallback to default
     }
-    if(toChange != null){
+    if(!StringUtils.equals(toChange, StringUtils.EMPTY)){
       mondrianCache.set(toChange);
       //save
       FileOutputStream mondrianPropertiesOutStream = null;

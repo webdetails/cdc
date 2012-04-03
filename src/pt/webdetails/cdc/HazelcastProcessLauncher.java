@@ -5,6 +5,7 @@
 package pt.webdetails.cdc;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,12 +16,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 
+import com.hazelcast.config.Config;
+import com.hazelcast.config.XmlConfigBuilder;
+import com.hazelcast.core.Hazelcast;
+
 
 public class HazelcastProcessLauncher 
 {
+  public static final String INNER_PROC_VAR = "pt.webdetails.cdc.isInnerProc"; 
   private static String HAZELCAST_SERVER_CLASS = com.hazelcast.examples.StartServer.class.getName();
   private static String HAZELCAST_DEBUG_CLASS = com.hazelcast.examples.TestApp.class.getName(); 
   private static Log logger = LogFactory.getLog(HazelcastProcessLauncher.class);
+  private static double MEMORY_PADDING = 0.20;
+  private static String MEMORY_DEFAULT = "512m";
   private static final String[] cachedPlugins = {
     "cda", "cdc"
   };
@@ -28,14 +36,27 @@ public class HazelcastProcessLauncher
   private static final String[] JAVA_OPTIONS = {
     "-Djava.net.preferIPv4Stack=true",
     "-Dsun.lang.ClassLoader.allowArraySyntax=true", 
-    "-Dhazelcast.serializer.shared=true"
+    "-Dhazelcast.serializer.shared=true",
+    "-D" + INNER_PROC_VAR + "=true"
   };
   
-  public static void launchProcess(Long mem){
+  public static Process launchProcess(){//TODO: mem
     String[] paths = getHazelcastClasspaths();
     String classPathArg = StringUtils.join(paths, File.pathSeparatorChar);
     String java = System.getProperty("java.home") + "/bin/java";
     Runtime runtime = Runtime.getRuntime();
+    
+    Config config = null;
+    XmlConfigBuilder configBuilder;
+    try {
+      configBuilder = new XmlConfigBuilder(CdcConfig.getHazelcastStandaloneConfigFile());
+      config = configBuilder.build();
+    } catch (FileNotFoundException e1) {
+      //TODO: ERROR
+      config = HazelcastConfigHelper.cloneConfig(Hazelcast.getConfig());
+      HazelcastConfigHelper.saveConfig(config, CdcConfig.getHazelcastStandaloneConfigFile());
+    }
+
     try {
       //run with whole classpath
       ArrayList<String> cmds = new ArrayList<String>();
@@ -43,18 +64,35 @@ public class HazelcastProcessLauncher
       for(String opt: JAVA_OPTIONS){
         cmds.add(opt);
       }
+      
+      //memory
+      cmds.add("-Xmx" + CdcConfig.getConfig().getVmMemory()); 
+      
+      //TODO:min memory
+      
+      
+//      if(mem > 0){
+//        cmds.add("-Xmx" + mem + "m");
+//      }
+//      else {
+//        cmds.add("-Xmx" + MEMORY_DEFAULT);
+//      }
+      
       cmds.add(getHazelcastConfigOption());
       cmds.add("-cp");
       cmds.add(classPathArg);
       cmds.add(HAZELCAST_SERVER_CLASS);
       
-      runtime.exec(cmds.toArray(new String[cmds.size()]), null, // new String[]{java,"-cp", classPathArg, HAZELCAST_SERVER_CLASS}, null,
+      String[] cmdsArray = cmds.toArray(new String[cmds.size()]);
+      
+      logger.debug("launching process: " + StringUtils.join(cmdsArray, " "));
+      
+      return runtime.exec(cmdsArray, null, // new String[]{java,"-cp", classPathArg, HAZELCAST_SERVER_CLASS}, null,
           new File(PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.PLUGIN_SOLUTION_PATH)));
-
-      logger.debug("process launched");
       
     } catch (IOException e) {
       logger.error(e);
+      return null;
     }
     
   }
@@ -117,7 +155,6 @@ public class HazelcastProcessLauncher
     }
     return null;
   }
-  
   
   private static String getHazelcastConfigOption(){
     return "-Dhazelcast.config=" + CdcConfig.getHazelcastStandaloneConfigFile();

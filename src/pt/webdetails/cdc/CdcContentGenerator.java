@@ -9,7 +9,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletRequestWrapper;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.pentaho.platform.api.engine.IPentahoSession;

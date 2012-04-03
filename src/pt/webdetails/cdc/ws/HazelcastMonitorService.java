@@ -16,8 +16,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import pt.webdetails.cdc.CdcConfig;
-import pt.webdetails.cdc.hazelcast.DistributedRestart;
-import pt.webdetails.cdc.hazelcast.DistributedShutdown;
+import pt.webdetails.cdc.hazelcast.operations.DistributedRestart;
+import pt.webdetails.cdc.hazelcast.operations.DistributedShutdown;
 
 import com.hazelcast.core.Cluster;
 import com.hazelcast.core.DistributedTask;
