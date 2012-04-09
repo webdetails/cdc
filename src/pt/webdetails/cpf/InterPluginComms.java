@@ -30,10 +30,10 @@ public class InterPluginComms
   
   public static class Plugin {
     
-    public final static Plugin CDA = new Plugin("cda", "cda");
-    public final static Plugin CDE = new Plugin("pentaho-cdf-dd", "pentaho-cdf-dd");
-    public final static Plugin CDC = new Plugin("cdc", "cdc");
-    public final static Plugin CDF = new Plugin("pentaho-cdf", "Pentaho Community Dashboard Framework");
+    public final static Plugin CDA = new Plugin("cda");
+    public final static Plugin CDE = new Plugin("pentaho-cdf-dd");
+    public final static Plugin CDC = new Plugin("cdc");
+    public final static Plugin CDF = new Plugin("pentaho-cdf");
     
     private String name;
     private String title;
@@ -49,6 +49,11 @@ public class InterPluginComms
     public Plugin(String name, String title){
       this.name = name;
       this.title = title;
+    }
+    
+    public Plugin(String id){
+      this.name = id;
+      this.title = id;
     }
     
   }
