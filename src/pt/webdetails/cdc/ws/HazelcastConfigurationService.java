@@ -8,11 +8,11 @@ import java.util.Arrays;
 
 import org.json.JSONArray;
 
+import pt.webdetails.cdc.CdcConfig;
 import pt.webdetails.cdc.CdcLifeCycleListener;
 import pt.webdetails.cdc.ExternalConfigurationsManager;
 import pt.webdetails.cdc.HazelcastConfigHelper;
 import pt.webdetails.cdc.HazelcastConfigHelper.MapConfigOption;
-import pt.webdetails.cdc.HazelcastProcessLauncher;
 
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.Hazelcast;
@@ -40,14 +40,13 @@ public class HazelcastConfigurationService {
               return new Result(Result.Status.OK, "Configuration changed, please restart Pentaho server after finishing changes").toString();
             }
             catch(Exception e){
-              return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
+              return Result.getFromException(e).toString();
             }
           case Mondrian:
             try {
-              ExternalConfigurationsManager.setMondrianHazelcastEnabled(enabled);
-              return new Result(Result.Status.OK, "Configuration changed, please restart Pentaho server after finishing changes").toString();//TODO: may not be needed
+              CdcConfig.getConfig().setMondrianCdcEnabled(enabled);
             } catch (Exception e) {
-              return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
+              return Result.getFromException(e).toString();
             }
         }
         break;
@@ -122,7 +121,7 @@ public class HazelcastConfigurationService {
             }
             break;
           case Mondrian:
-            result = ExternalConfigurationsManager.isMondrianHazelcastEnabled();
+            result = CdcConfig.getConfig().isMondrianCdcEnabled();
             break;
         }
         break;
@@ -181,33 +180,6 @@ public class HazelcastConfigurationService {
       return Result.getFromException(e).toString();
     }
   }
-
-  public String createLauncher(){
-    String serverLauncher = HazelcastProcessLauncher.createLauncherFile(false);
-    String debugLauncher = HazelcastProcessLauncher.createLauncherFile(true);
-    String msg = serverLauncher + "\n" + debugLauncher;
-    return (serverLauncher == null || debugLauncher == null)?
-        Result.getError(msg).toString() :
-        Result.getOK(msg).toString();
-  }
-
-//  
-//  private Collection<Boolean> spreadMapConfig(MapConfig mapConfig) throws ExecutionException, InterruptedException {
-//    
-//    ArrayList<Boolean> boolist = new ArrayList<Boolean>();
-//    for(Member member: Hazelcast.getCluster().getMembers()){
-//      if(!member.localMember()){//skip this
-//        DistributedTask<Boolean> distribMapConfig =
-//            new DistributedTask<Boolean>(new DistributedMapConfig(mapConfig), member);
-//        
-//        ExecutorService execService = Hazelcast.getExecutorService();
-//        execService.execute(distribMapConfig);
-//        boolist.add(distribMapConfig.get());
-//      }
-//    }
-//    return boolist;
-//  }
-
 
   
   

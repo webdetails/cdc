@@ -26,7 +26,35 @@ public class CfgTestApp extends TestApp {
   
   public static void main(String[] args) throws Exception {
     CfgTestApp testApp = new CfgTestApp(Hazelcast.getDefaultInstance(), args);
+    //Hazelcast.addInstanceListener(new ExitingInstanceListener(3));
     testApp.start(args);
+    
+//    new Thread(new Runnable(){
+//
+//      @Override
+//      public void run() {
+//        boolean exit = false;
+//        while(!exit){
+//          try {
+//            Thread.sleep(5000);
+//            try{
+//              Hazelcast.getMap("cdaCache");
+//              Hazelcast.getMap("mondrian");
+//            }
+//            catch(IllegalStateException e){
+//              System.exit(3);
+//            }
+//          } catch (InterruptedException e) {
+//            System.exit(0);
+//          }
+//        }
+//        
+//
+//      }
+//      
+//    } ).start();
+//    
   }
+  
 
 }

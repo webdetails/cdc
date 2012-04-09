@@ -4,10 +4,12 @@
 
 package pt.webdetails.cdc;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.apache.commons.io.IOUtils;
@@ -24,11 +26,11 @@ import com.hazelcast.core.Hazelcast;
 public class HazelcastProcessLauncher 
 {
   public static final String INNER_PROC_VAR = "pt.webdetails.cdc.isInnerProc"; 
-  private static String HAZELCAST_SERVER_CLASS = com.hazelcast.examples.StartServer.class.getName();
-  private static String HAZELCAST_DEBUG_CLASS = com.hazelcast.examples.TestApp.class.getName(); 
+  private static String HAZELCAST_SERVER_CLASS = pt.webdetails.cdc.hazelcast.StartServer.class.getName();
+//  private static String HAZELCAST_DEBUG_CLASS = pt.webdetails.cdc.hazelcast.CfgTestApp.class.getName(); 
   private static Log logger = LogFactory.getLog(HazelcastProcessLauncher.class);
-  private static double MEMORY_PADDING = 0.20;
-  private static String MEMORY_DEFAULT = "512m";
+//  private static double MEMORY_PADDING = 0.20;
+//  private static String MEMORY_DEFAULT = "512m";
   private static final String[] cachedPlugins = {
     "cda", "cdc"
   };
@@ -37,14 +39,64 @@ public class HazelcastProcessLauncher
     "-Djava.net.preferIPv4Stack=true",
     "-Dsun.lang.ClassLoader.allowArraySyntax=true", 
     "-Dhazelcast.serializer.shared=true",
-    "-D" + INNER_PROC_VAR + "=true"
+    "-D" + INNER_PROC_VAR + "=true",
+//    "-Xdebug",
+//    "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8764"
   };
+  
+  private static class ProcessOutputLogger implements Runnable{
+
+    private BufferedReader reader;
+    private Log log;
+    
+    public ProcessOutputLogger(InputStream is, Log log){
+      this.log = log;
+      this.reader = new BufferedReader(new InputStreamReader(is));
+    }
+    
+    @Override
+    public void run() {
+      try{
+        String line=null;
+        while ( (line = reader.readLine()) != null){
+            log.info(line);    
+        }
+      } 
+      catch (IOException ioe) {
+        log.error(ioe);
+      }
+      finally{
+        IOUtils.closeQuietly(reader);
+      }
+    }
+
+  }
+  
+  private static class ProcessExitListener implements Runnable{//Callable<Integer>{
+
+    private Process proc;
+    
+    public ProcessExitListener(Process proc){
+      this.proc = proc;
+    }
+    @Override
+    public void run() {
+      try{
+          int ret = proc.waitFor();
+          logger.info("Process exit: " + ret);
+
+      } catch(Exception e){
+        logger.error(e);
+      }
+    }
+    
+  }
   
   public static Process launchProcess(){//TODO: mem
     String[] paths = getHazelcastClasspaths();
     String classPathArg = StringUtils.join(paths, File.pathSeparatorChar);
     String java = System.getProperty("java.home") + "/bin/java";
-    Runtime runtime = Runtime.getRuntime();
+//    Runtime runtime = Runtime.getRuntime();
     
     Config config = null;
     XmlConfigBuilder configBuilder;
@@ -85,76 +137,83 @@ public class HazelcastProcessLauncher
       
       String[] cmdsArray = cmds.toArray(new String[cmds.size()]);
       
+       
+      
       logger.debug("launching process: " + StringUtils.join(cmdsArray, " "));
       
-      return runtime.exec(cmdsArray, null, // new String[]{java,"-cp", classPathArg, HAZELCAST_SERVER_CLASS}, null,
-          new File(PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.PLUGIN_SOLUTION_PATH)));
+      ProcessBuilder pBuild = new ProcessBuilder(cmds);
+      pBuild.directory(new File(PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.PLUGIN_SOLUTION_PATH)));
+      Process proc = pBuild.start();
+      new Thread( new ProcessOutputLogger(proc.getErrorStream(), logger)).start();
+      new Thread( new ProcessOutputLogger(proc.getInputStream(), logger)).start();
+      new Thread( new ProcessExitListener(proc)).start();
       
-    } catch (IOException e) {
+      return proc;
+    } catch (Exception e) {
       logger.error(e);
       return null;
     }
     
   }
   
-  public static String createLauncherFile(boolean isDebugVersion){
-    String[] paths = getHazelcastClasspaths();
-    String classPathArg = StringUtils.join(paths, File.pathSeparatorChar);
-
-    
-    String osName = System.getProperty("os.name").toLowerCase();
-    boolean isWindows = osName.contains("windows"); 
-
-    String fileName = "launch-hazelcast" + (isDebugVersion? "-debug" : "") + (isWindows ? ".bat" : ".sh");
-
-    StringBuilder contents = new StringBuilder();
-    final String endLine = System.getProperty("line.separator");
-    
-    String opts = StringUtils.join(JAVA_OPTIONS, ' ');
-    
-    contents.append(isWindows ? "@echo off" : "#!/bin/sh")
-            .append(endLine);
-    
-    contents.append(System.getProperty("java.home"))
-            .append(File.separatorChar)
-            .append("bin")
-            .append(File.separatorChar)
-            //TODO: java opts
-            .append("java ")
-            .append(opts)
-            .append(' ')
-            .append(getHazelcastConfigOption())
-            .append(" -cp ")
-            .append(classPathArg)
-            .append(' ')
-            .append(isDebugVersion? HAZELCAST_DEBUG_CLASS : HAZELCAST_SERVER_CLASS)
-            .append(endLine);
-    
-    File shFile = new File(PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.PLUGIN_SOLUTION_PATH+fileName));
-    
-    FileOutputStream fileOut = null;
-    try {
-      if(shFile.exists()){
-        shFile.delete();
-      }
-      shFile.createNewFile();
-      
-      fileOut = new FileOutputStream(shFile);
-      IOUtils.write(contents.toString(), fileOut);
-      fileOut.flush();
-      
-      if(!isWindows){
-        shFile.setExecutable(true);
-      }
-      return shFile.getCanonicalPath();
-    } catch (IOException e) {
-      logger.error(e);
-    }
-    finally{
-      IOUtils.closeQuietly(fileOut);
-    }
-    return null;
-  }
+//  public static String createLauncherFile(boolean isDebugVersion){
+//    String[] paths = getHazelcastClasspaths();
+//    String classPathArg = StringUtils.join(paths, File.pathSeparatorChar);
+//
+//    
+//    String osName = System.getProperty("os.name").toLowerCase();
+//    boolean isWindows = osName.contains("windows"); 
+//
+//    String fileName = "launch-hazelcast" + (isDebugVersion? "-debug" : "") + (isWindows ? ".bat" : ".sh");
+//
+//    StringBuilder contents = new StringBuilder();
+//    final String endLine = System.getProperty("line.separator");
+//    
+//    String opts = StringUtils.join(JAVA_OPTIONS, ' ');
+//    
+//    contents.append(isWindows ? "@echo off" : "#!/bin/sh")
+//            .append(endLine);
+//    
+//    contents.append(System.getProperty("java.home"))
+//            .append(File.separatorChar)
+//            .append("bin")
+//            .append(File.separatorChar)
+//            //TODO: java opts
+//            .append("java ")
+//            .append(opts)
+//            .append(' ')
+//            .append(getHazelcastConfigOption())
+//            .append(" -cp ")
+//            .append(classPathArg)
+//            .append(' ')
+//            .append(isDebugVersion? HAZELCAST_DEBUG_CLASS : HAZELCAST_SERVER_CLASS)
+//            .append(endLine);
+//    
+//    File shFile = new File(PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.PLUGIN_SOLUTION_PATH+fileName));
+//    
+//    FileOutputStream fileOut = null;
+//    try {
+//      if(shFile.exists()){
+//        shFile.delete();
+//      }
+//      shFile.createNewFile();
+//      
+//      fileOut = new FileOutputStream(shFile);
+//      IOUtils.write(contents.toString(), fileOut);
+//      fileOut.flush();
+//      
+//      if(!isWindows){
+//        shFile.setExecutable(true);
+//      }
+//      return shFile.getCanonicalPath();
+//    } catch (IOException e) {
+//      logger.error(e);
+//    }
+//    finally{
+//      IOUtils.closeQuietly(fileOut);
+//    }
+//    return null;
+//  }
   
   private static String getHazelcastConfigOption(){
     return "-Dhazelcast.config=" + CdcConfig.getHazelcastStandaloneConfigFile();

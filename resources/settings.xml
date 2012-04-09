@@ -21,6 +21,7 @@
     </adapterClasses>
   </cdaConfig>
   <mondrianConfig>
+    <enabled>true</enabled>
     <location>system/mondrian/mondrian.properties</location>
     <adapterClasses>
       <hazelcast>pt.webdetails.cdc.mondrian.SegmentCacheHazelcast</hazelcast>
