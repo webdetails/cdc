@@ -59,7 +59,7 @@ public class HazelcastProcessLauncher
       try{
         String line=null;
         while ( (line = reader.readLine()) != null){
-            log.info(line);    
+            log.debug(line);    
         }
       } 
       catch (IOException ioe) {
