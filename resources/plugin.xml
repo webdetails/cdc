@@ -13,7 +13,7 @@
 			<overlay id="startup.dashboardToolbar" resourcebundle="../content/cdc/lang/messages">
 				<toolbarbutton id="newAnalysisButton" removeelement="false"/>
 				<toolbar id="mainToolbar">
-					<toolbarbutton id="newCDC" image="../content/cdc/static/img/CDC_logo.png" 
+					<toolbarbutton id="newCDC" image="../content/cdc/static/img/cdc_toolbar_icon.png" 
                                         onclick="mainToolbarHandler.openUrl('${tabName}','${tabName}','content/cdc/home')" tooltiptext="${openNewCDC}" insertafter="newCDCButton"/>
 				</toolbar>
 			</overlay>
