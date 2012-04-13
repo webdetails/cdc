@@ -17,9 +17,6 @@ import com.hazelcast.core.IMap;
 
 import java.util.ArrayList;
 
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
-
 
 /**
  * SegmentCache implementation for mondrian-3.4+ based on a hazelcast distributed map.
@@ -28,30 +25,34 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
   private static final String MAP = "mondrian";
 
-//  private static Log log = LogFactory.getLog(SegmentCacheHazelcast.class);
 
   private static final IMap<SegmentHeader, SegmentBody> getCache() {
     return Hazelcast.getMap(MAP);
   }
 
+
   @Override
   public SegmentBody get(SegmentHeader key) {
+    key.getDescription();//this call affects serialization
     return getCache().get(key);
   }
 
   @Override
   public boolean put(SegmentHeader key, SegmentBody value) {
-    getCache().put(key, value);
+    key.getDescription();//affects serialization
+    getCache().put(key, value);    
     return true;
   }
 
   @Override
   public boolean contains(SegmentHeader key) {
+    key.getDescription();//affects serialization
     return getCache().containsKey(key);
   }
   
   @Override
   public boolean remove(SegmentHeader key) {
+    key.getDescription();
     return getCache().remove(key) != null;
   }
   
@@ -62,7 +63,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
   @Override
   public void tearDown() {
-    getCache().clear();
+    getCache().clear();//TODO: only if not persistent?
 //    invalidateCache();
   }
   
@@ -83,18 +84,13 @@ public class SegmentCacheHazelcast implements SegmentCache {
     return true;
   }
   
+  
   /**
    * Wraps a mondrian SegmentCacheListener in a hazelcast EntryListener
    */
   static class SegmentCacheListenerWrapper implements EntryListener<SegmentHeader, SegmentBody> {
 
     private SegmentCacheListener listener;
-    
-    public boolean isLocal(){
-      //TODO: implications?
-      //false only if there is a server Locus
-      return true;
-    }
     
     public SegmentCacheListenerWrapper(SegmentCacheListener segmentCacheListener){
       this.listener = segmentCacheListener;
@@ -123,9 +119,9 @@ public class SegmentCacheHazelcast implements SegmentCache {
     private SegmentCacheListener.SegmentCacheEvent getSegmentCacheEvent(final EntryEvent<SegmentHeader, SegmentBody> event)
     { 
       return new SegmentCacheListener.SegmentCacheEvent(){
-        
-        public boolean isLocal() {
-          return SegmentCacheListenerWrapper.this.isLocal();
+       
+        public boolean isLocal() {//for this to work we have to make sure cache cleaning made directly through cdc doesn't bypass mondrian api 
+          return event.getMember().localMember();
         }
         
         public SegmentHeader getSource() {

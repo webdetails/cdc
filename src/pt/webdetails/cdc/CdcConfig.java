@@ -5,7 +5,6 @@
 package pt.webdetails.cdc;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +28,6 @@ public class CdcConfig
   private static final String HAZELCAST_STANDALONE_FILE = "hazelcast-standalone.xml";
   private static final String SETTINGS_FILE = "settings.xml";
   private static Log logger = LogFactory.getLog(CdcConfig.class);
-  private static String ENCODING = "UTF-8";
   
   public static final String PLUGIN_ID = "cdc";
   public static final String PLUGIN_TITLE = "cdc";
@@ -59,6 +57,10 @@ public class CdcConfig
     }
     return pluginManager;
   }
+  
+  /* ************
+   * Config Items
+   * start */
   
   public static String getHazelcastConfigFile(){
     String cfg = getStringSetting("hazelcastConfigFile", StringUtils.EMPTY);
@@ -100,21 +102,7 @@ public class CdcConfig
       logger.error("Could not write property mondrianConfig/enabled");
     }
   }
-  
-  public String getMondrianHazelcastAdapterClass(){
-    return getStringSetting("mondrianConfig/adapterClasses/hazelcast","pt.webdetails.cdc.mondrian.SegmentCacheHazelcast");
-  }
-  public String getMondrianHazelcastLegacyAdapterClass(){
-    return getStringSetting("mondrianConfig/adapterClasses/hazelcastMondrian33","pt.webdetails.cdc.mondrian.SegmentCacheHazelcastLegacy");
-  }
-  public String getMondrianDefaultAdapterClass(){
-    return getStringSetting("mondrianConfig/adapterClasses/default",StringUtils.EMPTY);
-  }
-  
-  public String getMondrianConfigLocation(){
-    return getStringSetting("mondrianConfig/location","system/mondrian/mondrian.properties");
-  }
-  
+
   public String getCdaHazelcastAdapterClass(){
     return getStringSetting("cdaConfig/adapterClasses/hazelcast","pt.webdetails.cda.cache.HazelcastQueryCache");
   }
@@ -125,6 +113,10 @@ public class CdcConfig
   public String getVmMemory(){
     return getStringSetting("vmMemory", "512m");
   }
+  
+  /* end *
+   * config items
+   * ************/
   
   private static boolean getBooleanSetting(String section, boolean nullValue){
     String setting = getStringSetting(section, null);
@@ -151,6 +143,12 @@ public class CdcConfig
 //    return defaultValue;
 //  }
   
+  /**
+   * Writes a setting directly to .xml. Does not refresh global config.
+   * @param section
+   * @param value
+   * @return
+   */
   private static boolean writeSetting(String section, String value){
     Document settings = null;
     String settingsFilePath = PentahoSystem.getApplicationContext().getSolutionPath("system/" + PLUGIN_SYSTEM_PATH + SETTINGS_FILE);

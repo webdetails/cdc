@@ -6,8 +6,8 @@ package pt.webdetails.cdc;
 
 import java.io.FileNotFoundException;
 
-import mondrian.spi.SegmentBody;
-import mondrian.spi.SegmentHeader;
+import mondrian.spi.SegmentCache;
+import mondrian.spi.SegmentCache.SegmentCacheListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,10 +18,7 @@ import pt.webdetails.cdc.mondrian.SegmentCacheHazelcast;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.XmlConfigBuilder;
-import com.hazelcast.core.EntryEvent;
-import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.IMap;
 import com.hazelcast.core.InstanceEvent;
 import com.hazelcast.core.InstanceListener;
 import com.hazelcast.core.Member;
@@ -45,14 +42,16 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   public void init() throws PluginLifecycleException
   {
     logger.debug("init");
-    
+
   }
+
 
   @Override
   public void loaded() throws PluginLifecycleException
   {
     logger.debug("CDC loaded.");
     init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode() ,CdcConfig.getConfig().isForceConfig());
+
   }
   
   private static synchronized void init(String configFileName, boolean liteMode, boolean forceConfig)
@@ -72,22 +71,6 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     if(config == null){
       config = new Config();
     }
-
-//    //lite mode: doesn't hold data but has first class access
-//    //needs a running instance to work
-//    try{
-//      String isLite = System.getProperty(PROPERTY_LITE_MODE);
-//      if(Boolean.parseBoolean(isLite) && !liteMode){
-//        System.setProperty(PROPERTY_LITE_MODE , "false");
-//      }
-//      else if(liteMode){
-//        logger.info("Setting SuperClient flag");
-//        System.setProperty(PROPERTY_LITE_MODE, "true");
-//        
-//      }
-//    } catch (SecurityException e){
-//      logger.error("Error accessing " + PROPERTY_LITE_MODE, e);
-//    }
 
     try{
        config.setLiteMember(liteMode);      
@@ -120,15 +103,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     if(CdcConfig.getConfig().isMondrianCdcEnabled()){
       registerMondrianCacheSpi();
     }
-    
-//    if(CdcConfig.getConfig().isDebugMode()){    
-//        logger.debug("adding mondrian listener");
-//        IMap<SegmentHeader, SegmentBody> monCache = Hazelcast.getMap(CdcConfig.CacheMaps.MONDRIAN_MAP);
-//        MondrianVerboseEntryListener monShouter = new MondrianVerboseEntryListener();
-//        monCache.removeEntryListener(monShouter);
-//        monCache.addEntryListener(monShouter, false);
-//    }
-    
+
     MembershipListener memberListener = new MemberSyncListener();
     InstanceListener instanceListener = new InstanceReInitListener();
     Hazelcast.removeInstanceListener(instanceListener);
@@ -239,7 +214,7 @@ private synchronized static void launchIfNoMember()
   if(hasProperMembers()) return;
   
   //no non-superClient members
-  logger.info("SuperClient mode: no members found, launching a hazelcast server in a new JVM.");
+  logger.info("lite mode: no members found, launching a hazelcast server in a new JVM.");
   innerProcess = HazelcastProcessLauncher.launchProcess();
   
 }
@@ -260,8 +235,43 @@ private synchronized static void launchIfNoMember()
   }
   
   
+  private static class MondrianLoggingListener implements SegmentCacheListener{
+
+    @Override
+    public void handle(SegmentCacheEvent event) {
+      switch(event.getEventType()){
+        case ENTRY_CREATED:
+          logger.debug("(" + (event.isLocal()? "local" : "remote") + ") " + "Mondrian cache entry ADDED: " + event.getSource());
+          break;
+        case ENTRY_DELETED:
+          logger.debug("(" + (event.isLocal()? "local" : "remote") + ") " + "Mondrian cache entry REMOVED: " + event.getSource());
+          break;
+      }
+    }
+        
+    @Override 
+    public boolean equals(Object other) {
+      return other instanceof MondrianLoggingListener;
+    }
+
+  };
+  
+  
   private static void registerMondrianCacheSpi(){
-    mondrian.spi.SegmentCache.SegmentCacheInjector.addCache(new SegmentCacheHazelcast());
+    
+    SegmentCache mondrianCache = new SegmentCacheHazelcast();
+    
+    if(CdcConfig.getConfig().isMondrianCdcEnabled() && CdcConfig.getConfig().isDebugMode()){
+      logger.debug("adding mondrian listener");
+      SegmentCacheListener listener = new MondrianLoggingListener();
+      mondrianCache.removeListener(listener);
+      mondrianCache.addListener(listener);
+      
+      
+    }
+    
+    mondrian.spi.SegmentCache.SegmentCacheInjector.addCache(mondrianCache);
+    
   }
   
   
@@ -303,7 +313,6 @@ private synchronized static void launchIfNoMember()
             hasProperMembers()){
             logger.info("Non-lite instance found, temporary instance no longer needed");
             removeExtraInstance();
-
         }
 
     }
@@ -328,40 +337,106 @@ private synchronized static void launchIfNoMember()
     }
     
   }
+  
+//  private static class  HazelcastKeySerializationListener<KEY,VALUE> implements EntryListener<KEY,VALUE>{
+//
+//    @Override
+//    public void entryAdded(EntryEvent<KEY, VALUE> entryEvent) {
+//      
+//      logger.debug("ADDED, BIN:");
+//      Data keyData = null;
+//      if(entryEvent instanceof DataAwareEntryEvent){
+//        keyData = ((DataAwareEntryEvent)entryEvent).getKeyData();
+////        logger.debug( .toString());
+//      }
+//      else {
+//        logger.debug("serializing..");
+//        keyData = IOUtil.toData(entryEvent.getKey());
+//      }
+//      logger.debug("(as data) " + "[" + keyData.hashCode() + "]" + keyData.toString());
+//      StringBuilder sb = new StringBuilder();
+//      for(byte b : keyData.buffer){
+//        sb.append(b).append(", ");
+//      }
+//    }
+//
+//    @Override
+//    public void entryEvicted(EntryEvent<KEY, VALUE> arg0) {
+//
+//    }
+//
+//    @Override
+//    public void entryRemoved(EntryEvent<KEY, VALUE> arg0) {
+//
+//    }
+//
+//    @Override
+//    public void entryUpdated(EntryEvent<KEY, VALUE> arg0) {
+//
+//    }
+//    
+//  }
 
-  private static final class MondrianVerboseEntryListener implements EntryListener<SegmentHeader, SegmentBody>  {
-    
-    @Override
-    public void entryAdded(EntryEvent<SegmentHeader, SegmentBody> event)
-    {
-      SegmentHeader key = event.getKey();
-      logger.debug("Mondrian ENTRY ADDED:" + key);
-    }
-    
-    @Override
-    public void entryUpdated(EntryEvent<SegmentHeader, SegmentBody> event) {
-      SegmentHeader key = event.getKey();
-      logger.debug("Mondrian ENTRY UPDATED:" + key);
-    }
-    
-    @Override
-    public void entryRemoved(EntryEvent<SegmentHeader, SegmentBody> event) 
-    {
-      SegmentHeader key = event.getKey();
-      logger.debug("Mondrian ENTRY REMOVED:" + key);
-    }
-
-    @Override
-    public void entryEvicted(EntryEvent<SegmentHeader, SegmentBody> event) {
-      SegmentHeader key = event.getKey();
-      logger.debug("Mondrian ENTRY EVICTED:" + key);
-    }
-    
-    @Override
-    public boolean equals(Object other){
-      return other instanceof MondrianVerboseEntryListener;
-    }
-
-  }
+//  private static final class MondrianVerboseEntryListener implements EntryListener<SegmentHeader, SegmentBody>  {
+//    
+//    @Override
+//    public void entryAdded(EntryEvent<SegmentHeader, SegmentBody> event)
+//    {
+//      SegmentHeader key = event.getKey();
+//      logger.debug("Mondrian ENTRY ADDED:" + key);
+//    }
+//    
+//    @Override
+//    public void entryUpdated(EntryEvent<SegmentHeader, SegmentBody> event) {
+//      SegmentHeader key = event.getKey();
+//      logger.debug("Mondrian ENTRY UPDATED:" + key);
+//    }
+//    
+//    @Override
+//    public void entryRemoved(EntryEvent<SegmentHeader, SegmentBody> event) 
+//    {
+//      SegmentHeader key = event.getKey();
+//      logger.debug("Mondrian ENTRY REMOVED:" + key);
+//    }
+//
+//    @Override
+//    public void entryEvicted(EntryEvent<SegmentHeader, SegmentBody> event) {
+//      SegmentHeader key = event.getKey();
+//      logger.debug("Mondrian ENTRY EVICTED:" + key);
+//    }
+//    
+//    @Override
+//    public boolean equals(Object other){
+//      return other instanceof MondrianVerboseEntryListener;
+//    }
+//
+//  }
+  
+//
+//private void testGlobalParamHack(){
+// 
+//  String key = "cda.IQueryCache";
+//  Object test = null;
+//  
+//  ClassLoader classLoader = SegmentCacheHazelcast.class.getClassLoader();
+//  IPluginManager pluginManager = PentahoSystem.get(IPluginManager.class);
+//  if (!pluginManager.isBeanRegistered(key)) {
+//    if(pluginManager instanceof DefaultPluginManager){
+//      IPentahoObjectFactory factory = ((DefaultPluginManager)pluginManager).getBeanFactory();
+//      if(factory instanceof IPentahoDefinableObjectFactory){
+//        ((IPentahoDefinableObjectFactory)factory).defineObject(key, HazelcastCdcCdaQueryCache.class.getName(), Scope.GLOBAL, classLoader);
+//        
+//        try {
+//          test = pluginManager.getBean(key);
+//          
+//        } catch (PluginBeanException e) {
+//          logger.error(e);
+//        }
+//      }
+//    }
+//  }
+//  logger.info(test != null ? test.getClass().getName() : "waaah waaah waaaaaaah");      
+//  
+//}
 }
 
