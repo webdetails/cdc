@@ -74,11 +74,13 @@ public class MondrianCacheCleanService {
   }
   
   private void flushCubes(String catalog, String cube){
-    Connection connection = getMdxConnection(catalog);
-
     //Ensure escaped '+' are transformed back to spaces
     catalog = catalog.replace('+', ' ');
     cube = cube.replace('+', ' ');
+
+      
+     Connection connection = getMdxConnection(catalog);
+
     
     if (connection == null) {
       throw new InvalidArgumentException("Catalog " + catalog + " non available.");
@@ -98,27 +100,8 @@ public class MondrianCacheCleanService {
       if (cube == null || cubes[i].getName().equals(cube)) {
         logger.debug("flushing cube " + cubes[i].getName());
         CellRegion cubeRegion = cacheControl.createMeasuresRegion(cubes[i]);
-
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    PrintWriter pw = new PrintWriter(baos, true);
         
-        
-        cacheControl.printCacheState(pw, cubeRegion);
-        
-        try {
-        logger.debug(new String(baos.toByteArray(), "UTF-8"));
-        } catch (Exception e) {}
-        
-        baos = new ByteArrayOutputStream();
-        pw = new PrintWriter(baos, true);
         cacheControl.flush(cubeRegion);
-        cacheControl.printCacheState(pw, cubeRegion);        
-        
-        
-        try {
-        logger.debug(new String(baos.toByteArray(), "UTF-8"));
-        } catch (Exception e) {}
-        
         
         if(cube != null) break;
       }
