@@ -7,6 +7,7 @@ package pt.webdetails.cdc.ws;
 import java.util.Arrays;
 
 import org.json.JSONArray;
+import org.pentaho.reporting.libraries.base.util.StringUtils;
 
 import pt.webdetails.cdc.CdcConfig;
 import pt.webdetails.cdc.CdcLifeCycleListener;
@@ -32,22 +33,27 @@ public class HazelcastConfigurationService {
     MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(cacheMap.getName());
     switch(option){
       case enabled:
-        boolean enabled = Boolean.parseBoolean(value);
-        switch(cacheMap){
-          case Cda:
-            try{
-              ExternalConfigurationsManager.setCdaHazelcastEnabled(enabled);
-              return new Result(Result.Status.OK, "Configuration changed, please restart Pentaho server after finishing changes").toString();
-            }
-            catch(Exception e){
-              return Result.getFromException(e).toString();
-            }
-          case Mondrian:
-            try {
-              CdcConfig.getConfig().setMondrianCdcEnabled(enabled);
-            } catch (Exception e) {
-              return Result.getFromException(e).toString();
-            }
+        Boolean enabled = parseBooleanStrict(value);
+        if(enabled != null){
+          switch(cacheMap){          
+            case Cda:
+              try{
+                ExternalConfigurationsManager.setCdaHazelcastEnabled(enabled);
+                return new Result(Result.Status.OK, "Configuration changed, please restart Pentaho server after finishing changes").toString();
+              }
+              catch(Exception e){
+                return Result.getFromException(e).toString();
+              }
+            case Mondrian:
+              try {
+                CdcConfig.getConfig().setMondrianCdcEnabled(enabled);
+              } catch (Exception e) {
+                return Result.getFromException(e).toString();
+              }
+          }
+        }
+        else {
+          return Result.getError("enabled must be either 'true' or 'false'.").toString();
         }
         break;
       case maxSizePolicy:
@@ -94,6 +100,20 @@ public class HazelcastConfigurationService {
         }
     }
     return result.toString();
+  }
+  
+  /**
+   * Defaults to null instead of false for unparseable values.
+   * @param value
+   * @return
+   */
+  private static Boolean parseBooleanStrict(String value){
+    if(!StringUtils.isEmpty(value)){
+      value = value.trim().toLowerCase();
+      if(value.equals("true")) return true;
+      else if(value.equals("false")) return false;
+    }
+    return null;
   }
   
   public String getMapOption(String map, String name){
