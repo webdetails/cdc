@@ -22,12 +22,6 @@
   </cdaConfig>
   <mondrianConfig>
     <enabled>true</enabled>
-    <location>system/mondrian/mondrian.properties</location>
-    <adapterClasses>
-      <hazelcast>pt.webdetails.cdc.mondrian.SegmentCacheHazelcast</hazelcast>
-      <hazelcastMondrian33>pt.webdetails.cdc.mondrian.SegmentCacheHazelcastLegacy</hazelcastMondrian33>
-      <default></default><!-- empty will fallback to default -->        
-    </adapterClasses>
   </mondrianConfig>
  
   
