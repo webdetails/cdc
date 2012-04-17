@@ -28,7 +28,7 @@ public class HazelcastConfigurationService {
     if(cacheMap == null) return Result.getError("No such map: " + name).toString();
     if(value == null) return Result.getError("Must supply value").toString();
     
-    Result result =  new Result(Result.Status.OK, "Option changed to '" + value + "'");
+    Result result = null;
     
     MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(cacheMap.getName());
     switch(option){
@@ -47,6 +47,7 @@ public class HazelcastConfigurationService {
             case Mondrian:
               try {
                 CdcConfig.getConfig().setMondrianCdcEnabled(enabled);
+                return new Result(Result.Status.OK, "Configuration changed, please restart Pentaho server after finishing changes").toString();                
               } catch (Exception e) {
                 return Result.getFromException(e).toString();
               }
