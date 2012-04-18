@@ -334,6 +334,10 @@ ul.toggleGroup label.checked .buttonWrapper {
 	width: 948px;
 }
 
+.WDdataCell.WDWarnCell {
+	border: 2px solid #e01010;	
+}
+
 
 .no-svg .WDdataCell {
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cad3d6', endColorstr='#a6b0b5',GradientType=0 ); /* IE6-8 */
