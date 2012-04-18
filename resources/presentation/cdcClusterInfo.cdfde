@@ -679,7 +679,7 @@
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "clusterInfo",
       "type": "String"
      },
      {
@@ -4975,5 +4975,5 @@
    }
   ]
  },
- "filename": "/system/cdc/presentation/cdcClusterInfo.cdfde"
+ "filename": "/cdc-presentation/presentation/cdcClusterInfo.cdfde"
 }
