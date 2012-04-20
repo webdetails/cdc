@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pt.webdetails.cdc.ws.MapInfo;
+import pt.webdetails.cpf.JsonSerializable;
 
 import com.hazelcast.core.Member;
 
@@ -19,8 +20,7 @@ public class MemberInfo implements JsonSerializable{
   
   private String address;
   private boolean liteMember;
-//  private MapInfo cdaCacheInfo;
-//  private MapInfo mondrianCacheInfo;
+
   private MapInfo mapInfo;
   
   private RuntimeInfo javaRuntimeInfo;
@@ -48,7 +48,7 @@ public class MemberInfo implements JsonSerializable{
       this.mapInfo = mapInfo;
     }
     else {
-      logger.error("Member NULL");//TODO: remove this
+      logger.error("Member NULL");
     }
   }
 
