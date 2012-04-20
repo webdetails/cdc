@@ -4,21 +4,22 @@
 
 package pt.webdetails.cdc.ws;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
 import javax.sql.DataSource;
 import mondrian.olap.*;
 import mondrian.olap.CacheControl.CellRegion;
 import mondrian.rolap.RolapConnectionProperties;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.data.IDatasourceService;
-import org.pentaho.platform.api.engine.IPentahoSession;
 import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 import org.pentaho.platform.plugin.action.mondrian.catalog.IMondrianCatalogService;
 import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalog;
+
+import pt.webdetails.cpf.Result;
+import pt.webdetails.cpf.SecurityAssertions;
 
 /**
  * 
@@ -28,7 +29,6 @@ public class MondrianCacheCleanService {
 
   private final IMondrianCatalogService mondrianCatalogService = PentahoSystem.get(IMondrianCatalogService.class, IMondrianCatalogService.class.getSimpleName(), null);
   private static Log logger = LogFactory.getLog(MondrianCacheCleanService.class);
-  private IPentahoSession userSession;
 
   /**
    * Clear cache from a given catalog
@@ -39,6 +39,8 @@ public class MondrianCacheCleanService {
    */
 
   public String clearCatalog(String catalog) {
+    
+    SecurityAssertions.assertIsAdmin();
 
     try {
       if(StringUtils.isEmpty(catalog)) return Result.getError("No catalog given.").toString();
@@ -61,6 +63,8 @@ public class MondrianCacheCleanService {
    */
 
   public String clearCube(String catalog, String cube) {
+    
+    SecurityAssertions.assertIsAdmin();
     
     try {
       if(StringUtils.isEmpty(catalog)) return Result.getError("No catalog given.").toString();
@@ -125,6 +129,9 @@ public class MondrianCacheCleanService {
    */
 
   public String clearDimension(String catalog, String cube, String dimension) {
+    
+    SecurityAssertions.assertIsAdmin();
+    
     if(StringUtils.isEmpty(catalog)) return Result.getError("No catalog given.").toString();
     if(StringUtils.isEmpty(cube)) return Result.getError("No cube given.").toString();
     if(StringUtils.isEmpty(dimension)) return Result.getError("No dimension given.").toString();
@@ -154,6 +161,9 @@ public class MondrianCacheCleanService {
    * @return Message describing the clear action result
    */
   public String clearHierarchy(String catalog, String cube, String dimension, String hierarchy){
+    
+    SecurityAssertions.assertIsAdmin();
+    
     if(StringUtils.isEmpty(catalog)) return Result.getError("No catalog given.").toString();
     if(StringUtils.isEmpty(cube)) return Result.getError("No cube given.").toString();
     if(StringUtils.isEmpty(dimension)) return Result.getError("No dimension given.").toString();
@@ -273,4 +283,37 @@ public class MondrianCacheCleanService {
 
     return nativeConnection;
   }
+  
+////duplicate some cache segment <numNewEntries> times  
+//  public String fillMondrianCache(int numNewEntries)
+//  {
+//    SegmentHeader header = null;
+//    SegmentBody body = null;
+//    
+//    IMap<SegmentHeader, SegmentBody> cache = Hazelcast.getMap("mondrian");
+//    if(cache.size() == 0){
+//      return Result.getError("No elements in cache").toString();
+//    }
+//    
+//    //fetch first
+//    for(SegmentHeader key : cache.keySet()){
+//      body = cache.get(key);
+//      header = key;
+//      break;
+//    }
+//    
+//    String schema = header.schemaName
+//    for(int i=0; i< numNewEntries; i++){
+//      
+//      String schemaSuffix = "" + (header.schemaName + header.hashCode()).hashCode() + System.currentTimeMillis();
+//      header = new SegmentHeader(schema + schemaSuffix, header.schemaChecksum, header.cubeName, header.measureName, header.getConstrainedColumns(),
+//          header.compoundPredicates, header.rolapStarFactTableName, header.constrainedColsBitKey, header.getExcludedRegions());
+//      cache.put(header, body);
+//      
+//    }
+//    
+//    return Result.getOK(numNewEntries).toString();
+//    
+//  }
+  
 }

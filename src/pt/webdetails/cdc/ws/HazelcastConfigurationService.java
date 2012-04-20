@@ -14,6 +14,8 @@ import pt.webdetails.cdc.CdcLifeCycleListener;
 import pt.webdetails.cdc.ExternalConfigurationsManager;
 import pt.webdetails.cdc.HazelcastConfigHelper;
 import pt.webdetails.cdc.HazelcastConfigHelper.MapConfigOption;
+import pt.webdetails.cpf.Result;
+import pt.webdetails.cpf.SecurityAssertions;
 
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.Hazelcast;
@@ -21,14 +23,15 @@ import com.hazelcast.core.Hazelcast;
 public class HazelcastConfigurationService {
  
   public String setMapOption(String map, String name, String value){
+    
+    SecurityAssertions.assertIsAdmin();
+    
     MapConfigOption option = MapConfigOption.parse(name);
     CacheMap cacheMap = CacheMap.parse(map);
     
     if(option == null) return Result.getError("No such option: " + name).toString();
     if(cacheMap == null) return Result.getError("No such map: " + name).toString();
     if(value == null) return Result.getError("Must supply value").toString();
-    
-    Result result = null;
     
     MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(cacheMap.getName());
     switch(option){
@@ -99,8 +102,10 @@ public class HazelcastConfigurationService {
         catch (NumberFormatException nfe){
           return Result.getFromException(nfe).toString();
         }
+      default://shouldn't reach
+        return Result.getError("Unrecognized option " + name).toString();
     }
-    return result.toString();
+    return Result.getOK("Option " + name + " changed.").toString();
   }
   
   /**
@@ -184,6 +189,8 @@ public class HazelcastConfigurationService {
 
   public String saveConfig()
   {
+    SecurityAssertions.assertIsAdmin();
+    
     if( HazelcastConfigHelper.saveConfig()){
         return new Result(Result.Status.OK, "Configuration saved and propagated.").toString();
     }

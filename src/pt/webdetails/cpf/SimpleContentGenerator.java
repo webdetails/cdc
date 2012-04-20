@@ -8,12 +8,21 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.pentaho.platform.api.engine.IParameterProvider;
-import org.pentaho.platform.api.repository.IContentItem;
+
+import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
+import org.pentaho.platform.engine.security.SecurityHelper;
 import org.pentaho.platform.engine.services.solution.BaseContentGenerator;
+import org.springframework.security.GrantedAuthorityImpl;
+
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
 
@@ -29,11 +38,10 @@ public class SimpleContentGenerator extends BaseContentGenerator {
     @Override
     public void createContent() {
         IParameterProvider pathParams = parameterProviders.get("path");
-        //requestParams = parameterProviders.get("request");
-        final IContentItem contentItem = outputHandler.getOutputContentItem("response", "content", "", instanceId, "text/html");
-
+        
         try {
-            final OutputStream out = contentItem.getOutputStream(null);
+          
+            final OutputStream out = getResponseOutputStream("text/html");
             final Class<?>[] params = {OutputStream.class};
 
             String[] pathSections = StringUtils.split(pathParams.getStringParameter("path", null), "/");
@@ -43,14 +51,9 @@ public class SimpleContentGenerator extends BaseContentGenerator {
                 final String method = StringUtils.lowerCase(pathSections[0]);
 
                 try {
-                    final Method mthd = this.getClass().getMethod(method, params);
-                    boolean exposed = mthd.isAnnotationPresent(Exposed.class);
-                    boolean accessible = exposed && mthd.getAnnotation(Exposed.class).accessLevel() == AccessLevel.PUBLIC;
-                    if (accessible) {
-                        mthd.invoke(this, out);
-                    } else {
-                        throw new IllegalAccessException("Method " + method + " has the wrong access level");
-                    }
+                  final Method mthd = this.getClass().getMethod(method, params);
+                  invokeMethod(out, method, mthd);
+                  
                 } catch (NoSuchMethodException e) {
                     logger.warn("could't locate method: " + method);
                 } catch (InvocationTargetException e) {
@@ -60,7 +63,6 @@ public class SimpleContentGenerator extends BaseContentGenerator {
                     logger.warn(e.toString());
 
                 } catch (IllegalArgumentException e) {
-
                     logger.error(e.toString());
                 }
             } else {
@@ -71,6 +73,62 @@ public class SimpleContentGenerator extends BaseContentGenerator {
         } catch (IOException e) {
             logger.error(e.toString());
         }
+    }
+    
+    protected OutputStream getResponseOutputStream(final String mimeType) throws IOException {
+      ServletResponse resp = getResponse();
+      resp.setContentType(mimeType);
+      return resp.getOutputStream();
+      //TODO: deprecated, will be eliminated in sugar
+      //return getResponse().getOutputStream();
+      //return outputHandler.getOutputContentItem(IOutputHandler.RESPONSE, IOutputHandler.CONTENT, "", instanceId, mimeType).getOutputStream(null);
+    }
+
+    protected ServletRequest getRequest(){
+      return (ServletRequest) parameterProviders.get("path").getParameter("httprequest");
+    }
+    
+    protected ServletResponse getResponse(){
+      return (ServletResponse) parameterProviders.get("path").getParameter("httpresponse");
+    }
+
+    private boolean invokeMethod(final OutputStream out, final String methodName, final Method method) throws InvocationTargetException, IllegalArgumentException, IllegalAccessException {
+      
+      Exposed exposed = method.getAnnotation(Exposed.class);
+      if (exposed != null) {
+        
+        AccessLevel accessLevel = exposed.accessLevel();
+        if(accessLevel != null) {
+          
+          boolean accessible = false;
+          switch (accessLevel) {
+            case ADMIN:
+              accessible = SecurityHelper.isPentahoAdministrator(PentahoSessionHolder.getSession());
+              break;
+            case ROLE:
+              String role = exposed.role();
+              if (!StringUtils.isEmpty(role)) {
+                accessible = SecurityHelper.isGranted(PentahoSessionHolder.getSession(), new GrantedAuthorityImpl(role));
+              }
+              break;
+            case PUBLIC:
+              accessible = true;
+              break;
+            default:
+              logger.error("Unsupported AccessLevel " + accessLevel);
+          }
+          
+          if (accessible) {
+            method.invoke(this, out);
+            return true;
+          }
+        }
+        
+      }
+      logger.error("Method " + methodName + " not exposed or user does not have required permissions.");
+      final HttpServletResponse response = (HttpServletResponse) parameterProviders.get("path").getParameter("httpresponse");
+      response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      return false;
     }
 
     @Override

@@ -19,6 +19,8 @@ import pt.webdetails.cdc.CdcConfig;
 import pt.webdetails.cdc.CdcLifeCycleListener;
 import pt.webdetails.cdc.hazelcast.operations.DistributedRestart;
 import pt.webdetails.cdc.hazelcast.operations.DistributedShutdown;
+import pt.webdetails.cpf.Result;
+import pt.webdetails.cpf.SecurityAssertions;
 
 import com.hazelcast.core.Cluster;
 import com.hazelcast.core.DistributedTask;
@@ -77,6 +79,8 @@ public class HazelcastMonitorService {
   
   public String shutdownMember(String ip, int port){
     
+    SecurityAssertions.assertIsAdmin();
+    
     Member targetMember = getClusterMember(ip, port);
 
     if(targetMember == null) Result.getError("Member " + ip + ":" + port + " not found in cluster.");
@@ -124,6 +128,9 @@ public class HazelcastMonitorService {
   }
   
   public String restartMember(String ip, int port){
+    
+    SecurityAssertions.assertIsAdmin();
+    
     Member targetMember = getClusterMember(ip, port);
 
     if(targetMember == null) Result.getError("Member " + ip + ":" + port + " not found in cluster.");
@@ -154,21 +161,9 @@ public class HazelcastMonitorService {
     
     ExecutorService execService = Hazelcast.getExecutorService();
     execService.execute(mapStatTask);
-//    try 
-//    {
-      MemberMapStat mapStat = mapStatTask.get();
-      return mapStat.getLocalMapStats();
-//    } 
-//    catch (InterruptedException e) 
-//    {
-//      logger.error("Timeout waiting for LocalMapStats on member " + member.getInetSocketAddress(), e);
-//    } 
-//    catch (ExecutionException e) 
-//    {
-//      logger.error("Error waiting for LocalMapStats on member " + member.getInetSocketAddress(), e);
-//    }
-//    
-//    return null;
+
+    MemberMapStat mapStat = mapStatTask.get();
+    return mapStat.getLocalMapStats();
   }
   
  

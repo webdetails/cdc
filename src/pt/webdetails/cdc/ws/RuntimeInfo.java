@@ -7,6 +7,8 @@ package pt.webdetails.cdc.ws;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pt.webdetails.cpf.JsonSerializable;
+
 import com.hazelcast.monitor.DistributedMemberInfoCallable;
 
 public class RuntimeInfo implements JsonSerializable{
