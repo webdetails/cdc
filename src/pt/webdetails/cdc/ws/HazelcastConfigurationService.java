@@ -6,6 +6,8 @@ package pt.webdetails.cdc.ws;
 
 import java.util.Arrays;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.pentaho.reporting.libraries.base.util.StringUtils;
 
@@ -21,6 +23,8 @@ import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.Hazelcast;
 
 public class HazelcastConfigurationService {
+  
+  static Log log = LogFactory.getLog(CdcLifeCycleListener.class);
  
   public String setMapOption(String map, String name, String value){
     
@@ -33,7 +37,7 @@ public class HazelcastConfigurationService {
     if(cacheMap == null) return Result.getError("No such map: " + name).toString();
     if(value == null) return Result.getError("Must supply value").toString();
     
-    MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(cacheMap.getName());
+    MapConfig mapConfig = getMapConfig(cacheMap);
     switch(option){
       case enabled:
         Boolean enabled = parseBooleanStrict(value);
@@ -131,7 +135,7 @@ public class HazelcastConfigurationService {
     CacheMap cacheMap = CacheMap.parse(map);
     if(cacheMap == null) return Result.getError("No such map: " + map).toString();
     
-    MapConfig mapConfig = Hazelcast.getConfig().getMapConfig(cacheMap.getName());
+    MapConfig mapConfig = getMapConfig(cacheMap);
     
     Object result = null;
     switch(option){
@@ -206,6 +210,16 @@ public class HazelcastConfigurationService {
     }
     catch(Exception e){
       return Result.getFromException(e).toString();
+    }
+  }
+  
+  private static MapConfig getMapConfig(CacheMap cacheMap){
+    if(CdcLifeCycleListener.isRunning()){
+      return Hazelcast.getConfig().getMapConfig(cacheMap.getName());
+    }
+    else {
+      log.warn("Hazelcast must be enabled for map config to be available.");
+      return new MapConfig("Bogus");
     }
   }
 

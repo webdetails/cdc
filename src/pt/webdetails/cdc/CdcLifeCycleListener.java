@@ -36,6 +36,8 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   
   private static Process innerProcess;
   
+  private static boolean running = false;
+  
   static Log logger = LogFactory.getLog(CdcLifeCycleListener.class);
 
   @Override
@@ -45,12 +47,25 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
 
   }
 
+  public static synchronized boolean isRunning(){
+    return running;
+  }
+  
+  private static synchronized void setRunning(boolean isRunning){
+    running = isRunning;
+  }
 
   @Override
   public void loaded() throws PluginLifecycleException
   {
     logger.debug("CDC loaded.");
-    init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode() ,CdcConfig.getConfig().isForceConfig());
+    try {
+      if (CdcConfig.getConfig().isMondrianCdcEnabled() || ExternalConfigurationsManager.isCdaHazelcastEnabled()){
+        init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode() ,CdcConfig.getConfig().isForceConfig());
+      }
+    } catch (Exception e) {
+      logger.error(e);
+    }
 
   }
   
@@ -184,6 +199,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   private static void initConfig(Config config){
     Hazelcast.init(config);
     HazelcastConfigHelper.spreadMapConfigs();
+    setRunning(true);
   }
   
   private static boolean hasProperMembers(){

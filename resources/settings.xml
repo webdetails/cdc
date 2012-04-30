@@ -21,7 +21,7 @@
     </adapterClasses>
   </cdaConfig>
   <mondrianConfig>
-    <enabled>true</enabled>
+    <enabled>false</enabled>
   </mondrianConfig>
  
   
