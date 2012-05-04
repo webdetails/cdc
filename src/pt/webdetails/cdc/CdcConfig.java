@@ -4,19 +4,30 @@
 
 package pt.webdetails.cdc;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import org.pentaho.platform.api.engine.IPluginManager;
 import org.pentaho.platform.api.engine.ISystemSettings;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
+import org.pentaho.platform.util.xml.dom4j.XmlDom4JHelper;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.dom4j.Node;
 
 public class CdcConfig 
 {
   private static final String HAZELCAST_FILE = "hazelcast.xml";
   private static final String HAZELCAST_STANDALONE_FILE = "hazelcast-standalone.xml";
   private static final String SETTINGS_FILE = "settings.xml";
+  private static Log logger = LogFactory.getLog(CdcConfig.class);
   
   public static final String PLUGIN_ID = "cdc";
   public static final String PLUGIN_TITLE = "cdc";
@@ -46,9 +57,25 @@ public class CdcConfig
     }
     return pluginManager;
   }
+  
+  /* ************
+   * Config Items
+   * start */
+  
+  public static String getHazelcastConfigFile(){
+    String cfg = getStringSetting("hazelcastConfigFile", StringUtils.EMPTY);
+    if(StringUtils.isEmpty(cfg)){
+      return PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_FILE);
+    }
+    else return cfg;
+  }
+  
+  public static String getHazelcastStandaloneConfigFile(){
+    return PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_STANDALONE_FILE);
+  }
    
-  public boolean isSuperClient(){
-    return getBooleanSetting("superClientMode", true);
+  public boolean isLiteMode(){
+    return getBooleanSetting("liteMode", true);
   }
   
   public boolean isDebugMode(){
@@ -67,20 +94,15 @@ public class CdcConfig
     return getStringSetting("cdaConfig/beanID","cda.IQueryCache");
   }
   
-  public String getMondrianHazelcastAdapterClass(){
-    return getStringSetting("mondrianConfig/adapterClasses/hazelcast","pt.webdetails.cdc.mondrian.SegmentCacheHazelcast");
+  public boolean isMondrianCdcEnabled(){
+    return getBooleanSetting("mondrianConfig/enabled", false);
   }
-  public String getMondrianHazelcastLegacyAdapterClass(){
-    return getStringSetting("mondrianConfig/adapterClasses/hazelcastMondrian33","pt.webdetails.cdc.mondrian.SegmentCacheHazelcastLegacy");
+  public void setMondrianCdcEnabled(boolean enabled){
+    if(!writeSetting("mondrianConfig/enabled", "" + enabled) ){
+      logger.error("Could not write property mondrianConfig/enabled");
+    }
   }
-  public String getMondrianDefaultAdapterClass(){
-    return getStringSetting("mondrianConfig/adapterClasses/default",StringUtils.EMPTY);
-  }
-  
-  public String getMondrianConfigLocation(){
-    return getStringSetting("mondrianConfig/location","system/mondrian/mondrian.properties");
-  }
-  
+
   public String getCdaHazelcastAdapterClass(){
     return getStringSetting("cdaConfig/adapterClasses/hazelcast","pt.webdetails.cda.cache.HazelcastQueryCache");
   }
@@ -88,16 +110,13 @@ public class CdcConfig
     return getStringSetting("cdaConfig/adapterClasses/default",StringUtils.EMPTY);
   }
   
-  public static String getHazelcastConfigFile(){
-    String cfg = getStringSetting("hazelcastConfigFile", StringUtils.EMPTY);
-    if(StringUtils.isEmpty(cfg)){
-      return PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_FILE);
-    }
-    else return cfg;
+  public String getVmMemory(){
+    return getStringSetting("vmMemory", "512m");
   }
-  public static String getHazelcastStandaloneConfigFile(){
-    return PentahoSystem.getApplicationContext().getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_STANDALONE_FILE);
-  }
+  
+  /* end *
+   * config items
+   * ************/
   
   private static boolean getBooleanSetting(String section, boolean nullValue){
     String setting = getStringSetting(section, null);
@@ -123,6 +142,52 @@ public class CdcConfig
 //    }
 //    return defaultValue;
 //  }
+  
+  /**
+   * Writes a setting directly to .xml. Does not refresh global config.
+   * @param section
+   * @param value
+   * @return
+   */
+  private static boolean writeSetting(String section, String value){
+    Document settings = null;
+    String settingsFilePath = PentahoSystem.getApplicationContext().getSolutionPath("system/" + PLUGIN_SYSTEM_PATH + SETTINGS_FILE);
+    File settingsFile = new File(settingsFilePath); 
+    String nodePath = "settings/" + section;
+    
+    try {
+      settings = XmlDom4JHelper.getDocFromFile(settingsFile, null);// getDocFromFile(settingsFilePath, null);
+    } catch (DocumentException e) {
+      logger.error(e);
+    } catch (IOException e) {
+      logger.error(e);
+    }
+    if(settings != null){
+      Node node = settings.selectSingleNode(nodePath);
+      if(node != null){
+        node.setText(value);
+        FileWriter writer = null;
+        try {
+          writer = new FileWriter(settingsFile);
+          settings.write(writer);
+          writer.flush();
+          return true;
+        } catch (IOException e) {
+          logger.error(e);
+        }
+        finally {
+          IOUtils.closeQuietly(writer);
+        }
+      }
+      else {
+        logger.error("Couldn't find node");
+      }
+    }
+    else {
+      logger.error("Unable to open " + settingsFilePath);
+    }
+    return false;    
+  }
 
   @SuppressWarnings("unchecked")
   protected static List<Element> getSettingsXmlSection(String section) {

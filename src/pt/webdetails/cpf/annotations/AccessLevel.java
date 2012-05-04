@@ -9,6 +9,8 @@ package pt.webdetails.cpf.annotations;
  * @author pdpi
  */
 public enum AccessLevel {
-    PUBLIC
+    PUBLIC,
+    ADMIN, 
+    ROLE,
     
 }

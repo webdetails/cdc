@@ -4,28 +4,23 @@
 
 package pt.webdetails.cdc;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 
-//import mondrian.spi.SegmentBody;
-//import mondrian.spi.SegmentHeader;
+import mondrian.spi.SegmentCache;
+import mondrian.spi.SegmentCache.SegmentCacheListener;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.engine.IPluginLifecycleListener;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
 
+import pt.webdetails.cdc.mondrian.SegmentCacheHazelcast;
+
 import com.hazelcast.config.Config;
-import com.hazelcast.config.ConfigXmlGenerator;
 import com.hazelcast.config.XmlConfigBuilder;
-import com.hazelcast.core.Cluster;
-//import com.hazelcast.core.EntryEvent;
-//import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.Hazelcast;
-//import com.hazelcast.core.IMap;
+import com.hazelcast.core.InstanceEvent;
+import com.hazelcast.core.InstanceListener;
 import com.hazelcast.core.Member;
 import com.hazelcast.core.MembershipEvent;
 import com.hazelcast.core.MembershipListener;
@@ -37,27 +32,44 @@ import com.hazelcast.core.MembershipListener;
 public class CdcLifeCycleListener implements IPluginLifecycleListener
 {
   
-  public static final String PROPERTY_SUPER_CLIENT = "hazelcast.super.client";
+  public static final String PROPERTY_LITE_MODE = "hazelcast.super.client";
   
+  private static Process innerProcess;
+  
+  private static boolean running = false;
   
   static Log logger = LogFactory.getLog(CdcLifeCycleListener.class);
-
 
   @Override
   public void init() throws PluginLifecycleException
   {
     logger.debug("init");
-    
+
+  }
+
+  public static synchronized boolean isRunning(){
+    return running;
+  }
+  
+  private static synchronized void setRunning(boolean isRunning){
+    running = isRunning;
   }
 
   @Override
   public void loaded() throws PluginLifecycleException
   {
     logger.debug("CDC loaded.");
-    init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isSuperClient() ,CdcConfig.getConfig().isForceConfig());
+    try {
+      if (CdcConfig.getConfig().isMondrianCdcEnabled() || ExternalConfigurationsManager.isCdaHazelcastEnabled()){
+        init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode() ,CdcConfig.getConfig().isForceConfig());
+      }
+    } catch (Exception e) {
+      logger.error(e);
+    }
+
   }
   
-  private static void init(String configFileName, boolean superClient, boolean forceConfig)
+  private static synchronized void init(String configFileName, boolean liteMode, boolean forceConfig)
   {  
 
     logger.debug("CDC init for config " + configFileName);
@@ -75,29 +87,11 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
       config = new Config();
     }
 
-    //super client: doesn't hold data but has first class access
-    //needs a running instance to work
     try{
-      String isSuper = System.getProperty(PROPERTY_SUPER_CLIENT);
-      if(Boolean.parseBoolean(isSuper) && !superClient){
-        System.setProperty(PROPERTY_SUPER_CLIENT , "false");
-      }
-      else if(superClient){
-        logger.info("Setting SuperClient flag");
-        System.setProperty(PROPERTY_SUPER_CLIENT, "true");
-        
-      }
-    } catch (SecurityException e){
-      logger.error("Error accessing " + PROPERTY_SUPER_CLIENT, e);
-    }
-
-    try{
-       config.setSuperClient(superClient);      
+       config.setLiteMember(liteMode);      
        logger.info("Launching Hazelcast with " + configFileName);
-       Hazelcast.init(config);
-       if(superClient){
-         launchIfNoMember();
-       }
+       config.setCheckCompatibility(false);
+       initConfig(config);
     }
     catch(IllegalStateException e){
 
@@ -112,14 +106,25 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
       }
     }
     
-    if(CdcConfig.getConfig().isDebugMode()){    
-//      logger.debug("adding mondrian listener");
-//      IMap<SegmentHeader, SegmentBody> monCache = Hazelcast.getMap(CdcConfig.CacheMaps.MONDRIAN_MAP);
-//      MondrianVerboseEntryListener monShouter = new MondrianVerboseEntryListener();
-//      monCache.removeEntryListener(monShouter);
-//      monCache.addEntryListener(monShouter, false);
-        Hazelcast.getCluster().addMembershipListener(new MemberLogListener());
+    //at least one non-tile instance must be running
+    if(liteMode && !hasProperMembers()){
+      logger.warn("In lite mode but no instances are present.");
     }
+    if(liteMode){
+      launchIfNoMember();
+    }
+    
+    //activate mondrian cache according to settings
+    if(CdcConfig.getConfig().isMondrianCdcEnabled()){
+      registerMondrianCacheSpi();
+    }
+
+    MembershipListener memberListener = new MemberSyncListener();
+    InstanceListener instanceListener = new InstanceReInitListener();
+    Hazelcast.removeInstanceListener(instanceListener);
+    Hazelcast.addInstanceListener(instanceListener);
+    Hazelcast.getCluster().removeMembershipListener(memberListener);
+    Hazelcast.getCluster().addMembershipListener(memberListener);
   }
 
   @Override
@@ -127,6 +132,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   {
     //teardown etc
     Hazelcast.getLifecycleService().shutdown();
+    removeExtraInstance();
   }
 
   public static Config getHazelcastConfig(){
@@ -182,94 +188,215 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     
   }
 
-  /**
-   * @param config
-   */
+
   private static void forceRestart(Config config) {
-    logger.info("Shutdown ALL Hazelcast instances!!");
+    logger.info("Shutdown ALL local Hazelcast instances!!");
     Hazelcast.shutdownAll();
     logger.info("Launching Hazelcast...");
-    Hazelcast.init(config);
-    if(config.isSuperClient()){
-      launchIfNoMember();
-    }
+    initConfig(config);
   }
   
-  //for superClient mode
-  private static void launchIfNoMember()
-  {
-    Cluster cluster = Hazelcast.getCluster();
-    for(Member member : cluster.getMembers())
-    {
-      if(!member.isSuperClient()){
-        logger.debug("Member detected, no launch required.");
-        return;
+  private static void initConfig(Config config){
+    Hazelcast.init(config);
+    HazelcastConfigHelper.spreadMapConfigs();
+    setRunning(true);
+  }
+  
+  private static boolean hasProperMembers(){
+    int properMemberCount = 0;
+    for(Member member : Hazelcast.getCluster().getMembers()){
+      if(!member.isLiteMember() && !member.localMember()){
+        if(innerProcess == null){
+          return true;
+        }
+        else if(++properMemberCount >= 2) {//need two
+          return true;
+        }
       }
     }
-    //no non-superClient members
-    logger.info("SuperClient mode: no members found, launching a hazelcast server in a new JVM.");
-    HazelcastProcessLauncher.launchProcess(0L);
+    return false;
   }
+  
+
   
   public static void reloadConfig(String configFileName){
     if(configFileName == null) configFileName = CdcConfig.getHazelcastConfigFile();
-    init(configFileName, CdcConfig.getConfig().isSuperClient(), true);
+    init(configFileName, CdcConfig.getConfig().isLiteMode(), true);
+  } 
+
+
+private synchronized static void launchIfNoMember()
+{
+  if(hasProperMembers()) return;
+  
+  //no non-superClient members
+  logger.info("lite mode: no members found, launching a hazelcast server in a new JVM.");
+  innerProcess = HazelcastProcessLauncher.launchProcess();
+  
+}
+  
+  public synchronized static boolean isExtraInstanceActive(){
+    return innerProcess != null;// extraInstance != null;
   }
   
-  public static boolean saveConfig(Config config){
-    File configFile = new File(CdcConfig.getHazelcastConfigFile());
-    FileWriter fileWriter = null;
-    try
-    {
-      ConfigXmlGenerator xmlGenerator = new ConfigXmlGenerator(true);
-      fileWriter = new FileWriter(configFile);
-      fileWriter.write(xmlGenerator.generate(config));
-      return true;
-    } catch (FileNotFoundException e) {
-      String msg = "File not found: " + configFile.getAbsolutePath();
-      logger.error(msg);
-      return false;
-    } catch (IOException e) {
-      String msg = "Error writing file " + configFile.getAbsolutePath();
-      logger.error(msg, e);
-      return false;
+  public synchronized static void removeExtraInstance(){
+    try {
+      if(innerProcess != null) {
+        innerProcess.destroy();
+        innerProcess = null;
+      }
+    } catch(Exception e){
+      logger.error("Error destroying process.", e);
     }
-    finally {
-      IOUtils.closeQuietly(fileWriter);
+  }
+  
+  
+  private static class MondrianLoggingListener implements SegmentCacheListener{
+
+    @Override
+    public void handle(SegmentCacheEvent event) {
+      switch(event.getEventType()){
+        case ENTRY_CREATED:
+          logger.debug("(" + (event.isLocal()? "local" : "remote") + ") " + "Mondrian cache entry ADDED: " + event.getSource());
+          break;
+        case ENTRY_DELETED:
+          logger.debug("(" + (event.isLocal()? "local" : "remote") + ") " + "Mondrian cache entry REMOVED: " + event.getSource());
+          break;
+      }
+    }
+        
+    @Override 
+    public boolean equals(Object other) {
+      return other instanceof MondrianLoggingListener;
+    }
+
+  };
+  
+  
+  private static void registerMondrianCacheSpi(){
+    
+    SegmentCache mondrianCache = new SegmentCacheHazelcast();
+    
+    if(CdcConfig.getConfig().isMondrianCdcEnabled() && CdcConfig.getConfig().isDebugMode()){
+      logger.debug("adding mondrian listener");
+      SegmentCacheListener listener = new MondrianLoggingListener();
+      mondrianCache.removeListener(listener);
+      mondrianCache.addListener(listener);
+      
+      
+    }
+    
+    mondrian.spi.SegmentCache.SegmentCacheInjector.addCache(mondrianCache);
+    
+  }
+  
+  
+  private static class InstanceReInitListener implements InstanceListener {
+
+    @Override
+    public void instanceCreated(InstanceEvent arg0) {}
+
+    @Override
+    public void instanceDestroyed(InstanceEvent arg0) {
+      init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode(), false);
+    }
+    
+    @Override
+    public boolean equals(Object other){
+      return other instanceof InstanceReInitListener;
     }
     
   }
   
-  private static final class MemberLogListener implements MembershipListener {
+  private static final class MemberSyncListener implements MembershipListener {
 
     @Override
     public void memberAdded(MembershipEvent membershipEvent) {
       
       logger.debug("MEMBER ADDED: " + membershipEvent);
+      logger.info("Adding maps to new member");
+      Member newMember = membershipEvent.getMember();
       
-      logger.debug(" ... from " + membershipEvent.getMember().getInetSocketAddress() + ",  source:" + membershipEvent.getSource());
-      
-      
+      if(newMember.localMember()){
+        logger.error("LOCAL MEMBER ATTEMPTED JOIN");
+        return;
+      }
+
+      HazelcastConfigHelper.spreadMapConfigs(newMember);
+
+        if(CdcConfig.getConfig().isLiteMode() && isExtraInstanceActive() && 
+            !newMember.localMember() && !newMember.isLiteMember() &&
+            hasProperMembers()){
+            logger.info("Non-lite instance found, temporary instance no longer needed");
+            removeExtraInstance();
+        }
+
     }
+
 
     @Override
     public void memberRemoved(MembershipEvent membershipEvent) {
       logger.debug("MEMBER REMOVED: " + membershipEvent);
-      
-      logger.debug(" ... from " + membershipEvent.getMember().getInetSocketAddress() + ",  source:" + membershipEvent.getSource());
+      if(!membershipEvent.getMember().localMember() &&
+          Hazelcast.getConfig().isLiteMember() && !hasProperMembers())
+      { 
+        logger.warn("Last instance exited, cache lost!");
+        logger.warn("In lite mode but no instances are present.");
+        launchIfNoMember();
+
+      }
     }
     
     @Override
     public boolean equals(Object other){//static
-      return other instanceof MemberLogListener;
+      return other instanceof MemberSyncListener;
     }
     
   }
   
+//  private static class  HazelcastKeySerializationListener<KEY,VALUE> implements EntryListener<KEY,VALUE>{
+//
+//    @Override
+//    public void entryAdded(EntryEvent<KEY, VALUE> entryEvent) {
+//      
+//      logger.debug("ADDED, BIN:");
+//      Data keyData = null;
+//      if(entryEvent instanceof DataAwareEntryEvent){
+//        keyData = ((DataAwareEntryEvent)entryEvent).getKeyData();
+////        logger.debug( .toString());
+//      }
+//      else {
+//        logger.debug("serializing..");
+//        keyData = IOUtil.toData(entryEvent.getKey());
+//      }
+//      logger.debug("(as data) " + "[" + keyData.hashCode() + "]" + keyData.toString());
+//      StringBuilder sb = new StringBuilder();
+//      for(byte b : keyData.buffer){
+//        sb.append(b).append(", ");
+//      }
+//    }
+//
+//    @Override
+//    public void entryEvicted(EntryEvent<KEY, VALUE> arg0) {
+//
+//    }
+//
+//    @Override
+//    public void entryRemoved(EntryEvent<KEY, VALUE> arg0) {
+//
+//    }
+//
+//    @Override
+//    public void entryUpdated(EntryEvent<KEY, VALUE> arg0) {
+//
+//    }
+//    
+//  }
+
 //  private static final class MondrianVerboseEntryListener implements EntryListener<SegmentHeader, SegmentBody>  {
 //    
 //    @Override
-//    public void entryAdded(EntryEvent<SegmentHeader, SegmentBody> event) 
+//    public void entryAdded(EntryEvent<SegmentHeader, SegmentBody> event)
 //    {
 //      SegmentHeader key = event.getKey();
 //      logger.debug("Mondrian ENTRY ADDED:" + key);
@@ -300,5 +427,32 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
 //    }
 //
 //  }
+  
+//
+//private void testGlobalParamHack(){
+// 
+//  String key = "cda.IQueryCache";
+//  Object test = null;
+//  
+//  ClassLoader classLoader = SegmentCacheHazelcast.class.getClassLoader();
+//  IPluginManager pluginManager = PentahoSystem.get(IPluginManager.class);
+//  if (!pluginManager.isBeanRegistered(key)) {
+//    if(pluginManager instanceof DefaultPluginManager){
+//      IPentahoObjectFactory factory = ((DefaultPluginManager)pluginManager).getBeanFactory();
+//      if(factory instanceof IPentahoDefinableObjectFactory){
+//        ((IPentahoDefinableObjectFactory)factory).defineObject(key, HazelcastCdcCdaQueryCache.class.getName(), Scope.GLOBAL, classLoader);
+//        
+//        try {
+//          test = pluginManager.getBean(key);
+//          
+//        } catch (PluginBeanException e) {
+//          logger.error(e);
+//        }
+//      }
+//    }
+//  }
+//  logger.info(test != null ? test.getClass().getName() : "waaah waaah waaaaaaah");      
+//  
+//}
 }
 

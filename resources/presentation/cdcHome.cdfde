@@ -713,6 +713,178 @@
     ]
    },
    {
+    "id": "3ce00da7-b10a-57ce-d701-68e32eb57fb0",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "d93b5fb3-2ee2-0af2-6646-1540d15ceea8",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "3ce00da7-b10a-57ce-d701-68e32eb57fb0",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": 5,
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "f5ae4d71-2f25-8bcd-4847-80f9c5fa91d8",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "d93b5fb3-2ee2-0af2-6646-1540d15ceea8",
+    "properties": [
+     {
+      "name": "name",
+      "value": "fallbackWarningObj",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "88",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "WDdataCell WDdataCellHeader WDWarnCell",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "19124eca-7b26-7719-c975-19fe7a7d4739",
+    "type": "LayoutSpace",
+    "typeDesc": "Space",
+    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
+    "properties": [
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
     "id": "7ba7ef71-e48a-e425-5e9c-7c20100f0811",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -1174,6 +1346,173 @@
       "type": "TextAlign"
      }
     ]
+   },
+   {
+    "id": "b11de115-c541-fc9d-7cad-4a786a87d0f2",
+    "type": "LayoutSpace",
+    "typeDesc": "Space",
+    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
+    "properties": [
+     {
+      "name": "height",
+      "value": "45",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "21d85531-0a58-9b99-a3f9-3632f041ae7d",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "bbba52b3-dd55-bb9b-d6a0-1b44cc04b74b",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "4c64fb85-2690-0b41-8015-973b6cc95e66",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "21d85531-0a58-9b99-a3f9-3632f041ae7d",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "24",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "right",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "0dd5e09a-5d12-b766-e089-f6ada6d206b8",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "4c64fb85-2690-0b41-8015-973b6cc95e66",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "<a href='http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/cdc-redist-SNAPSHOT.zip'>Download</a> standalone cache node ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
    }
   ]
  },
@@ -1208,6 +1547,11 @@
       "name": "javaScript",
       "value": "true",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1226,6 +1570,11 @@
       "name": "javaScript",
       "value": "true",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1244,6 +1593,11 @@
       "name": "javaScript",
       "value": "cdcFunctions.siteMap()",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1262,6 +1616,11 @@
       "name": "propertyValue",
       "value": "home",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1280,6 +1639,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1298,6 +1662,11 @@
       "name": "propertyValue",
       "value": "cda",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1316,6 +1685,11 @@
       "name": "propertyValue",
       "value": "enabled",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1334,6 +1708,11 @@
       "name": "propertyValue",
       "value": "true",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1482,6 +1861,59 @@
      },
      {
       "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "c660763b-589c-a110-673d-7e298376e6e4",
+    "type": "ComponentstextComponent",
+    "typeDesc": "Text Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "WarningFallback",
+      "type": "Id"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    var htmlObject = $('#'+this.htmlObject);\n    if(cdcFunctions.isRunningFallback()){\n        htmlObject.css('display','block');\n        var strResult = '<br> WARNING: CDC is running with a fallback instance because no running' + \n        ' standalone cache nodes were found!<br>' +\n        ' It is advised to have standalone nodes running in order to take' +\n        ' full advantage of the distributed cache features.' ;\n        return strResult;\n    }\n    else {\n        htmlObject.css('display','none');\n        return '';\n    }\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "htmlObject",
+      "value": "fallbackWarningObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
       "value": "",
       "type": "JavaScript"
      },
@@ -1731,6 +2163,94 @@
      {
       "name": "xActionArrayParameter",
       "value": "[[\"map\",\"map\"],[\"name\",\"name\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     }
+    ]
+   },
+   {
+    "id": "e2a73010-6970-5b1f-a054-d4f63b1bf087",
+    "type": "ComponentsAjaxRequestComponent",
+    "typeDesc": "AjaxRequestComponent",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "isRunningFallback",
+      "type": "Id"
+     },
+     {
+      "name": "url",
+      "value": "/pentaho/content/ws-run/HazelcastMonitorService/isRunningFallback",
+      "type": "String"
+     },
+     {
+      "name": "ajaxRequestType",
+      "value": "xml",
+      "type": "ajaxRequestTypeCustom"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "asyncCall",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "resultvar",
+      "value": "resultVar",
+      "type": "Result"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
       "type": "ValuesArray"
      },
      {

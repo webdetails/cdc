@@ -18,4 +18,7 @@ import java.lang.annotation.Target;
 public @interface Exposed {
     
     AccessLevel accessLevel();
+    
+    String role() default "";
+    
 }

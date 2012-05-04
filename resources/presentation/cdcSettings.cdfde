@@ -4163,6 +4163,11 @@
       "name": "javaScript",
       "value": "true",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4181,6 +4186,11 @@
       "name": "javaScript",
       "value": "true",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4199,6 +4209,11 @@
       "name": "javaScript",
       "value": "cdcFunctions.siteMap()",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4217,6 +4232,11 @@
       "name": "propertyValue",
       "value": "settings",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4235,6 +4255,11 @@
       "name": "propertyValue",
       "value": "enabled",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4253,6 +4278,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4271,6 +4301,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4289,6 +4324,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4307,6 +4347,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4325,6 +4370,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4343,6 +4393,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4361,6 +4416,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4379,6 +4439,11 @@
       "name": "propertyValue",
       "value": "cda",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4397,6 +4462,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4415,6 +4485,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -4433,6 +4508,11 @@
       "name": "javaScript",
       "value": "false",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -5063,7 +5143,7 @@
      },
      {
       "name": "htmlObject",
-      "value": "applyObj",
+      "value": "",
       "type": "HtmlObject"
      },
      {

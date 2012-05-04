@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
   <!--(true|false) if true, pentaho's hazelcast instance will not store cache items-->
-  <superClientMode>true</superClientMode>
+  <liteMode>true</liteMode>
   <!--(true|false) add verbose listeners -->
   <debugMode>true</debugMode>
   <!--(true|false) override configuration at startup -->
   <forceConfig>true</forceConfig>
+  <!-- -Xmx argument for VM that is created if in liteMode and no instances found  -->
+  <vmMemory>512m</vmMemory>
   
   <!--TODO-->
  
@@ -19,12 +21,7 @@
     </adapterClasses>
   </cdaConfig>
   <mondrianConfig>
-    <location>system/mondrian/mondrian.properties</location>
-    <adapterClasses>
-      <hazelcast>pt.webdetails.cdc.mondrian.SegmentCacheHazelcast</hazelcast>
-      <hazelcastMondrian33>pt.webdetails.cdc.mondrian.SegmentCacheHazelcastLegacy</hazelcastMondrian33>
-      <default></default><!-- empty will fallback to default -->        
-    </adapterClasses>
+    <enabled>false</enabled>
   </mondrianConfig>
  
   

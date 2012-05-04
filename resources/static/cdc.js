@@ -147,8 +147,14 @@ cdcFunctions.isMondrianActive = function(){
 	Dashboards.update(render_getDefinitionRequest);
 	if(resultVar == undefined) return false;
 	return resultVar.result;
-}
+};
 
+
+cdcFunctions.isRunningFallback = function(){
+	Dashboards.update(render_isRunningFallback);
+	if(resultVar == undefined || resultVar.status != "OK") return false;
+	return resultVar.result;
+};
 
 cdcFunctions.enableCDACache = function(){
 	Dashboards.setParameter('map','cda');
@@ -278,7 +284,7 @@ cdcFunctions.renderClusterInfo = function(){
 	if(results.status != "OK") return;
 	
 	results = results.result;	
-        cdc.clusterInfo.draw(results);
+  cdc.clusterInfo.draw(results);
 			
 };
 
@@ -443,14 +449,17 @@ cdc.clusterInfo = {
     ph.empty();
     $.each(nodes,function(i,e){
       var info = e.mapInfo;
-      /* collate the memory and count information */
-      meminfo.push(["Node " + i,
-          cdc.clusterInfo.memoryPercent(info.ownedMemory,e.javaRuntimeInfo),
-          cdc.clusterInfo.memoryPercent(info.backupMemory,e.javaRuntimeInfo)
-      ]);
-      countinfo.push(["Node " + i, info.ownedCount, info.backupCount]);
-      /* draw the detail item for this cache node */
-      cdc.clusterInfo.drawNode(i,e,ph);
+			if(!e.isSuperClient){
+				/* collate the memory and count information */
+				meminfo.push(["Node " + i,
+						cdc.clusterInfo.memoryPercent(info.ownedMemory,e.javaRuntimeInfo),
+						cdc.clusterInfo.memoryPercent(info.backupMemory,e.javaRuntimeInfo)
+				]);
+				countinfo.push(["Node " + i, info.ownedCount, info.backupCount]);
+			}
+			/* draw the detail item for this cache node */
+			cdc.clusterInfo.drawNode(i,e,ph);
+			
     });
     cdc.clusterInfo.drawSummary(nodes,meminfo,countinfo,$("#summaryData"));
   },
@@ -465,7 +474,7 @@ cdc.clusterInfo = {
     $header.appendTo($elem);
     $("<div class='WDdataCell2 cacheIP'> Cache IP: " + node.address.substr(1) + "</div>").appendTo($elem);
     if(node.isSuperClient) {
-      $header.find('.WDdataCellHeader').append("<div class='superClient'>Super Client</div>");
+      $header.find('.WDdataCellHeader').append("<div class='superClient'>Lite Mode</div>");
     } else {
       $body = $("#dummyElementBody").clone();
       $body.css('margin-top','0px');
@@ -503,8 +512,8 @@ cdc.clusterInfo = {
 
     var count = nodes.filter(function(e){return e.isSuperClient}).length;
     ph.html("<div>CDC is using " + nodes.length + " cache node" + (nodes.length > 0 ? "s" : "") +
-    ", of which " + count + (count == 1 ? " is a super client" : " are super clients") +
-    " (super clients don't hold cache data).</div>");
+    ", of which " + count + (count == 1 ? " is in lite mode" : " are lite nodes") +
+    " (lite nodes don't hold cache data).</div>");
   },
 
   drawMemoryTable: function(node, ph) {

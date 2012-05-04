@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pt.webdetails.cdc.ws.MemberInfo;
+import pt.webdetails.cpf.JsonSerializable;
 
 public class ClusterInfo implements JsonSerializable {
   

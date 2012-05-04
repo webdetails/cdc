@@ -8,17 +8,12 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.ServletRequestWrapper;
+
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.pentaho.platform.api.engine.IPentahoSession;
 import org.pentaho.platform.api.engine.IParameterProvider;
-import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
-import org.pentaho.platform.engine.security.SecurityHelper;
 
-
-import pt.webdetails.cpf.InterPluginComms;
+import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.SimpleContentGenerator;
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
@@ -33,95 +28,72 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     private static final long serialVersionUID = 1L;
     public static final String ENCODING = "utf-8";
 
+    private static final String UI_PATH = "cdc/presentation/";
   
-    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    @Exposed(accessLevel = AccessLevel.ADMIN)
     public void home(OutputStream out) throws IOException {
-        if (!validateAccess())
-            return;
-        
-        Map<String, Object> params = getLink("cdcHome.wcdf");
+        Map<String, Object> params = getRequestParameters("cdcHome.wcdf");
         run(out, params);
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    @Exposed(accessLevel = AccessLevel.ADMIN)
     public void clusterinfo(OutputStream out) throws IOException {
-        if (!validateAccess())
-            return;
-        
-        Map<String, Object> params = getLink("cdcClusterInfo.wcdf");
+        Map<String, Object> params = getRequestParameters("cdcClusterInfo.wcdf");
         run(out, params);
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    @Exposed(accessLevel = AccessLevel.ADMIN)
     public void cacheinfo(OutputStream out) throws IOException {        
-        if (!validateAccess())
-            return;
-                
-        Map<String, Object> params = getLink("cdcCacheInfo.wcdf");
+        Map<String, Object> params = getRequestParameters("cdcCacheInfo.wcdf");
         run(out, params);
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    @Exposed(accessLevel = AccessLevel.ADMIN)
     public void settings(OutputStream out) throws IOException {
-        if (!validateAccess())
-            return;
-                
-        Map<String, Object> params = getLink("cdcSettings.wcdf");
+        Map<String, Object> params = getRequestParameters("cdcSettings.wcdf");
         run(out, params);
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC) 
+    @Exposed(accessLevel = AccessLevel.ADMIN) 
     public void cacheclean(OutputStream out) throws IOException {
-        if (!validateAccess())
-            return;
-                        
-        Map<String, Object> params = getLink("cdcCacheClean.wcdf");
+        Map<String, Object> params = getRequestParameters("cdcCacheClean.wcdf");
         run(out, params);
     }
+    
 
-    
-    private boolean validateAccess() {
-        IPentahoSession userSession = PentahoSessionHolder.getSession();
-        if (!SecurityHelper.isPentahoAdministrator(userSession)) {
-            final HttpServletResponse response = (HttpServletResponse) parameterProviders.get("path").getParameter("httpresponse");
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            logger.warn("Access denied for user: " + userSession.getName() + ". Not an admin");
-            return false;
-        }
-        
-        return true;                
-    }
-    
-    private Map<String, Object> getLink(String dashboardName) {
+    private Map<String, Object> getRequestParameters(String dashboardName) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("solution", "system");
-        params.put("path", "cdc/presentation/");
+        params.put("path", UI_PATH);
         params.put("file", dashboardName);
         params.put("bypassCache", "true");
         params.put("absolute", "true");
         params.put("root", getRoot());
 
-        ServletRequestWrapper wrapper = (ServletRequestWrapper) parameterProviders.get("path").getParameter("httprequest");
-        Enumeration originalParams = wrapper.getParameterNames();
+        //add request parameters
+        ServletRequest request = getRequest();
+        @SuppressWarnings("unchecked")//should always be String
+        Enumeration<String> originalParams =  request.getParameterNames();
         // Iterate and put the values there
         while(originalParams.hasMoreElements()) {
-            String originalParam = (String) originalParams.nextElement();
-            params.put(originalParam,wrapper.getParameter(originalParam));
+            String originalParam = originalParams.nextElement();
+            params.put(originalParam, request.getParameter(originalParam));
         }
-        
         
         return params;
     }
 
+    //delegate response to cde
     private void run(OutputStream out, Map<String, Object> params) throws IOException {
-        out.write(InterPluginComms.callPlugin(InterPluginComms.Plugin.CDE, "Render", params).getBytes(ENCODING));
+      InterPluginCall pluginCall = new InterPluginCall(InterPluginCall.CDE, "Render", params);
+      pluginCall.setResponse(getResponse());
+      pluginCall.setOutputStream(out);
+      pluginCall.run();
     }
 
     private String getRoot() {
-
-        IParameterProvider pathParams = parameterProviders.get("path");
-        ServletRequestWrapper wrapper = (ServletRequestWrapper) pathParams.getParameter("httprequest");
-        String root = wrapper.getServerName() + ":" + wrapper.getServerPort();
+        ServletRequest request = getRequest();
+        String root = request.getServerName() + ":" + request.getServerPort();
         return root;
     }
 
@@ -130,7 +102,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         OlapUtils utils = new OlapUtils();
         IParameterProvider requestParams = parameterProviders.get("request");
         try {
-            out.write(utils.process(requestParams).toString().getBytes("utf-8"));
+            out.write(utils.process(requestParams).toString().getBytes(ENCODING));
         } catch (IOException e) {
             logger.error(e);
         }

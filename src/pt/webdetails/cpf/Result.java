@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package pt.webdetails.cdc.ws;
+package pt.webdetails.cpf;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -10,9 +10,13 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+/**
+ * JSON method call result wrapper
+ */
 public class Result {
   
-  private static Log logger = LogFactory.getLog(Result.class);//TODO:
+  private static Log logger = LogFactory.getLog(Result.class);
   
   public enum Status {
     OK,

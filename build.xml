@@ -53,9 +53,9 @@
 <!--	<property name="cda.dist.dir"
             value="${dist.dir}/cda"
             description="where cda stuff is added" />-->
-    <property name="mondrian.dist.dir"
+<!--    <property name="mondrian.dist.dir"
             value="${dist.dir}/mondrian"
-            description="where mondrian stuff is added" />
+            description="where mondrian stuff is added" />-->
     <property name="hazelcast.config.file"
 	          value="${resource.dir}/hazelcast.xml"
             description="Hazelcast config file"/>
@@ -120,11 +120,11 @@
 	
   <!--mondrian-->
   
-    <target name="jar-mondrian" depends="compile,set-build.id,generate.manifest" description="Mondrian Hazelcast adapter">
+<!--    <target name="jar-mondrian" depends="compile,set-build.id,generate.manifest" description="Mondrian Hazelcast adapter">
         <jar destfile="${mondrian.dist.dir}/${ivy.artifact.id}-mondrian-${project.revision}.jar" manifest="${dist.manifest.file}">
             <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/mondrian/**" />
         </jar>
-    </target>
+    </target>-->
 <!--	<target name="dist-mondrian" depends="jar-mondrian">
     <copy todir = "${mondrian.dist.dir}">
       <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
@@ -169,6 +169,7 @@
                 <include name="eigenbase-xom-*.jar"/>
 <!--        <include name="hazelcast-*.jar"/>-->
                 <include name="libbase-*.jar"/>
+                <!--<include name="libloader-*.jar"/>--><!-- N -->
                 <include name="json-*.jar"/>
                 <include name="javacup-*.jar"/>
                 <include name="log4j-*.jar"/>
@@ -235,7 +236,7 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
               ====================================================================-->
     <target name="assemble" depends="assemble.init,install-antcontrib, dist-plugin"/>
   
-    <target name="dist-plugin" depends="jar,jar-mondrian,dist-standalone" description="Creates a distribution">
+    <target name="dist-plugin" depends="jar,dist-standalone" description="Creates a distribution">
 
     <!-- delete and re-create the plugin dist folder tree -->
         <mkdir dir="${stage.dir}"/>
@@ -252,12 +253,12 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
             </fileset>
       <!--fileset dir="${devlib.dir}" includes="hazelcast*.jar"/-->
       <!--<fileset dir="${lib.dir}" includes="hazelcast*.jar"/>-->
-            <fileset dir="${lib.dir}" includes="cda-*.jar"/>
+<!--            <fileset dir="${lib.dir}" includes="cda-*.jar"/>-->
         </copy>
 
     <!-- zip standalone -->
         <zip basedir="${hazelcast.standalone.dir}"
-         zipfile="${dist.dir}/${ivy.artifact.id}-redist-${distribution.version}.zip"/>
+         zipfile="${dist.dir}/${ivy.artifact.id}-redist-${project.version}.zip"/>
 
     <!-- Copy the plugin.xml and any other files from the resource dir -->
         <copy todir="${stage.dir}/${plugin.name}" overwrite="true">
@@ -293,9 +294,9 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
             <zipfileset dir="${stage.dir}" includes="${plugin.name}/**/*" excludes="**/Thumbs.db"/>
       <!--<zipfileset dir="${hazelcast.standalone.dir}" prefix="${plugin.name}/cdc-redist"/>-->
 <!--      <zipfileset dir="${cda.dist.dir}" prefix="${plugin.name}/cda-lib"/>-->
-            <zipfileset dir="${mondrian.dist.dir}" prefix="${plugin.name}/mondrian-lib"/>
+<!--            <zipfileset dir="${mondrian.dist.dir}" prefix="${plugin.name}/mondrian-lib"/>-->
       <!-- temporary -->
-            <zipfileset dir="${static.dist.dir}" prefix="${plugin.name}/mondrian-lib" />
+<!--            <zipfileset dir="${static.dist.dir}" prefix="${plugin.name}/mondrian-lib" />-->
             <zipfileset dir="${hazelcast.dist.dir}" prefix="${plugin.name}/pentaho-lib"/>
         </zip>
 
@@ -346,7 +347,7 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
 
     </target>
  
-    <target name="install-all" depends="clean, resolve, dist-standalone, dist-plugin, install-hazelcast, install-mondrian-adapter, install-plugin" description="Installs the plugin in the local biserver and copies hazelcast and mondrian to the server lib dir"/>
+    <target name="install-all" depends="clean, resolve, dist-standalone, dist-plugin, install-hazelcast, install-plugin" description="Installs the plugin in the local biserver and copies hazelcast to the server lib dir"/>
  
     <target name="install-hazelcast" depends="resolve,jar-hazelcast" description="Installs hazelcast to the biserver lib dir">
    
@@ -381,7 +382,7 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
   </target>-->
  
   <!-- put jar in WEB-INF for mondrian -->
-    <target name="install-mondrian-adapter" depends="jar-mondrian" description="Installs mondrian adapter to the biserver lib dir">
+<!--    <target name="install-mondrian-adapter" depends="jar-mondrian" description="Installs mondrian adapter to the biserver lib dir">
         <fail message="plugin.local.server.dir not set - cannot copy"
       unless="plugin.local.server.dir"/>
         <copy todir="${pentaho.lib.dir}">
@@ -389,7 +390,7 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
                 <include name="**/*.jar"/>
             </fileset>
         </copy>
-    </target>
+    </target>-->
   <!--=======================================================================
           publish-pentaho-nojar (override)
 

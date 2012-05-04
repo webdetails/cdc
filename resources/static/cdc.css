@@ -334,6 +334,10 @@ ul.toggleGroup label.checked .buttonWrapper {
 	width: 948px;
 }
 
+.WDdataCell.WDWarnCell {
+	border: 2px solid #e01010;	
+}
+
 
 .no-svg .WDdataCell {
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cad3d6', endColorstr='#a6b0b5',GradientType=0 ); /* IE6-8 */
@@ -1169,4 +1173,12 @@ top: 1px;
 
 .popupComponent.west .arrow {
 	background: none;
+}
+
+#cdaMondrianObj.clusterInfo .pentaho-toggle-button-down button {
+ background: url("img/refresh.png") no-repeat scroll 280px 2px #03272A;
+}
+#cdaMondrianObj.clusterInfo .pentaho-toggle-button-down:hover button {
+ /*background-color: #CAD3D6;*/
+ background: none repeat scroll 0 0 #CAD3D6;
 }
