@@ -280,10 +280,22 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
         <replace file="${stage.dir}/${plugin.name}/presentation/cdcSettings.cdfde" token="v.12.1" value="v ${project.revision}"/> 
         <replace file="${stage.dir}/${plugin.name}/static/jquery.alerts.js" token="v.12.2" value="v ${project.revision}"/> 
 
-    <!-- create the version file -->
-        <echo file="${stage.dir}/${plugin.name}/VERSION.txt">${distribution.version}</echo>
-        <echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version>${distribution.version}&lt;/version>"/>
 
+    <!-- create the version file -->
+	<tstamp/>			
+	<property name="sequential.build.id" value="manual-${DSTAMP}"/>
+	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='TRUNK'  buildId='${sequential.build.id}'>${distribution.version}&lt;/version>"/>		   
+	
+	<echo file="${dist.dir}/marketplace.xml">&lt;version branch="TRUNK">
+		&lt;version>${distribution.version}&lt;/version>
+		&lt;name>Trunk&lt;/name>
+		&lt;downloadUrl>http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/cdc-TRUNK-SNAPSHOT.zip&lt;/downloadUrl>
+		&lt;description>Trunk Snapshot. Install at your own risk....&lt;/description>
+		&lt;buildId>${sequential.build.id}&lt;/buildId>
+		&lt;/version>	</echo>         
+	
+	
+	
     <!-- create a zip file -->
     <!--<zip destfile="${dist.dir}/${plugin.zipfile}"
          basedir="${stage.dir}"
