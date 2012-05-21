@@ -80,18 +80,19 @@
     <map name="mondrian">
         <backup-count>1</backup-count>
         <eviction-policy>LRU</eviction-policy>
-        <max-size policy="used_heap_percentage">30</max-size>
-        <eviction-percentage>15</eviction-percentage>
+        <max-size policy="used_heap_percentage">45</max-size>
+        <eviction-percentage>30</eviction-percentage>
         <merge-policy>hz.ADD_NEW_ENTRY</merge-policy>
         <read-backup-data>true</read-backup-data>
     </map>
     
     <map name="cdaCacheStats">
-      <!-- CDA auxiliary map; should be left as is -->
+      <!-- CDA auxiliary map; will be evicted in sync with cdaCache -->
         <backup-count>1</backup-count>
         <eviction-policy>NONE</eviction-policy>
         <!-- 0-> no limit -->
-        <max-size policy="cluster_wide_map_size">0</max-size>
+<!--        <max-size policy="used_heap_percentage">45</max-size>-->
+        <!--<max-size policy="map_size_per_jvm">0</max-size>-->
         <!--stats will be evicted in sync with CDA-->
         <eviction-percentage>0</eviction-percentage>
         <merge-policy>hz.ADD_NEW_ENTRY</merge-policy>
@@ -142,15 +143,14 @@
 
   <max-size policy="used_heap_percentage">75</max-size> -->
 
-        
-        <max-size policy="used_heap_percentage">10</max-size>
+        <max-size policy="used_heap_percentage">45</max-size>
         <!--
             When max. size is reached, specified percentage of
             the map will be evicted. Any integer between 0 and 100.
             If 25 is set for example, 25% of the entries will
             get evicted.
         -->
-        <eviction-percentage>15</eviction-percentage>
+        <eviction-percentage>30</eviction-percentage>
 
         <!--
             While recovering from split-brain (network partitioning),
