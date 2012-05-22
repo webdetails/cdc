@@ -82,8 +82,8 @@ It's very simple to configure CDC.
 
 * Restart pentaho server 
 
-* Check if the settings screen are satisfactory. Usually the defaults work
-   fine.
+* Check on settings screen if they are satisfactory. Usually the defaults work
+  fine.
 
 ![CDC settings](http://www.webdetails.pt/cdc/cdc-settings.png)
 
