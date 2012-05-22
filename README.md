@@ -35,6 +35,7 @@ generally in any user interface. The goal of CDC is to give a
 distributed caching layer that can prevent as much as possible the database to be hit.
 
 
+
 One added functionality is the ability to clear the cache of only specific
 mondrian cubes. Even though Mondrian has a very complete api to control the
 member's cache, Pentaho only exposes a clean all functionality that ends up
@@ -92,21 +93,51 @@ Open analyzer, jpivot or a CDE dashboard that uses CDA and you should see the ca
 
 
 
-Cluster status
+Cluster info
 --------------
 
+
+[Hazelcast](http://www.hazelcast.com) has a very good [Management
+Center](http://www.hazelcast.com/products.jsp), so it's outside the scope of
+CDC to reimplement that kind of features. However, we do support a simple
+cluster information dashboard gives an overview of the state of the nodes.
+
+
+![CDC cluster info](http://www.webdetails.pt/cdc/cdc-clusterInfo.png)
+
+
+Note about _lite nodes_: Pentaho server is itself a cache node. However, it's configured in such a way that doesn't hold data, thus the term _lite node_
 
 
 Clean cache
 -----------
 
+With CDC you can selectively control the contents of the cache, allowing you to
+clean either specific dashboards or cubes. The business case around this is
+simple: We need to clear the cache after new data is available (usually as a
+result of a etl job). CDC allows not only to do that but also to do it from within the etl process.
 
 
-Result
-------
+### CDA 
 
-The result, after declaring this new datasource and registring the cube in
-mondrian, is a new cube that we can use.
+![CDA cache clean](http://www.webdetails.pt/cdc/cdc-cleanCacheCda.png)
+
+
+CDC offers a solution navigator so that we can select a dashboard. When we
+select that dashboard, all the CDA queries used by that dashboard will be
+cleaned.
+
+Clicking on the _URL_ button we'll get a url that we can call externally (from an etl job). Be aware that you need to add the user credentials when calling from the outside (eg: _&userid=joe&password=password_)
+
+
+### Mondrian
+
+![Mondrian cache clean](http://www.webdetails.pt/cdc/cdc-cleanCacheMondrian.png)
+
+
+This one is very similar to the previous one, but navigates through the
+available cubes. One can then either clean the entire schema, a specific cube
+or even the individual cell cache for a specific dimension (use this latest one with care).
 
 
 
