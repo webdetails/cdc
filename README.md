@@ -61,28 +61,28 @@ Usage
 
 It's very simple to configure CDC. 
 
-1. Install CDC using either the installer (soon to be available) or
+* Install CDC using either the installer (soon to be available) or
    [ctools-installer](http://pedroalves-bi.blogspot.com/2011/06/ctools-installer-making-things-fast.html).
    If you do a manual install, be sure to copy the contents of
    _solution/system/cdc/pentaho/lib_ to server's _WEB-INF/lib_
 
-2. Download the [standalone cache
+* Download the [standalone cache
    node](http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/cdc-redist-SNAPSHOT.zip)
 
-3. Execute the standalone cache node in the same machine as pentaho or in the
+* Execute the standalone cache node in the same machine as pentaho or in the
    same internal network (_launch-hazelcast.sh_), optionally editing the file
    and changing the memory settings (defaults to 1Gb, increase at will). You
    can launch as many nodes as you want.
 
-4. Launch pentaho and click on the CDC button:
+* Launch pentaho and click on the CDC button:
 
 ![CDC main screen](http://www.webdetails.pt/cdc/cdc-usage.png)
 
-5. Enable CDA and CDC
+* Enable cache usage on CDA and Mondrian
 
-6. Restart pentaho server 
+* Restart pentaho server 
 
-7. Check if the settings screen are satisfactory. Usually the defaults work
+* Check if the settings screen are satisfactory. Usually the defaults work
    fine.
 
 ![CDC settings](http://www.webdetails.pt/cdc/cdc-settings.png)
