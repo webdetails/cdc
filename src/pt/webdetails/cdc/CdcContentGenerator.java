@@ -11,10 +11,12 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
+import org.json.JSONException;
 import org.pentaho.platform.api.engine.IParameterProvider;
 
 import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.SimpleContentGenerator;
+import pt.webdetails.cpf.VersionChecker;
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
 import pt.webdetails.cpf.olap.OlapUtils;
@@ -26,42 +28,71 @@ import pt.webdetails.cpf.olap.OlapUtils;
 public class CdcContentGenerator extends SimpleContentGenerator {
 
     private static final long serialVersionUID = 1L;
-    public static final String ENCODING = "utf-8";
 
     private static final String UI_PATH = "cdc/presentation/";
   
     @Exposed(accessLevel = AccessLevel.ADMIN)
     public void home(OutputStream out) throws IOException {
-        Map<String, Object> params = getRequestParameters("cdcHome.wcdf");
-        run(out, params);
+        Map<String, Object> params = getRenderRequestParameters("cdcHome.wcdf");
+        renderInCde(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.ADMIN)
     public void clusterinfo(OutputStream out) throws IOException {
-        Map<String, Object> params = getRequestParameters("cdcClusterInfo.wcdf");
-        run(out, params);
+        Map<String, Object> params = getRenderRequestParameters("cdcClusterInfo.wcdf");
+        renderInCde(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.ADMIN)
     public void cacheinfo(OutputStream out) throws IOException {        
-        Map<String, Object> params = getRequestParameters("cdcCacheInfo.wcdf");
-        run(out, params);
+        Map<String, Object> params = getRenderRequestParameters("cdcCacheInfo.wcdf");
+        renderInCde(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.ADMIN)
     public void settings(OutputStream out) throws IOException {
-        Map<String, Object> params = getRequestParameters("cdcSettings.wcdf");
-        run(out, params);
+        Map<String, Object> params = getRenderRequestParameters("cdcSettings.wcdf");
+        renderInCde(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.ADMIN) 
     public void cacheclean(OutputStream out) throws IOException {
-        Map<String, Object> params = getRequestParameters("cdcCacheClean.wcdf");
-        run(out, params);
+        Map<String, Object> params = getRenderRequestParameters("cdcCacheClean.wcdf");
+        renderInCde(out, params);
     }
     
-
-    private Map<String, Object> getRequestParameters(String dashboardName) {
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void about(OutputStream out) throws IOException {
+      renderInCde(out, getRenderRequestParameters("cdcAbout.wcdf"));
+    }
+    
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void olaputils(OutputStream out) {
+        OlapUtils utils = new OlapUtils();
+        IParameterProvider requestParams = getRequestParameters();
+        try {
+            out.write(utils.process(requestParams).toString().getBytes(ENCODING));
+        } catch (IOException e) {
+            logger.error(e);
+        }
+    }
+    
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void checkversion(OutputStream out) throws IOException, JSONException {
+      writeOut(out, getVersionChecker().checkVersion());
+    }
+    
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void getversion(OutputStream out) throws IOException, JSONException {
+      writeOut(out, getVersionChecker().getVersion());
+    }
+    
+    /**
+     * Set up parameters to render a dashboard from the presentation layer
+     * @param dashboardName
+     * @return
+     */
+    private Map<String, Object> getRenderRequestParameters(String dashboardName) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("solution", "system");
         params.put("path", UI_PATH);
@@ -83,8 +114,13 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         return params;
     }
 
-    //delegate response to cde
-    private void run(OutputStream out, Map<String, Object> params) throws IOException {
+    /**
+     * Display a CDE dashboard
+     * @param out
+     * @param params
+     * @throws IOException
+     */
+    private void renderInCde(OutputStream out, Map<String, Object> params) throws IOException {
       InterPluginCall pluginCall = new InterPluginCall(InterPluginCall.CDE, "Render", params);
       pluginCall.setResponse(getResponse());
       pluginCall.setOutputStream(out);
@@ -97,14 +133,25 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         return root;
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC)
-    public void olaputils(OutputStream out) {
-        OlapUtils utils = new OlapUtils();
-        IParameterProvider requestParams = parameterProviders.get("request");
-        try {
-            out.write(utils.process(requestParams).toString().getBytes(ENCODING));
-        } catch (IOException e) {
-            logger.error(e);
+    @Override
+    public VersionChecker getVersionChecker() {
+      
+      return new VersionChecker(CdcConfig.getConfig()){
+
+        @Override
+        protected String getVersionCheckUrl(VersionChecker.Branch branch) {
+          switch(branch){
+            case TRUNK:
+              return "http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            case STABLE:
+              return "http://ci.analytical-labs.com/job/Webdetails-CDC-Release/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            default:
+              return null;
+              
+          }
+          
         }
+        
+      };
     }
 }

@@ -14,7 +14,7 @@ import org.json.JSONObject;
 /**
  * JSON method call result wrapper
  */
-public class Result {
+public class Result implements JsonSerializable {
   
   private static Log logger = LogFactory.getLog(Result.class);
   
@@ -67,6 +67,10 @@ public class Result {
   @Override
   public String toString(){
     return json != null ? json.toString() : "null";
+  }
+  @Override
+  public JSONObject toJSON() throws JSONException {
+    return json;
   }
 
   

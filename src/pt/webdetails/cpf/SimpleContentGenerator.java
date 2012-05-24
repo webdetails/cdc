@@ -12,10 +12,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.json.JSONException;
 import org.pentaho.platform.api.engine.IParameterProvider;
 
 import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
@@ -30,10 +32,12 @@ import pt.webdetails.cpf.annotations.Exposed;
  *
  * @author pdpi
  */
-public class SimpleContentGenerator extends BaseContentGenerator {
+public abstract class SimpleContentGenerator extends BaseContentGenerator {
 
     private static final long serialVersionUID = 1L;
     protected Log logger = LogFactory.getLog(this.getClass());
+   
+    public static final String ENCODING = PluginSettings.ENCODING;
 
     @Override
     public void createContent() {
@@ -91,6 +95,13 @@ public class SimpleContentGenerator extends BaseContentGenerator {
     protected ServletResponse getResponse(){
       return (ServletResponse) parameterProviders.get("path").getParameter("httpresponse");
     }
+    
+    protected IParameterProvider getRequestParameters(){
+      return parameterProviders.get("request");
+    }
+    protected IParameterProvider getPathParameters(){
+      return parameterProviders.get("path");
+    }
 
     private boolean invokeMethod(final OutputStream out, final String methodName, final Method method) throws InvocationTargetException, IllegalArgumentException, IllegalAccessException {
       
@@ -130,9 +141,21 @@ public class SimpleContentGenerator extends BaseContentGenerator {
       response.setStatus(HttpServletResponse.SC_FORBIDDEN);
       return false;
     }
+    
+    protected void writeOut(OutputStream out, String contents) throws IOException {
+      StringBuffer buf = new StringBuffer(contents);
+      IOUtils.write(buf, out);
+    }
+    
+    protected void writeOut(OutputStream out, JsonSerializable contents) throws IOException, JSONException {
+      StringBuffer buf = new StringBuffer(contents.toJSON().toString());
+      IOUtils.write(buf, out);
+    }
 
     @Override
     public Log getLogger() {
         return logger;
     }
+    
+    public abstract VersionChecker getVersionChecker();
 }

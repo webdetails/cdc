@@ -29,19 +29,16 @@ public class HazelcastProcessLauncher
   private static String HAZELCAST_SERVER_CLASS = pt.webdetails.cdc.hazelcast.StartServer.class.getName();
 //  private static String HAZELCAST_DEBUG_CLASS = pt.webdetails.cdc.hazelcast.CfgTestApp.class.getName(); 
   private static Log logger = LogFactory.getLog(HazelcastProcessLauncher.class);
-//  private static double MEMORY_PADDING = 0.20;
-//  private static String MEMORY_DEFAULT = "512m";
-  private static final String[] cachedPlugins = {
+  private static final String[] classpathPlugins = {
     "cda", "cdc"
   };
   
   private static final String[] JAVA_OPTIONS = {
-    "-Djava.net.preferIPv4Stack=true",
+//    "-Djava.net.preferIPv4Stack=true", 
+    "-Djava.net.preferIPv4Stack=" + getPreferIPv4Stack(), 
     "-Dsun.lang.ClassLoader.allowArraySyntax=true", 
     "-Dhazelcast.serializer.shared=true",
     "-D" + INNER_PROC_VAR + "=true",
-//    "-Xdebug",
-//    "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8764"
   };
   
   private static class ProcessOutputLogger implements Runnable{
@@ -92,21 +89,22 @@ public class HazelcastProcessLauncher
     
   }
   
-  public static Process launchProcess(){//TODO: mem
+  public static Process launchProcess(){
     String[] paths = getHazelcastClasspaths();
+    
     String classPathArg = StringUtils.join(paths, File.pathSeparatorChar);
-    String java = System.getProperty("java.home") + "/bin/java";
-//    Runtime runtime = Runtime.getRuntime();
+    String java = joinPath(System.getProperty("java.home"), "bin", "java");
     
     Config config = null;
     XmlConfigBuilder configBuilder;
+
     try {
-      configBuilder = new XmlConfigBuilder(CdcConfig.getHazelcastStandaloneConfigFile());
+      configBuilder = new XmlConfigBuilder(getHazelcastStandaloneConfigFile());
       config = configBuilder.build();
     } catch (FileNotFoundException e1) {
       //TODO: ERROR
       config = HazelcastConfigHelper.cloneConfig(Hazelcast.getConfig());
-      HazelcastConfigHelper.saveConfig(config, CdcConfig.getHazelcastStandaloneConfigFile());
+      HazelcastConfigHelper.saveConfig(config, getHazelcastStandaloneConfigFile());
     }
 
     try {
@@ -120,29 +118,17 @@ public class HazelcastProcessLauncher
       //memory
       cmds.add("-Xmx" + CdcConfig.getConfig().getVmMemory()); 
       
-      //TODO:min memory
-      
-      
-//      if(mem > 0){
-//        cmds.add("-Xmx" + mem + "m");
-//      }
-//      else {
-//        cmds.add("-Xmx" + MEMORY_DEFAULT);
-//      }
-      
       cmds.add(getHazelcastConfigOption());
       cmds.add("-cp");
       cmds.add(classPathArg);
       cmds.add(HAZELCAST_SERVER_CLASS);
       
       String[] cmdsArray = cmds.toArray(new String[cmds.size()]);
-      
-       
-      
+
       logger.debug("launching process: " + StringUtils.join(cmdsArray, " "));
       
       ProcessBuilder pBuild = new ProcessBuilder(cmds);
-      pBuild.directory(new File(PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.PLUGIN_SOLUTION_PATH)));
+      pBuild.directory(new File(PentahoSystem.getApplicationContext().getSolutionPath(joinPath("system", "cdc"))));
       Process proc = pBuild.start();
       new Thread( new ProcessOutputLogger(proc.getErrorStream(), logger)).start();
       new Thread( new ProcessOutputLogger(proc.getInputStream(), logger)).start();
@@ -155,6 +141,52 @@ public class HazelcastProcessLauncher
     }
     
   }
+  
+  private static String getPreferIPv4Stack() {
+    String prop = System.getProperty("java.net.preferIPv4Stack");
+    return prop == null ? "false" : prop;
+  }
+
+  private static String getHazelcastConfigOption(){
+    return "-Dhazelcast.config=" + getHazelcastStandaloneConfigFile();
+  }
+  
+  private static String[] getHazelcastClasspaths(){
+    ArrayList<String> paths = new ArrayList<String>();
+    
+    String webInfPath = PentahoSystem.getApplicationContext().getApplicationPath("WEB-INF");
+    File webInfDir = new File(webInfPath);
+    if(webInfDir.exists() && webInfDir.isDirectory()){
+      paths.add(joinPath(webInfPath,"classes"));
+      paths.add(joinPath(webInfPath, "lib", "*"));
+    }
+    
+    for(String plugin: classpathPlugins){
+      paths.add( joinPath(PentahoSystem.getApplicationContext().getSolutionPath("system"), plugin,"lib","*"));
+    }
+
+    return paths.toArray(new String[paths.size()]);
+  }
+  
+  private static String joinPath(String... path){
+    return StringUtils.join(path,File.separatorChar);
+  }
+  
+  private static String getHazelcastStandaloneConfigFile(){
+    String cfgPath = CdcConfig.getHazelcastStandaloneConfigFile();
+    if(File.separatorChar != '/'){
+      cfgPath = cfgPath.replace('/', File.separatorChar);
+    }
+    return cfgPath;
+  }
+  
+  
+  
+//  private static boolean isIPv4Stack(){
+//    String prop = System.getProperty("java.net.preferIPv4Stack");
+//    return prop==null ? false :
+//                        Boolean.parseBoolean(prop);
+//  }
   
 //  public static String createLauncherFile(boolean isDebugVersion){
 //    String[] paths = getHazelcastClasspaths();
@@ -215,26 +247,7 @@ public class HazelcastProcessLauncher
 //    return null;
 //  }
   
-  private static String getHazelcastConfigOption(){
-    return "-Dhazelcast.config=" + CdcConfig.getHazelcastStandaloneConfigFile();
-  }
-  
-  private static String[] getHazelcastClasspaths(){
-    ArrayList<String> paths = new ArrayList<String>();
-    
-    String webInfPath = PentahoSystem.getApplicationContext().getApplicationPath("WEB-INF");
-    File webInfDir = new File(webInfPath);
-    if(webInfDir.exists() && webInfDir.isDirectory()){
-      paths.add(webInfPath + "/classes");
-      paths.add(webInfPath + "/lib/*");
-    }
-    
-    for(String plugin: cachedPlugins){
-      paths.add( PentahoSystem.getApplicationContext().getSolutionPath("system/" + plugin + "/lib/*"));
-    }
 
-    return paths.toArray(new String[paths.size()]);
-  }
  
   
 }

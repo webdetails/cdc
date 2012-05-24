@@ -6,7 +6,9 @@ package pt.webdetails.cpf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
@@ -35,6 +37,8 @@ public class InterPluginCall implements Runnable, Callable<String> {
   public final static Plugin CDE = new Plugin("pentaho-cdf-dd");
   public final static Plugin CDC = new Plugin("cdc");
   public final static Plugin CDF = new Plugin("pentaho-cdf");
+  
+  private final static String DEFAULT_ENCODING = "UTF-8";
   
   public static class Plugin {
     
@@ -121,7 +125,7 @@ public class InterPluginCall implements Runnable, Callable<String> {
       contentGenerator.createContent();
       
     } catch (Exception e) {
-      logger.error("Failed to execute call to plugin: " + e.toString());
+      logger.error("Failed to execute call to plugin: " + e.toString(), e);
     }
     
   }
@@ -129,7 +133,13 @@ public class InterPluginCall implements Runnable, Callable<String> {
   public String call() {
     setOutputStream(new ByteArrayOutputStream());
     run();
-    return getOutputStream().toString();
+    try{
+      return ((ByteArrayOutputStream) getOutputStream()).toString(getEncoding());
+    }
+    catch(UnsupportedEncodingException uee){
+      logger.error("Charset " + getEncoding() + " not supported!!");
+      return ((ByteArrayOutputStream) getOutputStream()).toString();
+    }
   }
 
   public void runInPluginClassLoader(){
@@ -172,6 +182,16 @@ public class InterPluginCall implements Runnable, Callable<String> {
     this.requestParameters = parameters;
   }
   
+  public void setRequestParameters(IParameterProvider requestParameterProvider){
+    if(!requestParameters.isEmpty()) requestParameters.clear();
+    
+    for(@SuppressWarnings("unchecked")
+    Iterator<String> params = requestParameterProvider.getParameterNames(); params.hasNext();){
+      String parameterName = params.next();
+      requestParameters.put(parameterName, requestParameterProvider.getParameter(parameterName));
+    }
+  }
+  
   protected IPentahoSession getSession(){
     if(session == null){
       session = PentahoSessionHolder.getSession();
@@ -198,7 +218,7 @@ public class InterPluginCall implements Runnable, Callable<String> {
     try {
       return getPluginManager().getContentGenerator(plugin.getName(), getSession());
     } catch (Exception e) {
-      logger.error("Failed to acquire " + plugin.getName() + " plugin: " + e.toString());
+      logger.error("Failed to acquire " + plugin.getName() + " plugin: " + e.toString(), e);
       return null;
     }
   }
@@ -223,7 +243,9 @@ public class InterPluginCall implements Runnable, Callable<String> {
     return paramProvider;
   }
 
- 
+ private String getEncoding(){
+   return DEFAULT_ENCODING;
+ }
   
 
 }

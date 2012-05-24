@@ -61,7 +61,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     logger.debug("CDC loaded.");
     try {
       if (CdcConfig.getConfig().isMondrianCdcEnabled() || ExternalConfigurationsManager.isCdaHazelcastEnabled()){
-        init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode() ,CdcConfig.getConfig().isForceConfig());
+        init(CdcConfig.getConfig().getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode() ,CdcConfig.getConfig().isForceConfig());
       }
     } catch (Exception e) {
       logger.error(e);
@@ -220,7 +220,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
 
   
   public static void reloadConfig(String configFileName){
-    if(configFileName == null) configFileName = CdcConfig.getHazelcastConfigFile();
+    if(configFileName == null) configFileName = CdcConfig.getConfig().getHazelcastConfigFile();
     init(configFileName, CdcConfig.getConfig().isLiteMode(), true);
   } 
 
@@ -298,7 +298,7 @@ private synchronized static void launchIfNoMember()
 
     @Override
     public void instanceDestroyed(InstanceEvent arg0) {
-      init(CdcConfig.getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode(), false);
+      init(CdcConfig.getConfig().getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode(), false);
     }
     
     @Override

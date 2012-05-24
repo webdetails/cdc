@@ -136,7 +136,7 @@ public class HazelcastConfigHelper {
     return saveConfig(Hazelcast.getConfig());
   }
   public static boolean saveConfig(Config config){
-    return saveConfig(config, CdcConfig.getHazelcastConfigFile());
+    return saveConfig(config, CdcConfig.getConfig().getHazelcastConfigFile());
   }
   public static boolean saveConfig(Config config, String fileName){
     File configFile = new File(fileName);
