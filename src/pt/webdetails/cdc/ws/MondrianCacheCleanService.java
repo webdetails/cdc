@@ -80,10 +80,10 @@ public class MondrianCacheCleanService {
   private void flushCubes(String catalog, String cube){
     //Ensure escaped '+' are transformed back to spaces
     catalog = catalog.replace('+', ' ');
-    cube = cube.replace('+', ' ');
+    if(cube!=null) cube = cube.replace('+', ' ');
 
       
-     Connection connection = getMdxConnection(catalog);
+    Connection connection = getMdxConnection(catalog);
 
     
     if (connection == null) {
