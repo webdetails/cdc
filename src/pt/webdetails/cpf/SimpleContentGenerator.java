@@ -41,51 +41,55 @@ public abstract class SimpleContentGenerator extends BaseContentGenerator {
 
     @Override
     public void createContent() {
-        IParameterProvider pathParams = parameterProviders.get("path");
+      IParameterProvider pathParams = parameterProviders.get("path");
+  
+      try {
+  
+        final OutputStream out = getResponseOutputStream("text/html");
+        final Class<?>[] params = { OutputStream.class };
+        String path = pathParams.getStringParameter("path", null);
+        String[] pathSections = StringUtils.split(path, "/");
+  
         
-        try {
-          
-            final OutputStream out = getResponseOutputStream("text/html");
-            final Class<?>[] params = {OutputStream.class};
-
-            String[] pathSections = StringUtils.split(pathParams.getStringParameter("path", null), "/");
-
-            if (pathSections != null && pathSections.length > 0) {
-
-                final String method = StringUtils.lowerCase(pathSections[0]);
-
-                try {
-                  final Method mthd = this.getClass().getMethod(method, params);
-                  invokeMethod(out, method, mthd);
-                  
-                } catch (NoSuchMethodException e) {
-                    logger.warn("could't locate method: " + method);
-                } catch (InvocationTargetException e) {
-                    logger.error(e.toString());
-
-                } catch (IllegalAccessException e) {
-                    logger.warn(e.toString());
-
-                } catch (IllegalArgumentException e) {
-                    logger.error(e.toString());
-                }
-            } else {
-                logger.error("No method supplied.");
-            }
-        } catch (SecurityException e) {
-            logger.warn(e.toString());
-        } catch (IOException e) {
-            logger.error(e.toString());
+        if(pathSections == null || pathSections.length == 0){
+          String method = getDefaultPath(path);
+          if(!StringUtils.isEmpty(method)){
+            logger.warn("No method supplied, redirecting.");
+            redirect(method);
+          }else {
+            logger.error("No method supplied.");
+          }
         }
+        else {
+        
+        final String methodName = StringUtils.lowerCase(pathSections[0]); 
+          try {
+            final Method method = this.getClass().getMethod(methodName, params);
+            invokeMethod(out, methodName, method);
+  
+          } catch (NoSuchMethodException e) {
+            logger.warn("could't locate method: " + methodName);
+          } catch (InvocationTargetException e) {
+            logger.error(e.toString());
+  
+          } catch (IllegalAccessException e) {
+            logger.warn(e.toString());
+  
+          } catch (IllegalArgumentException e) {
+            logger.error(e.toString());
+          }
+        }
+      } catch (SecurityException e) {
+        logger.warn(e.toString());
+      } catch (IOException e) {
+        logger.error(e.toString());
+      }
     }
     
     protected OutputStream getResponseOutputStream(final String mimeType) throws IOException {
       ServletResponse resp = getResponse();
       resp.setContentType(mimeType);
       return resp.getOutputStream();
-      //TODO: deprecated, will be eliminated in sugar
-      //return getResponse().getOutputStream();
-      //return outputHandler.getOutputContentItem(IOutputHandler.RESPONSE, IOutputHandler.CONTENT, "", instanceId, mimeType).getOutputStream(null);
     }
 
     protected ServletRequest getRequest(){
@@ -101,6 +105,10 @@ public abstract class SimpleContentGenerator extends BaseContentGenerator {
     }
     protected IParameterProvider getPathParameters(){
       return parameterProviders.get("path");
+    }
+    
+    protected String getDefaultPath(String path){
+      return null;
     }
 
     private boolean invokeMethod(final OutputStream out, final String methodName, final Method method) throws InvocationTargetException, IllegalArgumentException, IllegalAccessException {
@@ -140,6 +148,22 @@ public abstract class SimpleContentGenerator extends BaseContentGenerator {
       final HttpServletResponse response = (HttpServletResponse) parameterProviders.get("path").getParameter("httpresponse");
       response.setStatus(HttpServletResponse.SC_FORBIDDEN);
       return false;
+    }
+    
+    protected void redirect(String method){
+      
+      final HttpServletResponse response = (HttpServletResponse) parameterProviders.get("path").getParameter("httpresponse");
+      
+      if (response == null)
+      {
+        logger.error("response not found");
+        return;
+      }
+      try {
+        response.sendRedirect(method);
+      } catch (IOException e) {
+        logger.error("could not redirect", e);
+      }
     }
     
     protected void writeOut(OutputStream out, String contents) throws IOException {

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.pentaho.platform.api.engine.IParameterProvider;
 
@@ -131,6 +132,16 @@ public class CdcContentGenerator extends SimpleContentGenerator {
         ServletRequest request = getRequest();
         String root = request.getServerName() + ":" + request.getServerPort();
         return root;
+    }
+    
+    @Override
+    protected String getDefaultPath(String path){
+      if(StringUtils.endsWith(path, "/")){
+        return "home";
+      }
+      else {
+        return "cdc/home";
+      }
     }
 
     @Override
