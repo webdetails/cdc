@@ -21,7 +21,6 @@ CDC is a pentaho plugin that provides the following features:
 * Allows to selectively clear cache of specific schemas / cubes / dimensions of mondrian cubes
 * Provides an API to clean the cache from the outside (eg: after running etl)
 * Provides a view over cluster status
-* Supports multiple pentaho servers using the same cluster (eg: stage and production)
 * Supports several memory configuration options
 
 
@@ -147,6 +146,15 @@ Issues, bugs and feature requests
 
 In order to report bugs, issues or feature requests, please use the [Webdetails CDC Project Page](http://redmine.webdetails.org/projects/cdc/issues)
 
+### tcp46 Issue
+
+There is a particularly nasty known issue, either at startup or when attempting to access hazelcast (ie putting elements in cache, accessing ClusterInfo). So far this issue has been confirmed in PCs running MacOS X.
+
+#### diagnosis
+If running `netstat -a -n` shows more than one socket on the same hazelcast port (by default they will start at 5701), and these are of different types (ie `tcp4` and `tcp46`), you are likely to have this issue.
+
+#### workaround
+Make sure the `-Djava.net.preferIPv4Stack` flag is explicitly set to the same value on both your pentaho JVM (can set it in the `JAVA_OPTS` flag) and the standalone script.
 
 License
 -------
