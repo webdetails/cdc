@@ -35,10 +35,13 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   public static final String PROPERTY_LITE_MODE = "hazelcast.super.client";
   
   private static Process innerProcess;
+  private static Thread shutdownThread;
   
   private static boolean running = false;
   
   static Log logger = LogFactory.getLog(CdcLifeCycleListener.class);
+  
+  private static final String PREFER_IPV4_STACK = "java.net.preferIPv4Stack";
 
   @Override
   public void init() throws PluginLifecycleException
@@ -62,6 +65,12 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     try {
       if (CdcConfig.getConfig().isMondrianCdcEnabled() || ExternalConfigurationsManager.isCdaHazelcastEnabled()){
         init(CdcConfig.getConfig().getHazelcastConfigFile(), CdcConfig.getConfig().isLiteMode() ,CdcConfig.getConfig().isForceConfig());
+        if(CdcConfig.getConfig().enableShutdownThread()){
+          //add a shutdown hook thread
+          logger.debug("Registering shutdown hook");
+          shutdownThread = new Thread(new FallbackInstanceShutdownThread());
+          Runtime.getRuntime().addShutdownHook(shutdownThread);
+        }
       }
     } catch (Exception e) {
       logger.error(e);
@@ -71,6 +80,13 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   
   private static synchronized void init(String configFileName, boolean liteMode, boolean forceConfig)
   {  
+    
+    String preferIPv4Stack = System.getProperty(PREFER_IPV4_STACK);
+    //on hazelcast 2.0 null is changed to true, contrary to what the default should be
+    if(preferIPv4Stack == null){
+      logger.info(PREFER_IPV4_STACK + " flag is null, forcing default (false)");
+      System.setProperty(PREFER_IPV4_STACK, "false");
+    }
 
     logger.debug("CDC init for config " + configFileName);
     Config config = null;
@@ -130,9 +146,23 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   @Override
   public void unLoaded() throws PluginLifecycleException
   {
+    logger.debug("CDC Unloading...");
     //teardown etc
-    Hazelcast.getLifecycleService().shutdown();
+    try {
+      Hazelcast.getLifecycleService().shutdown();
+    } catch (IllegalStateException e) {
+      //if full shutdown, this is normal
+      logger.info("Hazelcast already shutdown.");
+    }
     removeExtraInstance();
+    //remove shutdown thread
+    if(shutdownThread != null){
+      logger.debug("disabling shutdown thread");
+      Runtime.getRuntime().removeShutdownHook(shutdownThread);
+      shutdownThread = null;
+    }
+    logger.debug("CDC Unloaded.");
+    
   }
 
   public static Config getHazelcastConfig(){
@@ -242,12 +272,23 @@ private synchronized static void launchIfNoMember()
   public synchronized static void removeExtraInstance(){
     try {
       if(innerProcess != null) {
+        logger.debug("Destroying inner JVM instance.");
         innerProcess.destroy();
         innerProcess = null;
       }
     } catch(Exception e){
       logger.error("Error destroying process.", e);
     }
+  }
+  
+  private static class FallbackInstanceShutdownThread implements Runnable {
+
+    @Override
+    public void run() {
+      logger.debug("CDC Shutdown thread for fallback instance");
+      removeExtraInstance();
+    }
+    
   }
   
   
@@ -325,7 +366,7 @@ private synchronized static void launchIfNoMember()
       HazelcastConfigHelper.spreadMapConfigs(newMember);
 
         if(CdcConfig.getConfig().isLiteMode() && isExtraInstanceActive() && 
-            !newMember.localMember() && !newMember.isLiteMember() &&
+            !newMember.localMember() && !newMember.isLiteMember() && //TODO: ignore if innerProc from another member
             hasProperMembers()){
             logger.info("Non-lite instance found, temporary instance no longer needed");
             removeExtraInstance();

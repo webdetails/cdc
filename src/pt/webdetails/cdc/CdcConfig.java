@@ -56,6 +56,10 @@ public class CdcConfig extends PluginSettings
   public static String getHazelcastStandaloneConfigFile(){
     return getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_STANDALONE_FILE);
   }
+  
+  public boolean enableShutdownThread() {
+    return getBooleanSetting("enableShutdownThread", false);
+  }
    
   public boolean isLiteMode(){
     return getBooleanSetting("liteMode", true);
