@@ -35,7 +35,7 @@ cdcFunctions.fillMondrianSelector2 = function(){
   for(var i = 0; i < availableCatalogs.length; i++){
     if(availableCatalogs[i].name == selectedSchema){
       for(var j = 0; j < availableCatalogs[i].cubes.length; j++){
-	cubesArray.push([availableCatalogs[i].cubes[j].name,availableCatalogs[i].cubes[j].name]);
+        cubesArray.push([availableCatalogs[i].cubes[j].name,availableCatalogs[i].cubes[j].name]);
       }
       break; 
     }
@@ -81,53 +81,77 @@ cdcFunctions.expandLevel = function(levelIndex){
 
 cdcFunctions.collapseLevel = function(levelIndex){
     Dashboards.log("Collapsing index:"+levelIndex);
-    
-  
-  
-  
 };
 
 
 
 cdcFunctions.generateLink = function(){
-    Dashboards.log("Generating Link from index:"+this.activeLevel);
-    
-    var path = window.location.protocol + window.location.host + "/pentaho/content/ws-run/MondrianCacheCleanService/";
-    var operation = "clearSchema?";
-   	var parameterList = "catalog="+level1Param;
-   
- 	if(this.activeLevel == 2){
-		operation = "clearCube?"; 	
-		parameterList+="&cube="+level2Param;
- 	} else if(this.activeLevel == 3){
- 		operation = "clearDimension?";
- 		parameterList+="&cube="+level2Param + "&dimension=" + level3Param;
- 	}
- 	
- 	Dashboards.fireChange('mondrianCacheCleanLinkParam',path+operation+parameterList);		    
+  Dashboards.log("Generating Link from index:"+this.activeLevel);
+
+  var path = window.location.protocol + window.location.host + "/pentaho/content/ws-run/MondrianCacheCleanService/";
+  var operation = "clearSchema?";
+  var parameterList = "catalog="+level1Param;
+
+  if(this.activeLevel == 2){
+    operation = "clearCube?";
+    parameterList+="&cube="+level2Param;
+  } else if(this.activeLevel == 3){
+    operation = "clearDimension?";
+    parameterList+="&cube="+level2Param + "&dimension=" + level3Param;
+  }
+  
+  Dashboards.fireChange('mondrianCacheCleanLinkParam',path+operation+parameterList);
 };
 
 
 cdcFunctions.siteMap = function () {
-	debugMode = Dashboards.propertiesArrayToObject( window.location.search.slice(1).split('&').map(function(i){return i.split('=')})).debug;  
-    debug = ( debugMode == 'true' ) ? "&debug=true" : "";
+  
+  return [ 
+    {name: "Home",  id:"home",  link: cdcFunctions.getDashboardLink("home"), action:function() {Dashboards.log("Link1");}, sublinks: [] },         
+    {name: "Settings",  id:"settings",  link:  cdcFunctions.getDashboardLink("settings"), action:function() {Dashboards.log("Link2");}, sublinks: [] },
+    {name: "Cache Clean",  id:"cacheClean",  link: cdcFunctions.getDashboardLink("cacheClean"), action:function() {Dashboards.log("Link3");}, sublinks: [] },
+    {name: "Cluster Info",  id:"clusterInfo",  link: cdcFunctions.getDashboardLink("clusterInfo"), action:function() {Dashboards.log("Link5");}, sublinks: [] },
+    {name: "About",  id:"about", classes: "rightMenuItem",  link: cdcFunctions.getDashboardLink("about"), action:function() {Dashboards.log("Link6");}, sublinks: [] }
+    ];
+/*
+  debugMode = Dashboards.propertiesArrayToObject( window.location.search.slice(1).split('&').map(function(i){return i.split('=')})).debug;  
+  debug = ( debugMode == 'true' ) ? "&debug=true" : "";
+  var solution = "CDC";
+  
+  if(window.location.href.search('pentaho-cdf-dd') > -1){
+    return [ 
+      {name: "Home",  id:"home",  link: "Render?solution=" + solution + "&path=&file=cdcHome.wcdf", action:function() {Dashboards.log("Link1");}, sublinks: [] },         
+      {name: "Settings",  id:"settings",  link:  "Render?solution=" + solution + "&path=&file=cdcSettings.wcdf" + debug, action:function() {Dashboards.log("Link2");}, sublinks: [] },
+      {name: "Cache Clean",  id:"cacheClean",  link: "Render?solution=" + solution + "&path=&file=cdcCacheClean.wcdf", action:function() {Dashboards.log("Link3");}, sublinks: [] },
+      {name: "Cluster Info",  id:"clusterInfo",  link: "Render?solution=" + solution + "&path=&file=cdcClusterInfo.wcdf" + debug, action:function() {Dashboards.log("Link5");}, sublinks: [] },
+      {name: "About",  id:"about", classes: "rightMenuItem",  link: "Render?solution=" + solution + "&path=&file=cdcAbout.wcdf" + debug, action:function() {Dashboards.log("Link6");}, sublinks: [] },
+      ];
+  } else {
+   return [ 
+    {name: "Home",  id:"home",  link: "home", action:function() {Dashboards.log("Link1");}, sublinks: [] },         
+    {name: "Settings",  id:"settings",  link:  "settings", action:function() {Dashboards.log("Link2");}, sublinks: [] },
+    {name: "Cache Clean",  id:"cacheClean",  link: "cacheclean", action:function() {Dashboards.log("Link3");}, sublinks: [] },
+    {name: "Cluster Info",  id:"clusterInfo",  link: "clusterinfo", action:function() {Dashboards.log("Link5");}, sublinks: [] },
+    {name: "About",  id:"about", classes: "rightMenuItem",  link: "about", action:function() {Dashboards.log("Link6");}, sublinks: [] }
+    ];
+  }
+  * */
+};
+
+cdcFunctions.getDashboardLink = function(pageName){
+  
+  if(window.location.href.search('/pentaho-cdf-dd/') > -1) { //dev mode  
+    var debugMode = Dashboards.propertiesArrayToObject( window.location.search.slice(1).split('&').map(function(i){return i.split('=')})).debug;  
+    var debug = ( debugMode == 'true' ) ? "&debug=true" : "";
     var solution = "CDC";
     
-    if(window.location.href.search('pentaho-cdf-dd') > -1){
-	  	return [ 
-	  		{name: "Home",  id:"home",  link: "Render?solution=" + solution + "&path=&file=cdcHome.wcdf", action:function() {Dashboards.log("Link1");}, sublinks: [] },         
-	  		{name: "Settings",  id:"settings",  link:  "Render?solution=" + solution + "&path=&file=cdcSettings.wcdf" + debug, action:function() {Dashboards.log("Link2");}, sublinks: [] },
-	  		{name: "Cache Clean",  id:"cacheClean",  link: "Render?solution=" + solution + "&path=&file=cdcCacheClean.wcdf", action:function() {Dashboards.log("Link3");}, sublinks: [] },
-	  		{name: "Cluster Info",  id:"clusterInfo",  link: "Render?solution=" + solution + "&path=&file=cdcClusterInfo.wcdf" + debug, action:function() {Dashboards.log("Link5");}, sublinks: [] }
-	    	];
-	 } else {
-		 return [ 
-		 	{name: "Home",  id:"home",  link: "home", action:function() {Dashboards.log("Link1");}, sublinks: [] },         
-		 	{name: "Settings",  id:"settings",  link:  "settings", action:function() {Dashboards.log("Link2");}, sublinks: [] },
-		 	{name: "Cache Clean",  id:"cacheClean",  link: "cacheclean", action:function() {Dashboards.log("Link3");}, sublinks: [] },
-		 	{name: "Cluster Info",  id:"clusterInfo",  link: "clusterinfo", action:function() {Dashboards.log("Link5");}, sublinks: [] }
-		 	];
-	 }
+    var devName = 'cdc' + pageName.charAt(0).toUpperCase() + pageName.slice(1);
+    return 'Render?solution=' + solution + '&path=&file=' + devName + '.wcdf' + debug;
+    
+  }
+  else {
+    return pageName;
+  }
 };
 
 

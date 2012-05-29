@@ -8,8 +8,6 @@
   <forceConfig>true</forceConfig>
   <!-- -Xmx argument for VM that is created if in liteMode and no instances found  -->
   <vmMemory>512m</vmMemory>
-  
-  <!--TODO-->
  
   <!-- external configurations -->
   <cdaConfig>
@@ -24,5 +22,8 @@
     <enabled>false</enabled>
   </mondrianConfig>
  
+  <cde-components>
+    <path>system/cdc/cdeComponents</path>
+  </cde-components>
   
 </settings>

@@ -279,39 +279,6 @@
     ]
    },
    {
-    "id": "60a3e9b2-fc0e-18da-9df4-c23078895f7e",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "2117dda0-b2b3-a9a9-6156-22e445cf8255",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "v.12.1 ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
     "id": "1a0b20e4-30ab-b679-50fb-ac3064b692bc",
     "type": "LayoutColumn",
     "typeDesc": "Column",
@@ -932,6 +899,11 @@
       "name": "javaScript",
       "value": "\"CDA\"\n",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -950,6 +922,11 @@
       "name": "propertyValue",
       "value": "GetCubeStructure",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -968,6 +945,11 @@
       "name": "propertyValue",
       "value": "SteelWheels",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -986,6 +968,11 @@
       "name": "propertyValue",
       "value": "SteelWheelsSales",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1004,6 +991,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1022,6 +1014,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1040,6 +1037,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1058,6 +1060,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1076,6 +1083,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1094,6 +1106,11 @@
       "name": "propertyValue",
       "value": "",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1112,6 +1129,11 @@
       "name": "javaScript",
       "value": "cdcFunctions.siteMap()",
       "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1130,6 +1152,11 @@
       "name": "propertyValue",
       "value": "cacheClean",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1148,6 +1175,11 @@
       "name": "propertyValue",
       "value": "CDC",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1166,6 +1198,11 @@
       "name": "propertyValue",
       "value": "Mondrian",
       "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
      }
     ]
    },
@@ -1734,6 +1771,59 @@
       "name": "listeners",
       "value": "[]",
       "type": "Listeners"
+     }
+    ]
+   },
+   {
+    "id": "bd09c828-b186-1f29-1c1b-d383c3cba645",
+    "type": "ComponentscurrentVersion",
+    "typeDesc": "Get Current Plugin Version",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "version",
+      "type": "Id"
+     },
+     {
+      "name": "htmlObject",
+      "value": "cdcVersion",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "versionUrl",
+      "value": "/pentaho/content/cdc/getVersion",
+      "type": "String"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
      }
     ]
    },

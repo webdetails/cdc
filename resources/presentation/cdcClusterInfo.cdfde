@@ -256,39 +256,6 @@
     ]
    },
    {
-    "id": "f347b3fe-6f41-5c85-be94-05c09737fc99",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "fbc5eb71-d1d1-348e-68cc-77586bb8729e",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "v.12.1 ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
     "id": "1a0b20e4-30ab-b679-50fb-ac3064b692bc",
     "type": "LayoutColumn",
     "typeDesc": "Column",
@@ -3307,6 +3274,59 @@
       "name": "listeners",
       "value": "['map']",
       "type": "Listeners"
+     }
+    ]
+   },
+   {
+    "id": "d394e313-ef0d-86a9-d512-5525b6379148",
+    "type": "ComponentscurrentVersion",
+    "typeDesc": "Get Current Plugin Version",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "version",
+      "type": "Id"
+     },
+     {
+      "name": "htmlObject",
+      "value": "cdcVersion",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "versionUrl",
+      "value": "/pentaho/content/cdc/getVersion",
+      "type": "String"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
      }
     ]
    },

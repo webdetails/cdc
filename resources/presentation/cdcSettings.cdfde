@@ -325,39 +325,6 @@
     ]
    },
    {
-    "id": "8a2fb07a-e6a1-3802-c616-5704d7f6febe",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "1f68fc20-c374-bd48-6515-f37430960106",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "v.12.1 ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
     "id": "1a0b20e4-30ab-b679-50fb-ac3064b692bc",
     "type": "LayoutColumn",
     "typeDesc": "Column",
@@ -3912,6 +3879,16 @@
       "name": "tooltip",
       "value": "",
       "type": "Html"
+     },
+     {
+      "name": "maxLength",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "size",
+      "value": "",
+      "type": "Integer"
      }
     ]
    },
@@ -4068,6 +4045,16 @@
       "name": "tooltip",
       "value": "",
       "type": "Html"
+     },
+     {
+      "name": "maxLength",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "size",
+      "value": "",
+      "type": "Integer"
      }
     ]
    },
@@ -4131,6 +4118,16 @@
       "name": "tooltip",
       "value": "",
       "type": "Html"
+     },
+     {
+      "name": "maxLength",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "size",
+      "value": "",
+      "type": "Integer"
      }
     ]
    },
@@ -5108,6 +5105,59 @@
       "name": "listeners",
       "value": "[]",
       "type": "Listeners"
+     }
+    ]
+   },
+   {
+    "id": "5f2d224d-f886-b4e4-cced-402e19aff903",
+    "type": "ComponentscurrentVersion",
+    "typeDesc": "Get Current Plugin Version",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "getVersion",
+      "type": "Id"
+     },
+     {
+      "name": "htmlObject",
+      "value": "cdcVersion",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "versionUrl",
+      "value": "/pentaho/content/cdc/getVersion",
+      "type": "String"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
      }
     ]
    },

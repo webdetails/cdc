@@ -780,21 +780,21 @@ div.activateButton span.buttonLabel {
    
 .siteMap, .siteMap * {
 	margin:0;
-    padding:0;
-    list-style:none;
+	padding:0;
+	list-style:none;
 }
 
 .siteMap {
- 	padding-top:8px;
- 	padding-left: 20px;
-    line-height:1.0;
- 	float:left;
+	padding-top:8px;
+	padding-left: 20px;
+	line-height:1.0;
+	float:left;
 }
-.siteMap ul {
-
+ul.siteMap {
+  width:100%;
 }
 .siteMap ul li {
-    width:100%;
+
 }
 .siteMap li:hover {
     visibility:inherit; /* fixes IE7 'sticky bug' */
@@ -815,6 +815,10 @@ div.activateButton span.buttonLabel {
 }
 .siteMap li.siteMapSelected a{
  	color: #dee8ec;  
+}
+
+.siteMap .rightMenuItem {
+	float: right;
 }
 
    
@@ -869,9 +873,9 @@ div.cdcVersion {
 	height: 15px;
 }
 
-#siteMapObj{
+/*#siteMapObj{
 	width: 700px;
-}
+}*/
 
 .WDbutton {
 	float: right;
@@ -1181,4 +1185,53 @@ top: 1px;
 #cdaMondrianObj.clusterInfo .pentaho-toggle-button-down:hover button {
  /*background-color: #CAD3D6;*/
  background: none repeat scroll 0 0 #CAD3D6;
+}
+
+/** ABOUT **/
+
+.aboutBody {
+	background-color: #05282C;
+	color: #DEE8EC;
+	margin-top: 3px;
+	vertical-align: text-bottom;
+	font-size: 16px;
+}
+
+.aboutBody .footer a {
+	color: #829299;
+	text-decoration: none;
+}
+
+.aboutBody .footer #footer1text {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	border-bottom:2px dashed #829299;
+}
+
+.aboutBody #innerVersionObj {
+	color: #829299;
+	font-size: 13px;
+}
+
+.aboutBody #cdcName {
+	font-size:23px;
+}
+
+.aboutTitle {
+	line-height: 50px;
+	vertical-align: bottom;
+	color: #ffffff;
+}
+
+#cdcLogo, #cdcName, #innerVersionObj{
+	vertical-align: bottom;
+}
+
+.versionCheck {
+	font-size: 18px;
+	color: #829299;
+}
+
+.versionCheck a {
+		color:#ffffff;
 }
