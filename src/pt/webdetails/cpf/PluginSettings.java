@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -60,11 +61,13 @@ public abstract class PluginSettings {
     return PentahoSystem.getApplicationContext().getSolutionPath(path);
   }
   
+  
+  
   /**
-   * Writes a setting directly to .xml. Does not refresh global config.
+   * Writes a setting directly to .xml and refresh global config.
    * @param section
    * @param value
-   * @return
+   * @return whether value was written
    */
   protected boolean writeSetting(String section, String value){
     Document settings = null;
@@ -82,19 +85,28 @@ public abstract class PluginSettings {
     if(settings != null){
       Node node = settings.selectSingleNode(nodePath);
       if(node != null){
-        node.setText(value);
-        FileWriter writer = null;
-        try {
-          writer = new FileWriter(settingsFile);
-          settings.write(writer);
-          writer.flush();
-          return true;
-        } catch (IOException e) {
-          logger.error(e);
-        }
-        finally {
-          IOUtils.closeQuietly(writer);
-        }
+        String oldValue = node.getText();
+//        if(!StringUtils.equals(oldValue, value)){
+          node.setText(value);
+          FileWriter writer = null;
+          try {
+            writer = new FileWriter(settingsFile);
+            settings.write(writer);
+            writer.flush();
+            //TODO: in future should only refresh relevant cache, not the whole thing
+            logger.debug("changed '" + section + "' from '" + oldValue + "' to '" + value +"'");
+            PentahoSystem.refreshSettings();
+            return true;
+          } catch (IOException e) {
+            logger.error(e);
+          }
+          finally {
+            IOUtils.closeQuietly(writer);
+          }
+//        }
+//        else {
+//          logger.debug("matches old value, left unchanged");
+//        }
       }
       else {
         logger.error("Couldn't find node");
