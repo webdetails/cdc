@@ -164,6 +164,7 @@
                 <include name="commons-logging-api-*.jar"/>
                 <include name="commons-pool-*.jar"/>
                 <include name="commons-vfs-*.jar"/>
+                <include name="commons-io-*.jar"/>
                 <include name="eigenbase-properties-*.jar"/>
                 <include name="eigenbase-resgen-*.jar"/>
                 <include name="eigenbase-xom-*.jar"/>
