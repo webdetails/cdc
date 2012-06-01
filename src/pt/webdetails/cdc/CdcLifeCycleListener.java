@@ -87,6 +87,8 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
       logger.info(PREFER_IPV4_STACK + " flag is null, forcing default (false)");
       System.setProperty(PREFER_IPV4_STACK, "false");
     }
+    //set log4j logging
+    System.setProperty("hazelcast.logging.type","log4j");
 
     logger.debug("CDC init for config " + configFileName);
     Config config = null;
