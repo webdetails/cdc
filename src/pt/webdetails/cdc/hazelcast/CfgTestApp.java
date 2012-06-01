@@ -1,8 +1,12 @@
 package pt.webdetails.cdc.hazelcast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Formatter;
 
 import org.apache.commons.io.IOUtils;
@@ -38,7 +42,28 @@ public class CfgTestApp extends TestApp {
         println(toHexString(bytes));
         println("#######################");
       }
-      
+    }
+    else if(command.equals("m.dumpKeys")){
+      String fileName = getMap().getName() + "_" + System.currentTimeMillis() + ".txt";
+      File dumpFile = new File(fileName);
+      FileOutputStream fos = null;
+      try{
+        dumpFile.createNewFile();
+        fos = new FileOutputStream(dumpFile);
+        ArrayList<String> lines = new ArrayList<String>();
+        for(Object key: getMap().keySet()){
+          lines.add(key.toString());
+        }
+        IOUtils.writeLines(lines, System.getProperty("line.separator"), fos);
+        println("keys dumped to " + dumpFile.getName());
+      } catch (FileNotFoundException e) {
+        println("");
+      } catch (IOException e) {
+        println("error creating file: " + e.getMessage());
+      }
+      finally{
+        IOUtils.closeQuietly(fos);
+      }
     }
     else super.handleCommand(command);
   }
