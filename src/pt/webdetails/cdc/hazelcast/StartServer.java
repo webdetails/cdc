@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdc.hazelcast;
 
 import com.hazelcast.core.Hazelcast;
@@ -7,8 +11,6 @@ public class StartServer extends com.hazelcast.examples.StartServer {
   
   public static void main(String[] args) 
   {
-//    try{
-//      //be more permissive
       try{
         Hazelcast.getConfig().setCheckCompatibility(false);
         Hazelcast.getCluster();
@@ -17,11 +19,6 @@ public class StartServer extends com.hazelcast.examples.StartServer {
         System.out.println("LAUNCH EXIT:" + e);
         Runtime.getRuntime().exit(3);
       }
-//    }
-//    catch(Exception e){
-//      System.err.println(e);
-//      System.exit(1);
-//    }
     Hazelcast.addInstanceListener(new ExitingInstanceListener(3));
     new Thread(null, new Runnable(){
 

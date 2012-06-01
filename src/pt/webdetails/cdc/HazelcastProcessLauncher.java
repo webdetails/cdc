@@ -34,10 +34,10 @@ public class HazelcastProcessLauncher
   };
   
   private static final String[] JAVA_OPTIONS = {
-//    "-Djava.net.preferIPv4Stack=true", 
     "-Djava.net.preferIPv4Stack=" + getPreferIPv4Stack(), 
     "-Dsun.lang.ClassLoader.allowArraySyntax=true", 
     "-Dhazelcast.serializer.shared=true",
+    "-Dhazelcast.logging.type=log4j",
     "-D" + INNER_PROC_VAR + "=true",
   };
   
@@ -102,7 +102,7 @@ public class HazelcastProcessLauncher
       configBuilder = new XmlConfigBuilder(getHazelcastStandaloneConfigFile());
       config = configBuilder.build();
     } catch (FileNotFoundException e1) {
-      //TODO: ERROR
+      logger.error("launchProcess: " + getHazelcastStandaloneConfigFile() + " not found! Creating from current config.");
       config = HazelcastConfigHelper.cloneConfig(Hazelcast.getConfig());
       HazelcastConfigHelper.saveConfig(config, getHazelcastStandaloneConfigFile());
     }
@@ -179,75 +179,5 @@ public class HazelcastProcessLauncher
     }
     return cfgPath;
   }
-  
-  
-  
-//  private static boolean isIPv4Stack(){
-//    String prop = System.getProperty("java.net.preferIPv4Stack");
-//    return prop==null ? false :
-//                        Boolean.parseBoolean(prop);
-//  }
-  
-//  public static String createLauncherFile(boolean isDebugVersion){
-//    String[] paths = getHazelcastClasspaths();
-//    String classPathArg = StringUtils.join(paths, File.pathSeparatorChar);
-//
-//    
-//    String osName = System.getProperty("os.name").toLowerCase();
-//    boolean isWindows = osName.contains("windows"); 
-//
-//    String fileName = "launch-hazelcast" + (isDebugVersion? "-debug" : "") + (isWindows ? ".bat" : ".sh");
-//
-//    StringBuilder contents = new StringBuilder();
-//    final String endLine = System.getProperty("line.separator");
-//    
-//    String opts = StringUtils.join(JAVA_OPTIONS, ' ');
-//    
-//    contents.append(isWindows ? "@echo off" : "#!/bin/sh")
-//            .append(endLine);
-//    
-//    contents.append(System.getProperty("java.home"))
-//            .append(File.separatorChar)
-//            .append("bin")
-//            .append(File.separatorChar)
-//            //TODO: java opts
-//            .append("java ")
-//            .append(opts)
-//            .append(' ')
-//            .append(getHazelcastConfigOption())
-//            .append(" -cp ")
-//            .append(classPathArg)
-//            .append(' ')
-//            .append(isDebugVersion? HAZELCAST_DEBUG_CLASS : HAZELCAST_SERVER_CLASS)
-//            .append(endLine);
-//    
-//    File shFile = new File(PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.PLUGIN_SOLUTION_PATH+fileName));
-//    
-//    FileOutputStream fileOut = null;
-//    try {
-//      if(shFile.exists()){
-//        shFile.delete();
-//      }
-//      shFile.createNewFile();
-//      
-//      fileOut = new FileOutputStream(shFile);
-//      IOUtils.write(contents.toString(), fileOut);
-//      fileOut.flush();
-//      
-//      if(!isWindows){
-//        shFile.setExecutable(true);
-//      }
-//      return shFile.getCanonicalPath();
-//    } catch (IOException e) {
-//      logger.error(e);
-//    }
-//    finally{
-//      IOUtils.closeQuietly(fileOut);
-//    }
-//    return null;
-//  }
-  
-
- 
   
 }
