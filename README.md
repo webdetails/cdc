@@ -146,7 +146,7 @@ Issues, bugs and feature requests
 
 In order to report bugs, issues or feature requests, please use the [Webdetails CDC Project Page](http://redmine.webdetails.org/projects/cdc/issues)
 
-### tcp46 Issue
+### TCP46 Issue
 
 There is a particularly nasty known issue, either at startup or when attempting to access hazelcast (ie putting elements in cache, accessing ClusterInfo). So far this issue has been confirmed in PCs running MacOS X.
 
@@ -155,6 +155,29 @@ If running `netstat -a -n` shows more than one socket on the same hazelcast port
 
 #### workaround
 Make sure the `-Djava.net.preferIPv4Stack` flag is explicitly set to the same value on both your pentaho JVM (can set it in the `JAVA_OPTS` flag) and the standalone script.
+
+### Timeouts
+
+Occasionally, CDA may report timeouts inserting/retrieving from cache:
+
+> `ERROR [HazelcastQueryCache] Timeout 5 SECONDS expired inserting into cdaCache (timeout#3)`
+
+If these become too frequent, CDA may temporarily start bypassing cache:
+
+> `ERROR [HazelcastQueryCache] Too many timeouts, disabling for 5 seconds.`
+
+If this happens occasionally shouldn't be a big deal, just hazelcast having trouble responding to a load spike. There are a few cda properties that can tune this behavior:
+
+* _pt.webdetails.cda.cache.getTimeout_: Timeout in seconds to fetch data from cache. A query can block for up to this time waiting for cache, on failure the query will be executed as if nothing was in cache.
+* _pt.webdetails.cda.cache.putTimeout_: Timeout in seconds for insertion after a successful query. This will not block the CDA query.
+* _pt.webdetails.cda.cache.maxTimeouts_: When this number of timeouts is reached, cache will be disabled for a period of time (_disablePeriod_) in an attempt not to overload hazelcast
+* _pt.webdetails.cda.cache.disablePeriod_: The cooldown period in seconds to bypass cache when _maxTimeouts_ is reached
+
+If these errors are recurrent and never seem to be recovered (ie no successful insertions/hits), it's a sign that no hazelcast node is responding. This can be a netowrk failure or a connected node may have crashed. Launching a new standalone instance should solve the problem.
+
+#### prevention
+
+ The `launch-hazelcast` scripts are simple loops to relaunch a hazelcast instance on failure. There must be a running non-lite instance for requests to be handled properly. Always having at least two hazelcast standalone nodes running will greatly improve resilience to crashes and prevent loss of all cache data, by always having one node to handle requests while the other recovers.
 
 License
 -------
