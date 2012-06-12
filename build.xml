@@ -49,13 +49,7 @@
     <property name="hazelcast.dist.dir"
             value="${dist.dir}/hazelcast"
             description="what needs to be in hazelcast's folder"/>
-						
-<!--	<property name="cda.dist.dir"
-            value="${dist.dir}/cda"
-            description="where cda stuff is added" />-->
-<!--    <property name="mondrian.dist.dir"
-            value="${dist.dir}/mondrian"
-            description="where mondrian stuff is added" />-->
+
     <property name="hazelcast.config.file"
 	          value="${resource.dir}/hazelcast.xml"
             description="Hazelcast config file"/>
@@ -107,30 +101,6 @@
   <!-- JARs -->
   <!-- TODO: manifests -->
   	
-  <!-- CDA -->
-  
-<!--	<target name="jar-cda" depends="compile,set-build.id,generate.manifest" description="CDA Hazelcast adapter">
-    <jar destfile="${cda.dist.dir}/${ivy.artifact.id}-cda-${project.revision}.jar" manifest="${dist.manifest.file}">
-      <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/cda/**" />
-    </jar>
-  </target>
-	<target name="dist-cda" depends="jar-cda">
-	</target>-->
-	
-	
-  <!--mondrian-->
-  
-<!--    <target name="jar-mondrian" depends="compile,set-build.id,generate.manifest" description="Mondrian Hazelcast adapter">
-        <jar destfile="${mondrian.dist.dir}/${ivy.artifact.id}-mondrian-${project.revision}.jar" manifest="${dist.manifest.file}">
-            <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/mondrian/**" />
-        </jar>
-    </target>-->
-<!--	<target name="dist-mondrian" depends="jar-mondrian">
-    <copy todir = "${mondrian.dist.dir}">
-      <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
-    </copy>
-	</target>-->
-  
   <!--hazelcast -->
   
     <target name="jar-hazelcast" depends="compile,set-build.id,generate.manifest" description="Hazelcast extensions">
@@ -183,6 +153,9 @@
                 <include name="xalan-*.jar"/> 
                 <include name="xercesImpl-*.jar"/>
             </fileset>
+            <fileset dir="${devlib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
         </copy>
     
         <copy todir="${hazelcast.standalone.dir}/lib">
@@ -193,10 +166,10 @@
             <fileset dir="${dist.dir}" includes="*.jar"/>
         </copy>
     
-    	<copy todir="${hazelcast.standalone.dir}">
-    		<fileset dir="${hazelcast.standalone.src}"/>
-    	</copy>
-    	
+        <copy todir="${hazelcast.standalone.dir}">
+          <fileset dir="${hazelcast.standalone.src}"/>
+        </copy>
+        
         <copy file="${hazelcast.standalone.config.file}" tofile="${hazelcast.standalone.dir}/hazelcast.xml"/>    	
     	
     
