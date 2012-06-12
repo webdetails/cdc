@@ -5,6 +5,7 @@ package pt.webdetails.cdc;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,21 @@ public class CdcContentGenerator extends SimpleContentGenerator {
 
     private static final String UI_PATH = "cdc/presentation/";
     
+    private static Map<String, Method> exposedMethods = new HashMap<String, Method>();
+    static{
+      //to keep case-insensitive methods
+      exposedMethods = getExposedMethods(CdcContentGenerator.class, true);
+    }
+    
+    @Override
+    protected Method getMethod(String methodName) throws NoSuchMethodException {
+      Method method = exposedMethods.get(StringUtils.lowerCase(methodName) );
+      if(method == null) {
+        throw new NoSuchMethodException();
+      }
+      return method;
+    }
+    
     @Override
     public String getPluginName(){
       return "cdc";
@@ -44,13 +60,13 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     }
 
     @Exposed(accessLevel = AccessLevel.ADMIN)
-    public void clusterinfo(OutputStream out) throws IOException {
+    public void clusterInfo(OutputStream out) throws IOException {
         Map<String, Object> params = getRenderRequestParameters("cdcClusterInfo.wcdf");
         renderInCde(out, params);
     }
 
     @Exposed(accessLevel = AccessLevel.ADMIN)
-    public void cacheinfo(OutputStream out) throws IOException {        
+    public void cacheInfo(OutputStream out) throws IOException {        
         Map<String, Object> params = getRenderRequestParameters("cdcCacheInfo.wcdf");
         renderInCde(out, params);
     }
@@ -62,7 +78,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     }
 
     @Exposed(accessLevel = AccessLevel.ADMIN) 
-    public void cacheclean(OutputStream out) throws IOException {
+    public void cacheClean(OutputStream out) throws IOException {
         Map<String, Object> params = getRenderRequestParameters("cdcCacheClean.wcdf");
         renderInCde(out, params);
     }
@@ -73,7 +89,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     }
     
     @Exposed(accessLevel = AccessLevel.PUBLIC)
-    public void olaputils(OutputStream out) {
+    public void olapUtils(OutputStream out) {
         OlapUtils utils = new OlapUtils();
         IParameterProvider requestParams = getRequestParameters();
         try {
@@ -84,12 +100,12 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     }
     
     @Exposed(accessLevel = AccessLevel.PUBLIC)
-    public void checkversion(OutputStream out) throws IOException, JSONException {
+    public void checkVersion(OutputStream out) throws IOException, JSONException {
       writeOut(out, getVersionChecker().checkVersion());
     }
     
     @Exposed(accessLevel = AccessLevel.PUBLIC)
-    public void getversion(OutputStream out) throws IOException, JSONException {
+    public void getVersion(OutputStream out) throws IOException, JSONException {
       writeOut(out, getVersionChecker().getVersion());
     }
     
