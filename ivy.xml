@@ -5,14 +5,12 @@
 
   <configurations>
     <conf name="default"/>
-    <!--TODO:delete -->
     <conf name="test" visibility="private"/>
     <conf name="codegen" visibility="private"/>
     <conf name="runtime" visibility="private"/>
-    <conf name="dev" visibility="private"/>
     <conf name="zip" visibility="private"/>
+    <conf name="dev" visibility="private"/>
 		<conf name="sources"/>
-    <conf name="source"/>
   </configurations>
 
 
@@ -37,7 +35,7 @@
     <dependency org="pentaho" name="pentaho-bi-platform-web-servlet"
                 rev="${dependency.bi-platform.revision}" transitive="false"  changing="true"/>
 
-				<dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin" rev="${dependency.pentaho-reporting-engine-classic-core-platform-plugin.revision}" changing="true" transitive="false"/>
+    <dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin" rev="${dependency.pentaho-reporting-engine-classic-core-platform-plugin.revision}" changing="true" transitive="false"/>
 
 
 		<dependency org="pentaho" name="cda" rev="${dependency.cda.revision}" transitive="false" />

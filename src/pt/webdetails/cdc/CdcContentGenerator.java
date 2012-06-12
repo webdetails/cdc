@@ -31,6 +31,11 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     private static final long serialVersionUID = 1L;
 
     private static final String UI_PATH = "cdc/presentation/";
+    
+    @Override
+    public String getPluginName(){
+      return "cdc";
+    }
   
     @Exposed(accessLevel = AccessLevel.ADMIN)
     public void home(OutputStream out) throws IOException {
@@ -144,7 +149,6 @@ public class CdcContentGenerator extends SimpleContentGenerator {
       }
     }
 
-    @Override
     public VersionChecker getVersionChecker() {
       
       return new VersionChecker(CdcConfig.getConfig()){
@@ -158,7 +162,6 @@ public class CdcContentGenerator extends SimpleContentGenerator {
               return "http://ci.analytical-labs.com/job/Webdetails-CDC-Release/lastSuccessfulBuild/artifact/dist/marketplace.xml";
             default:
               return null;
-              
           }
           
         }
