@@ -149,19 +149,22 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
   public void unLoaded() throws PluginLifecycleException
   {
     logger.debug("CDC Unloading...");
-    //teardown etc
-    try {
-      Hazelcast.getLifecycleService().shutdown();
-    } catch (IllegalStateException e) {
-      //if full shutdown, this is normal
-      logger.info("Hazelcast already shutdown.");
-    }
-    removeExtraInstance();
-    //remove shutdown thread
-    if(shutdownThread != null){
-      logger.debug("disabling shutdown thread");
-      Runtime.getRuntime().removeShutdownHook(shutdownThread);
-      shutdownThread = null;
+    if(isRunning()){
+      //teardown etc
+      try {
+  
+          Hazelcast.getLifecycleService().shutdown();
+      } catch (IllegalStateException e) {
+        //if full shutdown, this is normal
+        logger.info("Hazelcast already shutdown.");
+      }
+      removeExtraInstance();
+      //remove shutdown thread
+      if(shutdownThread != null){
+        logger.debug("disabling shutdown thread");
+        Runtime.getRuntime().removeShutdownHook(shutdownThread);
+        shutdownThread = null;
+      }
     }
     logger.debug("CDC Unloaded.");
     
