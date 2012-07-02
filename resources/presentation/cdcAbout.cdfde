@@ -684,7 +684,7 @@
      },
      {
       "name": "html",
-      "value": "<a><img src=\"static/img/close.png\"></a> ",
+      "value": "<a><img src=\"static/img/close_about.png\"></a> ",
       "type": "Html"
      },
      {
