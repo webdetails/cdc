@@ -225,6 +225,11 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
             <fileset dir="${devlib.dir}">
                 <include name="**/*.jar"/>
             </fileset>
+		  <fileset dir="${lib.dir}">
+			  <include name="cpf-*.jar" />
+		  </fileset>
+            
+            
       <!--fileset dir="${devlib.dir}" includes="hazelcast*.jar"/-->
       <!--<fileset dir="${lib.dir}" includes="hazelcast*.jar"/>-->
 <!--            <fileset dir="${lib.dir}" includes="cda-*.jar"/>-->
