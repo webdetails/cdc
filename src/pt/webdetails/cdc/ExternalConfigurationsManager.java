@@ -14,8 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.pentaho.platform.engine.core.system.PentahoSystem;
-import org.pentaho.platform.util.xml.dom4j.XmlDom4JHelper;
+
+import pt.webdetails.cpf.repository.RepositoryAccess;
 
 
 public class ExternalConfigurationsManager {
@@ -23,7 +23,7 @@ public class ExternalConfigurationsManager {
   public static final String CDA_HAZELCAST_ADAPTER = CdcConfig.getConfig().getCdaHazelcastAdapterClass();
   public static final String CDA_DEFAULT_CACHE_ADAPTER = CdcConfig.getConfig().getCdaDefaultAdapterClass();
     
-  private static final String CDA_PLUGIN_XML_PATH = PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.getConfig().getCdaConfigLocation());
+  private static final String CDA_PLUGIN_XML_PATH = RepositoryAccess.getSolutionPath(CdcConfig.getConfig().getCdaConfigLocation());
   private static final String CDA_BEAN_ID =  CdcConfig.getConfig().getCdaCacheBeanId();
   
   private static Log logger = LogFactory.getLog(ExternalConfigurationsManager.class);
@@ -41,7 +41,7 @@ public class ExternalConfigurationsManager {
   }
   
   private static void setCdaQueryCache(String className) throws DocumentException, IOException{
-    Document doc = XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
+    Document doc = RepositoryAccess.getRepository().getResourceAsDocument(CdcConfig.getConfig().getCdaConfigLocation());// XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
     
     Element elem = getCdaCacheBeanElement(doc); 
     String oldName = elem.attributeValue("class");
@@ -51,7 +51,8 @@ public class ExternalConfigurationsManager {
     FileWriter fw = null;
     try{
       fw = new FileWriter(CDA_PLUGIN_XML_PATH);
-      XmlDom4JHelper.saveDomToWriter(doc, fw);
+      fw.write(doc.asXML());
+      //XmlDom4JHelper.saveDomToWriter(doc, fw);
       fw.flush();
       logger.info("CDA plugin.xml overwritten! Plug-in should be restarted.");
     }
@@ -61,7 +62,7 @@ public class ExternalConfigurationsManager {
   }
   
   private static String getCdaQueryCache() throws DocumentException, IOException {
-    Document doc = XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
+    Document doc = RepositoryAccess.getRepository().getResourceAsDocument(CdcConfig.getConfig().getCdaConfigLocation());//XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
     Element elem = getCdaCacheBeanElement(doc); 
     return elem.attributeValue("class");
   }
