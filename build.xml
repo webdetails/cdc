@@ -228,11 +228,7 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
 		  <fileset dir="runtime-lib">
 			  <include name="cpf-*.jar" />
 		  </fileset>
-            
-            
-      <!--fileset dir="${devlib.dir}" includes="hazelcast*.jar"/-->
-      <!--<fileset dir="${lib.dir}" includes="hazelcast*.jar"/>-->
-<!--            <fileset dir="${lib.dir}" includes="cda-*.jar"/>-->
+
         </copy>
 
     <!-- zip standalone -->
@@ -350,7 +346,9 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
             <fileset dir="${pentaho.lib.dir}" includes="hazelcast*.jar"/>
         </delete>
         <copy toDir="${pentaho.lib.dir}">
-            <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
+            <!--<fileset dir="${lib.dir}" includes="hazelcast*.jar"/>-->
+              <!-- TODO:switch back if pull request accepted -->
+            <fileset dir="${devlib.dir}" includes="hazelcast*.jar"/>
         </copy>
     
         <delete>
