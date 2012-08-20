@@ -108,7 +108,7 @@
             <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/hazelcast/**" />
         </jar>
         <copy todir="${hazelcast.dist.dir}">
-            <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
+            <fileset dir="${devlib.dir}" includes="hazelcast*.jar"/>
         </copy>
     </target>
   
