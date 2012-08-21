@@ -108,7 +108,7 @@
             <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/hazelcast/**" />
         </jar>
         <copy todir="${hazelcast.dist.dir}">
-            <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
+            <fileset dir="${devlib.dir}" includes="hazelcast*.jar"/>
         </copy>
     </target>
   
@@ -345,11 +345,7 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
         <delete>
             <fileset dir="${pentaho.lib.dir}" includes="hazelcast*.jar"/>
         </delete>
-        <copy toDir="${pentaho.lib.dir}">
-            <!--<fileset dir="${lib.dir}" includes="hazelcast*.jar"/>-->
-              <!-- TODO:switch back if pull request accepted -->
-            <fileset dir="${devlib.dir}" includes="hazelcast*.jar"/>
-        </copy>
+
     
         <delete>
             <fileset dir="${pentaho.lib.dir}" includes="cdc-hazelcast*.jar"/>
@@ -357,6 +353,13 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
         <copy toDir="${pentaho.lib.dir}">
             <fileset dir="${hazelcast.dist.dir}" includes="cdc-hazelcast*.jar"/>
         </copy>
+        
+                <copy toDir="${pentaho.lib.dir}">
+            <!--<fileset dir="${lib.dir}" includes="hazelcast*.jar"/>-->
+              <!-- TODO:switch back if pull request accepted -->
+            <fileset dir="${devlib.dir}" includes="hazelcast*.jar"/>
+        </copy>
+        
     </target>
  
  <!-- put jar in cda/lib -->
