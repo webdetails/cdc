@@ -12,19 +12,18 @@ import org.json.JSONArray;
 import org.pentaho.reporting.libraries.base.util.StringUtils;
 
 import pt.webdetails.cdc.CdcConfig;
-import pt.webdetails.cdc.CdcLifeCycleListener;
 import pt.webdetails.cdc.ExternalConfigurationsManager;
 import pt.webdetails.cdc.HazelcastConfigHelper;
 import pt.webdetails.cdc.HazelcastConfigHelper.MapConfigOption;
+import pt.webdetails.cdc.HazelcastManager;
 import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.SecurityAssertions;
 
 import com.hazelcast.config.MapConfig;
-import com.hazelcast.core.Hazelcast;
 
 public class HazelcastConfigurationService {
   
-  static Log log = LogFactory.getLog(CdcLifeCycleListener.class);
+  static Log log = LogFactory.getLog(HazelcastConfigurationService.class);
  
   public String setMapOption(String map, String name, String value){
     
@@ -205,7 +204,8 @@ public class HazelcastConfigurationService {
   
   public String loadConfig(){
     try{
-      CdcLifeCycleListener.reloadConfig(null);
+//      CdcLifeCycleListener.reloadConfig(null);
+      HazelcastManager.INSTANCE.init(CdcConfig.getConfig().getHazelcastConfigFile(), true);
       return new Result(Result.Status.OK, "Configuration read from file.").toString();
     }
     catch(Exception e){
@@ -214,8 +214,8 @@ public class HazelcastConfigurationService {
   }
   
   private static MapConfig getMapConfig(CacheMap cacheMap){
-    if(CdcLifeCycleListener.isRunning()){
-      return Hazelcast.getConfig().getMapConfig(cacheMap.getName());
+    if( HazelcastManager.INSTANCE.isRunning()){
+      return HazelcastManager.INSTANCE.getHazelcast().getConfig().getMapConfig(cacheMap.getName());
     }
     else {
       log.warn("Hazelcast must be enabled for map config to be available.");

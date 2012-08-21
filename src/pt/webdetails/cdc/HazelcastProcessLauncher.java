@@ -20,7 +20,6 @@ import org.pentaho.platform.engine.core.system.PentahoSystem;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.XmlConfigBuilder;
-import com.hazelcast.core.Hazelcast;
 
 
 public class HazelcastProcessLauncher 
@@ -60,7 +59,7 @@ public class HazelcastProcessLauncher
         }
       } 
       catch (IOException ioe) {
-        log.error(ioe);
+        log.warn("ProcessOutputLogger terminated:", ioe);
       }
       finally{
         IOUtils.closeQuietly(reader);
@@ -103,7 +102,7 @@ public class HazelcastProcessLauncher
       config = configBuilder.build();
     } catch (FileNotFoundException e1) {
       logger.error("launchProcess: " + getHazelcastStandaloneConfigFile() + " not found! Creating from current config.");
-      config = HazelcastConfigHelper.cloneConfig(Hazelcast.getConfig());
+      config = HazelcastConfigHelper.cloneConfig(HazelcastManager.INSTANCE.getHazelcast().getConfig());
       HazelcastConfigHelper.saveConfig(config, getHazelcastStandaloneConfigFile());
     }
 

@@ -16,7 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import pt.webdetails.cdc.CdcConfig;
-import pt.webdetails.cdc.CdcLifeCycleListener;
+import pt.webdetails.cdc.HazelcastManager;
 import pt.webdetails.cdc.hazelcast.operations.DistributedRestart;
 import pt.webdetails.cdc.hazelcast.operations.DistributedShutdown;
 import pt.webdetails.cpf.Result;
@@ -24,7 +24,6 @@ import pt.webdetails.cpf.SecurityAssertions;
 
 import com.hazelcast.core.Cluster;
 import com.hazelcast.core.DistributedTask;
-import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.Member;
 import com.hazelcast.core.MemberLeftException;
 import com.hazelcast.monitor.DistributedMapStatsCallable;
@@ -52,7 +51,7 @@ public class HazelcastMonitorService {
         break;
     }
     
-    Cluster cluster = Hazelcast.getCluster();
+    Cluster cluster = HazelcastManager.INSTANCE.getHazelcast().getCluster();
     ClusterInfo clusterInfo = new ClusterInfo();
     
     List<MemberInfo> extMembers = new ArrayList<MemberInfo>();
@@ -88,7 +87,7 @@ public class HazelcastMonitorService {
     DistributedTask<Boolean> distributedShutdown =
         new DistributedTask<Boolean>(new DistributedShutdown(), targetMember);
     
-    ExecutorService execService = Hazelcast.getExecutorService();
+    ExecutorService execService = HazelcastManager.INSTANCE.getHazelcast().getExecutorService();
     execService.execute(distributedShutdown);
     
     try 
@@ -108,11 +107,11 @@ public class HazelcastMonitorService {
   }
   
   public String isRunningFallback(){
-    return new Result(Result.Status.OK, CdcLifeCycleListener.isExtraInstanceActive()).toString();
+    return new Result(Result.Status.OK,  HazelcastManager.INSTANCE.isExtraInstanceActive()).toString();
   }
   
   private Member getClusterMember(String ip, int port){
-    Cluster cluster = Hazelcast.getCluster();
+    Cluster cluster = HazelcastManager.INSTANCE.getHazelcast().getCluster();
     InetSocketAddress addr;
     try {
       addr = new InetSocketAddress(InetAddress.getByName(ip), port);
@@ -138,7 +137,7 @@ public class HazelcastMonitorService {
     DistributedTask<Boolean> distributedShutdown =
         new DistributedTask<Boolean>(new DistributedRestart(), targetMember);
     
-    ExecutorService execService = Hazelcast.getExecutorService();
+    ExecutorService execService = HazelcastManager.INSTANCE.getHazelcast().getExecutorService();
     execService.execute(distributedShutdown);
     
     try 
@@ -159,7 +158,7 @@ public class HazelcastMonitorService {
     DistributedTask<DistributedMapStatsCallable.MemberMapStat> mapStatTask = 
         new DistributedTask<DistributedMapStatsCallable.MemberMapStat>(new DistributedMapStatsCallable(mapName), member) ;
     
-    ExecutorService execService = Hazelcast.getExecutorService();
+    ExecutorService execService = HazelcastManager.INSTANCE.getHazelcast().getExecutorService();
     execService.execute(mapStatTask);
 
     MemberMapStat mapStat = mapStatTask.get();
@@ -170,7 +169,7 @@ public class HazelcastMonitorService {
   private static DistributedMemberInfoCallable.MemberInfo getMemberInfo(Member member){
     DistributedTask<DistributedMemberInfoCallable.MemberInfo> runtimeInfoTask =
         new DistributedTask<DistributedMemberInfoCallable.MemberInfo>(new DistributedMemberInfoCallable(), member);
-    ExecutorService execService = Hazelcast.getExecutorService();
+    ExecutorService execService = HazelcastManager.INSTANCE.getHazelcast().getExecutorService();
     execService.execute(runtimeInfoTask);
     try{
       return runtimeInfoTask.get();
