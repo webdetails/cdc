@@ -26,7 +26,6 @@ import com.hazelcast.config.InMemoryXmlConfig;
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.config.MaxSizeConfig;
 import com.hazelcast.core.DistributedTask;
-import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.Member;
 
 public class HazelcastConfigHelper {
@@ -82,7 +81,7 @@ public class HazelcastConfigHelper {
    */
   public static Boolean spreadMapConfig(MapConfig mapConfig, Member member)  {
     DistributedTask<Boolean> distribMapConfig = new DistributedTask<Boolean>(new DistributedMapConfig(mapConfig), member);
-    ExecutorService execService = Hazelcast.getExecutorService();
+    ExecutorService execService = HazelcastManager.INSTANCE.getHazelcast().getExecutorService();
     execService.execute(distribMapConfig);
     try {
       return distribMapConfig.get();
@@ -94,7 +93,7 @@ public class HazelcastConfigHelper {
   
   public static Collection<Boolean> spreadMapConfigs() {
     Collection<Boolean> result = null;
-    for(MapConfig mapConfig: Hazelcast.getConfig().getMapConfigs().values()){
+    for(MapConfig mapConfig: HazelcastManager.INSTANCE.getHazelcast().getConfig().getMapConfigs().values()){
         if(result == null){
           result = spreadMapConfig(mapConfig);
         }
@@ -106,7 +105,7 @@ public class HazelcastConfigHelper {
   }
   
   public static void spreadMapConfigs(Member member) {
-    for(MapConfig mapConfig : Hazelcast.getConfig().getMapConfigs().values()){
+    for(MapConfig mapConfig : HazelcastManager.INSTANCE.getHazelcast().getConfig().getMapConfigs().values()){
       boolean ok = false;
       try {
         ok = spreadMapConfig(mapConfig, member);
@@ -120,7 +119,7 @@ public class HazelcastConfigHelper {
   public static Collection<Boolean> spreadMapConfig(MapConfig mapConfig) {
     
     ArrayList<Boolean> boolist = new ArrayList<Boolean>();
-    for(Member member: Hazelcast.getCluster().getMembers()){
+    for(Member member: HazelcastManager.INSTANCE.getHazelcast().getCluster().getMembers()){
       if(!member.localMember()){//skip this
         boolist.add(HazelcastConfigHelper.spreadMapConfig(mapConfig, member));
       }
@@ -137,7 +136,7 @@ public class HazelcastConfigHelper {
   
   
   public static boolean saveConfig(){
-    return saveConfig(Hazelcast.getConfig());
+    return saveConfig(HazelcastManager.INSTANCE.getHazelcast().getConfig());
   }
   public static boolean saveConfig(Config config){
     return saveConfig(config, CdcConfig.getConfig().getHazelcastConfigFile());

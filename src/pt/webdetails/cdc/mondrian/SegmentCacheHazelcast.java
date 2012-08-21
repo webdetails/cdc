@@ -12,10 +12,10 @@ import mondrian.spi.SegmentCache;
 
 import com.hazelcast.core.EntryEvent;
 import com.hazelcast.core.EntryListener;
-import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.IMap;
 
 import java.util.ArrayList;
+import pt.webdetails.cdc.HazelcastManager;
 
 
 /**
@@ -27,7 +27,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
 
   private static final IMap<SegmentHeader, SegmentBody> getCache() {
-    return Hazelcast.getMap(MAP);
+    return HazelcastManager.INSTANCE.getHazelcast().getMap(MAP);
   }
 
 
@@ -63,8 +63,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
   @Override
   public void tearDown() {
-    getCache().clear();//TODO: only if not persistent?
-//    invalidateCache();
+//    launcher.stop();
   }
   
   @Override
