@@ -1,0 +1,4 @@
+12.09.05
+    *  update to hazelcast 2.2 to solve the network failure issue 
+    * Decoupled Hazelcast life cycle from plugin lifecycle
+    * Full Integration with CPF
