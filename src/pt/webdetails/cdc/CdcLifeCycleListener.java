@@ -56,7 +56,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
       }
       
       
-      //This will only work if the session has the same locale as the other sessions
+      //Trying to ensure all locales are covered 
       
       List<String> configuredLocales = CdcConfig.getConfig().getLocales();
       
