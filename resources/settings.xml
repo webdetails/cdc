@@ -26,4 +26,8 @@
     <path>system/cdc/cdeComponents</path>
   </cde-components>
   
+  <locales>
+    <locale>all</locale>
+  </locales>
+  
 </settings>

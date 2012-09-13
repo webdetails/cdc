@@ -4,10 +4,13 @@
 
 package pt.webdetails.cdc;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.dom4j.Element;
 import pt.webdetails.cpf.PluginSettings;
 
 public class CdcConfig extends PluginSettings
@@ -99,6 +102,20 @@ public class CdcConfig extends PluginSettings
   
   public String getVmMemory(){
     return getStringSetting("vmMemory", "512m");
+  }
+  
+  
+  public List<String> getLocales() {
+    List<Element> localesXml = getSettingsXmlSection("locales/locale");
+    
+    List<String> localesAsStr = new ArrayList<String>(localesXml.size());
+    
+    for (Element e : localesXml) {
+      localesAsStr.add(e.getText());
+    }
+    
+    return localesAsStr;
+    
   }
   
   /* end *

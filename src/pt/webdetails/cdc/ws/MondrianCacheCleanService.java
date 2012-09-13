@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.data.IDatasourceService;
 import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
+import org.pentaho.platform.engine.services.connection.PentahoConnectionFactory;
 import org.pentaho.platform.plugin.action.mondrian.catalog.IMondrianCatalogService;
 import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalog;
 
@@ -243,15 +244,16 @@ public class MondrianCacheCleanService {
     }
 
     MondrianCatalog selectedCatalog = mondrianCatalogService.getCatalog(catalog, PentahoSessionHolder.getSession());
+        
     if (selectedCatalog == null) {
       logger.error("Received catalog '" + catalog + "' doesn't appear to be valid");
       return null;
     }
-    selectedCatalog.getDataSourceInfo();
+        
+    String connectStr =  selectedCatalog.getDataSourceInfo() + "; Catalog=" + selectedCatalog.getDefinition();
+    
     logger.info("Found catalog " + selectedCatalog.toString());
-
-    String connectStr = "provider=mondrian;dataSource=" + selectedCatalog.getEffectiveDataSource().getJndi() + "; Catalog=" + selectedCatalog.getDefinition();
-
+    
     return getMdxConnectionFromConnectionString(connectStr);
   }
 
@@ -259,8 +261,12 @@ public class MondrianCacheCleanService {
     Connection nativeConnection = null;
     Util.PropertyList properties = Util.parseConnectString(connectStr);
     try {
+      
+      
+      
       String dataSourceName = properties.get(RolapConnectionProperties.DataSource.name());
 
+      
       if (dataSourceName != null) {
         IDatasourceService datasourceService = PentahoSystem.getObjectFactory().get(IDatasourceService.class, null);
         DataSource dataSourceImpl = datasourceService.getDataSource(dataSourceName);

@@ -4,10 +4,23 @@
 
 package pt.webdetails.cdc;
 
+import java.util.List;
+import java.util.Locale;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.pentaho.platform.api.engine.IPentahoSession;
 import org.pentaho.platform.api.engine.IPluginLifecycleListener;
+import org.pentaho.platform.api.engine.IUserDetailsRoleListService;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
+import org.pentaho.platform.engine.core.system.PentahoSystem;
+import org.pentaho.platform.engine.core.system.UserSession;
+import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalogHelper;
+
+import org.pentaho.platform.engine.security.SecurityHelper;
+import org.pentaho.platform.util.messages.LocaleHelper;
+import org.springframework.security.Authentication;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
 /**
  * Responsible for setting up distributed cache from configuration.
@@ -41,6 +54,33 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
 //        }
         
       }
+      
+      
+      //This will only work if the session has the same locale as the other sessions
+      
+      List<String> configuredLocales = CdcConfig.getConfig().getLocales();
+      
+      Locale[] locales;
+      if (configuredLocales.size() == 1 && "all".equals(configuredLocales.get(0)))
+        locales = Locale.getAvailableLocales();
+      else {
+        locales = new Locale[configuredLocales.size()];
+        for (int i=0; i < configuredLocales.size(); i++) {
+          String[] splitLocale = configuredLocales.get(i).split("_");
+          locales[i] = new Locale(splitLocale[0], splitLocale[1]);
+        }
+      }
+     
+      for (int i=0; i < locales.length; i++) {
+        LocaleHelper.setLocale(locales[i]);
+        
+        logger.debug("Setting schema cache for locale " + locales[i].toString());
+        
+        MondrianCatalogHelper.getInstance().listCatalogs(CdcLifeCycleListener.getSessionForCatalogCache(), true);        
+        
+      }
+                  
+      
     } catch (Exception e) {
       logger.error(e);
     }
@@ -66,5 +106,11 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     hazelcastMgr.setRegisterMondrian(config.isMondrianCdcEnabled());
   }
 
+  
+   private static IPentahoSession getSessionForCatalogCache() {     
+       return PentahoSystem.get(IPentahoSession.class, "systemStartupSession", null);     
+    } 
+  
+  
 }
 
