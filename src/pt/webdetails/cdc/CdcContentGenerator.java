@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.pentaho.platform.api.engine.IParameterProvider;
 
+import org.pentaho.platform.util.messages.LocaleHelper;
 import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.SimpleContentGenerator;
 import pt.webdetails.cpf.VersionChecker;
@@ -90,6 +91,8 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void olapUtils(OutputStream out) {
+      
+        logger.debug("Current user locale is " + LocaleHelper.getLocale());
         OlapUtils utils = new OlapUtils();
         IParameterProvider requestParams = getRequestParameters();
         try {
