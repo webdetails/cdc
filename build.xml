@@ -259,10 +259,10 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
     <!-- create the version file -->
 	<tstamp/>			
 	<property name="sequential.build.id" value="manual-${DSTAMP}"/>
-	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='TRUNK'  buildId='${sequential.build.id}'>${distribution.version}&lt;/version>"/>		   
+	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='TRUNK'  buildId='${sequential.build.id}'>${project.revision}&lt;/version>"/>		   
 	
 	<echo file="${dist.dir}/marketplace.xml">&lt;version branch="TRUNK">
-		&lt;version>${distribution.version}&lt;/version>
+		&lt;version>${project.revision}&lt;/version>
 		&lt;name>Trunk&lt;/name>
 		&lt;downloadUrl>http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/cdc-TRUNK-SNAPSHOT.zip&lt;/downloadUrl>
 		&lt;description>Trunk Snapshot. Install at your own risk....&lt;/description>
