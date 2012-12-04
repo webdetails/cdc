@@ -261,12 +261,13 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
 	<property name="sequential.build.id" value="manual-${DSTAMP}"/>
 	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='STABLE'>${distribution.version}&lt;/version>"/>		   
 	
-	<echo file="${dist.dir}/marketplace.xml">&lt;version branch="STABLE">
+	<echo file="${dist.dir}/marketplace.xml">&lt;version>
+	    &lt;branch>STABLE&lt;/branch>
 		&lt;version>${distribution.version}&lt;/version>
 		&lt;name>Stable&lt;/name>
-		&lt;downloadUrl>http://ci.analytical-labs.com/job/Webdetails-CDC-Release/lastSuccessfulBuild/artifact/dist/cdc-${distribution.version}.zip&lt;/downloadUrl>
+		&lt;package_url>http://ci.analytical-labs.com/job/Webdetails-CDC-Release/lastSuccessfulBuild/artifact/dist/cdc-${distribution.version}.zip&lt;/package_url>
 		&lt;description>${distribution.version} release.&lt;/description>
-		&lt;buildId>&lt;/buildId>
+		&lt;build_id>&lt;/build_id>
 		&lt;/version>	</echo>         
 	
 	
