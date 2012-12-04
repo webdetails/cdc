@@ -35,8 +35,8 @@ var VersionCheckComponent = BaseComponent.extend({
     return 'Your version is up to date.';
   },
   
-  getMsgInconclusive: function(msg){
-    return 'Only ctools branches support version checking ' + (msg ? '(' + msg + ') .' : '.');
+  getMsgInconclusive: function(msg, url){
+    return 'Only ctools branches support version checking ' + (msg ? '(' + msg + ') .' : '.') + ' You can install lastest version <a href="' + url + '">here</a>';
   },
   
   getMsgError: function(errorMsg){
@@ -70,7 +70,7 @@ var VersionCheckComponent = BaseComponent.extend({
           msg = self.getMsgError(result.msg);
           break;
         case 'inconclusive':
-          msg = self.getMsgInconclusive(result.msg);
+          msg = self.getMsgInconclusive(result.msg, result.url);
           break;
       }
       
