@@ -1,3 +1,7 @@
+12.12.10
+    * Ensured schema load for all or specified locales on startup. Changed mdxconnection creation
+    * Update to Version checker screen to ensure compatibility with other CTOOLS.
+
 12.09.05
     *  update to hazelcast 2.2 to solve the network failure issue 
     * Decoupled Hazelcast life cycle from plugin lifecycle
