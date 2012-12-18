@@ -47,8 +47,9 @@
     <dependency org="pentaho" name="pentaho-bi-platform-engine-services"
         rev="${dependency.bi-platform.revision}" transitive="false" />
         
-    <dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin" rev="${dependency.pentaho-reporting-engine-classic-core-platform-plugin.revision}" 
-        transitive="true"/>
+        <!--already included in engine-services-->
+<!--    <dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin" rev="${dependency.pentaho-reporting-engine-classic-core-platform-plugin.revision}" 
+        transitive="true"/>-->
         
     <dependency org="pentaho" name="cpf" transitive="false" changing="true" 
       rev="${dependency.cpf.revision}" conf='default,runtime->default'/>       
@@ -59,7 +60,7 @@
     <dependency org="pentaho" name="mondrian" rev="${dependency.mondrian.revision}" transitive="false"/>
     <dependency org="eigenbase" name="eigenbase-xom" rev="1.3.0.13768"/>
     <!-- -->
-    <!--dependency org="com.hazelcast" name="hazelcast" rev="2.2" /-->
+    <dependency org="com.hazelcast" name="hazelcast" rev="2.4" />
     <dependency org="org.json" name="json" rev="3.1.1" transitive="false"/>
     <dependency org="javax.servlet" name="servlet-api" rev="2.4" />
 
