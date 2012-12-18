@@ -6,11 +6,19 @@ package pt.webdetails.cdc;
 
 import java.io.FileNotFoundException;
 
+import mondrian.olap.Connection;
+import mondrian.olap.DriverManager;
+import mondrian.olap.Util;
 import mondrian.spi.SegmentCache;
+import mondrian.spi.SegmentCache.SegmentCacheInjector;
 import mondrian.spi.SegmentCache.SegmentCacheListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
+import org.pentaho.platform.engine.core.system.PentahoSystem;
+import org.pentaho.platform.plugin.action.mondrian.catalog.IMondrianCatalogService;
+import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalog;
 
 import pt.webdetails.cdc.mondrian.SegmentCacheHazelcast;
 
@@ -47,7 +55,7 @@ public enum HazelcastManager {
   private boolean launchInnerProcess = false;
   private boolean syncConfig = true;
   private boolean secondaryMode = false;
-  
+  private boolean syncCacheOnStart = true;
   /* 
    * configuration *
    * ***************/
@@ -55,13 +63,11 @@ public enum HazelcastManager {
   /* ***************
    * RUNNING STATE *
    */
-  
+  private boolean master = true;
   private HazelcastInstance localInstance;
   private Process innerProcess;
   private Object innerProcessLock = new Object();
-//  private Thread shutdownThread;
   private boolean running = false;
-  
   /* 
    * running state *
    * ***************/
@@ -95,7 +101,7 @@ public enum HazelcastManager {
   }
 
   public boolean isLaunchInnerProcess() {
-    return launchInnerProcess;
+    return launchInnerProcess && isMaster();
   }
 
   public void setLaunchInnerProcess(boolean launchInnerProcess) {
@@ -103,7 +109,7 @@ public enum HazelcastManager {
   }
 
   public boolean isSyncConfig() {
-    return syncConfig;
+    return syncConfig && isMaster();
   }
 
   public void setSyncConfig(boolean syncConfig) {
@@ -113,7 +119,22 @@ public enum HazelcastManager {
   public boolean isSecondaryMode() {
     return secondaryMode;
   }
-  
+
+  public boolean isMaster() {
+    return master;
+  }
+
+  public void setMaster(boolean isMaster) {
+    master = isMaster;
+  }
+
+  public boolean isSyncCacheOnStart() {
+    return syncCacheOnStart;
+  }
+
+  public void setSyncCacheOnStart(boolean syncCacheOnStart) {
+    this.syncCacheOnStart = syncCacheOnStart;
+  }
   /* 
    * configuration *
    * ***************/
@@ -224,7 +245,7 @@ public enum HazelcastManager {
     
     logger.info("registering with mondrian");
     
-    SegmentCache mondrianCache = new SegmentCacheHazelcast();
+    SegmentCacheHazelcast mondrianCache = new SegmentCacheHazelcast(syncCacheOnStart);
     
     if(isRegisterMondrian() && isDebugMode()){
       logger.debug("adding mondrian listener");
@@ -232,8 +253,50 @@ public enum HazelcastManager {
       mondrianCache.removeListener(listener);
       mondrianCache.addListener(listener);
     }
+
+    boolean cacheAlreadyIn = false;
+    for(SegmentCache cache : SegmentCacheInjector.getCaches()) {
+      if (cache instanceof SegmentCacheHazelcast) {
+        cacheAlreadyIn = true;
+        mondrianCache = (SegmentCacheHazelcast) cache;
+        break;
+      }
+    }
+    if (!cacheAlreadyIn) {
+      mondrian.spi.SegmentCache.SegmentCacheInjector.addCache(mondrianCache);
+    }
+    else {
+      logger.info("CDC cache already in mondrian. Restart server if you want to replace it");
+    }
     
-    mondrian.spi.SegmentCache.SegmentCacheInjector.addCache(mondrianCache); 
+    if(syncCacheOnStart) {
+      // have to make sure stars are loaded before adding cache
+      IMondrianCatalogService mondrianCatalogService =
+          PentahoSystem.get(IMondrianCatalogService.class, IMondrianCatalogService.class.getSimpleName(), null);
+      for (MondrianCatalog catalog :
+           mondrianCatalogService.listCatalogs(PentahoSessionHolder.getSession(), true))
+      {
+        String connectStr = catalog.getDataSourceInfo() +
+            "; Catalog= " + catalog.getDefinition();
+        Util.PropertyList properties = Util.parseConnectString(connectStr);
+        logger.debug("loading connection: " + connectStr);
+        Connection conn = DriverManager.getConnection(properties, null);
+        if (conn == null) {
+          logger.error("Problem getting connection for " + connectStr);
+        }
+      }
+    }
+    for (SegmentCacheListener listener : mondrianCache.getListenersToSync()) {
+      if (listener instanceof MondrianLoggingListener) {
+        logger.debug("Sync: skipping " + listener.getClass().getName());
+        continue;
+      }
+      logger.debug("Sync: notifying " + listener.getClass().getName() + " of cache contents. ");
+      int loadCount = mondrianCache.syncWithListener(listener);
+      if (loadCount > 0) {
+        logger.info("Sync: notified " + listener.getClass().getName() + " of " + loadCount + " cache entries.");
+      }
+    }
   }
   
   /**
@@ -270,14 +333,13 @@ public enum HazelcastManager {
     }
     
   }
-  
+
   public boolean isExtraInstanceActive(){
     synchronized(innerProcessLock){
       return innerProcess != null;
     }
   }
-  
-  
+
   private boolean hasProperMembers(){
     int properMemberCount = 0;
     for(Member member : getHazelcast().getCluster().getMembers()){
@@ -292,7 +354,7 @@ public enum HazelcastManager {
     }
     return false;
   }
-  
+
   private void launchIfNoMember()
   {
     synchronized(innerProcessLock){
@@ -304,7 +366,6 @@ public enum HazelcastManager {
     }
   }
 
-  
   private void removeExtraInstance(){
     synchronized(innerProcessLock){
       try {
