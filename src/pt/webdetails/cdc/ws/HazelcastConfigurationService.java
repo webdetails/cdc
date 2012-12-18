@@ -97,7 +97,7 @@ public class HazelcastConfigurationService {
         }
 
         break;
-      case timeTolive:
+      case timeToLive:
         try{
           int timeToLiveSeconds = Integer.parseInt(value);
           mapConfig.setTimeToLiveSeconds(timeToLiveSeconds);
@@ -166,7 +166,7 @@ public class HazelcastConfigurationService {
       case maxSize:
         result = mapConfig.getMaxSizeConfig().getSize();
         break;
-      case timeTolive:
+      case timeToLive:
         result = mapConfig.getTimeToLiveSeconds();
     }
     
