@@ -407,7 +407,7 @@ cdcFunctions.getEvictionValue = function(){
 };
 
 cdcFunctions.getTimeToLiveValue = function(){
-	this.getDefinition('timeTolive','timeToLiveParam');
+	this.getDefinition('timeToLive','timeToLiveParam');
 };
 
 
