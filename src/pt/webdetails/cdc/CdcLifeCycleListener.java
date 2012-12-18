@@ -12,6 +12,7 @@ import org.pentaho.platform.api.engine.IPentahoSession;
 import org.pentaho.platform.api.engine.IPluginLifecycleListener;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
+import org.pentaho.platform.plugin.action.mondrian.catalog.IMondrianCatalogService;
 import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalogHelper;
 
 import org.pentaho.platform.util.messages.LocaleHelper;
@@ -68,9 +69,12 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
       }
      
       logger.debug("Setting schema cache for " + locales.length + " locales.");
+      IMondrianCatalogService mondrianCatalogService =
+          PentahoSystem.get(IMondrianCatalogService.class, IMondrianCatalogService.class.getSimpleName(), null);
       for (int i=0; i < locales.length; i++) {
         LocaleHelper.setLocale(locales[i]);
-        MondrianCatalogHelper.getInstance().listCatalogs(CdcLifeCycleListener.getSessionForCatalogCache(), true);        
+        mondrianCatalogService.listCatalogs(CdcLifeCycleListener.getSessionForCatalogCache(), true);
+//        MondrianCatalogHelper.getInstance().listCatalogs(CdcLifeCycleListener.getSessionForCatalogCache(), true);        
         
       }
       logger.debug("Reverting to original locale " + originalLocale);
@@ -99,6 +103,8 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     hazelcastMgr.setLiteMode(config.isLiteMode());
     hazelcastMgr.setSyncConfig(true);
     hazelcastMgr.setRegisterMondrian(config.isMondrianCdcEnabled());
+    hazelcastMgr.setSyncCacheOnStart(config.isSyncCacheOnStart());
+    hazelcastMgr.setMaster(config.isMaster());
   }
 
   

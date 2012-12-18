@@ -11,6 +11,7 @@
  
   <!-- external configurations -->
   <cdaConfig>
+		<enabled>true</enabled>
     <location>system/cda/plugin.xml</location>
     <beanID>cda.IQueryCache</beanID>
     <adapterClasses>
@@ -18,16 +19,13 @@
       <default>pt.webdetails.cda.cache.EHCacheQueryCache</default>        
     </adapterClasses>
   </cdaConfig>
+
   <mondrianConfig>
-    <enabled>false</enabled>
+    <enabled>true</enabled>
   </mondrianConfig>
  
   <cde-components>
     <path>system/cdc/cdeComponents</path>
   </cde-components>
-  
-  <locales>
-    <locale>all</locale>
-  </locales>
   
 </settings>
