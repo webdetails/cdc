@@ -40,11 +40,11 @@
 
     <property name="stage.dir"
             value="${bin.dir}/stage"
-            description="Name of the resource directory"/>
+            description="Stage directory"/>
 
     <property name="samples.stage.dir"
             value="${bin.dir}/stage-samples"
-            description="Name of the resource directory" />
+            description="Samples directory" />
             
     <property name="hazelcast.dist.dir"
             value="${dist.dir}/hazelcast"
@@ -66,7 +66,8 @@
             description = "WebAppClassLoader's lib folder"/>
             
     <property name="static.dist.dir" value="static-dist"/>
-	<property name="hazelcast.standalone.src" value="hazelcast-standalone"/>
+    <property name="hazelcast.standalone.src" value="hazelcast-standalone"/>
+    <property name="runtime.lib.dir" value="runtime-lib"/>
 
 
     <tstamp/>
@@ -78,7 +79,7 @@
         <fileset dir="${lib.dir}">
             <include name="**/*.jar" />
         </fileset>
-        <fileset dir="runtime-lib">
+        <fileset dir="${runtime.lib.dir}">
             <include name="**/*.jar" />
         </fileset>
     </path>
@@ -108,7 +109,7 @@
             <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/hazelcast/**" />
         </jar>
         <copy todir="${hazelcast.dist.dir}">
-            <fileset dir="${devlib.dir}" includes="hazelcast*.jar"/>
+            <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
         </copy>
     </target>
   
@@ -225,7 +226,7 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
             <fileset dir="${devlib.dir}">
                 <include name="**/*.jar"/>
             </fileset>
-		  <fileset dir="runtime-lib">
+		  <fileset dir="${runtime.lib.dir}">
 			  <include name="cpf-*.jar" />
 		  </fileset>
 
