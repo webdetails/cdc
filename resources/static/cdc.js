@@ -10,52 +10,6 @@ cdcFunctions.jrmIndex = 0;
 cdcFunctions.cmIndex = 0;
 cdcFunctions.ccIndex = 0;
 
-cdcFunctions.fillMondrianSelector1 = function(){
-  Dashboards.update(render_getOlapCatalogs); //trigger call to get available cubes on var
-  
-  var availableCatalogs = catalogsResult.result.catalogs; 
-  var catalogArray = [];
-  
-  for(var i = 0; i < availableCatalogs.length; i++){
-    catalogArray.push([availableCatalogs[i].name,availableCatalogs[i].name]);
-  }
-  
-  return catalogArray;
-};
-
-
-cdcFunctions.fillMondrianSelector2 = function(){
-  var selectedSchema = level1Param;
-
-  if(catalogsResult == "") Dashboards.update(render_getOlapCatalogs);
-    
-  var availableCatalogs = catalogsResult.result.catalogs;
-  var cubesArray = [];
-  
-  for(var i = 0; i < availableCatalogs.length; i++){
-    if(availableCatalogs[i].name == selectedSchema){
-      for(var j = 0; j < availableCatalogs[i].cubes.length; j++){
-        cubesArray.push([availableCatalogs[i].cubes[j].name,availableCatalogs[i].cubes[j].name]);
-      }
-      break; 
-    }
-  }
-  
-  return cubesArray;
-};
-
-cdcFunctions.fillMondrianSelector3 = function(){
-  Dashboards.update(render_getCubeStructure);
-  
-  if(cubeStructureResult.result == undefined) return [];
-  var availableDimensions = cubeStructureResult.result.dimensions;
-  var dimensionsArray = [];
-  
-  for(var i = 0; i < availableDimensions.length; i++){
-    dimensionsArray.push([availableDimensions[i].name,availableDimensions[i].name]);
-  } 
-  return dimensionsArray;
-};
 
 
 
@@ -157,34 +111,118 @@ cdcFunctions.getDashboardLink = function(pageName){
 
 /******** home functions *********/
 
+
+cdcFunctions.makeRequest = function (url, params) {
+    var returnValue = "";
+    $.ajax({
+      url: url,
+      type: "GET",
+      dataType: 'xml',
+      async: false,
+      data: params,
+      complete: function (XMLHttpRequest, textStatus) {
+                  
+         var values = XMLHttpRequest.responseText;
+          var changedValues = undefined;
+          
+          if(values == undefined) {
+            Dashboards.log("Found error: Empty Data");
+            return;
+          }
+ 
+          if(this.dataType == "xml" || this.dataType == "html"){
+            var xmlDoc;
+            try { //Firefox, Mozilla, Opera, etc.
+                parser=new DOMParser();
+                xmlDoc=parser.parseFromString(values,"text/xml");
+
+            } catch(e){
+                try { //Internet Explorer
+                    xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+                    xmlDoc.async="false";
+                    xmlDoc.loadXML(values);
+                    values = xmlDoc;
+                } catch(e) {
+                    Dashboards.log('XML is invalid or no XML parser found');
+                }
+            }
+            returnValue=xmlDoc;
+
+            var nodeList = returnValue.getElementsByTagName('return');
+            if( nodeList.length > 0 && nodeList[0].firstChild ) {
+              returnValue = nodeList[0].firstChild.nodeValue;
+            }
+            else return;
+            
+            returnValue = $.parseJSON(returnValue);
+          } else if(this.dataType == "json") {
+                  returnValue = $.parseJSON(returnValue);
+          } else if(this.dataType != "script" && this.dataType != "text"){
+                  Dashboards.log("Found error: Unknown returned format");
+            return;
+          }
+          
+          if (changedValues != undefined){
+            returnValue = changedValues;
+          }
+    
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {          
+        Dashboards.log("Found error: " + XMLHttpRequest + " - " + textStatus + ", Error: " +  errorThrown,"error");
+      }
+    }
+    );
+
+    return returnValue;
+
+
+}
+
+cdcFunctions.getDefinitionRequest = function (map, name) {
+    return cdcFunctions.makeRequest('../ws-run/HazelcastConfigurationService/getMapOption',  {map: map, name: name});
+};
+
+cdcFunctions.setDefinitionRequest = function(map, name, value) {
+    return cdcFunctions.makeRequest('../ws-run/HazelcastConfigurationService/setMapOption',  {map: map, name: name, value: value});
+
+};
+
+cdcFunctions.isRunningFallbackCall = function () {
+
+    return cdcFunctions.makeRequest('../ws-run/HazelcastMonitorService/isRunningFallback',  {});
+}
+
 cdcFunctions.isCDAActive = function(){
 	Dashboards.setParameter('map','cda');
-	Dashboards.setParameter('name','enabled');
-	Dashboards.update(render_getDefinitionRequest);
+    var result = cdcFunctions.getDefinitionRequest('cda', 'enabled');
+	Dashboards.setParameter('resultVar', result);
 	if(resultVar == undefined) return false;
 	return resultVar.result;
 };
 
 cdcFunctions.isMondrianActive = function(){
 	Dashboards.setParameter('map','mondrian');
-	Dashboards.setParameter('name','enabled');
-	Dashboards.update(render_getDefinitionRequest);
+    var result = cdcFunctions.getDefinitionRequest('mondrian', 'enabled');
+	Dashboards.setParameter('resultVar', result);
 	if(resultVar == undefined) return false;
 	return resultVar.result;
 };
 
 
 cdcFunctions.isRunningFallback = function(){
-	Dashboards.update(render_isRunningFallback);
+	var result = cdcFunctions.isRunningFallbackCall();
+    Dashboards.setParameter('resultVar', result);
 	if(resultVar == undefined || resultVar.status != "OK") return false;
 	return resultVar.result;
 };
+
 
 cdcFunctions.enableCDACache = function(){
 	Dashboards.setParameter('map','cda');
 	Dashboards.setParameter('name','enabled');
 	Dashboards.setParameter('value',true);
-	Dashboards.update(render_setDefinitionRequest);
+	var result = cdcFunctions.setDefinitionRequest('cda', 'enabled', true);
+	Dashboards.setParameter('resultVar', result);
 	if(resultVar != undefined) {
 		jAlert(resultVar.result,'');
 	}
@@ -195,7 +233,8 @@ cdcFunctions.disableCDACache = function(){
 	Dashboards.setParameter('map','cda');
 	Dashboards.setParameter('name','enabled');
 	Dashboards.setParameter('value',false);
-	Dashboards.update(render_setDefinitionRequest);
+	var result = cdcFunctions.setDefinitionRequest('cda', 'enabled', false);
+	Dashboards.setParameter('resultVar', result);
 	if(resultVar != undefined) {
 		jAlert(resultVar.result,'');
 	}
@@ -205,7 +244,8 @@ cdcFunctions.enableMondrianCache = function(){
 	Dashboards.setParameter('map','mondrian');
 	Dashboards.setParameter('name','enabled');
 	Dashboards.setParameter('value',true);
-	Dashboards.update(render_setDefinitionRequest);
+	var result = cdcFunctions.setDefinitionRequest('mondrian', 'enabled', true);
+	Dashboards.setParameter('resultVar', result);
 	if(resultVar != undefined) {
 		jAlert(resultVar.result,'');
 	}
@@ -215,10 +255,11 @@ cdcFunctions.disableMondrianCache = function(){
 	Dashboards.setParameter('map','mondrian');
 	Dashboards.setParameter('name','enabled');
 	Dashboards.setParameter('value',false);
-	Dashboards.update(render_setDefinitionRequest);
+	var result = cdcFunctions.setDefinitionRequest('mondrian', 'enabled', false);
+	Dashboards.setParameter('resultVar', result);
 	if(resultVar != undefined) {
 		jAlert(resultVar.result,'');
-	}
+    }
 };
 
 
@@ -314,7 +355,8 @@ cdcFunctions.renderClusterInfo = function(){
 
 /*********** settings *********/
 cdcFunctions.getMaxSizePolicies = function(){
-	Dashboards.update(render_getMaxSizePolicies);
+    var result = cdcFunctions.makeRequest('../ws-run/HazelcastConfigurationService/getMaxSizePolicies', {});
+    Dashboards.setParameter('resultVar', result);
 	if(resultVar != undefined){
 		if(resultVar.status != "OK"){
 			return [];
@@ -335,8 +377,10 @@ cdcFunctions.getMaxSizePolicies = function(){
 	return [];
 };
 
+
 cdcFunctions.getEvictionPolicies = function(){
-	Dashboards.update(render_getEvictionPolicies);
+    var result = cdcFunctions.makeRequest('../ws-run/HazelcastConfigurationService/getEvictionPolicies', {});
+    Dashboards.setParameter('resultVar', result);
 	if(resultVar != undefined){
 		if(resultVar.status != "OK"){
 			return [];
@@ -358,8 +402,10 @@ cdcFunctions.getEvictionPolicies = function(){
 };
 
 cdcFunctions.getDefinition = function(name,param){
-	Dashboards.setParameter('name',name);
-	Dashboards.update(render_getDefinitionRequest);
+Dashboards.setParameter('name',name);
+	var result = cdcFunctions.getDefinitionRequest(Dashboards.getParameterValue('map'), name);
+
+    Dashboards.setParameter('resultVar', result);
 	
 	if(resultVar != undefined){
 		if(resultVar.status != "OK"){
@@ -376,7 +422,9 @@ cdcFunctions.getDefinition = function(name,param){
 cdcFunctions.setDefinition = function(name,param){
 	Dashboards.setParameter('name',name);
 	Dashboards.setParameter('value',Dashboards.getParameterValue(param));
-	Dashboards.update(render_setDefinitionRequest);
+	var result = cdcFunctions.setDefinitionRequest(Dashboards.getParameterValue('map'), name, Dashboards.getParameterValue(param));
+	Dashboards.setParameter('resultVar', result);
+
 	
 	if(resultVar != undefined){
 		if(resultVar.status != "OK"){
@@ -437,7 +485,7 @@ cdcFunctions.setTimeToLiveValue = function(){
 
 
 cdcFunctions.resetDefinitions = function(){
-	Dashboards.update(render_cacheCheck);
+	Dashboards.update(render_activateButton);
 	Dashboards.update(render_maxSizePolicy);
 	Dashboards.update(render_maxSizeValue);	
 	Dashboards.update(render_evictionPolicy);	
