@@ -93,8 +93,12 @@ public class CdcConfig extends PluginSettings
     }
   }
 
+  public boolean isSyncCacheOnStart() {
+    return getBooleanSetting("mondrianConfig/syncCacheOnStart", true);
+  }
+
   public String getCdaHazelcastAdapterClass(){
-    return getStringSetting("cdaConfig/adapterClasses/hazelcast","pt.webdetails.cda.cache.HazelcastQueryCache");
+    return getStringSetting("cdaConfig/adapterClasses/hazelcast", "pt.webdetails.cda.cache.HazelcastQueryCache");
   }
   public String getCdaDefaultAdapterClass(){
     return getStringSetting("cdaConfig/adapterClasses/default",StringUtils.EMPTY);
@@ -103,8 +107,11 @@ public class CdcConfig extends PluginSettings
   public String getVmMemory(){
     return getStringSetting("vmMemory", "512m");
   }
-  
-  
+
+  public boolean isMaster() {
+    return getBooleanSetting("master", true);
+  }
+
   public List<String> getLocales() {
     List<Element> localesXml = getSettingsXmlSection("locales/locale");
     

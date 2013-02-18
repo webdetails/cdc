@@ -38,7 +38,7 @@ public class HazelcastConfigHelper {
     maxSize,
     evictionPercentage,
     evictionPolicy,
-    timeTolive,
+    timeToLive,
     
     enabled;
     

@@ -10,24 +10,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.engine.IPentahoSession;
 import org.pentaho.platform.api.engine.IPluginLifecycleListener;
-import org.pentaho.platform.api.engine.IUserDetailsRoleListService;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
-import org.pentaho.platform.engine.core.system.UserSession;
+import org.pentaho.platform.plugin.action.mondrian.catalog.IMondrianCatalogService;
 import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalogHelper;
 
-import org.pentaho.platform.engine.security.SecurityHelper;
 import org.pentaho.platform.util.messages.LocaleHelper;
-import org.springframework.security.Authentication;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 
 /**
  * Responsible for setting up distributed cache from configuration.
  */
 public class CdcLifeCycleListener implements IPluginLifecycleListener
 {
-  
+
   private static HazelcastManager hazelcastManager = HazelcastManager.INSTANCE;
   
   static Log logger = LogFactory.getLog(CdcLifeCycleListener.class);
@@ -45,7 +40,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     setHazelcastOptionsFromConfig();
     try {
       if (CdcConfig.getConfig().isMondrianCdcEnabled() || ExternalConfigurationsManager.isCdaHazelcastEnabled()){
-        
+        hazelcastManager.setMaster(CdcConfig.getConfig().isMaster());
         hazelcastManager.init(CdcConfig.getConfig().getHazelcastConfigFile(), CdcConfig.getConfig().isForceConfig());
         
 //        if(CdcConfig.getConfig().isCdaCdcEnabled() && !ExternalConfigurationsManager.isCdaHazelcastEnabled()){
@@ -57,12 +52,14 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
       
       
       //Trying to ensure all locales are covered 
-      
+      //TODO: explain why
       List<String> configuredLocales = CdcConfig.getConfig().getLocales();
       
       Locale[] locales;
-      if (configuredLocales.size() == 1 && "all".equals(configuredLocales.get(0)))
+      Locale originalLocale = LocaleHelper.getLocale();
+      if (configuredLocales.size() == 1 && "all".equals(configuredLocales.get(0))) {
         locales = Locale.getAvailableLocales();
+      }
       else {
         locales = new Locale[configuredLocales.size()];
         for (int i=0; i < configuredLocales.size(); i++) {
@@ -71,16 +68,18 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
         }
       }
      
+      logger.debug("Setting schema cache for " + locales.length + " locales.");
+      IMondrianCatalogService mondrianCatalogService =
+          PentahoSystem.get(IMondrianCatalogService.class, IMondrianCatalogService.class.getSimpleName(), null);
       for (int i=0; i < locales.length; i++) {
         LocaleHelper.setLocale(locales[i]);
-        
-        logger.debug("Setting schema cache for locale " + locales[i].toString());
-        
-        MondrianCatalogHelper.getInstance().listCatalogs(CdcLifeCycleListener.getSessionForCatalogCache(), true);        
+        mondrianCatalogService.listCatalogs(CdcLifeCycleListener.getSessionForCatalogCache(), true);
+//        MondrianCatalogHelper.getInstance().listCatalogs(CdcLifeCycleListener.getSessionForCatalogCache(), true);        
         
       }
-                  
-      
+      logger.debug("Reverting to original locale " + originalLocale);
+      LocaleHelper.setLocale(originalLocale);
+
     } catch (Exception e) {
       logger.error(e);
     }
@@ -104,6 +103,8 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
     hazelcastMgr.setLiteMode(config.isLiteMode());
     hazelcastMgr.setSyncConfig(true);
     hazelcastMgr.setRegisterMondrian(config.isMondrianCdcEnabled());
+    hazelcastMgr.setSyncCacheOnStart(config.isSyncCacheOnStart());
+    hazelcastMgr.setMaster(config.isMaster());
   }
 
   

@@ -15,6 +15,7 @@ import com.hazelcast.core.EntryListener;
 import com.hazelcast.core.IMap;
 
 import java.util.ArrayList;
+
 import pt.webdetails.cdc.HazelcastManager;
 
 
@@ -25,11 +26,19 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
   private static final String MAP = "mondrian";
 
-
   private static final IMap<SegmentHeader, SegmentBody> getCache() {
     return HazelcastManager.INSTANCE.getHazelcast().getMap(MAP);
   }
 
+  private boolean syncListeners = true;
+
+  public SegmentCacheHazelcast() {
+    this(false);
+  }
+
+  public SegmentCacheHazelcast(boolean syncListeners) {
+    this.syncListeners = syncListeners;
+  }
 
   @Override
   public SegmentBody get(SegmentHeader key) {
@@ -44,7 +53,6 @@ public class SegmentCacheHazelcast implements SegmentCache {
     return true;
   }
 
-  @Override
   public boolean contains(SegmentHeader key) {
     key.getDescription();//affects serialization
     return getCache().containsKey(key);
@@ -68,6 +76,10 @@ public class SegmentCacheHazelcast implements SegmentCache {
   
   @Override
   public void addListener(SegmentCacheListener listener) {
+    if(syncListeners) {
+      listenersToSync.add(listener);
+      //syncWithListener(listener);
+    }
     getCache().addEntryListener(new SegmentCacheListenerWrapper(listener), false);
   }
   
@@ -82,14 +94,57 @@ public class SegmentCacheHazelcast implements SegmentCache {
     //Stores full key, not just ID
     return true;
   }
-  
-  
+
+  private List<SegmentCacheListener> listenersToSync = new ArrayList<SegmentCacheListener>();
+  public synchronized List<SegmentCacheListener> getListenersToSync() {
+    return listenersToSync;
+  }
+  public synchronized void resetListeners() {
+    listenersToSync = new ArrayList<SegmentCacheListener>();;
+  }
+
+  /**
+   * Notifies the listener of what already is in cache.<br/>
+   * It does so by sending an external add event for each header in cache.<br/>
+   * All relevant RolapStars must have been initialized inside mondrian for
+   * this to work.
+   * @param listener a mondrian listener
+   * @return number of entries sent
+   */
+  public int syncWithListener(SegmentCacheListener listener) {
+    int count = 0;
+    for(final SegmentHeader header : getSegmentHeaders()) {
+      listener.handle(
+          new SegmentCacheListener.SegmentCacheEvent(){
+
+            public EventType getEventType() {
+              return EventType.ENTRY_CREATED;
+            }
+
+            public SegmentHeader getSource() {
+              return header;
+            }
+
+            public boolean isLocal() {
+              return false;
+            }
+            
+          });
+      count++;
+    }
+    return count;
+  }
+
   /**
    * Wraps a mondrian SegmentCacheListener in a hazelcast EntryListener
    */
   static class SegmentCacheListenerWrapper implements EntryListener<SegmentHeader, SegmentBody> {
 
     private SegmentCacheListener listener;
+    
+    public SegmentCacheListener getInnerListener() {
+      return listener;
+    }
     
     public SegmentCacheListenerWrapper(SegmentCacheListener segmentCacheListener){
       this.listener = segmentCacheListener;

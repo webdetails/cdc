@@ -50,6 +50,10 @@ public class CdcServletContextListener implements ServletContextListener {
     if(StringUtils.isEmpty(configFile)) {
       configFile = "hazelcast.xml";
     }
+    // will always default to slave for now, it doesn't do any master stuff anyway
+    manager.setMaster(false);
+    // currently using pentaho environment for this
+    manager.setSyncCacheOnStart(false);
     manager.init(configFile, true);
   }
 
