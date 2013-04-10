@@ -1,7 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
-package pt.webdetails.cdc;
+package pt.webdetails.cdc.plugin;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -17,6 +17,9 @@ import org.json.JSONException;
 import org.pentaho.platform.api.engine.IParameterProvider;
 
 import org.pentaho.platform.util.messages.LocaleHelper;
+
+import pt.webdetails.cdc.core.HazelcastManager;
+import pt.webdetails.cdc.ws.MondrianCacheCleanService;
 import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.SimpleContentGenerator;
 import pt.webdetails.cpf.VersionChecker;
@@ -52,6 +55,29 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     @Override
     public String getPluginName(){
       return "cdc";
+    }
+
+    //TODO: testing
+    @Exposed(accessLevel = AccessLevel.ADMIN)
+    public void start(OutputStream out) throws Exception {
+      HazelcastManager.INSTANCE.init();
+      writeOut(out, "OK?");
+    }
+    @Exposed(accessLevel = AccessLevel.ADMIN)
+    public void stop(OutputStream out) throws Exception {
+      HazelcastManager.INSTANCE.tearDown();
+      writeOut(out, "OK?");
+    }
+    @Exposed(accessLevel = AccessLevel.ADMIN)
+    public void recoverMondrianCache(OutputStream out) throws Exception {
+      MondrianCacheCleanService.loadMondrianCatalogs();
+      int cnt = HazelcastManager.INSTANCE.reloadMondrianCache();
+      writeOut(out, "reload: " + cnt);
+    }
+    @Exposed(accessLevel = AccessLevel.ADMIN)
+    public void reloadMondrianCache(OutputStream out) throws Exception {
+      int cnt = HazelcastManager.INSTANCE.reloadMondrianCache();
+      writeOut(out, "reload: " + cnt);
     }
   
     @Exposed(accessLevel = AccessLevel.ADMIN)

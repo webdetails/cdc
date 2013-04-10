@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package pt.webdetails.cdc;
+package pt.webdetails.cdc.plugin;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,8 +17,10 @@ import org.dom4j.Element;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 import org.pentaho.platform.util.xml.dom4j.XmlDom4JHelper;
 
-
-public class ExternalConfigurationsManager {
+/**
+ * Helper class to handle CDA configuration file.
+ */
+public class ExternalConfigurationsHelper {
   
   public static final String CDA_HAZELCAST_ADAPTER = CdcConfig.getConfig().getCdaHazelcastAdapterClass();
   public static final String CDA_DEFAULT_CACHE_ADAPTER = CdcConfig.getConfig().getCdaDefaultAdapterClass();
@@ -26,7 +28,7 @@ public class ExternalConfigurationsManager {
   private static final String CDA_PLUGIN_XML_PATH = PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.getConfig().getCdaConfigLocation());
   private static final String CDA_BEAN_ID =  CdcConfig.getConfig().getCdaCacheBeanId();
   
-  private static Log logger = LogFactory.getLog(ExternalConfigurationsManager.class);
+  private static Log logger = LogFactory.getLog(ExternalConfigurationsHelper.class);
   
   public static boolean isCdaHazelcastEnabled() throws DocumentException, IOException{
     return StringUtils.equals(getCdaQueryCache(), CDA_HAZELCAST_ADAPTER);

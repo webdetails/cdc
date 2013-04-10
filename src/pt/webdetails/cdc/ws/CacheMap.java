@@ -7,7 +7,7 @@ package pt.webdetails.cdc.ws;
 import java.util.HashMap;
 import java.util.Map;
 
-import pt.webdetails.cdc.CdcConfig;
+import pt.webdetails.cdc.plugin.CdcConfig;
 
 public enum CacheMap {
   

@@ -23,8 +23,7 @@ public class MapInfo implements JsonSerializable{
   public MapInfo(){}
   
   public MapInfo(LocalMapStats mapStats){
-    
-    
+
     backupCount = mapStats.getBackupEntryCount();
     backupMemory = mapStats.getBackupEntryMemoryCost();
     
@@ -33,7 +32,7 @@ public class MapInfo implements JsonSerializable{
     
     entryCount = backupCount + ownedCount;
     entryMemory = backupMemory + ownedMemory;
-    
+
   }
 
 
@@ -98,16 +97,16 @@ public class MapInfo implements JsonSerializable{
 
   @Override
   public JSONObject toJSON() throws JSONException {
+
     JSONObject result = new JSONObject();
     result.put("entryCount", entryCount);
     result.put("ownedCount", ownedCount);
     result.put("backupCount", backupCount);
-    
+
     result.put("entryMemory", entryMemory);
     result.put("ownedMemory", ownedMemory);
     result.put("backupMemory", backupMemory);    
 
-    
     return result;
   }
   

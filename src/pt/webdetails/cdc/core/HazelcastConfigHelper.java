@@ -2,12 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package pt.webdetails.cdc;
+package pt.webdetails.cdc.core;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,12 +22,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import pt.webdetails.cdc.hazelcast.operations.DistributedMapConfig;
+import pt.webdetails.cdc.plugin.CdcConfig;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ConfigXmlGenerator;
 import com.hazelcast.config.InMemoryXmlConfig;
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.config.MaxSizeConfig;
+import com.hazelcast.config.XmlConfigBuilder;
 import com.hazelcast.core.DistributedTask;
 import com.hazelcast.core.Member;
 
@@ -52,7 +57,7 @@ public class HazelcastConfigHelper {
     }
     
   }
- 
+
   public static final String[] MAX_SIZE_POLICIES = new String[]{
     MaxSizeConfig.POLICY_CLUSTER_WIDE_MAP_SIZE,
     MaxSizeConfig.POLICY_MAP_SIZE_PER_JVM,
@@ -133,8 +138,24 @@ public class HazelcastConfigHelper {
     String configXml = xmlGenerator.generate(config);
     return new InMemoryXmlConfig(configXml);
   }
-  
-  
+
+  /**
+   * clones via xml serialization
+   */
+  public static Config clone(Config config) {
+      ConfigXmlGenerator xmlGenerator = new ConfigXmlGenerator(true);
+      XmlConfigBuilder builder = null;
+      try {
+        String xmlConfig = xmlGenerator.generate(config);
+        InputStream input = new ByteArrayInputStream(xmlConfig.getBytes(CdcConfig.ENCODING));
+        builder = new XmlConfigBuilder(input);
+      } catch (UnsupportedEncodingException e) {
+        // TODO Auto-generated catch block
+        logger.error(e);
+      }
+      return builder.build();
+  }
+
   public static boolean saveConfig(){
     return saveConfig(HazelcastManager.INSTANCE.getHazelcast().getConfig());
   }
