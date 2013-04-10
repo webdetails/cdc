@@ -15,10 +15,10 @@ import java.util.concurrent.ExecutorService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import pt.webdetails.cdc.CdcConfig;
-import pt.webdetails.cdc.HazelcastManager;
+import pt.webdetails.cdc.core.HazelcastManager;
 import pt.webdetails.cdc.hazelcast.operations.DistributedRestart;
 import pt.webdetails.cdc.hazelcast.operations.DistributedShutdown;
+import pt.webdetails.cdc.plugin.CdcConfig;
 import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.SecurityAssertions;
 

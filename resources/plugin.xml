@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin title="cdc" loader="DEFAULT">
-  <lifecycle-listener class="pt.webdetails.cdc.CdcLifeCycleListener"/>
+  <lifecycle-listener class="pt.webdetails.cdc.plugin.CdcLifeCycleListener"/>
   <static-paths>
     <static-path url="/cdc/static" localFolder="static"/>
     <static-path url="/cdc/lang" localFolder="lang"/>
@@ -23,7 +23,7 @@
   
   
     <content-generator scope="local" id="cdc" type="graphicsGenerator" url="">
-      <classname>pt.webdetails.cdc.CdcContentGenerator</classname>
+      <classname>pt.webdetails.cdc.plugin.CdcContentGenerator</classname>
       <title>CDC</title>
     </content-generator>
   <!-- Menu entry -->

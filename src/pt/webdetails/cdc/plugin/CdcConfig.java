@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package pt.webdetails.cdc;
+package pt.webdetails.cdc.plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.dom4j.Element;
+
+import pt.webdetails.cdc.core.ICdcConfig;
 import pt.webdetails.cpf.PluginSettings;
 
-public class CdcConfig extends PluginSettings
+public class CdcConfig extends PluginSettings implements ICdcConfig
 {
   private static final String HAZELCAST_FILE = "hazelcast.xml";
   private static final String HAZELCAST_STANDALONE_FILE = "hazelcast-standalone.xml";
@@ -24,11 +26,11 @@ public class CdcConfig extends PluginSettings
   public static final String PLUGIN_SYSTEM_PATH = PLUGIN_ID + "/" ;
   public static final String PLUGIN_SOLUTION_PATH = "system/" + PLUGIN_SYSTEM_PATH;
 
-  public static final class CacheMaps {
-    public static final String MONDRIAN_MAP = "mondrian";
-    public static final String CDA_MAP = "cdaCache";
-    public static final String CDA_STATS_MAP = "cdaCacheStats";
-  }
+//  public static final class CacheMaps {
+//    public static final String MONDRIAN_MAP = "mondrian";
+//    public static final String CDA_MAP = "cdaCache";
+//    public static final String CDA_STATS_MAP = "cdaCacheStats";
+//  }
   
   private static CdcConfig instance;
   
@@ -39,7 +41,6 @@ public class CdcConfig extends PluginSettings
     return instance;
   }
 
-  @Override
   public String getPluginName() {
     return "cdc";
   }
@@ -47,7 +48,7 @@ public class CdcConfig extends PluginSettings
   /* ************
    * Config Items
    * start */
-  
+
   public String getHazelcastConfigFile(){
     String cfg = getStringSetting("hazelcastConfigFile", StringUtils.EMPTY);
     if(StringUtils.isEmpty(cfg)){
@@ -59,57 +60,65 @@ public class CdcConfig extends PluginSettings
   public static String getHazelcastStandaloneConfigFile(){
     return getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_STANDALONE_FILE);
   }
-  
+
+  //TODO: what was this?
   public boolean enableShutdownThread() {
     return getBooleanSetting("enableShutdownThread", false);
   }
-   
+
   public boolean isLiteMode(){
     return getBooleanSetting("liteMode", true);
   }
-  
+
   public boolean isDebugMode(){
     return getBooleanSetting("debugMode", false);
   }
-  
+
   public boolean isForceConfig(){
     return getBooleanSetting("forceConfig",false);
   }
-  
+
   public String getCdaConfigLocation(){
     return getStringSetting("cdaConfig/location", "system/cda/plugin.xml");
   }
-  
+
   public String getCdaCacheBeanId(){
     return getStringSetting("cdaConfig/beanID","cda.IQueryCache");
   }
-  
+
   public boolean isMondrianCdcEnabled(){
     return getBooleanSetting("mondrianConfig/enabled", false);
   }
+
   public void setMondrianCdcEnabled(boolean enabled){
     if(!writeSetting("mondrianConfig/enabled", "" + enabled) ){
       logger.error("Could not write property mondrianConfig/enabled");
     }
   }
 
+  @Override
   public boolean isSyncCacheOnStart() {
-    return getBooleanSetting("mondrianConfig/syncCacheOnStart", true);
+    return getBooleanSetting("mondrianConfig/syncCacheOnStart", false);
   }
 
   public String getCdaHazelcastAdapterClass(){
     return getStringSetting("cdaConfig/adapterClasses/hazelcast", "pt.webdetails.cda.cache.HazelcastQueryCache");
   }
+
   public String getCdaDefaultAdapterClass(){
     return getStringSetting("cdaConfig/adapterClasses/default",StringUtils.EMPTY);
   }
-  
+
   public String getVmMemory(){
     return getStringSetting("vmMemory", "512m");
   }
 
   public boolean isMaster() {
     return getBooleanSetting("master", true);
+  }
+
+  public boolean isAsyncInit() {
+    return getBooleanSetting("asyncInit" ,true);
   }
 
   public List<String> getLocales() {
@@ -123,6 +132,18 @@ public class CdcConfig extends PluginSettings
     
     return localesAsStr;
     
+  }
+
+  public boolean isSyncConfig() {
+    return true;
+  }
+
+  public boolean isLaunchInnerProc() {
+    return false;
+  }
+
+  public boolean isRegisterMondrian() {
+    return isMondrianCdcEnabled();
   }
   
   /* end *

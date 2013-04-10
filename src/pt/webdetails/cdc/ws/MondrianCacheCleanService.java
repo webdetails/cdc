@@ -15,7 +15,6 @@ import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.data.IDatasourceService;
 import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
-import org.pentaho.platform.engine.services.connection.PentahoConnectionFactory;
 import org.pentaho.platform.plugin.action.mondrian.catalog.IMondrianCatalogService;
 import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalog;
 
@@ -28,7 +27,7 @@ import pt.webdetails.cpf.SecurityAssertions;
  */
 public class MondrianCacheCleanService {
 
-  private final IMondrianCatalogService mondrianCatalogService = PentahoSystem.get(IMondrianCatalogService.class, IMondrianCatalogService.class.getSimpleName(), null);
+  private final IMondrianCatalogService mondrianCatalogService = getMondrianCatalogService();
   private static Log logger = LogFactory.getLog(MondrianCacheCleanService.class);
 
   /**
@@ -185,6 +184,47 @@ public class MondrianCacheCleanService {
     }
   }
 
+  public static void loadMondrianCatalogs() {
+    IMondrianCatalogService mondrianCatalogService = getMondrianCatalogService();
+//    mondrianCatalogService.
+//    int errors = 0;
+    for (MondrianCatalog catalog :
+         mondrianCatalogService.listCatalogs(PentahoSessionHolder.getSession(), true))
+    {
+      try {
+        String connectStr = catalog.getDataSourceInfo() +
+            "; Catalog= " + catalog.getDefinition();
+        Connection conn = getConnectionFromString(connectStr);
+        if (conn == null) {
+          logger.warn("Couldn't get connection for " + connectStr);
+        }
+      } catch (Exception e) {
+        // not fatal for cache sync, no need to throw
+        logger.error("Error while creating connection", e);
+//        errors++;
+      }
+    }
+//    if (errors > 0) {
+//      return Result.getError("errorCount:" + errors).toString();
+//    }
+//    return Result.getOK("loaded").toString();
+  }
+
+  /**
+   * @param connectStr
+   * @return
+   */
+  private static Connection getConnectionFromString(String connectStr) {
+    Util.PropertyList properties = Util.parseConnectString(connectStr);
+    logger.debug("loading connection: " + connectStr);
+    Connection conn = DriverManager.getConnection(properties, null);
+    return conn;
+  }
+
+  private static final IMondrianCatalogService getMondrianCatalogService() {
+    return PentahoSystem.get(IMondrianCatalogService.class, IMondrianCatalogService.class.getSimpleName(), null);
+  }
+
   private void flushHierarchies(String catalog, String cube, String dimension, String hierarchy) {
 
       Connection connection = getMdxConnection(catalog);
@@ -235,8 +275,6 @@ public class MondrianCacheCleanService {
       }
   }
 
-
-
   private Connection getMdxConnection(String catalog) {
 
     if (catalog != null && catalog.startsWith("/")) {
@@ -249,47 +287,52 @@ public class MondrianCacheCleanService {
       logger.error("Received catalog '" + catalog + "' doesn't appear to be valid");
       return null;
     }
-        
-    String connectStr =  selectedCatalog.getDataSourceInfo() + "; Catalog=" + selectedCatalog.getDefinition();
-    
+
+    String connectStr = selectedCatalog.getDataSourceInfo() + "; Catalog=" + selectedCatalog.getDefinition();
     logger.info("Found catalog " + selectedCatalog.toString());
-    
-    return getMdxConnectionFromConnectionString(connectStr);
-  }
 
-  private Connection getMdxConnectionFromConnectionString(String connectStr) {
-    Connection nativeConnection = null;
-    Util.PropertyList properties = Util.parseConnectString(connectStr);
+    Connection conn = null;
     try {
-      
-      
-      
-      String dataSourceName = properties.get(RolapConnectionProperties.DataSource.name());
-
-      
-      if (dataSourceName != null) {
-        IDatasourceService datasourceService = PentahoSystem.getObjectFactory().get(IDatasourceService.class, null);
-        DataSource dataSourceImpl = datasourceService.getDataSource(dataSourceName);
-        if (dataSourceImpl != null) {
-          properties.remove(RolapConnectionProperties.DataSource.name());
-          nativeConnection = DriverManager.getConnection(properties, null, dataSourceImpl);
-        } else {
-          nativeConnection = DriverManager.getConnection(properties, null);
-        }
-      } else {
-        nativeConnection = DriverManager.getConnection(properties, null);
+      conn = getConnectionFromString(connectStr);
+      if (conn == null) {
+        logger.warn("Couldn't get connection for " + connectStr);
       }
-
-      if (nativeConnection == null) {
-        logger.error("Invalid connection: " + connectStr);
-      }
-    } catch (Throwable t) {
-      logger.error("Invalid connection: " + connectStr + " - " + t.toString());
+    } catch (Exception e) {
+      logger.error("Error while creating connection", e);
     }
-
-    return nativeConnection;
+    return conn;
+//    return getMdxConnectionFromConnectionString(connectStr);
   }
-  
+
+//  private Connection getMdxConnectionFromConnectionString(String connectStr) {
+//    Connection nativeConnection = null;
+//    Util.PropertyList properties = Util.parseConnectString(connectStr);
+//    try {
+//      String dataSourceName = properties.get(RolapConnectionProperties.DataSource.name());
+//
+//      if (dataSourceName != null) {
+//        IDatasourceService datasourceService = PentahoSystem.getObjectFactory().get(IDatasourceService.class, null);
+//        DataSource dataSourceImpl = datasourceService.getDataSource(dataSourceName);
+//        if (dataSourceImpl != null) {
+//          properties.remove(RolapConnectionProperties.DataSource.name());
+//          nativeConnection = DriverManager.getConnection(properties, null, dataSourceImpl);
+//        } else {
+//          nativeConnection = DriverManager.getConnection(properties, null);
+//        }
+//      } else {
+//        nativeConnection = DriverManager.getConnection(properties, null);
+//      }
+//
+//      if (nativeConnection == null) {
+//        logger.error("Invalid connection: " + connectStr);
+//      }
+//    } catch (Throwable t) {
+//      logger.error("Invalid connection: " + connectStr + " - " + t.toString());
+//    }
+//
+//    return nativeConnection;
+//  }
+//  
 ////duplicate some cache segment <numNewEntries> times  
 //  public String fillMondrianCache(int numNewEntries)
 //  {

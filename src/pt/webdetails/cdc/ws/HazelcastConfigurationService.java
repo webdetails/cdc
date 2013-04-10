@@ -11,11 +11,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 
-import pt.webdetails.cdc.CdcConfig;
-import pt.webdetails.cdc.ExternalConfigurationsManager;
-import pt.webdetails.cdc.HazelcastConfigHelper;
-import pt.webdetails.cdc.HazelcastConfigHelper.MapConfigOption;
-import pt.webdetails.cdc.HazelcastManager;
+import pt.webdetails.cdc.core.HazelcastConfigHelper;
+import pt.webdetails.cdc.core.HazelcastManager;
+import pt.webdetails.cdc.core.HazelcastConfigHelper.MapConfigOption;
+import pt.webdetails.cdc.plugin.CdcConfig;
+import pt.webdetails.cdc.plugin.ExternalConfigurationsHelper;
 import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.SecurityAssertions;
 
@@ -44,7 +44,7 @@ public class HazelcastConfigurationService {
           switch(cacheMap){          
             case Cda:
               try{
-                ExternalConfigurationsManager.setCdaHazelcastEnabled(enabled);
+                ExternalConfigurationsHelper.setCdaHazelcastEnabled(enabled);
                 return new Result(Result.Status.OK, "Configuration changed, please restart Pentaho server after finishing changes").toString();
               }
               catch(Exception e){
@@ -143,7 +143,7 @@ public class HazelcastConfigurationService {
           case Cda:
             try 
             {
-              result = ExternalConfigurationsManager.isCdaHazelcastEnabled();
+              result = ExternalConfigurationsHelper.isCdaHazelcastEnabled();
             } 
             catch (Exception e) {
               return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
