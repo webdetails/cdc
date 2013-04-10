@@ -141,7 +141,6 @@
                 <include name="eigenbase-xom-*.jar"/>
 <!--        <include name="hazelcast-*.jar"/>-->
                 <include name="libbase-*.jar"/>
-                <!--<include name="libloader-*.jar"/>--><!-- N -->
                 <include name="json-*.jar"/>
                 <include name="javacup-*.jar"/>
                 <include name="log4j-*.jar"/>
@@ -172,33 +171,6 @@
         </copy>
         
         <copy file="${hazelcast.standalone.config.file}" tofile="${hazelcast.standalone.dir}/hazelcast.xml"/>    	
-    	
-    
-<!--    
-        <property name="java.bin.win" value="java" />
-        <property name="java.bin.nix" value="java" />
-        <property name="java.launcher.opts" value="-Xmx1024m -Djava.net.preferIPv4Stack=true -Dsun.lang.ClassLoader.allowArraySyntax=true -Dhazelcast.serializer.shared=true " />
-        <property name="hazelcast.server.class" value="com.hazelcast.examples.StartServer"/>
-        <property name="hazelcast.debug.class" value="com.hazelcast.examples.TestApp"/>
-        <property name="java.launcher.classpath.win" value="lib\hazelcast-*.jar;lib\*"/>
-        <property name="java.launcher.classpath.nix" value="lib/hazelcast-*.jar:lib/*"/>
-    
-        <echo file="${hazelcast.standalone.dir}/launch-hazelcast.sh">#!/bin/sh
-${java.bin.nix} ${java.launcher.opts} $JAVA_OPTS -cp ${java.launcher.classpath.nix} ${hazelcast.server.class}
-        </echo>
-        <chmod file="${hazelcast.standalone.dir}/launch-hazelcast.sh" perm="a+x"/>
-        <echo file="${hazelcast.standalone.dir}/launch-hazelcast.bat">@echo off
-${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.win} ${hazelcast.server.class}
-        </echo>
-        <echo file="${hazelcast.standalone.dir}/launch-hazelcast-debug.sh" >#!/bin/sh
-${java.bin.nix} ${java.launcher.opts} $JAVA_OPTS -cp ${java.launcher.classpath.nix} ${hazelcast.debug.class}
-        </echo>
-        <chmod file="${hazelcast.standalone.dir}/launch-hazelcast-debug.sh" perm="a+x"/>
-        <echo file="${hazelcast.standalone.dir}/launch-hazelcast-debug.bat">@echo off
-${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.win} ${hazelcast.debug.class}
-        </echo>
-        
-        -->
 
     </target>
 
@@ -271,21 +243,8 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
 		&lt;build_id>&lt;/build_id>
 		&lt;/version>	</echo>         
 	
-	
-	
-    <!-- create a zip file -->
-    <!--<zip destfile="${dist.dir}/${plugin.zipfile}"
-         basedir="${stage.dir}"
-         includes="${plugin.name}/**/*"
-         excludes="**/Thumbs.db"/>-->
-         
         <zip destfile="${dist.dir}/${plugin.zipfile}" excludes="**/Thumbs.db">
             <zipfileset dir="${stage.dir}" includes="${plugin.name}/**/*" excludes="**/Thumbs.db"/>
-      <!--<zipfileset dir="${hazelcast.standalone.dir}" prefix="${plugin.name}/cdc-redist"/>-->
-<!--      <zipfileset dir="${cda.dist.dir}" prefix="${plugin.name}/cda-lib"/>-->
-<!--            <zipfileset dir="${mondrian.dist.dir}" prefix="${plugin.name}/mondrian-lib"/>-->
-      <!-- temporary -->
-<!--            <zipfileset dir="${static.dist.dir}" prefix="${plugin.name}/mondrian-lib" />-->
             <zipfileset dir="${hazelcast.dist.dir}" prefix="${plugin.name}/pentaho-lib"/>
         </zip>
 
@@ -343,48 +302,26 @@ ${java.bin.win} ${java.launcher.opts} %JAVA_OPTS% -cp ${java.launcher.classpath.
         <fail message="plugin.local.server.dir not set - cannot copy"
           unless="plugin.local.server.dir"/>
    
-        <echo>Delete/Copy hazelcast to ${pentaho.lib.dir}</echo>
+        <echo>Delete ${pentaho.lib.dir}/hazelcast*jar</echo>
         <delete>
             <fileset dir="${pentaho.lib.dir}" includes="hazelcast*.jar"/>
         </delete>
 
-    
+        <echo>Delete ${pentaho.lib.dir}/cdc-hazelcast*.jar</echo>
         <delete>
             <fileset dir="${pentaho.lib.dir}" includes="cdc-hazelcast*.jar"/>
         </delete>
+
+        <echo>Copy ${hazelcast.dist.dir}/cdc-hazelcast*.jar</echo>
         <copy toDir="${pentaho.lib.dir}">
             <fileset dir="${hazelcast.dist.dir}" includes="cdc-hazelcast*.jar"/>
         </copy>
-        
-                <copy toDir="${pentaho.lib.dir}">
-            <!--<fileset dir="${lib.dir}" includes="hazelcast*.jar"/>-->
-              <!-- TODO:switch back if pull request accepted -->
-            <fileset dir="${devlib.dir}" includes="hazelcast*.jar"/>
+            <copy toDir="${pentaho.lib.dir}">
+            <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
         </copy>
         
     </target>
- 
- <!-- put jar in cda/lib -->
-<!--  <target name="install-cda" depends="jar-cda">
-    <fail message="plugin.local.install.solutions.dir not set - cannot copy"
-          unless="plugin.local.install.solutions.dir"/>
-    <copy todir="${plugin.local.install.solutions.dir}/system/cda/lib">
-      <fileset dir="${cda.dist.dir}">
-        <include name="**/*.jar"/>
-      </fileset>
-    </copy>
-  </target>-->
- 
-  <!-- put jar in WEB-INF for mondrian -->
-<!--    <target name="install-mondrian-adapter" depends="jar-mondrian" description="Installs mondrian adapter to the biserver lib dir">
-        <fail message="plugin.local.server.dir not set - cannot copy"
-      unless="plugin.local.server.dir"/>
-        <copy todir="${pentaho.lib.dir}">
-            <fileset dir="${mondrian.dist.dir}">
-                <include name="**/*.jar"/>
-            </fileset>
-        </copy>
-    </target>-->
+
   <!--=======================================================================
           publish-pentaho-nojar (override)
 
