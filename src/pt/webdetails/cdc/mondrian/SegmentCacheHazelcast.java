@@ -4,6 +4,7 @@
 
 package pt.webdetails.cdc.mondrian;
 
+import java.util.Collections;
 import java.util.List;
 
 import mondrian.spi.SegmentBody;
@@ -16,13 +17,18 @@ import com.hazelcast.core.IMap;
 
 import java.util.ArrayList;
 
-import pt.webdetails.cdc.HazelcastManager;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import pt.webdetails.cdc.core.HazelcastManager;
 
 
 /**
  * SegmentCache implementation for mondrian-3.4+ based on a hazelcast distributed map.
  */
 public class SegmentCacheHazelcast implements SegmentCache {
+
+  private static Log logger = LogFactory.getLog(SegmentCacheHazelcast.class);
 
   private static final String MAP = "mondrian";
 
@@ -43,14 +49,24 @@ public class SegmentCacheHazelcast implements SegmentCache {
   @Override
   public SegmentBody get(SegmentHeader key) {
     key.getDescription();//this call affects serialization
-    return getCache().get(key);
+    try {
+      return getCache().get(key);
+    } catch (Exception e) {
+      logger.error(e);
+      return null;
+    }
   }
 
   @Override
   public boolean put(SegmentHeader key, SegmentBody value) {
     key.getDescription();//affects serialization
-    getCache().put(key, value);    
-    return true;
+    try {
+      getCache().put(key, value);
+      return true;
+    } catch (Exception e) {
+      logger.error(e);
+      return false;
+    }
   }
 
   public boolean contains(SegmentHeader key) {
@@ -61,12 +77,22 @@ public class SegmentCacheHazelcast implements SegmentCache {
   @Override
   public boolean remove(SegmentHeader key) {
     key.getDescription();
-    return getCache().remove(key) != null;
+    try {
+      return getCache().remove(key) != null;
+    } catch (Exception e) {
+      logger.error(e);
+      return false;
+    }
   }
   
   @Override
   public List<SegmentHeader> getSegmentHeaders() {
-    return new ArrayList<SegmentHeader>(getCache().keySet());
+    try {
+      return new ArrayList<SegmentHeader>(getCache().keySet());
+    } catch (Exception e) {
+      logger.error(e);
+      return Collections.emptyList();
+    }
   }
 
   @Override
@@ -80,12 +106,20 @@ public class SegmentCacheHazelcast implements SegmentCache {
       listenersToSync.add(listener);
       //syncWithListener(listener);
     }
-    getCache().addEntryListener(new SegmentCacheListenerWrapper(listener), false);
+    try {
+      getCache().addEntryListener(new SegmentCacheListenerWrapper(listener), false);
+    } catch (Exception e) {
+      logger.error(e);
+    }
   }
   
   @Override
   public void removeListener(SegmentCacheListener listener) {
-    getCache().removeEntryListener(new SegmentCacheListenerWrapper(listener));
+    try {
+      getCache().removeEntryListener(new SegmentCacheListenerWrapper(listener));
+    } catch (Exception e) {
+      logger.error(e);
+    }
   }
   
 
@@ -196,7 +230,7 @@ public class SegmentCacheHazelcast implements SegmentCache {
         }
       };
     }
-    
+
     @Override
     public boolean equals(Object other){
       if(other == null) return false;
