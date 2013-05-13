@@ -29,7 +29,19 @@
    Fonts
    ========================================================================== */
 
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v4/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
+}
 
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url('http://themes.googleusercontent.com/static/fonts/opensans/v4/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff') format('woff');
+}
 
 /* =============================================================================
    Style Resets
@@ -49,8 +61,8 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 /*margin: 0;
 padding: 0;
-border: 0;
-        font-family: Open Sans, Arial, sans-serif;*/
+border: 0;*/
+        font-family: Open Sans, Arial, sans-serif;
   }
 
 
@@ -63,7 +75,7 @@ border: 0;
 
 /* Window Background */
 body{
-	font-family: Gudea;
+	font-family: Open Sans, Arial, sans-serif;
 	background: url(img/shad_h.png) no-repeat scroll center 41px #dee8ec;
 }
 /* Dashboard Background / Blueprint Container */
@@ -74,12 +86,12 @@ div.container  {
    2. HEADER 
    ========================================================================== */
 .WDheader {
-	height: 70px;
+	height: 72px;
 	padding-bottom: 5px;
 }
 
 .WDh1 {
-	background-color: #05282c;
+	background-color: #10282f;
 	height:  30px;
 	margin-bottom: 10px;
 }
@@ -335,7 +347,14 @@ ul.toggleGroup label.checked .buttonWrapper {
 }
 
 .WDdataCell.WDWarnCell {
-	border: 2px solid #e01010;	
+	border: 1px solid #cc3333;
+	background: #ff9f9f !important;
+	font-weight: normal;
+	color: #333;
+	font-size: 14px;
+	line-height: 20px;
+	padding: 10px 0px;
+	height: auto;
 }
 
 
@@ -353,6 +372,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cad3d6', end
 	background: -o-linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* IE10+ */
 	background: linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* W3C */
+	padding: 10px 0px;
 	}
 
 /* Data Cells header*/
@@ -360,7 +380,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cad3d6', end
 	color: #05282c;
 	text-align: center;
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 20px;
 	line-height: 26px;
 }
 .no-svg   .WDdataCellHeader {
@@ -565,21 +585,20 @@ div.activateButton {
 
 div.activateButton.active button {
 	color: #ffffff;
-	height: 28px;
+	height: 40px;
 	width: 921px;
 	border: 1px solid #829299;
-	font-size: 18px;
+	font-size: 15px;
 	background-color:#52a229;
 	text-align: left;
-	
 }
 
 div.activateButton.inactive button {
 	color: #0F1414;
-	height: 28px;
+	height: 40px;
 	width: 921px;
 	border: 1px solid #829299;
-	font-size: 18px;
+	font-size: 15px;
 	background-color: #white;
 	text-align: left;
 }
@@ -602,7 +621,7 @@ div.activateButton.inactive button:active {
 div.activateButton span.toggleLabel {
 	float: right;
 	font-size: 10px;
-    margin: 5px;
+    margin: 2px 5px 5px;
 }
 
 div.activateButton span.buttonLabel {
@@ -634,9 +653,9 @@ div.activateButton span.buttonLabel {
     border: 1px solid #8b9da5;
     box-shadow: none;
     color: #8B9DA5;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: normal;
-    height: 28px;
+    height: 40px;
     width: 470px;
 }
 .pentaho-toggle-button-horizontal-last button {
@@ -644,14 +663,14 @@ div.activateButton span.buttonLabel {
 .pentaho-toggle-button-horizontal-first button {
 }
 .boxshadow .pentaho-toggle-button-down button {
-	color: #FFFFFF;
+	color: #f6f7f8;
 	font-weight: normal;
-	font-size: 16px;
+	font-size: 15px;
 	border: solid 1px #829299;
 	box-shadow: none;
 	width: 470px;
-	height: 28px;
-	background: #03272a; 
+	height: 40px;
+	background: #10282f; 
 }
 
 
@@ -836,16 +855,6 @@ ul.siteMap {
    ========================================================================== */
 
 
-
-
-@font-face {
-  font-family: 'Gudea';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Gudea'), url('http://themes.googleusercontent.com/static/fonts/gudea/v1/kfCeUiT0HGXHQC8YVeaKy6CWcynf_cDxXwCLxiixG1c.woff') format('woff');
-}
-
-
 div.cdcBig {
 	background: url("img/CDC_logo.png") no-repeat scroll left bottom transparent;
     float: right;
@@ -893,8 +902,14 @@ div.cdcVersion {
 }
 
 
-
+.cacheCleanerComponent .WDdataCell {
+	height: 30px !important;
+}
 /***** cluster info rules */
+
+#body {
+	padding: 20px 0px;
+}
 
 .memberInfo {
 	padding-top: 10px;
@@ -1085,7 +1100,7 @@ top: 1px;
 
 
 #header3 button {
-        cursor: pointer;
+        
 }
 
 .count {
@@ -1180,11 +1195,12 @@ top: 1px;
 }
 
 #cdaMondrianObj.clusterInfo .pentaho-toggle-button-down button {
- background: url("img/refresh.png") no-repeat scroll 280px 2px #03272A;
+ background: url("img/refresh.png") no-repeat scroll right 10px top 7px #03272A;
 }
 #cdaMondrianObj.clusterInfo .pentaho-toggle-button-down:hover button {
  /*background-color: #CAD3D6;*/
- background: none repeat scroll 0 0 #CAD3D6;
+ background: url("img/refresh-active.png") no-repeat scroll right 10px top 7px #CAD3D6;
+ cursor: pointer;
 }
 
 /** ABOUT **/
