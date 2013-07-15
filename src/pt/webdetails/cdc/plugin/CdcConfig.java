@@ -14,24 +14,19 @@ import org.dom4j.Element;
 
 import pt.webdetails.cdc.core.ICdcConfig;
 import pt.webdetails.cpf.PluginSettings;
+import pt.webdetails.cpf.repository.PentahoRepositoryAccess;
 
 public class CdcConfig extends PluginSettings implements ICdcConfig
 {
   private static final String HAZELCAST_FILE = "hazelcast.xml";
   private static final String HAZELCAST_STANDALONE_FILE = "hazelcast-standalone.xml";
   private static Log logger = LogFactory.getLog(CdcConfig.class);
-  
+
   public static final String PLUGIN_ID = "cdc";
   public static final String PLUGIN_TITLE = "cdc";
   public static final String PLUGIN_SYSTEM_PATH = PLUGIN_ID + "/" ;
   public static final String PLUGIN_SOLUTION_PATH = "system/" + PLUGIN_SYSTEM_PATH;
 
-//  public static final class CacheMaps {
-//    public static final String MONDRIAN_MAP = "mondrian";
-//    public static final String CDA_MAP = "cdaCache";
-//    public static final String CDA_STATS_MAP = "cdaCacheStats";
-//  }
-  
   private static CdcConfig instance;
   
   public static CdcConfig getConfig(){
@@ -39,6 +34,10 @@ public class CdcConfig extends PluginSettings implements ICdcConfig
       instance = new CdcConfig();
     }
     return instance;
+  }
+
+  private CdcConfig() {
+    setRepository(new PentahoRepositoryAccess()); //TODO:need to force admin or something?
   }
 
   public String getPluginName() {
@@ -52,13 +51,13 @@ public class CdcConfig extends PluginSettings implements ICdcConfig
   public String getHazelcastConfigFile(){
     String cfg = getStringSetting("hazelcastConfigFile", StringUtils.EMPTY);
     if(StringUtils.isEmpty(cfg)){
-      return getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_FILE);
+      return PentahoRepositoryAccess.getPentahoSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_FILE);
     }
     else return cfg;
   }
   
-  public static String getHazelcastStandaloneConfigFile(){
-    return getSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_STANDALONE_FILE);
+  public String getHazelcastStandaloneConfigFile(){
+    return PentahoRepositoryAccess.getPentahoSolutionPath(PLUGIN_SOLUTION_PATH + HAZELCAST_STANDALONE_FILE);
   }
 
   //TODO: what was this?

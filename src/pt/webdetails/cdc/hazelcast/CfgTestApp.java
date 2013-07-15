@@ -192,8 +192,6 @@ public class CfgTestApp extends TestApp {
             sbuild.append('\n');
             sbuild.append(StringUtils.leftPad("", indent * INDENT_FACT));
             sbuild.append((char) ch);
-//            sbuild.append('\n');
-//            sbuild.append(StringUtils.leftPad("", indent * INDENT_FACT));
             break;
           case ',':
             sbuild.append((char) ch);

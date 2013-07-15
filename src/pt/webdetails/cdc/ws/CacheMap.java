@@ -10,13 +10,13 @@ import java.util.Map;
 import pt.webdetails.cdc.plugin.CdcConfig;
 
 public enum CacheMap {
-  
+
   Cda(CdcConfig.CacheMaps.CDA_MAP),
   Mondrian(CdcConfig.CacheMaps.MONDRIAN_MAP);
 
   private static final Map<String, CacheMap> mapNameResolver = new HashMap<String,CacheMap>();
   private String name;
-  
+
   static{
     mapNameResolver.put("cdaCache", CacheMap.Cda);
     mapNameResolver.put("cda", CacheMap.Cda);
@@ -28,14 +28,13 @@ public enum CacheMap {
     mapNameResolver.put("mondriancache", CacheMap.Mondrian);
     mapNameResolver.put("MONDRIAN", CacheMap.Mondrian);
   }
-  
+
   CacheMap(String name){ this.name = name; }
-  
+
   public String getName() { return this.name; }
-  
+
   public static CacheMap parse(String textValue){
     return mapNameResolver.get(textValue);
   }
-  
-  
+
 }

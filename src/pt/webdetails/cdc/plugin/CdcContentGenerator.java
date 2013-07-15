@@ -21,6 +21,7 @@ import org.pentaho.platform.util.messages.LocaleHelper;
 import pt.webdetails.cdc.core.HazelcastManager;
 import pt.webdetails.cdc.ws.MondrianCacheCleanService;
 import pt.webdetails.cpf.InterPluginCall;
+import pt.webdetails.cpf.PluginSettings;
 import pt.webdetails.cpf.SimpleContentGenerator;
 import pt.webdetails.cpf.VersionChecker;
 import pt.webdetails.cpf.annotations.AccessLevel;
@@ -53,7 +54,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     }
     
     @Override
-    public String getPluginName(){
+    public String getPluginName() {
       return "cdc";
     }
 

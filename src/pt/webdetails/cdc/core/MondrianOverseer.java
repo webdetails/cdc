@@ -22,10 +22,6 @@ public class MondrianOverseer {
   private SegmentCacheHazelcast mondrianCache;
   private ICdcConfig cdcConfig;
 
-//  public MondrianOverseer(ICdcConfig config) {
-//    cdcConfig = config;
-//  }
-
   public void initMondrianCache(ICdcConfig config) {
     cdcConfig = config;
     registerMondrianCacheSpi(config.isDebugMode());

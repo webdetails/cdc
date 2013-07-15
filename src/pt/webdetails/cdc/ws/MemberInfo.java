@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pt.webdetails.cdc.ws.MapInfo;
-import pt.webdetails.cpf.JsonSerializable;
+import pt.webdetails.cpf.messaging.JsonSerializable;
 
 import com.hazelcast.core.Member;
 

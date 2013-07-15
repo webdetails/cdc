@@ -97,14 +97,13 @@ public class SegmentCacheHazelcast implements SegmentCache {
 
   @Override
   public void tearDown() {
-//    launcher.stop();
+
   }
   
   @Override
   public void addListener(SegmentCacheListener listener) {
     if(syncListeners) {
       listenersToSync.add(listener);
-      //syncWithListener(listener);
     }
     try {
       getCache().addEntryListener(new SegmentCacheListenerWrapper(listener), false);

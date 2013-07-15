@@ -83,7 +83,7 @@ public class HazelcastProcessLauncher implements IHazelcastLauncher
 
     try {
       //run with whole classpath
-      ArrayList<String> cmds = getCommandLine(java, classPathArg, vmMemmory);
+      ArrayList<String> cmds = getCommandLine(java, classPathArg, vmMemmory, getHazelcastConfigOption());
       
       String[] cmdsArray = cmds.toArray(new String[cmds.size()]);
 
@@ -138,7 +138,7 @@ public class HazelcastProcessLauncher implements IHazelcastLauncher
     }
   }
 
-  private static ArrayList<String> getCommandLine(String java, String classPathArg, String maxVMMemory) {
+  private static ArrayList<String> getCommandLine(String java, String classPathArg, String maxVMMemory, String hazelcastConfigOption) {
     ArrayList<String> cmds = new ArrayList<String>();
     cmds.add(java);
     for(String opt: JAVA_OPTIONS){
@@ -147,7 +147,7 @@ public class HazelcastProcessLauncher implements IHazelcastLauncher
     //memory
     cmds.add("-Xmx" + maxVMMemory); 
     
-    cmds.add(getHazelcastConfigOption());
+    cmds.add(hazelcastConfigOption);
     cmds.add("-cp");
     cmds.add(classPathArg);
     cmds.add(HAZELCAST_SERVER_CLASS);
@@ -280,7 +280,7 @@ public class HazelcastProcessLauncher implements IHazelcastLauncher
   }
   
   private static String getHazelcastStandaloneConfigFile(){
-    String cfgPath = CdcConfig.getHazelcastStandaloneConfigFile();
+    String cfgPath = CdcConfig.getConfig().getHazelcastStandaloneConfigFile();
     if(File.separatorChar != '/'){
       cfgPath = cfgPath.replace('/', File.separatorChar);
     }

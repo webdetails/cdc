@@ -4,10 +4,8 @@
 
 package pt.webdetails.cdc.ws;
 
-import javax.sql.DataSource;
 import mondrian.olap.*;
 import mondrian.olap.CacheControl.CellRegion;
-import mondrian.rolap.RolapConnectionProperties;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -186,8 +184,7 @@ public class MondrianCacheCleanService {
 
   public static void loadMondrianCatalogs() {
     IMondrianCatalogService mondrianCatalogService = getMondrianCatalogService();
-//    mondrianCatalogService.
-//    int errors = 0;
+
     for (MondrianCatalog catalog :
          mondrianCatalogService.listCatalogs(PentahoSessionHolder.getSession(), true))
     {
@@ -201,13 +198,8 @@ public class MondrianCacheCleanService {
       } catch (Exception e) {
         // not fatal for cache sync, no need to throw
         logger.error("Error while creating connection", e);
-//        errors++;
       }
     }
-//    if (errors > 0) {
-//      return Result.getError("errorCount:" + errors).toString();
-//    }
-//    return Result.getOK("loaded").toString();
   }
 
   /**

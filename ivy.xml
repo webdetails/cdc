@@ -51,9 +51,13 @@
 <!--    <dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin" rev="${dependency.pentaho-reporting-engine-classic-core-platform-plugin.revision}" 
         transitive="true"/>-->
         
-    <dependency org="pentaho" name="cpf" transitive="false" changing="true" 
+    <dependency org="pt.webdetails" name="cpf-core" transitive="false" changing="true" 
       rev="${dependency.cpf.revision}" conf='default,runtime->default'/>       
-    <dependency org="pentaho" name="cda"  transitive="false" changing="true"
+    <dependency org="pt.webdetails" name="cpf-pentaho" transitive="false" changing="true" 
+      rev="${dependency.cpf.revision}" conf='default,runtime->default'/>       
+    <dependency org="pentaho" name="cda-core"  transitive="false" changing="true"
+      rev="${dependency.cda.revision}" conf='default,runtime->default'/>
+          <dependency org="pentaho" name="cda-pentaho"  transitive="false" changing="true"
       rev="${dependency.cda.revision}" />
     
     <!-- mondrian -->

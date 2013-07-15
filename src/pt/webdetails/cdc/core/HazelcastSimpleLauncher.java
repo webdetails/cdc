@@ -26,12 +26,9 @@ public class HazelcastSimpleLauncher implements IHazelcastLauncher {
   @Override
   public void start() {
     if (hazelcast == null) {
-//      boolean lite = hzConfig.isLiteMember();
-//      hzConfig.setLiteMember(false);
       logger.debug("starting..");
       hazelcast = Hazelcast.newHazelcastInstance(hzConfig);
       logger.debug("started");
-//      hzConfig.setLiteMember(lite);
     }
   }
 

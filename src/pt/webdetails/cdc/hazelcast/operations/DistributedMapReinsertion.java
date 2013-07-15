@@ -2,8 +2,6 @@ package pt.webdetails.cdc.hazelcast.operations;
 
 import com.hazelcast.core.IMap;
 import com.hazelcast.core.MapEntry;
-//import com.hazelcast.query.Predicate;
-//import com.hazelcast.query.SqlPredicate;
 
 public class DistributedMapReinsertion extends DistributedInstanceOperation<Integer> {
 
