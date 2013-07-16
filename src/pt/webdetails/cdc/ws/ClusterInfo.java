@@ -8,8 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pt.webdetails.cdc.ws.MemberInfo;
-import pt.webdetails.cpf.JsonSerializable;
+import pt.webdetails.cpf.messaging.JsonSerializable;
 
 public class ClusterInfo implements JsonSerializable {
   

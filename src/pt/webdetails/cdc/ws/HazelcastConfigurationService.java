@@ -143,7 +143,7 @@ public class HazelcastConfigurationService {
           case Cda:
             try 
             {
-              result = ExternalConfigurationsHelper.isCdaHazelcastEnabled();
+                result = ExternalConfigurationsHelper.isCdaHazelcastEnabled();
             } 
             catch (Exception e) {
               return new Result(Result.Status.ERROR, e.getLocalizedMessage()).toString();
