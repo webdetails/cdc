@@ -14,8 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.pentaho.platform.engine.core.system.PentahoSystem;
-import org.pentaho.platform.util.xml.dom4j.XmlDom4JHelper;
+import pt.webdetails.cpf.repository.PentahoRepositoryAccess;
 
 /**
  * Helper class to handle CDA configuration file.
@@ -24,8 +23,8 @@ public class ExternalConfigurationsHelper {
   
   public static final String CDA_HAZELCAST_ADAPTER = CdcConfig.getConfig().getCdaHazelcastAdapterClass();
   public static final String CDA_DEFAULT_CACHE_ADAPTER = CdcConfig.getConfig().getCdaDefaultAdapterClass();
-    
-  private static final String CDA_PLUGIN_XML_PATH = PentahoSystem.getApplicationContext().getSolutionPath(CdcConfig.getConfig().getCdaConfigLocation());
+  
+  private static final String CDA_PLUGIN_XML_PATH = PentahoRepositoryAccess.getRepository().getSolutionPath(CdcConfig.getConfig().getCdaConfigLocation());
   private static final String CDA_BEAN_ID =  CdcConfig.getConfig().getCdaCacheBeanId();
   
   private static Log logger = LogFactory.getLog(ExternalConfigurationsHelper.class);
@@ -43,7 +42,8 @@ public class ExternalConfigurationsHelper {
   }
   
   private static void setCdaQueryCache(String className) throws DocumentException, IOException{
-    Document doc = XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
+    Document doc = PentahoRepositoryAccess.getRepository().getResourceAsDocument(CdcConfig.getConfig().getCdaConfigLocation());// XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
+
     
     Element elem = getCdaCacheBeanElement(doc); 
     String oldName = elem.attributeValue("class");
@@ -63,7 +63,7 @@ public class ExternalConfigurationsHelper {
   }
   
   private static String getCdaQueryCache() throws DocumentException, IOException {
-    Document doc = XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
+    Document doc = PentahoRepositoryAccess.getRepository().getResourceAsDocument(CdcConfig.getConfig().getCdaConfigLocation());//XmlDom4JHelper.getDocFromFile(CDA_PLUGIN_XML_PATH, null);
     Element elem = getCdaCacheBeanElement(doc); 
     return elem.attributeValue("class");
   }
