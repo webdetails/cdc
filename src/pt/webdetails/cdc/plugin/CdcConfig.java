@@ -22,6 +22,7 @@ import org.springframework.security.providers.anonymous.AnonymousAuthenticationT
 
 import pt.webdetails.cdc.core.ICdcConfig;
 import pt.webdetails.cpf.PluginSettings;
+import pt.webdetails.cpf.plugin.CorePlugin;
 import pt.webdetails.cpf.repository.IRepositoryAccess;
 import pt.webdetails.cpf.repository.PentahoRepositoryAccess;
 import pt.webdetails.cpf.session.PentahoSession;
@@ -44,13 +45,14 @@ public class CdcConfig extends PluginSettings implements ICdcConfig
 //  }
   
   private static CdcConfig instance;
-  private IRepositoryAccess adminRepo;
+  private PentahoRepositoryAccess adminRepo;
   private IPentahoSession adminSession;
   private CdcConfig(){
    super();
    this.adminRepo = PentahoRepositoryAccess.getRepository();
    this.adminSession = getAdminSession();
    adminRepo.setUserSession(new PentahoSession(adminSession));
+   adminRepo.setPlugin(CorePlugin.CDC);
    setRepository(adminRepo);
   }
   public static CdcConfig getConfig(){
