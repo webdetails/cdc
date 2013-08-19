@@ -23,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 
 import pt.webdetails.cdc.hazelcast.operations.DistributedMapConfig;
 import pt.webdetails.cdc.plugin.CdcConfig;
+import pt.webdetails.cpf.utils.CharsetHelper;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ConfigXmlGenerator;
@@ -147,7 +148,7 @@ public class HazelcastConfigHelper {
       XmlConfigBuilder builder = null;
       try {
         String xmlConfig = xmlGenerator.generate(config);
-        InputStream input = new ByteArrayInputStream(xmlConfig.getBytes(CdcConfig.ENCODING));
+        InputStream input = new ByteArrayInputStream(xmlConfig.getBytes(CharsetHelper.getEncoding()));
         builder = new XmlConfigBuilder(input);
       } catch (UnsupportedEncodingException e) {
         // TODO Auto-generated catch block
