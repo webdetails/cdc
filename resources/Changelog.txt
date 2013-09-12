@@ -1,5 +1,6 @@
 13.09.10
     * CDC now uses CPF-Core and CPF-Pentaho
+    * Fixed [REDMINE-273] - Mondrian Cache not caching after service restarts
 
 13.06.05
     * big refactor: everything in sub-packages, pentaho-specific stuff escept ws moved to plugin, mondrian standalone to servlet; HazelcastManager lightened +MondrianOverseer for mondrian handling previously done by HazelcastManager hazelcast extensions: +DistributedMapReinsertion CdcContentGenerator: + reloadMondrianCache, recoverMondrianCache +HazelcastSimpleLauncher to replace HazelcastProcessLauncher
