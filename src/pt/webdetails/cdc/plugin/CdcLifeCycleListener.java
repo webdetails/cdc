@@ -58,6 +58,7 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
                 public void run() {
                   try {
                     hazelcastManager.init();
+                    listCatalogsInLocales();
                   }
                   catch (Exception e) {
                     logger.fatal("CDC init failed.", e);
@@ -74,10 +75,9 @@ public class CdcLifeCycleListener implements IPluginLifecycleListener
             MondrianCacheCleanService.loadMondrianCatalogs();
             hazelcastManager.reloadMondrianCache();
           }
+          listCatalogsInLocales();
         }
       }
-
-      listCatalogsInLocales();
 
     } catch (Exception e) {
       logger.error(e);

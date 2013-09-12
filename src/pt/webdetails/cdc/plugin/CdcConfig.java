@@ -139,7 +139,7 @@ public class CdcConfig extends PluginSettings implements ICdcConfig
   }
 
   public boolean isAsyncInit() {
-    return getBooleanSetting("asyncInit" ,true);
+    return getBooleanSetting("asyncInit" ,false);
   }
 
   public List<String> getLocales() {
