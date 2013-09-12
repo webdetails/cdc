@@ -53,7 +53,7 @@ public class ExternalConfigurationsHelper {
     FileWriter fw = null;
     try{
       fw = new FileWriter(CDA_PLUGIN_XML_PATH);
-      XmlDom4JHelper.saveDomToWriter(doc, fw);
+      fw.write(doc.asXML());
       fw.flush();
       logger.info("CDA plugin.xml overwritten! Plug-in should be restarted.");
     }

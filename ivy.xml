@@ -52,10 +52,10 @@
 <!--    <dependency org="pentaho-reporting-engine" name="pentaho-reporting-engine-classic-core-platform-plugin" rev="${dependency.pentaho-reporting-engine-classic-core-platform-plugin.revision}" 
         transitive="true"/>-->
         
-    <dependency org="pt.webdetails" name="cpf-core" rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>
-    <dependency org="pt.webdetails" name="cpf-pentaho" rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>      
-    <dependency org="pentaho" name="cda-core" rev="TRUNK-SNAPSHOT" />    
-    <dependency org="pentaho" name="cda-pentaho" rev="TRUNK-SNAPSHOT" />    
+    <dependency org="pt.webdetails" name="cpf-core" rev="13.09.10" transitive="false" changing="true" conf='runtime->default'/>
+    <dependency org="pt.webdetails" name="cpf-pentaho" rev="13.09.10" transitive="false" changing="true" conf='runtime->default'/>      
+    <dependency org="pentaho" name="cda-core" rev="13.09.10" />    
+    <dependency org="pentaho" name="cda-pentaho" rev="13.09.10" />    
 
     <!-- mondrian -->
     <dependency org="pentaho" name="mondrian" rev="${dependency.mondrian.revision}" transitive="false"/>
