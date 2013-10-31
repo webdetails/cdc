@@ -4,6 +4,7 @@
   <static-paths>
     <static-path url="/cdc/static" localFolder="static"/>
     <static-path url="/cdc/lang" localFolder="lang"/>
+    <static-path url="/cdc/cdeComponents" localFolder="cdeComponents"/>
   </static-paths>
   
   <content-types />
