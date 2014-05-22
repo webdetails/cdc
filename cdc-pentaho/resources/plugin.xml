@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin title="cdc" loader="DEFAULT">
+  <lifecycle-listener class="pt.webdetails.cdc.plugin.CdcLifeCycleListener"/>
+  <static-paths>
+    <static-path url="/cdc/static" localFolder="static"/>
+    <static-path url="/cdc/lang" localFolder="lang"/>
+    <static-path url="/cdc/cdeComponents" localFolder="cdeComponents"/>
+  </static-paths>
+  
+  <content-types />
+  
+	<overlays>
+		<overlay id="startup.dashboardToolbar"  resourcebundle="../content/cdc/lang/messages">
+			<overlay id="startup.dashboardToolbar" resourcebundle="../content/cdc/lang/messages">
+				<toolbarbutton id="newAnalysisButton" removeelement="false"/>
+				<toolbar id="mainToolbar">
+					<toolbarbutton id="newCDC" image="../content/cdc/static/img/cdc_toolbar_icon.png" 
+                                        onclick="mainToolbarHandler.openUrl('${tabName}','${tabName}','content/cdc/home')" tooltiptext="${openNewCDC}" insertafter="newCDCButton"/>
+				</toolbar>
+			</overlay>
+		</overlay>
+	</overlays>
+  
+  
+  
+    <content-generator scope="local" id="cdc" type="graphicsGenerator" url="">
+      <classname>pt.webdetails.cdc.plugin.CdcContentGenerator</classname>
+      <title>CDC</title>
+    </content-generator>
+  <!-- Menu entry -->
+  <menu-items/>
+  
+  <webservice  
+    id="MondrianCacheCleanService" 
+    type="xml" 
+    class="pt.webdetails.cdc.ws.MondrianCacheCleanService"/>   
+  <webservice  
+    id="HazelcastMonitorService" 
+    type="xml" 
+    class="pt.webdetails.cdc.ws.HazelcastMonitorService"/>
+  <webservice  
+    id="HazelcastConfigurationService" 
+    type="xml" 
+    class="pt.webdetails.cdc.ws.HazelcastConfigurationService"/>
+  <webservice  
+    id="DashboardCacheCleanService" 
+    type="xml" 
+    class="pt.webdetails.cdc.ws.DashboardCacheCleanService"/>
+    
+</plugin>
