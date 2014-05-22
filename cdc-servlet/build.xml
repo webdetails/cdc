@@ -1,0 +1,295 @@
+<!--===========================================================================
+  This is the build file for the Community Dashboard Framework Plugin project.
+
+  This build file will use the common_build.xml file as the default build
+  process and should only override the tasks that need to differ from
+  the common build file.
+
+  See common_build.xml for more details
+============================================================================-->
+<project name="Community Distributed Cache" basedir="." default="jar"
+         xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <description>
+    This build file is used to create the CDC project
+    and works with the common_build.xml file.
+    </description>
+
+  <!-- Import the common_build.xml file which contains all the default tasks -->
+    <import file="../build-res/subfloor-pkg.xml" id="subfloor"/>
+
+  <!--
+      AS STATED ABOVE, THE ONLY TASKS THAT SHOULD EXIST IN THIS BUILD FILE ARE
+      THE TASKS THAT NEED TO DIFFER FROM THE DEFAULT IMPLEMENTATION OF THE TASKS
+      FOUND IN common_build.xml.
+    -->
+
+ <!-- Define the Sonar task if this hasn't been done in a common script -->
+    <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+        <classpath path="sonar-ant-task-1.3.jar" />
+    </taskdef>
+
+
+    <property name="plugin.name"       value="cdc"                         description="Name of the plugin"/>
+    <property name="core.dir"          value="../cdc-core"                 description="Name of core dir"/>
+    <property name="resource.dir"      value="resources"                   description="Name of the resource directory"/>
+    <property name="stage.dir"         value="${bin.dir}/stage"            description="Stage directory"/>
+    <property name="samples.stage.dir" value="${bin.dir}/stage-samples"    description="Samples directory" />
+    <property name="core-resource.dir" value="${core.dir}/${resource.dir}" description="Name of the core resource directory"/>
+            
+    <property name ="pentaho.lib.dir" value = "${plugin.local.server.dir}/webapps/pentaho/WEB-INF/lib" description = "WebAppClassLoader's lib folder"/>
+            
+    <property name="static.dist.dir" value="../static-dist"/>
+    <property name="runtime.lib.dir" value="runtime-lib"/>
+
+
+    <tstamp/>
+
+    <path id="classpath">
+        <fileset dir="${devlib.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${runtime.lib.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+  <!-- Build the project.revision property -->
+    <condition property="distribution.version" value="${project.stage}-${DSTAMP}" else="${project.stage}-${project.version}">
+        <equals arg1="${project.version}" arg2="SNAPSHOT"/>
+    </condition>
+
+    <echo>distribution.version = ${distribution.version}</echo>
+
+    <target name="dist" depends="clean,resolve,jar,dist-plugin"/>
+    <target name="dist-compile" depends="jar,dist-plugin"/>
+
+    <property name="plugin.artifact.id" value="${plugin.name}"/>
+    <property name="plugin.zipfile" value="${plugin.artifact.id}-${distribution.version}.zip"/>
+    <property name="plugin.samples.zipfile" value="${plugin.artifact.id}-samples-${distribution.version}.zip"/>
+    <property name="plugin.solution.zipfile" value="${plugin.artifact.id}-solution-${distribution.version}.zip"/>
+
+  <!-- JARs -->
+  <!-- TODO: manifests -->
+  
+    <!--=======================================================================
+              dist-standalone
+
+              Create redistributable
+              ====================================================================-->
+    <target name="dist-standalone" depends="jar">
+    </target>
+
+
+
+  <!--=======================================================================
+              dist
+
+              Creates a distribution of this project's plugin zip
+              ====================================================================-->
+    <target name="assemble" depends="assemble.init,install-antcontrib, dist-plugin"/>
+  
+    <target name="dist-plugin" depends="jar,dist-standalone" description="Creates a distribution">
+
+    <!-- delete and re-create the plugin dist folder tree -->
+        <mkdir dir="${stage.dir}"/>
+        <mkdir dir="${stage.dir}/${plugin.name}"/>
+        <mkdir dir="${stage.dir}/${plugin.name}/lib"/>  
+
+         <!-- Copy core resources -->
+    <copy todir='${stage.dir}/${plugin.name}'>
+        <fileset dir='${core-resource.dir}'>
+            <include name="**/*"/>
+        </fileset>
+    </copy>
+    
+    <!-- copy the plugin jar to the plugin dist lib folder -->
+        <copy todir="${stage.dir}/${plugin.name}/lib" overwrite="true">
+            <fileset dir="${dist.dir}">
+                <include name="${ivy.artifact.id}-${project.revision}.jar"/>
+            </fileset>
+            <fileset dir="${devlib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
+		  <fileset dir="${runtime.lib.dir}">
+			  <include name="cpf-*.jar" />
+		  </fileset>
+
+        </copy>
+
+        <copy todir="${stage.dir}/${plugin.name}" overwrite="true">
+            <fileset dir="${basedir}">
+                <include name="readme.txt"/>
+            </fileset>
+        </copy>
+
+
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcHome.cdfde" token="v.12.1.a" value="v ${project.revision}"/> 
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcClusterInfo.cdfde" token="v.12.1" value="v ${project.revision}"/> 
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcCacheClean.cdfde" token="v.12.1" value="v ${project.revision}"/> 
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcSettings.cdfde" token="v.12.1" value="v ${project.revision}"/> 
+        <replace file="${stage.dir}/${plugin.name}/static/jquery.alerts.js" token="v.12.2" value="v ${project.revision}"/> 
+
+
+    <!-- create the version file -->
+	<tstamp/>			
+	<property name="sequential.build.id" value="manual-${DSTAMP}"/>
+	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='TRUNK'  buildId='${sequential.build.id}'>${project.revision}&lt;/version>"/>		   
+	
+	<echo file="${dist.dir}/marketplace.xml">&lt;version>
+	    &lt;branch>TRUNK&lt;/branch>
+		&lt;version>${project.revision}&lt;/version>
+		&lt;name>Trunk&lt;/name>
+		&lt;package_url>http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/cdc-TRUNK-SNAPSHOT.zip&lt;/package_url>
+		&lt;description>Trunk Snapshot. Get the latest, edgy, still work in progress features here...&lt;/description>
+		&lt;build_id>${sequential.build.id}&lt;/build_id>
+		&lt;/version>	</echo>         
+	
+        <zip destfile="${dist.dir}/${plugin.zipfile}" excludes="**/Thumbs.db">
+            <zipfileset dir="${stage.dir}" includes="${plugin.name}/**/*" excludes="**/Thumbs.db"/>
+        </zip>
+
+        <copy tofile="${dist.dir}/${ivy.artifact.id}-${project.revision}.zip" file="${dist.dir}/${plugin.zipfile}"/>
+    </target>
+
+  <!--=======================================================================
+              dist-samples
+
+              Creates a distribution of this project's samples
+              ====================================================================-->
+    <target name="dist-samples" depends="init">
+
+        <mkdir dir="${samples.stage.dir}"/>
+
+    <!-- copy over all the xactions within the cdf-samples folder -->
+        <copy todir="${samples.stage.dir}/bi-developers" overwrite="true" >
+            <fileset dir="solution/bi-developers"></fileset>
+        </copy>
+
+        <zip destfile="${dist.dir}/${plugin.samples.zipfile}"
+         basedir="${samples.stage.dir}"
+         includes="**/*"
+         excludes="**/Thumbs.db"
+        />
+    </target>
+
+
+  <!--=======================================================================
+              install-plugin
+
+              Installs the plugin locally
+              ====================================================================-->
+    <target name="install-plugin" depends="clean, jar, dist-plugin" description="Installs the plugin locally">
+
+        <fail message="plugin.local.install.solutions.dir not set - cannot copy"
+          unless="plugin.local.install.solutions.dir"/>
+
+        <delete dir="${plugin.local.install.solutions.dir}/system/${plugin.name}"/>
+        <copy todir="${plugin.local.install.solutions.dir}/system/${plugin.name}">
+            <fileset dir="${stage.dir}/${plugin.name}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+        <get src="http://127.0.0.1:8080/pentaho/Publish?publish=now&amp;class=org.pentaho.platform.plugin.services.pluginmgr.PluginAdapter&amp;userid=${plugin.local.install.user}&amp;password=${plugin.local.install.pass}"
+         dest="${stage.dir}/blah.html"/>
+
+    </target>
+ 
+    <target name="install-all" depends="clean, resolve, dist-standalone, dist-plugin, install-plugin" description="Installs the plugin in the local biserver and copies hazelcast to the server lib dir"/>
+
+
+  <!--=======================================================================
+          publish-pentaho-nojar (override)
+
+          Publishes the jar and plugin zip package to the Maven repository
+          ====================================================================-->
+    <target name="publish-nojar"
+          depends="install-antcontrib,create-pom,ivy.deliver">
+    <!--ant antfile="build-res/subfloor.xml" target="publish-nojar"/-->
+        <ant antfile="common_build.xml" target="publish-pentaho-nojar"/>
+
+        <ivy:makepom ivyfile="package-ivy.xml" pomfile="plugin-pom.xml"/>
+        <ivy:makepom ivyfile="package-ivy.xml" pomfile="samples-pom.xml"/>
+        <ivy:makepom ivyfile="package-ivy.xml" pomfile="solution-pom.xml"/>
+
+        <replace file="plugin-pom.xml" token="jar" value="zip"/>
+        <replace file="plugin-pom.xml" token="%artifact-name%" value="${plugin.artifact.id}"/>
+        <antcall target="maven-publish-artifact">
+            <param name="publish.pomFile" value="plugin-pom.xml"/>
+            <param name="publish.file" value="${dist.dir}/${plugin.zipfile}"/>
+        </antcall>
+
+        <antcall target="maven-publish-artifact">
+            <param name="publish.pomFile" value="plugin-pom.xml"/>
+            <param name="publish.file" value="${dist.dir}/${ivy.artifact.id}-${project.revision}.zip"/>
+        </antcall>
+
+        <if>
+            <available file="${dist.dir}/${plugin.samples.zipfile}" />
+            <then>
+                <replace file="samples-pom.xml" token="jar" value="zip"/>
+                <replace file="samples-pom.xml" token="%artifact-name%" value="${plugin.artifact.id}-samples"/>
+                <antcall target="maven-publish-artifact">
+                    <param name="publish.pomFile" value="samples-pom.xml"/>
+                    <param name="publish.file" value="${dist.dir}/${plugin.samples.zipfile}"/>
+                </antcall>
+            </then>
+        </if>
+        <if>
+            <available file="${dist.dir}/${plugin.solution.zipfile}" />
+            <then>
+                <replace file="solution-pom.xml" token="jar" value="zip"/>
+                <replace file="solution-pom.xml" token="%artifact-name%" value="${plugin.artifact.id}-solution"/>
+                <antcall target="maven-publish-artifact">
+                    <param name="publish.pomFile" value="solution-pom.xml"/>
+                    <param name="publish.file" value="${dist.dir}/${plugin.solution.zipfile}"/>
+                </antcall>
+            </then>
+        </if>
+    </target>
+
+  <!-- Overriding resolve target so we can add resolve-dev -->
+    <target name="resolve"
+          depends="resolve-default, resolve-test, resolve-codegen, resolve-runtime, ivy.check-releasable"
+          description="Retrieves all the dependent libraries" />
+	
+    <target name="resolve-runtime" depends="resolve-init">
+        <ivy:resolve file="${ivyfile}" conf="runtime" />
+        <ivy:retrieve conf="runtime" pattern="runtime-lib/[module]-[revision](-[classifier]).[ext]" />
+    </target>
+  
+    <target name="resolve-sources" depends="resolve-init" unless="ivy.default.sub-configs">
+        <ivy:resolve file="${ivyfile}" conf="default" />
+        <ivy:retrieve conf="default" pattern="${lib.dir}/[module]-[revision](-[classifier])-[type].[ext]" type="sources" />
+    </target>
+  
+    <target name="check-sonar-props">
+        <available file="/home/tomcat/sonar.properties" property="sonar.props"/>    
+        <echo>${sonar.props}</echo>
+    </target>
+
+    <target name="read-sonar-props" depends="check-sonar-props" if="sonar.props">
+        <echo>Prop file exists</echo>
+        <loadproperties srcFile="/home/tomcat/sonar.properties"/>
+    </target>
+ 
+    <target name="sonar" depends='read-sonar-props'>
+  
+  <!-- Build the project.revision property -->
+        <condition property="distribution.version" value="${project.stage}-${DSTAMP}" else="${project.stage}-${project.version}">
+            <equals arg1="${project.version}" arg2="SNAPSHOT"/>
+        </condition>  
+    
+    <!-- list of mandatories Sonar properties -->
+        <property name="sonar.sources" value="${src.dir}" />
+    <!-- list of optional Sonar properties -->
+        <property name="sonar.binaries" value="${classes.dir}" />
+        <sonar:sonar key="pt.webdetails:CDC" version="${distribution.version}" xmlns:sonar="antlib:org.sonar.ant"/>
+
+    </target>
+
+</project>
