@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin title="cdc" loader="DEFAULT">
+  <lifecycle-listener class="pt.webdetails.cdc.plugin.CdcLifeCycleListener"/>
+  <static-paths>
+    <static-path url="/cdc/static" localFolder="static"/>
+    <static-path url="/cdc/lang" localFolder="lang"/>
+    <static-path url="/cdc/cdeComponents" localFolder="cdeComponents"/>
+  </static-paths>
+  
+  <content-types />
+  
+	<overlays>
+      <overlay id="startup.cdc" resourcebundle="content/cdc/lang/messages">
+      <menubar id="toolsmenu">
+            <menuitem id="cdc" label="${Launcher.CDC}" command="mantleXulHandler.openUrl('${Launcher.CDC}','${Launcher.CDC}','plugin/cdc/api/home')"/>
+          </menubar>
+      </overlay>
+	</overlays>
+  
+  <!-- Menu entry -->
+  <menu-items/>
+    
+</plugin>
