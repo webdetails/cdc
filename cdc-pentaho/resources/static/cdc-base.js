@@ -1,23 +1,23 @@
 var cdcFunctions = cdcFunctions || {};
 
 cdcFunctions.getGenericCdcServicesUrl = function(){
-	return Dashboards.getWebAppPath() + "/content/ws-run/";
+  return Dashboards.getWebAppPath() + "/content/ws-run/";
 };
 
 cdcFunctions.getMondrianCacheCleanServiceUrl = function(){
-	return cdcFunctions.getGenericCdcServicesUrl() + "MondrianCacheCleanService/";
+  return cdcFunctions.getGenericCdcServicesUrl() + "MondrianCacheCleanService/";
 };
 
 cdcFunctions.getHazelcastConfigurationServiceUrl = function(){
-	return cdcFunctions.getGenericCdcServicesUrl() + "HazelcastConfigurationService/";
+  return cdcFunctions.getGenericCdcServicesUrl() + "HazelcastConfigurationService/";
 };
 
 cdcFunctions.getHazelcastMonitorServiceUrl = function(){
-	return cdcFunctions.getGenericCdcServicesUrl() + "HazelcastMonitorService/";
+  return cdcFunctions.getGenericCdcServicesUrl() + "HazelcastMonitorService/";
 };
 
 cdcFunctions.getDashboardCacheCleanServiceUrl = function(){
-	return cdcFunctions.getGenericCdcServicesUrl() + "DashboardCacheCleanService/";
+  return cdcFunctions.getGenericCdcServicesUrl() + "DashboardCacheCleanService/";
 };
 
 cdcFunctions.makeRequest = function (url, params) {
@@ -84,34 +84,34 @@ cdcFunctions.makeRequest = function (url, params) {
     return returnValue;
   };
 
-  cdcFunctions.cubeListing = function(callback) {
-    $.getJSON("OlapUtils", {
-        operation:"GetOlapCubes"
-      },callback);
-  };
+cdcFunctions.cubeListing = function(callback) {
+  $.getJSON("OlapUtils", {
+      operation:"GetOlapCubes"
+    },callback);
+};
 
-  cdcFunctions.cubeStructure = function(catalog, cube, callback){
-    $.getJSON("OlapUtils", {
-        operation:"GetCubeStructure",
-        catalog: catalog,
-        cube: cube
-      }, callback);
-  };
+cdcFunctions.cubeStructure = function(catalog, cube, callback){
+  $.getJSON("OlapUtils", {
+      operation:"GetCubeStructure",
+      catalog: catalog,
+      cube: cube
+    }, callback);
+};
 
-  cdcFunctions.memberStructure = function(catalog, cube, member, callback){
-    $.getJSON("OlapUtils", {
-        operation:"GetLevelMembersStructure",
-        catalog: catalog,
-        cube: cube,
-        member: member,
-        direction: "down"
-      }, callback);
-  };
+cdcFunctions.memberStructure = function(catalog, cube, member, callback){
+  $.getJSON("OlapUtils", {
+      operation:"GetLevelMembersStructure",
+      catalog: catalog,
+      cube: cube,
+      member: member,
+      direction: "down"
+    }, callback);
+};
 
-  cdcFunctions.extractResult = function(response){
-    return response;
-  };
+cdcFunctions.extractResult = function(response){
+  return response;
+};
 
-  cdcFunctions.parseResponse = function(response){
-    return JSON.parse($("return",response).text());
-  };
+cdcFunctions.parseResponse = function(response){
+  return JSON.parse($("return",response).text());
+};

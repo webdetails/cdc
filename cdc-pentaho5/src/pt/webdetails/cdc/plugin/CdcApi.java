@@ -22,7 +22,6 @@ import javax.ws.rs.core.Context;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -34,10 +33,8 @@ import pt.webdetails.cpf.PluginEnvironment;
 import pt.webdetails.cpf.VersionChecker;
 import pt.webdetails.cpf.plugin.CorePlugin;
 import pt.webdetails.cpf.plugincall.base.CallParameters;
-import pt.webdetails.cpf.utils.PluginIOUtils;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -63,141 +60,121 @@ public class CdcApi {
 
   //TODO: testing
   @GET
-  @Path("/start")
-  public void start( @Context HttpServletResponse response ) throws Exception {
+  @Path( "/start" )
+  public String start( @Context HttpServletResponse response ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"start\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     HazelcastManager.INSTANCE.init();
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "OK?" );
+    return "OK?";
   }
 
   @GET
   @Path("/stop")
-  public void stop( @Context HttpServletResponse response ) throws Exception {
+  public String stop( @Context HttpServletResponse response ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"stop\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     HazelcastManager.INSTANCE.tearDown();
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "OK?" );
+    return "OK?";
   }
 
   @GET
   @Path("/recoverMondrianCache")
-  public void recoverMondrianCache( @Context HttpServletResponse response ) throws Exception {
+  public String recoverMondrianCache( @Context HttpServletResponse response ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"recoverMondrianCache\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     MondrianCacheCleanService.loadMondrianCatalogs();
     int cnt = HazelcastManager.INSTANCE.reloadMondrianCache();
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "reload: " + cnt );
+    return "reload: " + cnt;
   }
 
   @GET
   @Path("/reloadMondrianCache")
-  public void reloadMondrianCache( @Context HttpServletResponse response ) throws Exception {
+  public String reloadMondrianCache( @Context HttpServletResponse response ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"reloadMondrianCache\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     int cnt = HazelcastManager.INSTANCE.reloadMondrianCache();
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "reload: " + cnt );
+    return "reload: " + cnt;
   }
 
   @GET
   @Path("/home")
-  public void home( @Context HttpServletResponse response, @Context HttpServletRequest request )
-      throws Exception {
+  public String home( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"home\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     Map<String, Object> params = getRenderRequestParameters( "cdcHome.wcdf", request );
-    renderInCde( response.getOutputStream(), params );
+    return renderInCde( params );
   }
 
   @GET
   @Path("/clusterInfo")
-  public void clusterInfo( @Context HttpServletResponse response,
-      @Context HttpServletRequest request )
-      throws Exception {
+  public String clusterInfo( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"clusterInfo\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     Map<String, Object> params = getRenderRequestParameters( "cdcClusterInfo.wcdf", request );
-    renderInCde( response.getOutputStream(), params );
+    return renderInCde( params );
   }
 
   @GET
   @Path("/cacheInfo")
-  public void cacheInfo( @Context HttpServletResponse response,
-      @Context HttpServletRequest request )
-      throws Exception {
+  public String cacheInfo( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"cacheInfo\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     Map<String, Object> params = getRenderRequestParameters( "cdcCacheInfo.wcdf", request );
-    renderInCde( response.getOutputStream(), params );
+    return renderInCde( params );
   }
 
   @GET
   @Path("/settings")
-  public void settings( @Context HttpServletResponse response,
-      @Context HttpServletRequest request )
-      throws Exception {
+  public String settings( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"settings\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     Map<String, Object> params = getRenderRequestParameters( "cdcSettings.wcdf", request );
-    renderInCde( response.getOutputStream(), params );
+    return renderInCde( params );
   }
 
   @GET
-  @Path("/cacheClean")
-  public void cacheClean( @Context HttpServletResponse response,
-      @Context HttpServletRequest request )
-      throws Exception {
+  @Path( "/cacheClean" )
+  public String cacheClean( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"cacheClean\" endpoint called by a non admin user. Aborting" );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), "User has no access to this endpoint" );
-      return;
+      return "User has no access to this endpoint";
     }
     Map<String, Object> params = getRenderRequestParameters( "cdcCacheClean.wcdf", request );
-    renderInCde( response.getOutputStream(), params );
+    return renderInCde( params );
   }
 
   @GET
   @Path("/about")
-  public void about( @Context HttpServletResponse response, @Context HttpServletRequest request )
-      throws Exception {
-    renderInCde( response.getOutputStream(), getRenderRequestParameters( "cdcAbout.wcdf", request ) );
+  public String about( @Context HttpServletRequest request ) throws Exception {
+    return renderInCde( getRenderRequestParameters( "cdcAbout.wcdf", request ) );
   }
 
   @GET
-  @Path("/checkVersion")
-  public void checkVersion( @Context HttpServletResponse response )
-      throws IOException, JSONException {
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), getVersionChecker().checkVersion().toJSON().toString() );
+  @Path( "/checkVersion" )
+  public String checkVersion() throws IOException, JSONException {
+    return getVersionChecker().checkVersion().toJSON().toString();
   }
 
   @GET
   @Path("/getVersion")
-  public void getVersion( @Context HttpServletResponse response ) throws IOException, JSONException {
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), getVersionChecker().getVersion() );
+  public String getVersion( @Context HttpServletResponse response ) throws IOException, JSONException {
+    return getVersionChecker().getVersion();
   }
 
   /**
@@ -230,11 +207,10 @@ public class CdcApi {
   /**
    * Display a CDE dashboard
    *
-   * @param out
    * @param params
    * @throws IOException
    */
-  private void renderInCde( OutputStream out, Map<String, Object> params ) throws Exception {
+  private String renderInCde( Map<String, Object> params ) throws Exception {
     CallParameters parameters = new CallParameters();
     Iterator<String> it = params.keySet().iterator();
     while ( it.hasNext() ) {
@@ -244,7 +220,7 @@ public class CdcApi {
     }
     IPluginCall pluginCall = PluginEnvironment.env().getPluginCall( CorePlugin.CDE.getId(), "renderer", "render" );
     String returnVal = pluginCall.call( parameters.getParameters() );
-    PluginIOUtils.writeOutAndFlush( out, returnVal );
+    return returnVal;
   }
 
   public VersionChecker getVersionChecker() {
@@ -255,7 +231,7 @@ public class CdcApi {
       protected String getVersionCheckUrl( VersionChecker.Branch branch ) {
         switch ( branch ) {
           case TRUNK:
-            return "http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            return " http://ci.pentaho.com/job/pentaho-cdc/lastSuccessfulBuild/artifact/cdc-pentaho5/dist/marketplace.xml";
           case STABLE:
             return "http://ci.analytical-labs"
                 + ".com/job/Webdetails-CDC-Release/lastSuccessfulBuild/artifact/dist/marketplace.xml";

@@ -16,6 +16,7 @@ package pt.webdetails.cdc.ws;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.servlet.http.HttpServletResponse;
@@ -34,10 +35,8 @@ import pt.webdetails.cdc.core.HazelcastManager;
 import pt.webdetails.cdc.hazelcast.operations.DistributedRestart;
 import pt.webdetails.cdc.hazelcast.operations.DistributedShutdown;
 import pt.webdetails.cdc.plugin.CdcConfig;
-import pt.webdetails.cdc.plugin.CdcUtil;
 import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.SecurityAssertions;
-import pt.webdetails.cpf.utils.PluginIOUtils;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -54,15 +53,14 @@ public class HazelcastMonitorService {
   private static Log logger = LogFactory.getLog( HazelcastMonitorService.class );
 
   @GET
-  @Path("/getClusterInfo")
-  public void getClusterInfo( @Context HttpServletResponse response,
+  @Path( "/getClusterInfo" )
+  @Produces( "application/json" )
+  public String getClusterInfo( @Context HttpServletResponse response,
       @QueryParam("map") @DefaultValue("") String map ) throws IOException {
 
     CacheMap cacheMap = CacheMap.parse( map );
     if ( cacheMap == null ) {
-      PluginIOUtils
-          .writeOutAndFlush( response.getOutputStream(), Result.getError( "Map not found: " + map ).toString() );
-      return;
+      return Result.getError( "Map not found: " + map ).toString();
     }
 
     switch ( cacheMap ) {
@@ -94,12 +92,13 @@ public class HazelcastMonitorService {
     }
 
     clusterInfo.setOtherMembers( extMembers.toArray( new MemberInfo[extMembers.size()] ) );
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getOK( clusterInfo ).toString() );
+    return Result.getOK( clusterInfo ).toString();
   }
 
   @GET
   @Path("/shutdownMember")
-  public void shutdownMember( @Context HttpServletResponse response,
+  @Produces( "application/json" )
+  public String shutdownMember( @Context HttpServletResponse response,
       @QueryParam("ip") @DefaultValue("") String ip, @QueryParam("port") Integer port ) throws IOException {
 
     SecurityAssertions.assertIsAdmin();
@@ -118,21 +117,21 @@ public class HazelcastMonitorService {
 
     try {
       Boolean result = distributedShutdown.get();
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getOK( result ).toString() );
+      return Result.getOK( result ).toString();
     } catch ( MemberLeftException e ) {
       //member will leave before being able to respond
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getOK( e.getMessage() ).toString() );
+      return Result.getOK( e.getMessage() ).toString();
     } catch ( Exception e ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( e ).toString() );
+      return Result.getFromException( e ).toString();
     }
 
   }
 
   @GET
   @Path("/isRunningFallback")
-  public void isRunningFallback( @Context HttpServletResponse response ) throws IOException {
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-        new Result( Result.Status.OK, HazelcastManager.INSTANCE.isExtraInstanceActive() ).toString() );
+  @Produces( "application/json" )
+  public String isRunningFallback( @Context HttpServletResponse response ) throws IOException {
+    return new Result( Result.Status.OK, HazelcastManager.INSTANCE.isExtraInstanceActive() ).toString();
   }
 
   private Member getClusterMember( String ip, int port ) {
@@ -153,7 +152,8 @@ public class HazelcastMonitorService {
 
   @GET
   @Path("/restartMember")
-  public void restartMember( @Context HttpServletResponse response,
+  @Produces( "application/json" )
+  public String restartMember( @Context HttpServletResponse response,
       @QueryParam("ip") @DefaultValue("") String ip, @QueryParam("port") Integer port ) throws IOException {
 
     SecurityAssertions.assertIsAdmin();
@@ -172,9 +172,9 @@ public class HazelcastMonitorService {
 
     try {
       Boolean result = distributedShutdown.get();
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getOK( result ).toString() );
+      return Result.getOK( result ).toString();
     } catch ( Exception e ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( e ).toString() );
+      return Result.getFromException( e ).toString();
     }
   }
 

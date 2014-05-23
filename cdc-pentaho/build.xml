@@ -184,6 +184,7 @@
     <antcall target="replace-dashboard-services"/>
     <antcall target="replace-dashboard-endpoints"/>
     <antcall target="replace-dashboard-request-types"/>
+    <antcall target="replace-dashboard-standalone-cache-node-link"/>
     
     <!-- copy the plugin jar to the plugin dist lib folder -->
         <copy todir="${stage.dir}/${plugin.name}/lib" overwrite="true">
@@ -475,5 +476,8 @@
 
     </target>
 
+    <target name='replace-dashboard-standalone-cache-node-link'>
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcHome.cdfde" token="${cdc.5.standalone.cache.node}" value="${cdc.4.standalone.cache.node}" />
+    </target>
 
 </project>
