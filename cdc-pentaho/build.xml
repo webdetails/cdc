@@ -238,6 +238,8 @@
 		&lt;package_url>http://ci.pentaho.com/job/pentaho-cdc/lastSuccessfulBuild/artifact/cdc-pentaho/dist/cdc-pentaho-TRUNK-SNAPSHOT.zip&lt;/package_url>
 		&lt;description>Trunk Snapshot. Get the latest, edgy, still work in progress features here...&lt;/description>
 		&lt;build_id>${sequential.build.id}&lt;/build_id>
+		&lt;min_parent_version>1.0&lt;/min_parent_version>
+		&lt;max_parent_version>4.9&lt;/max_parent_version>
 		&lt;/version>	</echo>         
         <zip destfile="${dist.dir}/${plugin.zipfile}" excludes="**/Thumbs.db">
             <zipfileset dir="${stage.dir}" includes="${plugin.name}/**/*" excludes="**/Thumbs.db"/>
