@@ -52,29 +52,29 @@ cdcFunctions.makeRequest = function (url, params) {
 };
 
 cdcFunctions.cubeListing = function(callback) {
-    $.getJSON("olap/getCubes", {} ,callback);
-  };
+  $.getJSON("olap/getCubes", {} ,callback);
+};
 
-  cdcFunctions.cubeStructure = function(catalog, cube, callback){
-    $.getJSON("olap/getCubeStructure", {
-        catalog: catalog,
-        cube: cube
-      }, callback);
-  };
-  
-  cdcFunctions.memberStructure = function(catalog, cube, member, callback){
-    $.getJSON("olap/getLevelMembersStructure", {
-        catalog: catalog,
-        cube: cube,
-        member: member,
-        direction: "down"
-      }, callback);
-  };
+cdcFunctions.cubeStructure = function(catalog, cube, callback){
+  $.getJSON("olap/getCubeStructure", {
+      catalog: catalog,
+      cube: cube
+    }, callback);
+};
 
-    cdcFunctions.extractResult = function(response){
-      return response.result ? response.result : response;
-  };
+cdcFunctions.memberStructure = function(catalog, cube, member, callback){
+  $.getJSON("olap/getLevelMembersStructure", {
+      catalog: catalog,
+      cube: cube,
+      member: member,
+      direction: "down"
+    }, callback);
+};
 
-  cdcFunctions.parseResponse = function(response){
-    return response.result ? response : JSON.parse(response);
-  };
+cdcFunctions.extractResult = function(response){
+  return response.hasOwnProperty("result") ? response.result : response;
+};
+
+cdcFunctions.parseResponse = function(response){
+  return response.hasOwnProperty("result") ? response : JSON.parse(response);
+};

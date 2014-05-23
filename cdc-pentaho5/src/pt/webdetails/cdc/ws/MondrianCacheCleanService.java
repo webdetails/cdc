@@ -16,6 +16,7 @@ package pt.webdetails.cdc.ws;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.servlet.http.HttpServletResponse;
@@ -36,10 +37,8 @@ import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 import org.pentaho.platform.plugin.action.mondrian.catalog.IMondrianCatalogService;
 import org.pentaho.platform.plugin.action.mondrian.catalog.MondrianCatalog;
-import pt.webdetails.cdc.plugin.CdcUtil;
 import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.SecurityAssertions;
-import pt.webdetails.cpf.utils.PluginIOUtils;
 
 import java.io.IOException;
 
@@ -57,24 +56,22 @@ public class MondrianCacheCleanService {
    */
   @GET
   @Path("/clearCatalog")
-  public void clearCatalog( @Context HttpServletResponse response,
+  @Produces("application/json")
+  public String clearCatalog( @Context HttpServletResponse response,
       @QueryParam("catalog") @DefaultValue("") String catalog ) throws IOException {
 
     SecurityAssertions.assertIsAdmin();
 
     try {
       if ( StringUtils.isEmpty( catalog ) ) {
-        PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No catalog given." ).toString() );
-        return;
+        return Result.getError( "No catalog given." ).toString();
       }
       flushCubes( catalog, null );
-      PluginIOUtils
-          .writeOutAndFlush( response.getOutputStream(),
-              Result.getOK( "Catalog " + catalog + " cache cleaned." ).toString() );
+      return Result.getOK( "Catalog " + catalog + " cache cleaned." ).toString();
 
     } catch ( Exception e ) {
       logger.error( e );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( e.getMessage() ).toString() );
+      return Result.getError( e.getMessage() ).toString();
     }
   }
 
@@ -87,7 +84,8 @@ public class MondrianCacheCleanService {
    */
   @GET
   @Path("/clearCube")
-  public void clearCube( @Context HttpServletResponse response,
+  @Produces("application/json")
+  public String clearCube( @Context HttpServletResponse response,
       @QueryParam("catalog") @DefaultValue("") String catalog,
       @QueryParam("cube") @DefaultValue("") String cube ) throws IOException {
 
@@ -95,19 +93,16 @@ public class MondrianCacheCleanService {
 
     try {
       if ( StringUtils.isEmpty( catalog ) ) {
-        PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No catalog given." ).toString() );
-        return;
+        return Result.getError( "No catalog given." ).toString();
       }
       if ( StringUtils.isEmpty( cube ) ) {
-        PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No cube given." ).toString() );
-        return;
+        return Result.getError( "No cube given." ).toString();
       }
       flushCubes( catalog, cube );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-          Result.getOK( "Cube " + cube + " cache cleaned." ).toString() );
+      return Result.getOK( "Cube " + cube + " cache cleaned." ).toString();
     } catch ( Exception e ) {
       logger.error( e );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( e.getMessage() ).toString() );
+      return Result.getError( e.getMessage() ).toString();
     }
   }
 
@@ -162,7 +157,8 @@ public class MondrianCacheCleanService {
 
   @GET
   @Path("/clearDimension")
-  public void clearDimension( @Context HttpServletResponse response,
+  @Produces("application/json")
+  public String clearDimension( @Context HttpServletResponse response,
       @QueryParam("catalog") @DefaultValue("") String catalog,
       @QueryParam("cube") @DefaultValue("") String cube,
       @QueryParam("dimension") @DefaultValue("") String dimension ) throws IOException {
@@ -170,16 +166,13 @@ public class MondrianCacheCleanService {
     SecurityAssertions.assertIsAdmin();
 
     if ( StringUtils.isEmpty( catalog ) ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No catalog given." ).toString() );
-      return;
+      return Result.getError( "No catalog given." ).toString();
     }
     if ( StringUtils.isEmpty( cube ) ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No cube given." ).toString() );
-      return;
+      return Result.getError( "No cube given." ).toString();
     }
     if ( StringUtils.isEmpty( dimension ) ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No dimension given." ).toString() );
-      return;
+      return Result.getError( "No dimension given." ).toString();
     }
 
     //Ensure escaped '+' are transformed back to spaces
@@ -189,11 +182,10 @@ public class MondrianCacheCleanService {
 
     try {
       flushHierarchies( catalog, cube, dimension, null );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-          Result.getOK( "Dimension " + dimension + " cleaned from cache." ).toString() );
+      return Result.getOK( "Dimension " + dimension + " cleaned from cache." ).toString();
     } catch ( Exception e ) {
       logger.error( e );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( e.getMessage() ).toString() );
+      return Result.getError( e.getMessage() ).toString();
     }
   }
 
@@ -208,7 +200,8 @@ public class MondrianCacheCleanService {
    */
   @GET
   @Path("/clearHierarchy")
-  public void clearHierarchy( @Context HttpServletResponse response,
+  @Produces("application/json")
+  public String clearHierarchy( @Context HttpServletResponse response,
       @QueryParam("catalog") @DefaultValue("") String catalog,
       @QueryParam("cube") @DefaultValue("") String cube,
       @QueryParam("dimension") @DefaultValue("") String dimension,
@@ -217,20 +210,16 @@ public class MondrianCacheCleanService {
     SecurityAssertions.assertIsAdmin();
 
     if ( StringUtils.isEmpty( catalog ) ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No catalog given." ).toString() );
-      return;
+      return Result.getError( "No catalog given." ).toString();
     }
     if ( StringUtils.isEmpty( cube ) ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No cube given." ).toString() );
-      return;
+      return Result.getError( "No cube given." ).toString();
     }
     if ( StringUtils.isEmpty( dimension ) ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No dimension given." ).toString() );
-      return;
+      return Result.getError( "No dimension given." ).toString();
     }
     if ( StringUtils.isEmpty( hierarchy ) ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No hierarchy given." ).toString() );
-      return;
+      return Result.getError( "No hierarchy given." ).toString();
     }
 
     //Ensure escaped '+' are transformed back to spaces
@@ -241,10 +230,9 @@ public class MondrianCacheCleanService {
 
     try {
       flushHierarchies( catalog, cube, dimension, hierarchy );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-          Result.getOK( "Hierarchy " + hierarchy + " cleaned" ).toString() );
+      return Result.getOK( "Hierarchy " + hierarchy + " cleaned" ).toString();
     } catch ( Exception e ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( e.getMessage() ).toString() );
+      return Result.getError( e.getMessage() ).toString();
     }
   }
 

@@ -243,7 +243,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
       protected String getVersionCheckUrl( VersionChecker.Branch branch ) {
         switch ( branch ) {
           case TRUNK:
-            return "http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            return "http://ci.pentaho.com/job/pentaho-cdc/lastSuccessfulBuild/artifact/cdc-pentaho/dist/marketplace.xml";
           case STABLE:
             return "http://ci.analytical-labs"
                 + ".com/job/Webdetails-CDC-Release/lastSuccessfulBuild/artifact/dist/marketplace.xml";

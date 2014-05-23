@@ -16,6 +16,7 @@ package pt.webdetails.cdc.ws;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.servlet.http.HttpServletResponse;
@@ -26,9 +27,6 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.pentaho.platform.engine.core.system.PentahoSystem;
-import pt.webdetails.cdc.plugin.CdcUtil;
-import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.PentahoBasePluginEnvironment;
 import pt.webdetails.cpf.PluginEnvironment;
 import pt.webdetails.cpf.Result;
@@ -39,9 +37,7 @@ import pt.webdetails.cpf.plugincall.base.CallParameters;
 import pt.webdetails.cpf.repository.api.IBasicFile;
 import pt.webdetails.cpf.repository.api.IBasicFileFilter;
 import pt.webdetails.cpf.repository.api.IUserContentAccess;
-import pt.webdetails.cpf.utils.PluginIOUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,18 +53,17 @@ public class DashboardCacheCleanService {
    * @return All .cdfde files in solution.
    */
   @GET
-  @Path("/getDashboardsList")
-  public static void getDashboardsList( @Context HttpServletResponse response ) throws IOException {
-
+  @Path( "/getDashboardsList" )
+  @Produces( "application/json" )
+  public static String getDashboardsList( @Context HttpServletResponse response ) throws IOException {
     try {
       IUserContentAccess userContentAccess =
           PentahoBasePluginEnvironment.env().getContentAccessFactory().getUserContentAccess( "/" );
       List<IBasicFile> files = userContentAccess.listFiles( "", getDashboardFilter(), -1, true, false );
       List<String> filesNames = getFilesNames( files );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-          Result.getOK( filesNames.toArray( new String[files.size()] ) ).toString() );
+      return Result.getOK( filesNames.toArray( new String[files.size()] ) ).toString();
     } catch ( Exception e ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( e ).toString() );
+      return Result.getFromException( e ).toString();
     }
 
   }
@@ -99,7 +94,8 @@ public class DashboardCacheCleanService {
 
   @GET
   @Path("/clearDashboard")
-  public void clearDashboard( @Context HttpServletResponse response,
+  @Produces( "application/json" )
+  public String clearDashboard( @Context HttpServletResponse response,
       @QueryParam("dashboard") @DefaultValue("") String dashboard ) throws IOException {
 
     SecurityAssertions.assertIsAdmin();
@@ -129,11 +125,11 @@ public class DashboardCacheCleanService {
           dataSource.put( "cleared", numCleared );
         }
       }
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getOK( results ).toString() );
+      return Result.getOK( results ).toString();
     } catch ( JSONException e ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( e ).toString() );
+      return Result.getFromException( e ).toString();
     } catch ( Exception e ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( e ).toString() );
+      return Result.getFromException( e ).toString();
     }
 
   }

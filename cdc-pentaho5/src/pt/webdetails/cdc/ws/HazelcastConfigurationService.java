@@ -33,7 +33,6 @@ import pt.webdetails.cdc.plugin.CdcConfig;
 import pt.webdetails.cdc.plugin.ExternalConfigurationsHelper;
 import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.SecurityAssertions;
-import pt.webdetails.cpf.utils.PluginIOUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -46,7 +45,7 @@ public class HazelcastConfigurationService {
   @GET
   @Path( "/setMapOption" )
   @Produces( "application/json" )
-  public void setMapOption( @Context HttpServletResponse response,
+  public String setMapOption( @Context HttpServletResponse response,
       @QueryParam( "map" ) @DefaultValue( "" ) String map,
       @QueryParam( "name" ) @DefaultValue( "" ) String name,
       @QueryParam( "value" ) @DefaultValue( "" ) String value ) throws IOException {
@@ -57,15 +56,13 @@ public class HazelcastConfigurationService {
     CacheMap cacheMap = CacheMap.parse( map );
 
     if ( option == null ) {
-      PluginIOUtils
-          .writeOutAndFlush( response.getOutputStream(), Result.getError( "No such option: " + name ).toString() );
+      return Result.getError( "No such option: " + name ).toString();
     }
     if ( cacheMap == null ) {
-      PluginIOUtils
-          .writeOutAndFlush( response.getOutputStream(), Result.getError( "No such map: " + name ).toString() );
+      return Result.getError( "No such map: " + name ).toString();
     }
     if ( value == null ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "Must supply value" ).toString() );
+      return Result.getError( "Must supply value" ).toString();
     }
 
     MapConfig mapConfig = getMapConfig( cacheMap );
@@ -77,33 +74,28 @@ public class HazelcastConfigurationService {
             case Cda:
               try {
                 ExternalConfigurationsHelper.setCdaHazelcastEnabled( enabled );
-                PluginIOUtils.writeOutAndFlush( response.getOutputStream(), new Result( Result.Status.OK,
-                    "Configuration changed, please restart Pentaho server after finishing changes" ).toString() );
+                return new Result( Result.Status.OK,
+                    "Configuration changed, please restart Pentaho server after finishing changes" ).toString();
               } catch ( Exception e ) {
-                PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( e ).toString() );
+                return Result.getFromException( e ).toString();
               }
-              break;
             case Mondrian:
               try {
                 CdcConfig.getConfig().setMondrianCdcEnabled( enabled );
-                PluginIOUtils.writeOutAndFlush( response.getOutputStream(), new Result( Result.Status.OK,
-                    "Configuration changed, please restart Pentaho server after finishing changes" ).toString() );
+                return new Result( Result.Status.OK,
+                    "Configuration changed, please restart Pentaho server after finishing changes" ).toString();
               } catch ( Exception e ) {
-                PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( e ).toString() );
+                return Result.getFromException( e ).toString();
               }
           }
         } else {
-          PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-              Result.getError( "enabled must be either 'true' or 'false'." ).toString() );
+          return Result.getError( "enabled must be either 'true' or 'false'." ).toString();
         }
-        return;
       case maxSizePolicy:
         if ( Arrays.binarySearch( HazelcastConfigHelper.MAX_SIZE_POLICIES, value ) >= 0 ) {
           mapConfig.getMaxSizeConfig().setMaxSizePolicy( value );
         } else {
-          PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-              Result.getError( "Unrecognized size policy." ).toString() );
-          return;
+          return Result.getError( "Unrecognized size policy." ).toString();
         }
 
         break;
@@ -111,23 +103,18 @@ public class HazelcastConfigurationService {
         try {
           int evictionPercentage = Integer.parseInt( value );
           if ( evictionPercentage <= 0 || evictionPercentage > 100 ) {
-            PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-                Result.getError( "Invalid domain for percentage." ).toString() );
-            return;
+            return Result.getError( "Invalid domain for percentage." ).toString();
           }
           mapConfig.setEvictionPercentage( evictionPercentage );
         } catch ( NumberFormatException nfe ) {
-          PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( nfe ).toString() );
-          return;
+          return Result.getFromException( nfe ).toString();
         }
         break;
       case evictionPolicy:
         if ( Arrays.binarySearch( HazelcastConfigHelper.EVICTION_POLICIES, value ) >= 0 ) {
           mapConfig.setEvictionPolicy( value );
         } else {
-          PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-              Result.getError( "Unrecognized eviction policy" ).toString() );
-          return;
+          return Result.getError( "Unrecognized eviction policy" ).toString();
         }
 
         mapConfig.setEvictionPolicy( value );
@@ -137,8 +124,7 @@ public class HazelcastConfigurationService {
           int maxSize = Integer.parseInt( value );
           mapConfig.getMaxSizeConfig().setSize( maxSize );
         } catch ( NumberFormatException nfe ) {
-          PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( nfe ).toString() );
-          return;
+          return Result.getFromException( nfe ).toString();
         }
 
         break;
@@ -147,17 +133,13 @@ public class HazelcastConfigurationService {
           int timeToLiveSeconds = Integer.parseInt( value );
           mapConfig.setTimeToLiveSeconds( timeToLiveSeconds );
         } catch ( NumberFormatException nfe ) {
-          PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( nfe ).toString() );
-          return;
+          return Result.getFromException( nfe ).toString();
         }
         break;
       default://shouldn't reach
-        PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-            Result.getError( "Unrecognized option " + name ).toString() );
-        return;
+        return Result.getError( "Unrecognized option " + name ).toString();
     }
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-        Result.getOK( "Option " + name + " changed." ).toString() );
+    return Result.getOK( "Option " + name + " changed." ).toString();
   }
 
   /**
@@ -179,24 +161,21 @@ public class HazelcastConfigurationService {
   }
 
   @GET
-  @Produces( "application/xml" )
   @Path( "/getMapOption" )
-  public void getMapOption( @Context HttpServletResponse response,
+  @Produces( "application/json" )
+  public String getMapOption( @Context HttpServletResponse response,
       @QueryParam( "map" ) @DefaultValue( "" ) String map,
       @QueryParam( "name" ) @DefaultValue( "" ) String name ) throws IOException {
 
     MapConfigOption option = MapConfigOption.parse( name );
 
     if ( option == null ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-          new Result( Result.Status.ERROR, "No such option: " + name ).toString() );
-      return;
+      return new Result( Result.Status.ERROR, "No such option: " + name ).toString();
     }
 
     CacheMap cacheMap = CacheMap.parse( map );
     if ( cacheMap == null ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getError( "No such map: " + map ).toString() );
-      return;
+      return Result.getError( "No such map: " + map ).toString();
     }
 
     MapConfig mapConfig = getMapConfig( cacheMap );
@@ -209,9 +188,7 @@ public class HazelcastConfigurationService {
             try {
               result = ExternalConfigurationsHelper.isCdaHazelcastEnabled();
             } catch ( Exception e ) {
-              PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-                  new Result( Result.Status.ERROR, e.getLocalizedMessage() ).toString() );
-              return;
+              return new Result( Result.Status.ERROR, e.getLocalizedMessage() ).toString();
             }
             break;
           case Mondrian:
@@ -234,53 +211,54 @@ public class HazelcastConfigurationService {
       case timeToLive:
         result = mapConfig.getTimeToLiveSeconds();
     }
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getOK( result ).toString() );
+    return Result.getOK( result ).toString();
 
   }
 
   @GET
   @Path( "/getMaxSizePolicies" )
-  public static void getMaxSizePolicies( @Context HttpServletResponse response ) throws IOException {
+  @Produces( "application/json" )
+  public static String getMaxSizePolicies( @Context HttpServletResponse response ) throws IOException {
     JSONArray results = new JSONArray();
     for ( String value : HazelcastConfigHelper.MAX_SIZE_POLICIES ) {
       results.put( value );
     }
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getOK( results ).toString() );
+    return Result.getOK( results ).toString();
   }
 
   @GET
   @Path( "/getEvictionPolicies" )
-  public static void getEvictionPolicies( @Context HttpServletResponse response ) throws IOException {
+  @Produces( "application/json" )
+  public static String getEvictionPolicies( @Context HttpServletResponse response ) throws IOException {
     JSONArray results = new JSONArray();
     for ( String value : HazelcastConfigHelper.EVICTION_POLICIES ) {
       results.put( value );
     }
-    PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getOK( results ).toString() );
+    return Result.getOK( results ).toString();
   }
 
   @GET
   @Path( "/saveConfig" )
-  public void saveConfig( @Context HttpServletResponse response ) throws IOException {
+  @Produces( "application/json" )
+  public String saveConfig( @Context HttpServletResponse response ) throws IOException {
     SecurityAssertions.assertIsAdmin();
 
     if ( HazelcastConfigHelper.saveConfig() ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-          new Result( Result.Status.OK, "Configuration saved and propagated." ).toString() );
+      return new Result( Result.Status.OK, "Configuration saved and propagated." ).toString();
     } else {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-          new Result( Result.Status.ERROR, "Error saving file." ).toString() );
+      return new Result( Result.Status.ERROR, "Error saving file." ).toString();
     }
   }
 
   @GET
   @Path( "/loadConfig" )
-  public void loadConfig( @Context HttpServletResponse response ) throws IOException {
+  @Produces( "application/json" )
+  public String loadConfig( @Context HttpServletResponse response ) throws IOException {
     try {
       HazelcastManager.INSTANCE.init( CdcConfig.getConfig().getHazelcastConfigFile(), true );
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(),
-          new Result( Result.Status.OK, "Configuration read from file." ).toString() );
+      return new Result( Result.Status.OK, "Configuration read from file." ).toString();
     } catch ( Exception e ) {
-      PluginIOUtils.writeOutAndFlush( response.getOutputStream(), Result.getFromException( e ).toString() );
+      return Result.getFromException( e ).toString();
     }
   }
 
