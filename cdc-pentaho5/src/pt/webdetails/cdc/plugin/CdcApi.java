@@ -40,7 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@Path("cdc/api")
+@Path( "cdc/api" )
 public class CdcApi {
 
   private static final long serialVersionUID = 1L;
@@ -53,7 +53,7 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/ping")
+  @Path( "/ping" )
   public String ping() {
     return "Pong: CDC successfully registered with the platform";
   }
@@ -71,7 +71,7 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/stop")
+  @Path( "/stop" )
   public String stop( @Context HttpServletResponse response ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"stop\" endpoint called by a non admin user. Aborting" );
@@ -82,7 +82,7 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/recoverMondrianCache")
+  @Path( "/recoverMondrianCache" )
   public String recoverMondrianCache( @Context HttpServletResponse response ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"recoverMondrianCache\" endpoint called by a non admin user. Aborting" );
@@ -94,7 +94,7 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/reloadMondrianCache")
+  @Path( "/reloadMondrianCache" )
   public String reloadMondrianCache( @Context HttpServletResponse response ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"reloadMondrianCache\" endpoint called by a non admin user. Aborting" );
@@ -105,7 +105,8 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/home")
+  @Path( "/home" )
+  @Produces( "text/html" )
   public String home( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"home\" endpoint called by a non admin user. Aborting" );
@@ -116,7 +117,8 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/clusterInfo")
+  @Path( "/clusterInfo" )
+  @Produces( "text/html" )
   public String clusterInfo( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"clusterInfo\" endpoint called by a non admin user. Aborting" );
@@ -127,7 +129,7 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/cacheInfo")
+  @Path( "/cacheInfo" )
   public String cacheInfo( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"cacheInfo\" endpoint called by a non admin user. Aborting" );
@@ -138,7 +140,8 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/settings")
+  @Path( "/settings" )
+  @Produces( "text/html" )
   public String settings( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"settings\" endpoint called by a non admin user. Aborting" );
@@ -150,6 +153,7 @@ public class CdcApi {
 
   @GET
   @Path( "/cacheClean" )
+  @Produces( "text/html" )
   public String cacheClean( @Context HttpServletRequest request ) throws Exception {
     if ( !CdcUtil.isCurrentUserAdmin() ) {
       logger.warn( "\"cacheClean\" endpoint called by a non admin user. Aborting" );
@@ -160,7 +164,8 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/about")
+  @Path( "/about" )
+  @Produces( "text/html" )
   public String about( @Context HttpServletRequest request ) throws Exception {
     return renderInCde( getRenderRequestParameters( "cdcAbout.wcdf", request ) );
   }
@@ -172,7 +177,7 @@ public class CdcApi {
   }
 
   @GET
-  @Path("/getVersion")
+  @Path( "/getVersion" )
   public String getVersion( @Context HttpServletResponse response ) throws IOException, JSONException {
     return getVersionChecker().getVersion();
   }
@@ -193,7 +198,7 @@ public class CdcApi {
     params.put( "inferScheme", "false" );
 
     //add request parameters
-    @SuppressWarnings("unchecked")//should always be String
+    @SuppressWarnings( "unchecked" )//should always be String
         Enumeration<String> originalParams = request.getParameterNames();
     // Iterate and put the values there
     while ( originalParams.hasMoreElements() ) {
@@ -231,7 +236,8 @@ public class CdcApi {
       protected String getVersionCheckUrl( VersionChecker.Branch branch ) {
         switch ( branch ) {
           case TRUNK:
-            return " http://ci.pentaho.com/job/pentaho-cdc/lastSuccessfulBuild/artifact/cdc-pentaho5/dist/marketplace.xml";
+            return " http://ci.pentaho.com/job/pentaho-cdc/lastSuccessfulBuild/artifact/cdc-pentaho5/dist/marketplace" +
+                ".xml";
           case STABLE:
             return "http://ci.analytical-labs"
                 + ".com/job/Webdetails-CDC-Release/lastSuccessfulBuild/artifact/dist/marketplace.xml";
