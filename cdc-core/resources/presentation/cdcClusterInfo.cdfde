@@ -3079,6 +3079,34 @@
     ]
    },
    {
+    "id": "1279a785-618b-b160-f092-d6c68e19025b",
+    "type": "ComponentsJavascriptParameter",
+    "typeDesc": "Custom parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "ts",
+      "type": "Id"
+     },
+     {
+      "name": "javaScript",
+      "value": "function() {\n    return new Date().getTime()\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "parameterViewRole",
+      "value": "unused",
+      "type": "parameterViewRoleCustom"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
     "id": "OTHERCOMPONENTS",
     "name": "Other components",
     "type": "Label",
@@ -3290,7 +3318,7 @@
      },
      {
       "name": "xActionArrayParameter",
-      "value": "[[\"map\",\"map\"]]",
+      "value": "[[\"map\",\"map\"],[\"ts\",\"ts\"]]",
       "type": "ValuesArray"
      },
      {
@@ -3435,7 +3463,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function() {\n    var myself = this;\n$.ajax({\n      type: 'GET',\n      url: \"/pentaho/plugin/cdc/api/services/HazelcastConfigurationService/getMapOption?&map=cda&name=enabled\",\n      success: function(resp){\n        var text,\n            enabled  = cdcFunctions.parseResponse(resp).result;\n        if(!enabled) {\n            text = \"CDA (Disabled)\" \n        } else {\n            text = \"CDA\"\n        }\n         myself.valuesArray[0][1] = text;\n         $(\"#\" + myself.htmlObject + \" button\").eq(0).text(text);\n      }\n    });\n\n$.ajax({\n      type: 'GET',\n      url: \"/pentaho/plugin/cdc/api/services/HazelcastConfigurationService/getMapOption?&map=mondrian&name=enabled\",\n      success: function(resp){\n        var text,\n            enabled  = cdcFunctions.parseResponse(resp).result;\n        if(!enabled) {\n            text = \"Mondrian (Disabled)\" \n        } else {\n            text = \"Mondrian\"\n        }\n         myself.valuesArray[1][1] = text;\n         $(\"#\" + myself.htmlObject + \" button\").eq(1).text(text);\n      }\n    });\n    \n}",
+      "value": "function() {\n    var myself = this;\n    var ts = new Date().getTime();\n$.ajax({\n      type: 'GET',\n      url: \"/pentaho/plugin/cdc/api/services/HazelcastConfigurationService/getMapOption?&map=cda&name=enabled&ts=\"+ts,\n      success: function(resp){\n        var text,\n            enabled  = cdcFunctions.parseResponse(resp).result;\n        if(!enabled) {\n            text = \"CDA (Disabled)\" \n        } else {\n            text = \"CDA\"\n        }\n         myself.valuesArray[0][1] = text;\n         $(\"#\" + myself.htmlObject + \" button\").eq(0).text(text);\n      }\n    });\n\n$.ajax({\n      type: 'GET',\n      url: \"/pentaho/plugin/cdc/api/services/HazelcastConfigurationService/getMapOption?&map=mondrian&name=enabled&ts=\"+ts,\n      success: function(resp){\n        var text,\n            enabled  = cdcFunctions.parseResponse(resp).result;\n        if(!enabled) {\n            text = \"Mondrian (Disabled)\" \n        } else {\n            text = \"Mondrian\"\n        }\n         myself.valuesArray[1][1] = text;\n         $(\"#\" + myself.htmlObject + \" button\").eq(1).text(text);\n      }\n    });\n    \n}",
       "type": "JavaScript"
      },
      {

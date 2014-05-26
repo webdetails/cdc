@@ -21,6 +21,7 @@ cdcFunctions.getDashboardCacheCleanServiceUrl = function(){
 };
 
 cdcFunctions.makeRequest = function (url, params) {
+    params.ts = new Date().getTime();
     var returnValue = "";
     $.ajax({
       url: url,
@@ -85,27 +86,30 @@ cdcFunctions.makeRequest = function (url, params) {
   };
 
 cdcFunctions.cubeListing = function(callback) {
-  $.getJSON("OlapUtils", {
-      operation:"GetOlapCubes"
-    },callback);
+  var params = {
+    ts: new Date().getTime()
+  };
+  $.getJSON("OlapUtils", params,callback);
 };
 
 cdcFunctions.cubeStructure = function(catalog, cube, callback){
-  $.getJSON("OlapUtils", {
-      operation:"GetCubeStructure",
-      catalog: catalog,
-      cube: cube
-    }, callback);
+  var params = {
+    catalog: catalog,
+    cube: cube,
+    ts: new Date().getTime()
+  };
+  $.getJSON("OlapUtils", params, callback);
 };
 
 cdcFunctions.memberStructure = function(catalog, cube, member, callback){
-  $.getJSON("OlapUtils", {
-      operation:"GetLevelMembersStructure",
-      catalog: catalog,
-      cube: cube,
-      member: member,
-      direction: "down"
-    }, callback);
+  var params = {
+    catalog: catalog,
+    cube: cube,
+    member: member,
+    direction: "down",
+    ts: new Date().getTime()
+  };
+  $.getJSON("OlapUtils", params, callback);
 };
 
 cdcFunctions.extractResult = function(response){
