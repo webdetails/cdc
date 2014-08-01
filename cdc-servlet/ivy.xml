@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
+
+  <info organisation="pentaho" module="cdc-servlet" revision="${project.revision}"/>
+
+  <configurations>
+    <conf name="default"/>
+    <conf name="test" visibility="private"/>
+    <conf name="codegen" visibility="private"/>
+    <conf name="runtime" visibility="private"/>
+    <conf name="zip" visibility="private"/>
+    <conf name="dev" visibility="private"/>
+    <conf name="sources"/>
+  </configurations>
+
+
+  <publications>
+    <artifact name="${ivy.artifact.id}" type="jar" conf="default" />
+    <artifact name="${package.id}" type="zip" conf="zip" />
+  </publications>
+
+  <dependencies defaultconf="default->default">
+
+    <dependency org="pentaho" name="cdc-core" rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='default,runtime->default'/>
+
+    <!--  third party dependencies -->
+    <dependency org="commons-logging" name="commons-logging" rev="1.1.1" transitive="false" />
+    <dependency org="commons-lang"    name="commons-lang"    rev="2.6"   transitive="false" />
+    <dependency org="javax.servlet"   name="servlet-api"     rev="2.4"   transitive="false" />
+
+  </dependencies>
+
+</ivy-module>
