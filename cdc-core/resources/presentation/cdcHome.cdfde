@@ -1484,7 +1484,7 @@
      },
      {
       "name": "html",
-      "value": "<a href='http://ci.pentaho.com/job/pentaho-cdc/5/artifact/cdc-pentaho5/dist/cdc-pentaho5-redist-SNAPSHOT.zip'>Download</a> standalone cache node ",
+      "value": "<a href='http://ci.pentaho.com/job/pentaho-cdc/lastSuccessfulBuild/artifact/cdc-pentaho5/dist/cdc-pentaho5-redist-SNAPSHOT.zip'>Download</a> standalone cache node ",
       "type": "Html"
      },
      {
