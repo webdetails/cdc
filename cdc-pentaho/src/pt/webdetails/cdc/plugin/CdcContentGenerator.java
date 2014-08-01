@@ -188,7 +188,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
     params.put( "file", dashboardName );
     params.put( "bypassCache", "true" );
     params.put( "absolute", "true" );
-    params.put( "inferScheme", "false" );
+    params.put( "inferScheme", "true" );
     params.put( "root", getRoot() );
 
     //add request parameters
@@ -221,7 +221,7 @@ public class CdcContentGenerator extends SimpleContentGenerator {
   private String getRoot() {
 
     ServletRequest wrapper = getRequest();
-    String root = wrapper.getScheme() + "://" + wrapper.getServerName() + ":" + wrapper.getServerPort();
+    String root =  wrapper.getServerName() + ":" + wrapper.getServerPort();
 
     return root;
   }

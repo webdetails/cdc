@@ -87,6 +87,7 @@ cdcFunctions.makeRequest = function (url, params) {
 
 cdcFunctions.cubeListing = function(callback) {
   var params = {
+      operation:"GetOlapCubes",
     ts: new Date().getTime()
   };
   $.getJSON("OlapUtils", params,callback);
@@ -94,6 +95,7 @@ cdcFunctions.cubeListing = function(callback) {
 
 cdcFunctions.cubeStructure = function(catalog, cube, callback){
   var params = {
+      operation:"GetCubeStructure",
     catalog: catalog,
     cube: cube,
     ts: new Date().getTime()
@@ -103,6 +105,7 @@ cdcFunctions.cubeStructure = function(catalog, cube, callback){
 
 cdcFunctions.memberStructure = function(catalog, cube, member, callback){
   var params = {
+      operation:"GetLevelMembersStructure",
     catalog: catalog,
     cube: cube,
     member: member,
