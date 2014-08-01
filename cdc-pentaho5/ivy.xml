@@ -38,11 +38,11 @@
     <dependency org="pentaho" name="pentaho-platform-api"  rev="${dependency.bi-platform.revision}" transitive="false"/>
     <dependency org="pentaho" name="pentaho-platform-core" rev="${dependency.bi-platform.revision}" transitive="false" changing="true"/>
     
-    <dependency org="pentaho" name="cpf-core"     rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>
-    <dependency org="pentaho" name="cpf-pentaho5" rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>      
-    <dependency org="pentaho" name="cda-core"     rev="TRUNK-SNAPSHOT" transitive="false"/>    
-    <dependency org="pentaho" name="cda-pentaho5" rev="TRUNK-SNAPSHOT" transitive="false"/>    
-    <dependency org="pentaho" name="cdc-core"     rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='default,runtime->default'/>
+    <dependency org="pentaho" name="cpf-core"     rev="14.07.29" transitive="false" changing="true" conf='runtime->default'/>
+    <dependency org="pentaho" name="cpf-pentaho5" rev="14.07.29" transitive="false" changing="true" conf='runtime->default'/>      
+    <dependency org="pentaho" name="cda-core"     rev="14.07.29" transitive="false"/>    
+    <dependency org="pentaho" name="cda-pentaho5" rev="14.07.29" transitive="false"/>    
+    <dependency org="pentaho" name="cdc-core"     rev="14.07.29" transitive="false" changing="true" conf='default,runtime->default'/>
 
     <!-- mondrian -->
     <dependency org="pentaho" name="mondrian" rev="${dependency.mondrian.revision}" transitive="false">
