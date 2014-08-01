@@ -1,3 +1,6 @@
+14.07.29:
+    * Big refactor - Support for Pentaho 5
+
 13.09.10
     * CDC now uses CPF-Core and CPF-Pentaho
     * Fixed [REDMINE-273] - Mondrian Cache not caching after service restarts
