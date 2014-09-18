@@ -229,6 +229,7 @@
     <!-- create the version file -->
 	<tstamp/>			
 	<property name="sequential.build.id" value="manual-${DSTAMP}"/>
+
 	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='${project.stage}'  buildId='${sequential.build.id}'>${project.revision}&lt;/version>"/>		   
 	
 	<echo file="${dist.dir}/marketplace.xml">&lt;version>
@@ -245,6 +246,7 @@
 		&lt;min_parent_version>1.0&lt;/min_parent_version>
 		&lt;max_parent_version>4.9&lt;/max_parent_version>
 		&lt;/version>	</echo>         
+
         <zip destfile="${dist.dir}/${plugin.zipfile}" excludes="**/Thumbs.db">
             <zipfileset dir="${stage.dir}" includes="${plugin.name}/**/*" excludes="**/Thumbs.db"/>
             <zipfileset dir="${hazelcast.dist.dir}" prefix="${plugin.name}/pentaho-lib"/>
