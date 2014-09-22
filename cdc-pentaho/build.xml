@@ -42,10 +42,10 @@
     <property name="hazelcast.dist.dir" value="${dist.dir}/hazelcast" description="what needs to be in hazelcast's folder"/>
 
     <property name="hazelcast.config.file" value="${core.resource.dir}/hazelcast.xml" description="Hazelcast config file"/>
-            
+
     <property name="hazelcast.standalone.config.file" value="${core.resource.dir}/hazelcast-standalone.xml" description="Hazelcast secondary config file"/>
     <property name="hazelcast.standalone.dir" value="${dist.dir}/hazelcast-standalone" description="Hazelcast standalone dir"/>
-            
+
     <property name="static.dist.dir" value="../static-dist"/>
     <property name="hazelcast.standalone.src" value="../hazelcast-standalone"/>
     <property name="runtime.lib.dir" value="runtime-lib"/>
@@ -84,7 +84,7 @@
 
   <!-- JARs -->
   <!-- TODO: manifests -->
-  	
+
   <!--hazelcast -->
 
     <target name="jar-hazelcast" depends="compile,set-build.id,generate.manifest" description="Hazelcast extensions">
@@ -95,14 +95,14 @@
             <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
         </copy>
     </target>
-  
+
     <!--=======================================================================
               dist-standalone
 
               Create redistributable
               ====================================================================-->
     <target name="dist-standalone" depends="jar-hazelcast,jar">
-    
+
     <!--copy dep jars-->
         <mkdir dir="${hazelcast.standalone.dir}/lib"/>
     <!-- TODO should have a more maintainable way of handling dependencies -->
@@ -133,27 +133,27 @@
                 <include name="pentaho-bi-platform-engine-core-*.jar"/>
                 <include name="pentaho-reporting-engine-classic-core-*.jar"/>
                 <exclude name="pentaho-reporting-engine-classic-core-platform-plugin*.jar"/>
-                <include name="xalan-*.jar"/> 
+                <include name="xalan-*.jar"/>
                 <include name="xercesImpl-*.jar"/>
             </fileset>
             <fileset dir="${devlib.dir}">
                 <include name="**/*.jar"/>
             </fileset>
         </copy>
-    
+
         <copy todir="${hazelcast.standalone.dir}/lib">
             <fileset dir="${hazelcast.dist.dir}"/>
         </copy>
-    
+
         <copy todir="${hazelcast.standalone.dir}/lib">
             <fileset dir="${dist.dir}" includes="*.jar"/>
         </copy>
-    
+
         <copy todir="${hazelcast.standalone.dir}">
           <fileset dir="${hazelcast.standalone.src}"/>
         </copy>
-        
-        <copy file="${hazelcast.standalone.config.file}" tofile="${hazelcast.standalone.dir}/hazelcast.xml"/>    	
+
+        <copy file="${hazelcast.standalone.config.file}" tofile="${hazelcast.standalone.dir}/hazelcast.xml"/>
 
     </target>
 
@@ -165,13 +165,13 @@
               Creates a distribution of this project's plugin zip
               ====================================================================-->
     <target name="assemble" depends="assemble.init,install-antcontrib, dist-plugin"/>
-  
+
     <target name="dist-plugin" depends="jar,dist-standalone" description="Creates a distribution">
 
     <!-- delete and re-create the plugin dist folder tree -->
         <mkdir dir="${stage.dir}"/>
         <mkdir dir="${stage.dir}/${plugin.name}"/>
-        <mkdir dir="${stage.dir}/${plugin.name}/lib"/>  
+        <mkdir dir="${stage.dir}/${plugin.name}/lib"/>
 
          <!-- Copy core resources -->
     <copy todir='${stage.dir}/${plugin.name}'>
@@ -185,7 +185,7 @@
     <antcall target="replace-dashboard-endpoints"/>
     <antcall target="replace-dashboard-request-types"/>
     <antcall target="replace-dashboard-standalone-cache-node-link"/>
-    
+
     <!-- copy the plugin jar to the plugin dist lib folder -->
         <copy todir="${stage.dir}/${plugin.name}/lib" overwrite="true">
             <fileset dir="${dist.dir}">
@@ -219,15 +219,15 @@
         </copy>
 
 
-        <replace file="${stage.dir}/${plugin.name}/presentation/cdcHome.cdfde" token="v.12.1.a" value="v ${project.revision}"/> 
-        <replace file="${stage.dir}/${plugin.name}/presentation/cdcClusterInfo.cdfde" token="v.12.1" value="v ${project.revision}"/> 
-        <replace file="${stage.dir}/${plugin.name}/presentation/cdcCacheClean.cdfde" token="v.12.1" value="v ${project.revision}"/> 
-        <replace file="${stage.dir}/${plugin.name}/presentation/cdcSettings.cdfde" token="v.12.1" value="v ${project.revision}"/> 
-        <replace file="${stage.dir}/${plugin.name}/static/jquery.alerts.js" token="v.12.2" value="v ${project.revision}"/> 
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcHome.cdfde" token="v.12.1.a" value="v ${project.revision}"/>
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcClusterInfo.cdfde" token="v.12.1" value="v ${project.revision}"/>
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcCacheClean.cdfde" token="v.12.1" value="v ${project.revision}"/>
+        <replace file="${stage.dir}/${plugin.name}/presentation/cdcSettings.cdfde" token="v.12.1" value="v ${project.revision}"/>
+        <replace file="${stage.dir}/${plugin.name}/static/jquery.alerts.js" token="v.12.2" value="v ${project.revision}"/>
 
 
     <!-- create the version file -->
-	<tstamp/>			
+	<tstamp/>
 	<property name="sequential.build.id" value="manual-${DSTAMP}"/>
 	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='TRUNK'  buildId='${sequential.build.id}'>${project.revision}&lt;/version>"/>
 
@@ -243,6 +243,7 @@
         &lt;/description&gt;
         &lt;build_id&gt;${sequential.build.id}&lt;/build_id&gt;
         &lt;min_parent_version&gt;${marketplace.metadata.min_parent_version}&lt;/min_parent_version&gt;
+        &lt;max_parent_version&gt;${marketplace.metadata.max_parent_version}&lt;/max_parent_version&gt;
         &lt;development_stage&gt;
           &lt;lane&gt;${marketplace.metadata.development_stage.lane}&lt;/lane&gt;
           &lt;phase&gt;${marketplace.metadata.development_stage.phase}&lt;/phase&gt;
@@ -300,14 +301,14 @@
          dest="${stage.dir}/blah.html"/>
 
     </target>
- 
+
     <target name="install-all" depends="clean, resolve, dist-standalone, dist-plugin, install-hazelcast, install-plugin" description="Installs the plugin in the local biserver and copies hazelcast to the server lib dir"/>
- 
+
     <target name="install-hazelcast" depends="resolve,jar-hazelcast" description="Installs hazelcast to the biserver lib dir">
-   
+
         <fail message="plugin.local.server.dir not set - cannot copy"
           unless="plugin.local.server.dir"/>
-   
+
         <echo>Delete ${pentaho.lib.dir}/hazelcast*jar</echo>
         <delete>
             <fileset dir="${pentaho.lib.dir}" includes="hazelcast*.jar"/>
@@ -325,7 +326,7 @@
             <copy toDir="${pentaho.lib.dir}">
             <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
         </copy>
-        
+
     </target>
 
   <!--=======================================================================
@@ -382,19 +383,19 @@
     <target name="resolve"
           depends="resolve-default, resolve-test, resolve-codegen, resolve-runtime, ivy.check-releasable"
           description="Retrieves all the dependent libraries" />
-	
+
     <target name="resolve-runtime" depends="resolve-init">
         <ivy:resolve file="${ivyfile}" conf="runtime" />
         <ivy:retrieve conf="runtime" pattern="runtime-lib/[module]-[revision](-[classifier]).[ext]" />
     </target>
-  
+
     <target name="resolve-sources" depends="resolve-init" unless="ivy.default.sub-configs">
         <ivy:resolve file="${ivyfile}" conf="default" />
         <ivy:retrieve conf="default" pattern="${lib.dir}/[module]-[revision](-[classifier])-[type].[ext]" type="sources" />
     </target>
-  
+
     <target name="check-sonar-props">
-        <available file="/home/tomcat/sonar.properties" property="sonar.props"/>    
+        <available file="/home/tomcat/sonar.properties" property="sonar.props"/>
         <echo>${sonar.props}</echo>
     </target>
 
@@ -402,14 +403,14 @@
         <echo>Prop file exists</echo>
         <loadproperties srcFile="/home/tomcat/sonar.properties"/>
     </target>
- 
+
     <target name="sonar" depends='read-sonar-props'>
-  
+
   <!-- Build the project.revision property -->
         <condition property="distribution.version" value="${project.stage}-${DSTAMP}" else="${project.stage}-${project.version}">
             <equals arg1="${project.version}" arg2="SNAPSHOT"/>
-        </condition>  
-    
+        </condition>
+
     <!-- list of mandatories Sonar properties -->
         <property name="sonar.sources" value="${src.dir}" />
     <!-- list of optional Sonar properties -->
