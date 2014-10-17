@@ -1,0 +1,57 @@
+<html>
+
+
+<head></head>
+
+
+
+<body>
+
+
+<h1>
+       Release Notes - Community Distributed Cache - Version 14.10.15
+</h1>
+
+<h2>        Improvement
+</h2>
+<ul>
+<li>Maintenance release - keep compatibility with latest ctools version 
+</li>
+</ul>
+
+
+<pre>
+14.07.29:
+    * Big refactor - Support for Pentaho 5
+
+13.09.10
+    * CDC now uses CPF-Core and CPF-Pentaho
+    * Fixed [REDMINE-273] - Mondrian Cache not caching after service restarts
+
+13.06.05
+    * big refactor: everything in sub-packages, pentaho-specific stuff escept ws moved to plugin, mondrian standalone to servlet; HazelcastManager lightened +MondrianOverseer for mondrian handling previously done by HazelcastManager hazelcast extensions: +DistributedMapReinsertion CdcContentGenerator: + reloadMondrianCache, recoverMondrianCache +HazelcastSimpleLauncher to replace HazelcastProcessLauncher
+    * Updated HAzelcast to 2.5
+    * CfgTestApp: refactor, show full config, friendlier config output
+    * StartServer: remove deprecated
+    * SegmentCacheHazelcast: fail more gracefully so mondrian queries don't break on cache issues
+    * New layout for UI
+
+13.02.07
+    * Fixed timeToLive bug
+    * Updated Hazelcast to 2.4
+    * Can now properly persist cache contents with stock mondrian; 
+    * Added new settings: master, syncCacheOnStart
+    * Fixed CDC after async and component lifecycle changes
+
+
+12.12.10
+    * Ensured schema load for all or specified locales on startup. Changed mdxconnection creation
+    * Update to Version checker screen to ensure compatibility with other CTOOLS.
+
+12.09.05
+    *  update to hazelcast 2.2 to solve the network failure issue 
+    * Decoupled Hazelcast life cycle from plugin lifecycle
+    * Full Integration with CPF
+    </pre>
+    
+    </body>
