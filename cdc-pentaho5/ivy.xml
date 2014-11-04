@@ -29,12 +29,6 @@
 
     <!--  pentaho dependencies -->
     <!--  internal dependencies -->
-    <dependency org="pentaho" name="pentaho-bi-platform-plugin-services"
-        rev="${dependency.bi-platform.revision}" transitive="false"/>
-    <dependency org="pentaho" name="pentaho-bi-platform-plugin-actions"
-        rev="${dependency.bi-platform.revision}" transitive="false" >
-        <exclude module="nekohtml" name="*" type="*" ext="*" conf="" matcher="exact"></exclude>
-    </dependency>
     <dependency org="pentaho" name="pentaho-platform-api"  rev="${dependency.bi-platform.revision}" transitive="false"/>
     <dependency org="pentaho" name="pentaho-platform-core" rev="${dependency.bi-platform.revision}" transitive="false" changing="true"/>
     
