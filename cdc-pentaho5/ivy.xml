@@ -38,10 +38,11 @@
     <dependency org="pentaho" name="pentaho-platform-api"  rev="${dependency.bi-platform.revision}" transitive="false"/>
     <dependency org="pentaho" name="pentaho-platform-core" rev="${dependency.bi-platform.revision}" transitive="false" changing="true"/>
     
+
     <dependency org="pentaho" name="cpf-core"     rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>
     <dependency org="pentaho" name="cpf-pentaho5" rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>      
     <dependency org="pentaho" name="cda-core"     rev="${dependency.pentaho-cda-plugin.revision}" transitive="false"/>    
-    <dependency org="pentaho" name="cda-pentaho5" rev="${dependency.pentaho-cda-plugin.revision}" transitive="false"/>    
+    <dependency org="pentaho" name="cda" rev="${dependency.pentaho-cda-plugin.revision}" transitive="false"/>    
     <dependency org="pentaho" name="cdc-core"     rev="${project.revision}" transitive="false" changing="true" conf='default,runtime->default'/>
 
     <!-- mondrian -->
