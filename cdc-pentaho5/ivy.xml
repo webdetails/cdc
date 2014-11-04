@@ -31,6 +31,7 @@
     <!--  internal dependencies -->
     <dependency org="pentaho" name="pentaho-platform-api"  rev="${dependency.bi-platform.revision}" transitive="false"/>
     <dependency org="pentaho" name="pentaho-platform-core" rev="${dependency.bi-platform.revision}" transitive="false" changing="true"/>
+    <dependency org="pentaho" name="pentaho-platform-extensions"  rev="${dependency.bi-platform.revision}" transitive="false"/>
     
 
     <dependency org="pentaho" name="cpf-core"     rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>
