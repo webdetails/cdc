@@ -165,7 +165,7 @@ public class MondrianCacheCleanService {
     }
 
     int i = 0;
-    for (; i < cubes.length; i++ ) {
+    for ( ; i < cubes.length; i++ ) {
       if ( cube == null || cubes[ i ].getName().equals( cube ) ) {
         logger.debug( "flushing cube " + cubes[ i ].getName() );
         CellRegion cubeRegion = cacheControl.createMeasuresRegion( cubes[ i ] );
