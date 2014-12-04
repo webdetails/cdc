@@ -3,9 +3,9 @@ Community Distributed Cache
 1) Dependencies And Requirements
     1.1) CDC fully suppports Mondrian 3.4 or above. Mondrian 3.3 is partially supported (cache clean will not work) and other Mondrian versions are not supported.
     1.2) CDC requires:
-        a) CDF TRUNK-SNAPSHOT
-        b) CDE TRUNK-SNAPSHOT
-        c) CDA TRUNK-SNAPSHOT
+        a) CDF
+        b) CDE
+        c) CDA
 
 
 
@@ -42,7 +42,7 @@ WARNING: setting a heap size beyond maximum available memory for JVM may result 
 
 
 4) Runnning additional Hazelcast nodes
-    Download the cdc-redist file from http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/.
+    Download the cdc-redist file from http://ci.pentaho.com/job/pentaho-cdc/lastSuccessfulBuild/artifact/cdc-pentaho5/dist/cdc-pentaho5-redist-SNAPSHOT.zip
     Unzip it on the machines you want to use as Hazelcast nodes and run launch-hazelcast. The new node should join the cluster
     automatically.
 
