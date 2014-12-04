@@ -35,7 +35,9 @@ cdcFunctions.makeRequest = function (url, params) {
             Dashboards.log("Found error: Empty Data");
             return;
           }
-          returnValue = $.parseJSON(data);
+          if (typeof data == "string" && data.length > 0) {
+            returnValue = $.parseJSON(data);  
+          }
           if (!returnValue) {
             returnValue = data;
           }
