@@ -502,7 +502,7 @@ cdc.clusterInfo = {
     }
     $elem.appendTo(ph);
     
-    console.log($elem);
+    Dashboards.log($elem);
   },
 
   drawSummary: function(nodes,mem,count,ph) {
