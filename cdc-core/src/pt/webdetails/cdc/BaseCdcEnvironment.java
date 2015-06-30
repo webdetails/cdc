@@ -16,15 +16,15 @@ package pt.webdetails.cdc;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import pt.webdetails.cdc.bean.factory.CoreBeanFactory;
-import pt.webdetails.cdc.bean.factory.ICdcBeanFactory;
 import pt.webdetails.cdc.core.IHazelcastLauncher;
+import pt.webdetails.cpf.bean.IBeanFactory;
+import pt.webdetails.cpf.bean.AbstractBeanFactory;
 
 public class BaseCdcEnvironment implements ICdcEnvironment {
 
   private static Log logger = LogFactory.getLog( BaseCdcEnvironment.class );
 
-  private ICdcBeanFactory beanFactory;
+  private IBeanFactory beanFactory;
 
   public BaseCdcEnvironment() {
     init();
@@ -32,7 +32,10 @@ public class BaseCdcEnvironment implements ICdcEnvironment {
 
   @Override
   public void init() {
-    beanFactory = new CoreBeanFactory();
+    beanFactory = new AbstractBeanFactory(){
+      @Override
+      public String getSpringXMLFilename(){ return "cdc.spring.xml"; }
+    };
   }
 
   @Override
