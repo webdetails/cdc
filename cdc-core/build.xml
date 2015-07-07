@@ -85,20 +85,14 @@
         </fileset>
     </path>
 
-  <!-- Build the project.revision property -->
-    <condition property="distribution.version" value="${project.stage}-${DSTAMP}" else="${project.stage}-${project.version}">
-        <equals arg1="${project.version}" arg2="SNAPSHOT"/>
-    </condition>
-
-    <echo>distribution.version = ${distribution.version}</echo>
 
     <target name="dist" depends="clean,resolve,jar,dist-plugin"/>
     <target name="dist-compile" depends="jar,dist-plugin"/>
 
     <property name="plugin.artifact.id" value="${plugin.name}"/>
-    <property name="plugin.zipfile" value="${plugin.artifact.id}-${distribution.version}.zip"/>
-    <property name="plugin.samples.zipfile" value="${plugin.artifact.id}-samples-${distribution.version}.zip"/>
-    <property name="plugin.solution.zipfile" value="${plugin.artifact.id}-solution-${distribution.version}.zip"/>
+    <property name="plugin.zipfile" value="${plugin.artifact.id}-${project.revision}.zip"/>
+    <property name="plugin.samples.zipfile" value="${plugin.artifact.id}-samples-${project.revision}.zip"/>
+    <property name="plugin.solution.zipfile" value="${plugin.artifact.id}-solution-${project.revision}.zip"/>
 
   <!-- JARs -->
   <!-- TODO: manifests -->
@@ -207,7 +201,7 @@
 
     <!-- zip standalone -->
         <zip basedir="${hazelcast.standalone.dir}"
-         zipfile="${dist.dir}/${ivy.artifact.id}-redist-${project.version}.zip"/>
+         zipfile="${dist.dir}/${ivy.artifact.id}-redist-${project.revision}.zip"/>
 
     <!-- Copy the plugin.xml and any other files from the resource dir -->
         <copy todir="${stage.dir}/${plugin.name}" overwrite="true">
@@ -400,16 +394,12 @@
  
     <target name="sonar" depends='read-sonar-props'>
   
-  <!-- Build the project.revision property -->
-        <condition property="distribution.version" value="${project.stage}-${DSTAMP}" else="${project.stage}-${project.version}">
-            <equals arg1="${project.version}" arg2="SNAPSHOT"/>
-        </condition>  
     
     <!-- list of mandatories Sonar properties -->
         <property name="sonar.sources" value="${src.dir}" />
     <!-- list of optional Sonar properties -->
         <property name="sonar.binaries" value="${classes.dir}" />
-        <sonar:sonar key="pt.webdetails:CDC" version="${distribution.version}" xmlns:sonar="antlib:org.sonar.ant"/>
+        <sonar:sonar key="pt.webdetails:CDC" version="${project.revision}" xmlns:sonar="antlib:org.sonar.ant"/>
 
     </target>
 
