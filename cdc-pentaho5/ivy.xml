@@ -55,7 +55,10 @@
     <dependency org="javax.ws.rs"   name="javax.ws.rs-api"  rev="2.0"   transitive="false"/>
     <dependency org="javax.servlet" name="servlet-api"      rev="2.4"   transitive="false"/>
 
-
+    <!-- The following dependencies are needed only as a workaround solution while BISERVER-12931  is not fixed. -->
+    <!-- Once BISERVER-12931 is fixed you can remove these --> 
+	<dependency org="org.springframework" name="spring-core" 		rev="3.2.14.RELEASE" transitive="false"/>
+	<dependency org="org.springframework" name="spring-context" 	rev="3.2.14.RELEASE" transitive="false"/>
   </dependencies>
 
 </ivy-module>

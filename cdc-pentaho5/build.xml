@@ -90,6 +90,9 @@
     <target name="jar-hazelcast" depends="compile,set-build.id,generate.manifest" description="Hazelcast extensions">
         <jar destfile="${hazelcast.dist.dir}/${ivy.artifact.id}-hazelcast-${project.revision}.jar" manifest="${dist.manifest.file}">
             <fileset dir="${classes.dir}" includes="pt/webdetails/cdc/hazelcast/**" />
+  <!-- The following fileset is needed only as a workaround solution while BISERVER-12931 is not fixed. -->
+  <!-- Once BISERVER-12931 is fixed you can remove this -->
+        	<fileset dir="${classes.dir}" includes="pt/webdetails/cdc/listeners/**" />
         </jar>
         <copy todir="${hazelcast.dist.dir}">
             <fileset dir="${lib.dir}" includes="hazelcast*.jar"/>
