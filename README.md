@@ -146,6 +146,17 @@ Issues, bugs and feature requests
 
 In order to report bugs, issues or feature requests, please use the [Webdetails CDC Project Page](http://redmine.webdetails.org/projects/cdc/issues)
 
+### Pentaho 6.0 shutdown Issue
+
+Due to a change on the plugin architecture in Pentaho 6, Hazelcast shutdown is no longer performed when the server
+stops. This leads to the server not shutting down due to hanging Hazelcast threads.
+
+This will be fixed for Pentaho 6.1, but for now the workaround is to:
+
+* Edit the file pentaho-solutions/system/applicationContext-spring-security.xml
+* Add the following bean:
+    <bean class="pt.webdetails.cdc.listeners.CdcShutdownListener" />
+
 ### TCP46 Issue
 
 There is a particularly nasty known issue, either at startup or when attempting to access hazelcast (ie putting elements in cache, accessing ClusterInfo). So far this issue has been confirmed in PCs running MacOS X.
