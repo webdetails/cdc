@@ -35,9 +35,9 @@
     
 
     <dependency org="pentaho" name="cpf-core"     rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>
-    <dependency org="pentaho" name="cpf-pentaho" rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>      
+    <dependency org="pentaho" name="cpf-pentaho"  rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>      
     <dependency org="pentaho" name="cda-core"     rev="${dependency.pentaho-cda-plugin.revision}" transitive="false"/>    
-    <dependency org="pentaho" name="cda" rev="${dependency.pentaho-cda-plugin.revision}" transitive="false"/>    
+    <dependency org="pentaho" name="cda"          rev="${dependency.pentaho-cda-plugin.revision}" transitive="false"/>    
     <dependency org="pentaho" name="cdc-core"     rev="${project.revision}" transitive="false" changing="true" conf='default,runtime->default'/>
 
     <!-- mondrian -->
@@ -56,8 +56,8 @@
 
     <!-- The following dependencies are needed only as a workaround solution while BISERVER-12931  is not fixed. -->
     <!-- Once BISERVER-12931 is fixed you can remove these --> 
-	<dependency org="org.springframework" name="spring-core" 		rev="3.2.14.RELEASE" transitive="false"/>
-	<dependency org="org.springframework" name="spring-context" 	rev="3.2.14.RELEASE" transitive="false"/>
+	<dependency org="org.springframework" name="spring-core" 		rev="4.3.2.RELEASE" transitive="false"/>
+	<dependency org="org.springframework" name="spring-context" 	rev="4.3.2.RELEASE" transitive="false"/>
   </dependencies>
 
 </ivy-module>
