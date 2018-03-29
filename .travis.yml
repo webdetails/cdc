@@ -1,0 +1,14 @@
+language: java
+jdk:
+- oraclejdk8
+script: ant dist
+deploy:
+  provider: releases
+  api_key:
+    secure: "foATSca/KrQNp4iIeDnW8zu45HMMEYcsA3JQ8luXuCrVT7NV8WWLmhFObuM6T70wzgRQZAM2SoZQjkIYsAz92Z+S14FzcbWQhLy8pX+VTbt1bFWHefyGaQwED+LzYXRCt65lFX1Oc64n5HWv9p+4iXtJjFAf7fTtfmmDqf19Uw4="
+  file: dist/cdc-pentaho5/*
+  file_glob: true
+  skip_cleanup: true
+  on:
+    branch: release
+    repo: webdetails/cdc
