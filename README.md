@@ -60,9 +60,7 @@ Usage
 
 It's very simple to configure CDC. 
 
-* Install CDC using either the installer (soon to be available) or
-   [ctools-installer](http://pedroalves-bi.blogspot.com/2011/06/ctools-installer-making-things-fast.html).
-   If you do a manual install, be sure to copy the contents of
+* Install CDC using the Pentaho Marketplace. Be sure to read the post-installation notes and copy the contents of
    _solution/system/cdc/pentaho/lib_ to server's _WEB-INF/lib_
 
 * Download the [standalone cache
