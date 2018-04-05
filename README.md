@@ -66,7 +66,7 @@ It's very simple to configure CDC.
    _solution/system/cdc/pentaho/lib_ to server's _WEB-INF/lib_
 
 * Download the [standalone cache
-   node](http://ci.analytical-labs.com/job/Webdetails-CDC/lastSuccessfulBuild/artifact/dist/cdc-redist-SNAPSHOT.zip)
+   node](https://github.com/webdetails/cdc/releases/download/18.04.05/cdc-pentaho5-redist-18.04.05.zip)
 
 * Execute the standalone cache node in the same machine as pentaho or in the
    same internal network (_launch-hazelcast.sh_), optionally editing the file
