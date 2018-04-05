@@ -367,7 +367,6 @@
         </if>
     </target>
 
-  <!-- Overriding resolve target so we can add resolve-dev -->
     <target name="resolve"
           depends="resolve-default, resolve-test, resolve-codegen, resolve-runtime, ivy.check-releasable"
           description="Retrieves all the dependent libraries" />
@@ -381,7 +380,6 @@
         <ivy:resolve file="${ivyfile}" conf="default" />
         <ivy:retrieve conf="default" pattern="${lib.dir}/[module]-[revision](-[classifier])-[type].[ext]" type="sources" />
     </target>
-  
     <target name="check-sonar-props">
         <available file="/home/tomcat/sonar.properties" property="sonar.props"/>    
         <echo>${sonar.props}</echo>
